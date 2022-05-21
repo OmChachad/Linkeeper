@@ -9,7 +9,7 @@ import SwiftUI
 import LinkPresentation
 import UIKit
 import Shimmer
-import SPAlert
+//import SPAlert
 
 struct AddBookmarkView: View {
     @ObservedObject var bookmarks: Bookmarks
