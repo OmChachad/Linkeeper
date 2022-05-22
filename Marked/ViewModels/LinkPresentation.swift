@@ -16,13 +16,9 @@ class LinkViewModel : ObservableObject {
     @Published var iconImage: Image?
     
     init(url : URL) {
-//        guard let url = URL(string: link) else {
-//            return
-//        }
         metadataProvider.startFetchingMetadata(for: url) { (metadata, error) in
-            guard error == nil else {
-                return
-            }
+            guard error == nil else { return }
+            
             DispatchQueue.main.async {
                 self.metadata = metadata
             }
@@ -31,7 +27,6 @@ class LinkViewModel : ObservableObject {
                 iconImageProvider.loadObject(ofClass: UIImage.self) { (iconImage, error) in
                     guard error == nil else { return }
                     if let image = iconImage as? UIImage {
-                        // do something with image
                         DispatchQueue.main.async {
                             self.iconImage = Image(uiImage: image)
                         }

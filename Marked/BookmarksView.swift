@@ -60,7 +60,7 @@ struct BookmarksView: View {
 ////                                        }
 //                                }
 //                            }
-                            BookmarkView(vm: LinkViewModel(url: bookmark.url), bookmark: bookmark)
+                            BookmarkView(LinkPresentationModel: LinkViewModel(url: bookmark.url), bookmark: bookmark)
                               //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
                                 .if(mode == .active) { view in
                                     view.rotationEffect(.degrees(wiggleAmount))
