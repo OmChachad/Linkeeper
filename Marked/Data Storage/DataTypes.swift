@@ -15,7 +15,7 @@ struct Bookmark: Identifiable, Codable, Hashable, Equatable {
     var host: String
     var notes: String
     var date: Date
-    var isPinned = false
+    var favorited = false
     var folder: Folder?
 }
 

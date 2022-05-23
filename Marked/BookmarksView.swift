@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BookmarksView: View {
     var folder: Folder?
+    var favorites: Bool?
     @ObservedObject var bookmarks: Bookmarks
     @ObservedObject var folders: Folders
     
@@ -19,7 +20,7 @@ struct BookmarksView: View {
     @State private var deleteConfirmation = false
     
     @State private var toBeDeleted: [Bookmark]?
-    @State var mode: EditMode = .inactive
+    @State var editState: EditMode = .inactive
     
     @State private var wiggleAmount = 0.0
     
@@ -27,65 +28,50 @@ struct BookmarksView: View {
         if UIDevice.current.model == "iPhone" {
             return [UIScreen.main.bounds.width == 320  ? GridItem(.adaptive(minimum: 130, maximum: 180), spacing: 20) : GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 20)]
         } else {
-                return [GridItem(.adaptive(minimum: 170, maximum: 180), spacing: 20)]
+            return [GridItem(.adaptive(minimum: 170, maximum: 180), spacing: 20)]
         }
     }
     
     var body: some View {
         ZStack {
             if allBookmarks.count == 0 {
-                Text("""
-                    You do not have any bookmarks\(folder != nil ? " in this folder" : "")
-                    Click \(Image(systemName: "plus")) to add one
-                    """)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .frame(alignment: .center)
+                VStack {
+                    Text(favorites != true ? "You do not have any bookmarks \(folder != nil ? "in this folder" : "")" : "You do not have any favorites")
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .frame(alignment: .center)
+                    .padding(5)
+                    Button("Create a bookmark") {
+                        addingBookmark.toggle()
+                    }
+                }
             } else {
                 ScrollView {
-          //          LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: columns(geometry: geometry)), spacing: 10) {
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(filteredBookmarks, id:\.self) { bookmark in
-                            //MARK: For Wiggle Mode
-                            // Group {
-//                                if mode == .inactive {
-//                                    BookmarkView(vm: LinkViewModel(url: bookmark.url), bookmark: bookmark)
-//                                } else {
-//                                    BookmarkView(vm: LinkViewModel(url: bookmark.url), bookmark: bookmark)
-//                                        .rotationEffect(.degrees(wiggleAmount))
-////                                        .onAppear {
-////                                            withAnimation(.easeInOut.speed(3).repeatForever(autoreverses: true)) {
-////                                                wiggleAmount = 1.5
-////                                            }
-////                                        }
-//                                }
-//                            }
-                            BookmarkView(LinkPresentationModel: LinkViewModel(url: bookmark.url), bookmark: bookmark)
-                              //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
-                                .if(mode == .active) { view in
+                            BookmarkView(bookmark: bookmark)
+                            //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
+                                .if(editState == .active) { view in
                                     view.rotationEffect(.degrees(wiggleAmount))
                                 }
-                            
                                 .transition(.opacity)
-                               // .frame(minWidth: 130, idealWidth: 180, maxWidth: 180)
                                 .frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
                                 .contextMenu {
-//                                    if folder != nil {
-//                                        Button {
-//                                            var pinnedBookmark = bookmark
-//                                            pinnedBookmark.isPinned.toggle()
-//                                            let index = indexOf(bookmark: bookmark, folder: nil)!
-//                                            bookmarks.items.remove(at: index)
-//                                            bookmarks.items.insert(pinnedBookmark, at: index)
-//
-//                                        } label: {
-//                                            if bookmark.isPinned == false {
-//                                                Label("Pin", systemImage: "pin")
-//                                            } else {
-//                                                Label("Unpin", systemImage: "pin.slash")
-//                                            }
-//                                        }
-//                                    }
+                                                                        
+                                    Button {
+                                        var favoritedBookmark = bookmark
+                                        favoritedBookmark.favorited.toggle()
+                                        let index = indexOf(bookmark: bookmark, folder: nil)!
+                                        bookmarks.items.remove(at: index)
+                                        bookmarks.items.insert(favoritedBookmark, at: index)
+                                    } label: {
+                                        if bookmark.favorited == false {
+                                            Label("Add to favorites", systemImage: "heart")
+                                        } else {
+                                            Label("Remove from favorites", systemImage: "heart.slash")
+                                        }
+                                    }
+                                                                        
                                     
                                     Button {
                                         // Code to edit the bookmark
@@ -122,44 +108,30 @@ struct BookmarksView: View {
                     }
                     .searchable(text: $searchText, prompt: "Find a bookmark...")
                     .padding(.horizontal)
-                    }
+                    
                 }
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if mode == .inactive {
-            Menu {
-                Button {
-                    mode = .active
+            if editState == .inactive {
+                Menu {
+                    Button { editState = .active } label: { Label("Select", systemImage: "checkmark.circle") }
+                    Button { addingBookmark.toggle() } label: { Label("Add Bookmark", systemImage: "plus") }
                 } label: {
-                    Label("Select", systemImage: "checkmark.circle")
+                    Image(systemName: "ellipsis.circle")
                 }
-                
-                Button {
-                    addingBookmark = true
-                } label: {
-                    Label("Add Bookmark", systemImage: "plus")
-                }
-            } label: {
-                Image(systemName: "ellipsis.circle")
-            }
             } else {
-                Button("Done") {
-                    mode = .inactive
-                }
+                Button("Done") { editState = .inactive }
             }
-            
         }
-        .environment(\.editMode, $mode)
+        .environment(\.editMode, $editState)
         .sheet(isPresented: $addingBookmark) {
             AddBookmarkView(bookmarks: bookmarks, folders: folders, folderPreset: folder)
         }
         .confirmationDialog("Are you sure you want to delete \(toBeDeleted?.count == 1 ? "this bookmark? It" : "these bookmarks? They") will be deleted from all your iCloud devices.", isPresented: $deleteConfirmation, titleVisibility: .visible) {
             Button(toBeDeleted?.count == 1 ? "Delete" : "Delete \(toBeDeleted != nil ? toBeDeleted!.count : 0) Bookmarks", role: .destructive) {
-                guard let toBeDeleted = toBeDeleted else {
-                    return
-                }
-                
+                guard let toBeDeleted = toBeDeleted else { return }
                 for bookmark in toBeDeleted {
                     bookmarks.items.remove(at: bookmarks.items.firstIndex(of: bookmark)!)
                 }
@@ -167,15 +139,6 @@ struct BookmarksView: View {
             }
         }
         .animation(.spring(), value: filteredBookmarks)
-        .onChange(of: mode) { newValue in
-            if newValue == .inactive {
-                wiggleAmount = 0
-            } else {
-                withAnimation(.easeInOut.speed(3).repeatForever(autoreverses: true)) {
-                    wiggleAmount = 1.5
-                }
-            }
-        }
     }
     
     var allBookmarks: [Bookmark] {
@@ -192,19 +155,11 @@ struct BookmarksView: View {
         }
     }
     
-    func columns(geometry: GeometryProxy) -> Int {
-        if Int(round(geometry.size.width/218.2)) >= 2 {
-            return Int(round(geometry.size.width/218.2))
-        } else {
-            return 2
-        }
-    }
     var filteredBookmarks: [Bookmark] {
-        let allBookmarks = bookmarks.items.filter({ if folder != nil { return $0.folder == folder } else { return true } })
-        if folder == nil {
+        let allBookmarks = bookmarks.items.filter( { if folder != nil { return $0.folder == folder } else { return true } } )
+        
+        if searchText.isEmpty {
             return allBookmarks
-        } else if searchText.isEmpty {
-            return allBookmarks.sorted{ $0.isPinned && !$1.isPinned }
         } else {
             return allBookmarks.filter { $0.title.localizedCaseInsensitiveContains(searchText) || $0.notes.localizedCaseInsensitiveContains(searchText) || $0.host.localizedCaseInsensitiveContains(searchText) }
         }
@@ -221,15 +176,6 @@ struct BookmarksView: View {
         }
     }
     
-    func makeView(_ geometry: GeometryProxy) -> some View {
-            print(geometry.size.width, geometry.size.height)
-
-            //DispatchQueue.main.async { self.frame = geometry.size }
-
-            return Text("Test")
-                    .frame(width: geometry.size.width)
-        }
-    
 }
 
 struct BookmarksView_Previews: PreviewProvider {
@@ -239,20 +185,6 @@ struct BookmarksView_Previews: PreviewProvider {
         }
     }
 }
-
-
-//extension View {
-//    public func wiggle<Content: View>(isWiggling: Binding<Bool>, wiggleAmmount: Binding<Double>) -> some View {
-//        return Group {
-//            if isWiggling.wrappedValue == true {
-//                self
-//                    .rotation3DEffect(.degrees(wiggleAmmount.wrappedValue), axis: .center)
-//            } else {
-//                self
-//            }
-//        }
-//    }
-//}
 
 extension View {
     /// Applies the given transform if the given condition evaluates to `true`.
