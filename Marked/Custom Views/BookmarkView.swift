@@ -14,6 +14,9 @@ struct BookmarkView: View {
     
     var bookmark: Bookmark
     
+    @ObservedObject var bookmarks: Bookmarks
+    @Binding var deleteConfirmation: Bool
+    
     @State private var isShimmering = true
     
     @State private var image: Image?
@@ -89,6 +92,13 @@ struct BookmarkView: View {
             .offset(y: -5)
             .padding(5)
         }
+        .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+            Button("Delete Bookmark", role: .destructive) {
+                bookmarks.items.remove(at: indexOf(bookmark: bookmark)!)
+            }
+        } message: {
+            Text("It will be deleted from all your iCloud devices.")
+        }
         .onTapGesture {
             openURL(bookmark.url)
         }
@@ -142,6 +152,13 @@ struct BookmarkView: View {
         }
         .animation(.default, value: isShimmering)
     }
+    func indexOf(bookmark: Bookmark?) -> Int? {
+        if let index = bookmarks.items.firstIndex(of: bookmark!) {
+            return index
+        } else {
+            return nil
+        }
+    }
     
     func showPlaceHolder() {
         preview = .firstLetter
@@ -155,8 +172,3 @@ struct BookmarkView: View {
 }
 
 
-struct BookmarkView_Previews: PreviewProvider {
-    static var previews: some View {
-        BookmarkView(bookmark: Bookmark(title: "iTech Everything", url: URL(string: "https://youtube.com/TheiTE")!, host: "youtube.com", notes: "My YouTube channel", date: Date.now))
-    }
-}

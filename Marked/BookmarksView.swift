@@ -19,7 +19,6 @@ struct BookmarksView: View {
     
     @State private var deleteConfirmation = false
     
-    @State private var toBeDeleted: [Bookmark]?
     @State var editState: EditMode = .inactive
     
     @State private var wiggleAmount = 0.0
@@ -37,19 +36,26 @@ struct BookmarksView: View {
             if allBookmarks.count == 0 {
                 VStack {
                     Text(favorites != true ? "You do not have any bookmarks \(folder != nil ? "in this folder" : "")" : "You do not have any favorites")
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                    .frame(alignment: .center)
-                    .padding(5)
-                    Button("Create a bookmark") {
-                        addingBookmark.toggle()
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .frame(alignment: .center)
+                        .padding(5)
+                    if favorites != true {
+                        Button("Create a bookmark") {
+                            addingBookmark.toggle()
+                        }
                     }
                 }
             } else {
                 ScrollView {
+                    if !searchText.isEmpty && filteredBookmarks.count == 0 {
+                        Text("No results found for \"\(searchText)\"")
+                            .foregroundColor(.secondary)
+                            .padding()
+                    }
                     LazyVGrid(columns: columns, spacing: 20) {
-                        ForEach(filteredBookmarks, id:\.self) { bookmark in
-                            BookmarkView(bookmark: bookmark)
+                        ForEach(filteredBookmarks, id: \.self) { bookmark in
+                            BookmarkView(bookmark: bookmark, bookmarks: bookmarks, deleteConfirmation: $deleteConfirmation)
                             //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
                                 .if(editState == .active) { view in
                                     view.rotationEffect(.degrees(wiggleAmount))
@@ -57,7 +63,7 @@ struct BookmarksView: View {
                                 .transition(.opacity)
                                 .frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
                                 .contextMenu {
-                                                                        
+                                    
                                     Button {
                                         var favoritedBookmark = bookmark
                                         favoritedBookmark.favorited.toggle()
@@ -71,7 +77,7 @@ struct BookmarksView: View {
                                             Label("Remove from favorites", systemImage: "heart.slash")
                                         }
                                     }
-                                                                        
+                                    
                                     
                                     Button {
                                         // Code to edit the bookmark
@@ -98,7 +104,6 @@ struct BookmarksView: View {
                                     }
                                     
                                     Button(role: .destructive) {
-                                        toBeDeleted = [bookmark]
                                         deleteConfirmation = true
                                     } label: {
                                         Label("Delete", systemImage: "trash")
@@ -129,20 +134,21 @@ struct BookmarksView: View {
         .sheet(isPresented: $addingBookmark) {
             AddBookmarkView(bookmarks: bookmarks, folders: folders, folderPreset: folder)
         }
-        .confirmationDialog("Are you sure you want to delete \(toBeDeleted?.count == 1 ? "this bookmark? It" : "these bookmarks? They") will be deleted from all your iCloud devices.", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-            Button(toBeDeleted?.count == 1 ? "Delete" : "Delete \(toBeDeleted != nil ? toBeDeleted!.count : 0) Bookmarks", role: .destructive) {
-                guard let toBeDeleted = toBeDeleted else { return }
-                for bookmark in toBeDeleted {
-                    bookmarks.items.remove(at: bookmarks.items.firstIndex(of: bookmark)!)
-                }
-                self.toBeDeleted = nil
-            }
-        }
         .animation(.spring(), value: filteredBookmarks)
     }
     
     var allBookmarks: [Bookmark] {
-        return bookmarks.items.filter({ if folder != nil { return $0.folder == folder } else { return true } })
+        return bookmarks.items.filter(
+            {
+                if folder != nil {
+                    return $0.folder == folder
+                } else if favorites == true {
+                    return $0.favorited
+                } else {
+                    return true
+                }
+            }
+        )
     }
     
     func indexOf(bookmark: Bookmark?, folder: Folder?) -> Int? {
@@ -156,7 +162,17 @@ struct BookmarksView: View {
     }
     
     var filteredBookmarks: [Bookmark] {
-        let allBookmarks = bookmarks.items.filter( { if folder != nil { return $0.folder == folder } else { return true } } )
+        let allBookmarks = bookmarks.items.filter(
+            {
+                if folder != nil {
+                    return $0.folder == folder
+                } else if favorites == true {
+                    return $0.favorited
+                } else {
+                    return true
+                }
+            }
+        )
         
         if searchText.isEmpty {
             return allBookmarks
@@ -202,3 +218,4 @@ extension View {
 }
 
 
+//.confirmationDialog("Are you sure you want to delete \(toBeDeleted?.count == 1 ? "this bookmark? It" : "these bookmarks? They") will be deleted from all your iCloud devices.", isPresented: $deleteConfirmation, titleVisibility: .visible) {

@@ -128,7 +128,8 @@ struct ContentView: View {
                 
                 //  .id(UUID())
             }
-            .navigationBarTitle("Bookmarks")
+            //.navigationBarTitle("Folders")
+            .navigationBarTitle("Folders")
             .navigationViewStyle(.columns)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
