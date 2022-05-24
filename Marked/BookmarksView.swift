@@ -56,10 +56,9 @@ struct BookmarksView: View {
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(filteredBookmarks, id: \.self) { bookmark in
                             BookmarkView(bookmark: bookmark, bookmarks: bookmarks, deleteConfirmation: $deleteConfirmation)
+                                .glow()
+                                //.background(self.blur(radius: 5))
                             //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
-                                .if(editState == .active) { view in
-                                    view.rotationEffect(.degrees(wiggleAmount))
-                                }
                                 .transition(.opacity)
                                 .frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
                                 .contextMenu {
@@ -219,3 +218,10 @@ extension View {
 
 
 //.confirmationDialog("Are you sure you want to delete \(toBeDeleted?.count == 1 ? "this bookmark? It" : "these bookmarks? They") will be deleted from all your iCloud devices.", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+
+extension View {
+    func glow() -> some View {
+            self
+                .background(self.blur(radius: 5))
+    }
+}

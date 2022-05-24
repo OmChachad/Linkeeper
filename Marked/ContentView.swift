@@ -125,10 +125,7 @@ struct ContentView: View {
                 }
                 .listStyle(InsetGroupedListStyle())
                 
-                
-                //  .id(UUID())
             }
-            //.navigationBarTitle("Folders")
             .navigationBarTitle("Folders")
             .navigationViewStyle(.columns)
             .toolbar {
