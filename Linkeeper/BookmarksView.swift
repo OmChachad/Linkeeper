@@ -57,7 +57,6 @@ struct BookmarksView: View {
                         ForEach(filteredBookmarks, id: \.self) { bookmark in
                             BookmarkView(bookmark: bookmark, bookmarks: bookmarks, deleteConfirmation: $deleteConfirmation)
                                 .glow()
-                                //.background(self.blur(radius: 5))
                             //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
                                 .transition(.opacity)
                                 .frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)

@@ -7,18 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */; };
 		C243E22E282B93CD00888C96 /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C243E22D282B93CD00888C96 /* BookmarkView.swift */; };
+		C24DF575283E62C4003C9692 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = C24DF574283E62C4003C9692 /* Shimmer */; };
 		C2550E64282705F900ADA0BF /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2550E63282705F900ADA0BF /* BookmarksView.swift */; };
 		C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E66281900D70030B6DD /* AddBookmarkView.swift */; };
 		C28B6E6928190C120030B6DD /* ColorsAndSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorsAndSymbols.swift */; };
 		C28B6E6F28193AE20030B6DD /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6E28193AE20030B6DD /* AddFolderView.swift */; };
-		C2C8DC3E28171D93000F4AEB /* MarkedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3D28171D93000F4AEB /* MarkedApp.swift */; };
+		C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */; };
 		C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3F28171D93000F4AEB /* ContentView.swift */; };
 		C2C8DC4228171D94000F4AEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4128171D94000F4AEB /* Assets.xcassets */; };
 		C2C8DC4528171D94000F4AEB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */; };
 		C2C8DC4C28171DA0000F4AEB /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC4B28171DA0000F4AEB /* DataTypes.swift */; };
 		C2C8DC4E28172573000F4AEB /* StoreToUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC4D28172573000F4AEB /* StoreToUserDefaults.swift */; };
-		C2CB5F04283954F300576015 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = C2CB5F03283954F300576015 /* Shimmer */; };
 		C2D4EC75283956AF00D24074 /* SPAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC63283956AF00D24074 /* SPAlertView.swift */; };
 		C2D4EC76283956AF00D24074 /* SPAlertLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC65283956AF00D24074 /* SPAlertLayout.swift */; };
 		C2D4EC77283956AF00D24074 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC67283956AF00D24074 /* UILabelExtension.swift */; };
@@ -35,13 +36,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C23EC8ED283E5E71009D0670 /* Linkeeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Linkeeper.xcdatamodel; sourceTree = "<group>"; };
 		C243E22D282B93CD00888C96 /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
 		C2550E63282705F900ADA0BF /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		C28B6E66281900D70030B6DD /* AddBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookmarkView.swift; sourceTree = "<group>"; };
 		C28B6E6828190C120030B6DD /* ColorsAndSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsAndSymbols.swift; sourceTree = "<group>"; };
 		C28B6E6E28193AE20030B6DD /* AddFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderView.swift; sourceTree = "<group>"; };
-		C2C8DC3A28171D93000F4AEB /* Marked.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marked.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C2C8DC3D28171D93000F4AEB /* MarkedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkedApp.swift; sourceTree = "<group>"; };
+		C2C8DC3A28171D93000F4AEB /* Linkeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linkeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeeperApp.swift; sourceTree = "<group>"; };
 		C2C8DC3F28171D93000F4AEB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C2C8DC4128171D94000F4AEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -67,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2CB5F04283954F300576015 /* Shimmer in Frameworks */,
+				C24DF575283E62C4003C9692 /* Shimmer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,7 +106,7 @@
 		C2C8DC3128171D93000F4AEB = {
 			isa = PBXGroup;
 			children = (
-				C2C8DC3C28171D93000F4AEB /* Marked */,
+				C2C8DC3C28171D93000F4AEB /* Linkeeper */,
 				C2C8DC3B28171D93000F4AEB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,25 +114,26 @@
 		C2C8DC3B28171D93000F4AEB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C2C8DC3A28171D93000F4AEB /* Marked.app */,
+				C2C8DC3A28171D93000F4AEB /* Linkeeper.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C2C8DC3C28171D93000F4AEB /* Marked */ = {
+		C2C8DC3C28171D93000F4AEB /* Linkeeper */ = {
 			isa = PBXGroup;
 			children = (
-				C2C8DC3D28171D93000F4AEB /* MarkedApp.swift */,
+				C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */,
 				C2C8DC3F28171D93000F4AEB /* ContentView.swift */,
 				C2550E63282705F900ADA0BF /* BookmarksView.swift */,
 				C28690AA283AB74F002A1367 /* Custom Views */,
 				C2550E602827040000ADA0BF /* Creation Sheets */,
 				C2550E5E2827034400ADA0BF /* Data Storage */,
+				C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */,
 				C2C8DC4128171D94000F4AEB /* Assets.xcassets */,
 				C2C8DC4328171D94000F4AEB /* Preview Content */,
 				C2D4EC82283956F800D24074 /* Packages */,
 			);
-			path = Marked;
+			path = Linkeeper;
 			sourceTree = "<group>";
 		};
 		C2C8DC4328171D94000F4AEB /* Preview Content */ = {
@@ -220,9 +223,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C2C8DC3928171D93000F4AEB /* Marked */ = {
+		C2C8DC3928171D93000F4AEB /* Linkeeper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C2C8DC4828171D94000F4AEB /* Build configuration list for PBXNativeTarget "Marked" */;
+			buildConfigurationList = C2C8DC4828171D94000F4AEB /* Build configuration list for PBXNativeTarget "Linkeeper" */;
 			buildPhases = (
 				C2C8DC3628171D93000F4AEB /* Sources */,
 				C2C8DC3728171D93000F4AEB /* Frameworks */,
@@ -232,12 +235,12 @@
 			);
 			dependencies = (
 			);
-			name = Marked;
+			name = Linkeeper;
 			packageProductDependencies = (
-				C2CB5F03283954F300576015 /* Shimmer */,
+				C24DF574283E62C4003C9692 /* Shimmer */,
 			);
 			productName = Marked;
-			productReference = C2C8DC3A28171D93000F4AEB /* Marked.app */;
+			productReference = C2C8DC3A28171D93000F4AEB /* Linkeeper.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -255,7 +258,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C2C8DC3528171D93000F4AEB /* Build configuration list for PBXProject "Marked" */;
+			buildConfigurationList = C2C8DC3528171D93000F4AEB /* Build configuration list for PBXProject "Linkeeper" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -265,13 +268,13 @@
 			);
 			mainGroup = C2C8DC3128171D93000F4AEB;
 			packageReferences = (
-				C2CB5F02283954F300576015 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 			);
 			productRefGroup = C2C8DC3B28171D93000F4AEB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C2C8DC3928171D93000F4AEB /* Marked */,
+				C2C8DC3928171D93000F4AEB /* Linkeeper */,
 			);
 		};
 /* End PBXProject section */
@@ -296,7 +299,7 @@
 				C2D4EC79283956AF00D24074 /* SwiftUIExtension.swift in Sources */,
 				C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */,
 				C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */,
-				C2C8DC3E28171D93000F4AEB /* MarkedApp.swift in Sources */,
+				C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */,
 				C2D4EC7D283956AF00D24074 /* SPAlertIconErrorView.swift in Sources */,
 				C2C8DC4C28171DA0000F4AEB /* DataTypes.swift in Sources */,
 				C2D4EC7F283956AF00D24074 /* SPAlertIconAnimatable.swift in Sources */,
@@ -310,6 +313,7 @@
 				C2D4EC7A283956AF00D24074 /* SPAlertIconPreset.swift in Sources */,
 				C2D4EC75283956AF00D24074 /* SPAlertView.swift in Sources */,
 				C243E22E282B93CD00888C96 /* BookmarkView.swift in Sources */,
+				C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */,
 				C2D4EC78283956AF00D24074 /* UIFontExtension.swift in Sources */,
 				C2D4EC7C283956AF00D24074 /* SPAlertSpinnerView.swift in Sources */,
 				C2550E64282705F900ADA0BF /* BookmarksView.swift in Sources */,
@@ -442,7 +446,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Marked/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Linkeeper/Preview Content\"";
 				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -457,7 +461,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.itecheverything.Marked;
+				PRODUCT_BUNDLE_IDENTIFIER = com.itecheverything.Linkeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -472,7 +476,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Marked/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Linkeeper/Preview Content\"";
 				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -487,7 +491,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.itecheverything.Marked;
+				PRODUCT_BUNDLE_IDENTIFIER = com.itecheverything.Linkeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -498,7 +502,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C2C8DC3528171D93000F4AEB /* Build configuration list for PBXProject "Marked" */ = {
+		C2C8DC3528171D93000F4AEB /* Build configuration list for PBXProject "Linkeeper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C2C8DC4628171D94000F4AEB /* Debug */,
@@ -507,7 +511,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C2C8DC4828171D94000F4AEB /* Build configuration list for PBXNativeTarget "Marked" */ = {
+		C2C8DC4828171D94000F4AEB /* Build configuration list for PBXNativeTarget "Linkeeper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C2C8DC4928171D94000F4AEB /* Debug */,
@@ -519,7 +523,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C2CB5F02283954F300576015 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+		C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
 			requirement = {
@@ -530,12 +534,25 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C2CB5F03283954F300576015 /* Shimmer */ = {
+		C24DF574283E62C4003C9692 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C2CB5F02283954F300576015 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			package = C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C23EC8ED283E5E71009D0670 /* Linkeeper.xcdatamodel */,
+			);
+			currentVersion = C23EC8ED283E5E71009D0670 /* Linkeeper.xcdatamodel */;
+			path = Linkeeper.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C2C8DC3228171D93000F4AEB /* Project object */;
 }
