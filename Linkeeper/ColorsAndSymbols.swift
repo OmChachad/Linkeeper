@@ -38,7 +38,7 @@ import SwiftUI
 //    ]
 //}
 
-struct FolderColorOptions {
+struct ColorOptions {
     @Environment(\.colorScheme) var colorScheme
     
     static var keys = ["gray",

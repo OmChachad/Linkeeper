@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct BookmarksView: View {
+    
+    @Environment(\.managedObjectContext) var moc
+    //@FetchRequest(sortDescriptors: []) var folders: FetchedResults<Folder>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var bookmarks: FetchedResults<Bookmark>
     var folder: Folder?
     var favorites: Bool?
-    @ObservedObject var bookmarks: Bookmarks
-    @ObservedObject var folders: Folders
     
     @State private var addingBookmark = false
     @State private var searchText = ""
@@ -33,7 +35,7 @@ struct BookmarksView: View {
     
     var body: some View {
         ZStack {
-            if allBookmarks.count == 0 {
+            if bookmarks.count == 0 {
                 VStack {
                     Text(favorites != true ? "You do not have any bookmarks \(folder != nil ? "in this folder" : "")" : "You do not have any favorites")
                         .foregroundColor(.secondary)
@@ -55,21 +57,26 @@ struct BookmarksView: View {
                     }
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(filteredBookmarks, id: \.self) { bookmark in
-                            BookmarkView(bookmark: bookmark, bookmarks: bookmarks, deleteConfirmation: $deleteConfirmation)
+                            BookmarkView(bookmark: bookmark)
                                 .glow()
+                                .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+                                    Button("Delete Bookmark", role: .destructive) {
+                                        moc.delete(bookmark)
+                                        try? moc.save()
+                                    }
+                                } message: {
+                                    Text("It will be deleted from all your iCloud devices.")
+                                }
                             //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
                                 .transition(.opacity)
                                 .frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
                                 .contextMenu {
                                     
                                     Button {
-                                        var favoritedBookmark = bookmark
-                                        favoritedBookmark.favorited.toggle()
-                                        let index = indexOf(bookmark: bookmark, folder: nil)!
-                                        bookmarks.items.remove(at: index)
-                                        bookmarks.items.insert(favoritedBookmark, at: index)
+                                        bookmark.isFavorited.toggle()
+                                        try? moc.save()
                                     } label: {
-                                        if bookmark.favorited == false {
+                                        if bookmark.isFavorited == false {
                                             Label("Add to favorites", systemImage: "heart")
                                         } else {
                                             Label("Remove from favorites", systemImage: "heart.slash")
@@ -84,13 +91,13 @@ struct BookmarksView: View {
                                     }
                                     
                                     Button {
-                                        UIPasteboard.general.url = bookmark.url
+                                        UIPasteboard.general.url = bookmark.wrappedURL
                                     } label: {
                                         Label("Copy link", systemImage: "doc.on.doc")
                                     }
                                     
                                     Button {
-                                        share(url: bookmark.url)
+                                        share(url: bookmark.wrappedURL)
                                     } label: {
                                         Label("Share", systemImage: "square.and.arrow.up")
                                     }
@@ -130,52 +137,25 @@ struct BookmarksView: View {
         }
         .environment(\.editMode, $editState)
         .sheet(isPresented: $addingBookmark) {
-            AddBookmarkView(bookmarks: bookmarks, folders: folders, folderPreset: folder)
+            AddBookmarkView(folderPreset: folder)
         }
         .animation(.spring(), value: filteredBookmarks)
     }
-    
-    var allBookmarks: [Bookmark] {
-        return bookmarks.items.filter(
-            {
-                if folder != nil {
-                    return $0.folder == folder
-                } else if favorites == true {
-                    return $0.favorited
-                } else {
-                    return true
-                }
-            }
-        )
-    }
-    
-    func indexOf(bookmark: Bookmark?, folder: Folder?) -> Int? {
-        if let index = bookmarks.items.firstIndex(of: bookmark!) {
-            return index
-        } else if let index = folders.items.firstIndex(of: folder!) {
-            return index
-        } else {
-            return nil
+    init(folder: Folder?, onlyFavorites: Bool) {
+        if let folder = folder {
+            _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "folder == %@", folder))
+        } else if onlyFavorites {
+            _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "isFavorited == true"))
         }
+        self.folder = folder
+        self.favorites = onlyFavorites
     }
     
     var filteredBookmarks: [Bookmark] {
-        let allBookmarks = bookmarks.items.filter(
-            {
-                if folder != nil {
-                    return $0.folder == folder
-                } else if favorites == true {
-                    return $0.favorited
-                } else {
-                    return true
-                }
-            }
-        )
-        
         if searchText.isEmpty {
-            return allBookmarks
+            return [Bookmark](bookmarks)
         } else {
-            return allBookmarks.filter { $0.title.localizedCaseInsensitiveContains(searchText) || $0.notes.localizedCaseInsensitiveContains(searchText) || $0.host.localizedCaseInsensitiveContains(searchText) }
+            return bookmarks.filter { $0.wrappedTitle.localizedCaseInsensitiveContains(searchText) || $0.wrappedNotes.localizedCaseInsensitiveContains(searchText) || $0.wrappedHost.localizedCaseInsensitiveContains(searchText) }
         }
     }
     
@@ -195,7 +175,7 @@ struct BookmarksView: View {
 struct BookmarksView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            BookmarksView(bookmarks: Bookmarks(), folders: Folders())
+            BookmarksView(folder: nil, onlyFavorites: false)
         }
     }
 }

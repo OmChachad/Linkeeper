@@ -9,13 +9,10 @@ import SwiftUI
 import LinkPresentation
 
 struct BookmarkView: View {
-   // @StateObject var LinkPresentationModel: LinkViewModel
+    @Environment(\.managedObjectContext) var moc
     @Environment(\.openURL) var openURL
     
     var bookmark: Bookmark
-    
-    @ObservedObject var bookmarks: Bookmarks
-    @Binding var deleteConfirmation: Bool
     
     @State private var isShimmering = true
     
@@ -60,7 +57,7 @@ struct BookmarkView: View {
                                     .scaleEffect(0.75)
                             }
                         } else if preview == .firstLetter {
-                            if let firstChar: Character = bookmark.title.first {
+                            if let firstChar: Character = bookmark.wrappedTitle.first {
                                 Color(uiColor: .systemGray2)
                                     .overlay(
                                         Text(String(firstChar))
@@ -78,11 +75,11 @@ struct BookmarkView: View {
             .aspectRatio(4/3, contentMode: .fill)
             .frame(minWidth: 130, idealWidth: 165, maxWidth: 165)
             VStack {
-                Text(bookmark.title)
+                Text(bookmark.wrappedTitle)
                     .lineLimit(2)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .multilineTextAlignment(.leading)
-                Text(bookmark.host)
+                Text(bookmark.wrappedHost)
                     .lineLimit(1)
                     .font(.callout)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -92,21 +89,14 @@ struct BookmarkView: View {
             .offset(y: -5)
             .padding(5)
         }
-        .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-            Button("Delete Bookmark", role: .destructive) {
-                bookmarks.items.remove(at: indexOf(bookmark: bookmark)!)
-            }
-        } message: {
-            Text("It will be deleted from all your iCloud devices.")
-        }
         .onTapGesture {
-            openURL(bookmark.url)
+            openURL(bookmark.wrappedURL)
         }
         .background(Color(UIColor.systemGray5))
         .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
         .task {
             do {
-                let metadata = try await startFetchingMetadata(for: bookmark.url)
+                let metadata = try await startFetchingMetadata(for: bookmark.wrappedURL)
             
                 if let imageProvider = metadata.imageProvider {
                     imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
@@ -152,13 +142,13 @@ struct BookmarkView: View {
         }
         .animation(.default, value: isShimmering)
     }
-    func indexOf(bookmark: Bookmark?) -> Int? {
-        if let index = bookmarks.items.firstIndex(of: bookmark!) {
-            return index
-        } else {
-            return nil
-        }
-    }
+//    func indexOf(bookmark: Bookmark?) -> Int? {
+//        if let index = bookmarks.items.firstIndex(of: bookmark!) {
+//            return index
+//        } else {
+//            return nil
+//        }
+//    }
     
     func showPlaceHolder() {
         preview = .firstLetter

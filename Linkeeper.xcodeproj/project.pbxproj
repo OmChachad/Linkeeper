@@ -10,6 +10,11 @@
 		C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */; };
 		C243E22E282B93CD00888C96 /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C243E22D282B93CD00888C96 /* BookmarkView.swift */; };
 		C24DF575283E62C4003C9692 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = C24DF574283E62C4003C9692 /* Shimmer */; };
+		C24DF577283E65D2003C9692 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF576283E65D2003C9692 /* DataController.swift */; };
+		C24DF57C283E7185003C9692 /* Bookmark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF578283E7185003C9692 /* Bookmark+CoreDataClass.swift */; };
+		C24DF57D283E7185003C9692 /* Bookmark+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */; };
+		C24DF57E283E7185003C9692 /* Folder+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57A283E7185003C9692 /* Folder+CoreDataClass.swift */; };
+		C24DF57F283E7185003C9692 /* Folder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57B283E7185003C9692 /* Folder+CoreDataProperties.swift */; };
 		C2550E64282705F900ADA0BF /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2550E63282705F900ADA0BF /* BookmarksView.swift */; };
 		C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E66281900D70030B6DD /* AddBookmarkView.swift */; };
 		C28B6E6928190C120030B6DD /* ColorsAndSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorsAndSymbols.swift */; };
@@ -18,8 +23,6 @@
 		C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3F28171D93000F4AEB /* ContentView.swift */; };
 		C2C8DC4228171D94000F4AEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4128171D94000F4AEB /* Assets.xcassets */; };
 		C2C8DC4528171D94000F4AEB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */; };
-		C2C8DC4C28171DA0000F4AEB /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC4B28171DA0000F4AEB /* DataTypes.swift */; };
-		C2C8DC4E28172573000F4AEB /* StoreToUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC4D28172573000F4AEB /* StoreToUserDefaults.swift */; };
 		C2D4EC75283956AF00D24074 /* SPAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC63283956AF00D24074 /* SPAlertView.swift */; };
 		C2D4EC76283956AF00D24074 /* SPAlertLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC65283956AF00D24074 /* SPAlertLayout.swift */; };
 		C2D4EC77283956AF00D24074 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC67283956AF00D24074 /* UILabelExtension.swift */; };
@@ -38,6 +41,11 @@
 /* Begin PBXFileReference section */
 		C23EC8ED283E5E71009D0670 /* Linkeeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Linkeeper.xcdatamodel; sourceTree = "<group>"; };
 		C243E22D282B93CD00888C96 /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
+		C24DF576283E65D2003C9692 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		C24DF578283E7185003C9692 /* Bookmark+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bookmark+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bookmark+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		C24DF57A283E7185003C9692 /* Folder+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C24DF57B283E7185003C9692 /* Folder+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C2550E63282705F900ADA0BF /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		C28B6E66281900D70030B6DD /* AddBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookmarkView.swift; sourceTree = "<group>"; };
 		C28B6E6828190C120030B6DD /* ColorsAndSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsAndSymbols.swift; sourceTree = "<group>"; };
@@ -47,8 +55,6 @@
 		C2C8DC3F28171D93000F4AEB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C2C8DC4128171D94000F4AEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		C2C8DC4B28171DA0000F4AEB /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
-		C2C8DC4D28172573000F4AEB /* StoreToUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreToUserDefaults.swift; sourceTree = "<group>"; };
 		C2D4EC63283956AF00D24074 /* SPAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlertView.swift; sourceTree = "<group>"; };
 		C2D4EC65283956AF00D24074 /* SPAlertLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlertLayout.swift; sourceTree = "<group>"; };
 		C2D4EC67283956AF00D24074 /* UILabelExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
@@ -76,14 +82,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C2550E5E2827034400ADA0BF /* Data Storage */ = {
+		C24DF580283E718C003C9692 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				C28B6E6828190C120030B6DD /* ColorsAndSymbols.swift */,
-				C2C8DC4B28171DA0000F4AEB /* DataTypes.swift */,
-				C2C8DC4D28172573000F4AEB /* StoreToUserDefaults.swift */,
+				C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */,
+				C24DF576283E65D2003C9692 /* DataController.swift */,
+				C24DF578283E7185003C9692 /* Bookmark+CoreDataClass.swift */,
+				C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */,
+				C24DF57A283E7185003C9692 /* Folder+CoreDataClass.swift */,
+				C24DF57B283E7185003C9692 /* Folder+CoreDataProperties.swift */,
 			);
-			path = "Data Storage";
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		C2550E602827040000ADA0BF /* Creation Sheets */ = {
@@ -127,8 +136,8 @@
 				C2550E63282705F900ADA0BF /* BookmarksView.swift */,
 				C28690AA283AB74F002A1367 /* Custom Views */,
 				C2550E602827040000ADA0BF /* Creation Sheets */,
-				C2550E5E2827034400ADA0BF /* Data Storage */,
-				C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */,
+				C28B6E6828190C120030B6DD /* ColorsAndSymbols.swift */,
+				C24DF580283E718C003C9692 /* CoreData */,
 				C2C8DC4128171D94000F4AEB /* Assets.xcassets */,
 				C2C8DC4328171D94000F4AEB /* Preview Content */,
 				C2D4EC82283956F800D24074 /* Packages */,
@@ -297,22 +306,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2D4EC79283956AF00D24074 /* SwiftUIExtension.swift in Sources */,
+				C24DF57F283E7185003C9692 /* Folder+CoreDataProperties.swift in Sources */,
 				C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */,
 				C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */,
 				C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */,
 				C2D4EC7D283956AF00D24074 /* SPAlertIconErrorView.swift in Sources */,
-				C2C8DC4C28171DA0000F4AEB /* DataTypes.swift in Sources */,
 				C2D4EC7F283956AF00D24074 /* SPAlertIconAnimatable.swift in Sources */,
-				C2C8DC4E28172573000F4AEB /* StoreToUserDefaults.swift in Sources */,
 				C2D4EC7B283956AF00D24074 /* SPAlertIconHeartView.swift in Sources */,
 				C2D4EC80283956AF00D24074 /* SPAlertHaptic.swift in Sources */,
 				C2D4EC81283956AF00D24074 /* SPAlert.swift in Sources */,
+				C24DF57D283E7185003C9692 /* Bookmark+CoreDataProperties.swift in Sources */,
 				C2D4EC7E283956AF00D24074 /* SPAlertIconDoneView.swift in Sources */,
 				C28B6E6928190C120030B6DD /* ColorsAndSymbols.swift in Sources */,
+				C24DF577283E65D2003C9692 /* DataController.swift in Sources */,
 				C2D4EC76283956AF00D24074 /* SPAlertLayout.swift in Sources */,
 				C2D4EC7A283956AF00D24074 /* SPAlertIconPreset.swift in Sources */,
 				C2D4EC75283956AF00D24074 /* SPAlertView.swift in Sources */,
 				C243E22E282B93CD00888C96 /* BookmarkView.swift in Sources */,
+				C24DF57C283E7185003C9692 /* Bookmark+CoreDataClass.swift in Sources */,
+				C24DF57E283E7185003C9692 /* Folder+CoreDataClass.swift in Sources */,
 				C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */,
 				C2D4EC78283956AF00D24074 /* UIFontExtension.swift in Sources */,
 				C2D4EC7C283956AF00D24074 /* SPAlertSpinnerView.swift in Sources */,

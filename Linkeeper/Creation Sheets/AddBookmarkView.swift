@@ -9,14 +9,13 @@ import SwiftUI
 import LinkPresentation
 import UIKit
 import Shimmer
-//import SPAlert
 
 struct AddBookmarkView: View {
-    @ObservedObject var bookmarks: Bookmarks
-    @ObservedObject var folders: Folders
     var folderPreset: Folder?
     
-    @Environment(\.scenePhase) var scenePhase
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
+    
     @Environment(\.dismiss) var dismiss
     
     @State private var url = ""
@@ -45,6 +44,7 @@ struct AddBookmarkView: View {
                             .submitLabel(.done)
                         
                         Divider()
+                        
                         Button {
                             self.url = UIPasteboard.general.string!
                         } label: {
@@ -70,7 +70,7 @@ struct AddBookmarkView: View {
                         Text("None")
                             .tag(nil as Folder?)
                         
-                        ForEach(folders.items, id: \.self) { folder in
+                        ForEach(folders, id: \.self) { folder in
                             FolderPickerItem(folder: folder)
                                 .tag(folder as Folder?)
                         }
@@ -103,8 +103,18 @@ struct AddBookmarkView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button("Add") {
-                        let bookmark = Bookmark(title: title, url: URL(string: url)!.sanitise, host: host, notes: notes, date: Date.now, folder: folder)
-                        bookmarks.items.append(bookmark)
+                        let sanitisedURL = URL(string: url)?.sanitise
+                        let bookmark = Bookmark(context: moc)
+                        bookmark.id = UUID()
+                        bookmark.title = title
+                        bookmark.date = Date.now
+                        bookmark.host = host
+                        bookmark.notes = notes
+                        bookmark.url = sanitisedURL?.absoluteString
+                        bookmark.folder = folder
+                        
+                        try? moc.save()
+                        
                         dismiss()
                         showDonePopUp = true
                     }
@@ -133,8 +143,9 @@ struct AddBookmarkView: View {
         }
         
         .sheet(isPresented: $addingNewFolder) {
-            AddFolderView(folders: folders)
+            AddFolderView()
         }
+        
         .SPAlert(
             isPresent: $showDonePopUp,
             title: "Added to Bookmarks",
@@ -174,52 +185,13 @@ struct AddBookmarkView: View {
             folder = folderPreset
         }
     }
-
-// MARK: Unused, currently
-//    var searchedFolders: [Folder] {
-//        if searchText.isEmpty {
-//            return folders.items
-//        } else {
-//            return folders.items.filter{ $0.title.localizedCaseInsensitiveContains(searchText) }
-//        }
-//    }
-    
-    func fetchTitleAndHost(url: URL) -> (String?, String?) { // not functioning, to be fixed
-        let metadataProvider = LPMetadataProvider()
-        var title: String?
-        var host: String?
-        
-        metadataProvider.startFetchingMetadata(for: url) { (metadata, error) in
-            guard error == nil else { return }
-            DispatchQueue.main.async {
-                let receivedMetadata = metadata
-                if let URLTitle = receivedMetadata?.title {
-                    title = URLTitle
-                }
-                if let URLHost = receivedMetadata?.url?.host {
-                    host = URLHost
-                }
-            }
-        }
-        return (title, host)
-    }
-    
 }
 
-extension String {
-    var isValidURL: Bool {
-        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
-            return match.range.length == self.utf16.count
-        } else {
-            return false
-        }
-    }
-}
+
 
 struct AddBookmarkView_Previews: PreviewProvider {
     static var previews: some View {
-        AddBookmarkView(bookmarks: Bookmarks(), folders: Folders())
+        AddBookmarkView()
     }
 }
 
@@ -236,18 +208,29 @@ extension URL { // This adds https to the URL if the URl doesn't have it already
     }
 }
 
+extension String {
+    var isValidURL: Bool {
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
+            return match.range.length == self.utf16.count
+        } else {
+            return false
+        }
+    }
+}
+
 
 struct FolderPickerItem: View {
     var folder: Folder
     
     var body: some View {
         HStack {
-            Image(systemName: folder.symbol)
+            Image(systemName: folder.wrappedSymbol)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 18, height: 18)
-                .foregroundColor(FolderColorOptions.values[folder.accentColor])
-            Text(folder.title)
+                .foregroundColor(folder.wrappedColor)
+            Text(folder.wrappedTitle)
         }
     }
 }

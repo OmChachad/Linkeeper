@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct AddFolderView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     
-    @ObservedObject var folders: Folders
     @State private var title = ""
     @State private var accentColor = "gray"
     @State private var chosenSymbol = "car.fill"
@@ -32,8 +34,8 @@ struct AddFolderView: View {
                         .foregroundColor(.white)
                         .frame(width: 50, height: 50)
                         .padding()
-                        .background(Circle().foregroundColor(FolderColorOptions.values[accentColor]))
-                        .shadow(color: FolderColorOptions.values[accentColor] ?? .red, radius: 3)
+                        .background(Circle().foregroundColor(ColorOptions.values[accentColor]))
+                        .shadow(color: ColorOptions.values[accentColor] ?? .red, radius: 3)
                         .padding()
                         
                         
@@ -53,9 +55,9 @@ struct AddFolderView: View {
                     HStack {
                         Spacer()
                         LazyHGrid(rows: Array(repeating: GridItem(.flexible()), count: 2), spacing: 10) {
-                            ForEach(FolderColorOptions.keys, id: \.self) { colorKey in
+                            ForEach(ColorOptions.keys, id: \.self) { colorKey in
                                 Circle()
-                                    .foregroundColor(FolderColorOptions.values[colorKey])
+                                    .foregroundColor(ColorOptions.values[colorKey])
                                     .frame(width: 30)
                                     .padding(4)
                                     .overlay(Circle().stroke(Color.blue, lineWidth: colorKey == accentColor ? 2.5 : 0.0))
@@ -104,7 +106,15 @@ struct AddFolderView: View {
             }
                 .toolbar {
                     Button("Add") {
-                        folders.items.append(Folder(title: title, symbol: chosenSymbol, accentColor: accentColor))
+                        let newFolder = Folder(context: moc)
+                        newFolder.id = UUID()
+                        newFolder.title = self.title
+                        newFolder.accentColor = self.accentColor
+                        newFolder.symbol = self.chosenSymbol
+                        newFolder.index = Int16((folders.last?.index ?? 0) + 1)
+                        if moc.hasChanges {
+                            try? moc.save()
+                        }
                         dismiss()
                     }
                     .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -113,10 +123,21 @@ struct AddFolderView: View {
                 .navigationTitle(title.isEmpty ? "New Folder" : title)
         }
     }
+    
+    func getRecordsCount() -> Int? {
+         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Folder")
+         do {
+             let count = try moc.count(for: fetchRequest)
+             return count
+         } catch {
+             print(error.localizedDescription)
+         }
+            return nil
+     }
 }
 
 struct AddFolderView_Previews: PreviewProvider {
     static var previews: some View {
-        AddFolderView(folders: Folders())
+        AddFolderView()
     }
 }
