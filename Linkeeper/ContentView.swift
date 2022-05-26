@@ -77,22 +77,25 @@ struct ContentView: View {
                                 BookmarksView(folder: folder, onlyFavorites: false)
                             } label: {
                                 FolderItemView(folder: folder, deleteConfirmation: $deleteConfirmation)
-                                    .confirmationDialog("Do you want to delete \(bookmarkGramaticalNumberFor(folder)) inside \(folder.wrappedTitle) too?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-                                        Button("Delete \(bookmarkGramaticalNumberFor(folder))", role: .destructive) {
+                                    .confirmationDialog("Do you want to delete \(pluralizedBookmark(folder)) inside \(folder.wrappedTitle) too?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+                                        Button("Delete \(pluralizedBookmark(folder))", role: .destructive) {
                                             withAnimation {
+                                                for i in 0...(folder.bookmarksArray.count - 1) {
+                                                    moc.delete(folder.bookmarksArray[i])
+                                                }
                                                 moc.delete(folder)
                                                 try? moc.save()
                                             }
                                         }
                                         
-                                        Button("Keep \(bookmarkGramaticalNumberFor(folder))") {
+                                        Button("Keep \(pluralizedBookmark(folder))") {
                                             withAnimation {
                                                 moc.delete(folder)
                                                 try? moc.save()
                                             }
                                         }
                                     } message: {
-                                        Text("\(bookmarkGramaticalNumberFor(folder)) will be deleted.")
+                                        Text("\(pluralizedBookmark(folder)) will be deleted.")
                                     }
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -215,7 +218,7 @@ struct ContentView: View {
         
     }
     
-    func bookmarkGramaticalNumberFor(_ folder: Folder) -> String {
+    func pluralizedBookmark(_ folder: Folder) -> String {
         if folder.bookmarksArray.count > 1 {
             return "Bookmarks"
         } else {
@@ -227,29 +230,34 @@ struct ContentView: View {
 
 struct FolderItemView: View {
     @Environment(\.managedObjectContext) var moc
+    @ObservedObject var bookmarksInFolder = bookmarksCountFetcher()
     var folder: Folder
     
     @Binding var deleteConfirmation: Bool
     
     var body: some View {
         HStack {
-            Image(systemName: folder.wrappedSymbol)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 18, height: 18)
-                .padding(10)
-                .foregroundColor(.white)
-                .background(folder.wrappedColor)
-                .clipShape(Circle())
-                .padding([.top, .bottom, .trailing], 4)
-            
-            Text(folder.wrappedTitle)
-                .lineLimit(1)
+            Label {
+                Text(folder.wrappedTitle)
+                    .lineLimit(1)
+            } icon: {
+                Image(systemName: folder.wrappedSymbol)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 18, height: 18)
+                    .padding(10)
+                    .foregroundColor(.white)
+                    .background(folder.wrappedColor)
+                    .clipShape(Circle())
+                    .padding([.top, .bottom, .trailing], 4)
+            }
             
             Spacer()
             
-            Text("\(folder.bookmarksArray.count)")
-                .foregroundColor(.secondary)
+            Text("\(bookmarksInFolder.count(context: moc, folder: folder))")
+                        .foregroundColor(.secondary)
+
+            
         }
         
         .contextMenu {
@@ -260,15 +268,40 @@ struct FolderItemView: View {
             }
             
             Button(role: .destructive) {
-                withAnimation {
-                    moc.delete(folder)
-                    try? moc.save()
+                if folder.bookmarksArray.count == 0 {
+                    withAnimation {
+                        moc.delete(folder)
+                        try? moc.save()
+                    }
+                } else {
+                    deleteConfirmation = true
                 }
             } label: {
                 Label("Delete", systemImage: "trash")
             }
         }
     }
+    
+    class bookmarksCountFetcher: ObservableObject {
+        func count(context: NSManagedObjectContext, folder: Folder) -> Int {
+            let itemFetchRequest: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
+            itemFetchRequest.predicate = NSPredicate(format: "folder == %@", folder)
+            
+            return try! context.count(for: itemFetchRequest)
+        }
+    }
+    
+    var getBookmarksCount: Int {
+      var countOfItems: Int = 0
+      let context = moc
+      
+      let itemFetchRequest: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
+      itemFetchRequest.predicate = NSPredicate(format: "folder == %@", folder)
+      
+    countOfItems = try! context.count(for: itemFetchRequest)
+        
+      return countOfItems
+   }
 }
 
 

@@ -40,6 +40,10 @@ extension Folder {
            
            return set.sorted { $0.wrappedDate < $1.wrappedDate }
        }
+    
+    public var countOfBookmarks: Int {
+        bookmark?.count ?? 0
+    }
 
 }
 

@@ -25,6 +25,8 @@ struct BookmarksView: View {
     
     @State private var wiggleAmount = 0.0
     
+    @State private var toBeDeletedBookmark: Bookmark?
+    
     var columns: [GridItem] {
         if UIDevice.current.model == "iPhone" {
             return [UIScreen.main.bounds.width == 320  ? GridItem(.adaptive(minimum: 130, maximum: 180), spacing: 20) : GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 20)]
@@ -58,18 +60,6 @@ struct BookmarksView: View {
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(filteredBookmarks, id: \.self) { bookmark in
                             BookmarkView(bookmark: bookmark)
-                                .glow()
-                                .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-                                    Button("Delete Bookmark", role: .destructive) {
-                                        moc.delete(bookmark)
-                                        try? moc.save()
-                                    }
-                                } message: {
-                                    Text("It will be deleted from all your iCloud devices.")
-                                }
-                            //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
-                                .transition(.opacity)
-                                .frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
                                 .contextMenu {
                                     
                                     Button {
@@ -109,11 +99,27 @@ struct BookmarksView: View {
                                     }
                                     
                                     Button(role: .destructive) {
+                                        toBeDeletedBookmark = bookmark
                                         deleteConfirmation = true
                                     } label: {
                                         Label("Delete", systemImage: "trash")
                                     }
                                 }
+                                .frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
+                                .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+                                    Button("Delete Bookmark", role: .destructive) {
+                                        if toBeDeletedBookmark != nil {
+                                            moc.delete(toBeDeletedBookmark!)
+                                            try? moc.save()
+                                        }
+                                    }
+                                } message: {
+                                    Text("It will be deleted from all your iCloud devices.")
+                                }
+                                .glow()
+                            //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
+                                .transition(.opacity)
+                                
                         }
                     }
                     .searchable(text: $searchText, prompt: "Find a bookmark...")
