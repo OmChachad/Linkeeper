@@ -8,36 +8,6 @@
 import Foundation
 import SwiftUI
 
-//struct ColorOptions {
-//    static var keys = ["gray",
-//    "magenta",
-//    "brown",
-//       "purple",
-//    "pink",
-//    "indigo",
-//    "orange",
-//    "blue",
-//    "yellow",
-//    "cyan",
-//    "green",
-//    "mint"]
-//
-//    static var values: [String:Color] = [
-//        "gray": Color(UIColor.systemGray4),
-//        "purple": Color.purple,
-//        "orange": Color.orange,
-//        "pink": Color.red,
-//        "yellow": Color.yellow,
-//        "mint": Color.mint,
-//        "indigo": Color.indigo,
-//        "green": Color.green,
-//        "cyan": Color.cyan,
-//        "brown": Color.brown,
-//        "blue": Color.blue,
-//        "magenta": Color(UIColor.magenta)
-//    ]
-//}
-
 struct ColorOptions {
     @Environment(\.colorScheme) var colorScheme
     

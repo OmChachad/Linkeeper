@@ -8,25 +8,23 @@
 import SwiftUI
 
 struct BookmarksView: View {
-    
     @Environment(\.managedObjectContext) var moc
-    //@FetchRequest(sortDescriptors: []) var folders: FetchedResults<Folder>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var bookmarks: FetchedResults<Bookmark>
+    
     var folder: Folder?
     var favorites: Bool?
     
     @State private var addingBookmark = false
     @State private var searchText = ""
     
-    
-    @State private var deleteConfirmation = false
-    
     @State var editState: EditMode = .inactive
     
-    @State private var wiggleAmount = 0.0
-    
     @State private var toBeDeletedBookmark: Bookmark?
+    @State private var deleteConfirmation = false
     
+    @Namespace var nm
+    @State private var showDetails = false
+    @State private var toBeEditedBookmark: Bookmark?
     var columns: [GridItem] {
         if UIDevice.current.model == "iPhone" {
             return [UIScreen.main.bounds.width == 320  ? GridItem(.adaptive(minimum: 130, maximum: 180), spacing: 20) : GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 20)]
@@ -59,9 +57,8 @@ struct BookmarksView: View {
                     }
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(filteredBookmarks, id: \.self) { bookmark in
-                            BookmarkView(bookmark: bookmark)
+                            BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, deleteConfirmation: $deleteConfirmation)
                                 .contextMenu {
-                                    
                                     Button {
                                         bookmark.isFavorited.toggle()
                                         try? moc.save()
@@ -75,7 +72,10 @@ struct BookmarksView: View {
                                     
                                     
                                     Button {
-                                        // Code to edit the bookmark
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                            toBeEditedBookmark = bookmark
+                                            showDetails.toggle()
+                                        }
                                     } label: {
                                         Label("Show details", systemImage: "info.circle")
                                     }
@@ -106,16 +106,6 @@ struct BookmarksView: View {
                                     }
                                 }
                                 .frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
-                                .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-                                    Button("Delete Bookmark", role: .destructive) {
-                                        if toBeDeletedBookmark != nil {
-                                            moc.delete(toBeDeletedBookmark!)
-                                            try? moc.save()
-                                        }
-                                    }
-                                } message: {
-                                    Text("It will be deleted from all your iCloud devices.")
-                                }
                                 .glow()
                             //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
                                 .transition(.opacity)
@@ -126,6 +116,18 @@ struct BookmarksView: View {
                     .padding(.horizontal)
                     
                 }
+            }
+            if showDetails {
+                
+                Color("primaryInverted").opacity(0.6)
+                    .background(.ultraThinMaterial)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        showDetails = false
+                    }
+                
+                BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails)
+                    .shadow(color: .black.opacity(0.25), radius: 10)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -146,6 +148,7 @@ struct BookmarksView: View {
             AddBookmarkView(folderPreset: folder)
         }
         .animation(.spring(), value: filteredBookmarks)
+        .animation(.spring(), value: showDetails)
     }
     init(folder: Folder?, onlyFavorites: Bool) {
         if let folder = folder {
