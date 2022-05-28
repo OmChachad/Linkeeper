@@ -290,18 +290,6 @@ struct FolderItemView: View {
             return try! context.count(for: itemFetchRequest)
         }
     }
-    
-    var getBookmarksCount: Int {
-      var countOfItems: Int = 0
-      let context = moc
-      
-      let itemFetchRequest: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
-      itemFetchRequest.predicate = NSPredicate(format: "folder == %@", folder)
-      
-    countOfItems = try! context.count(for: itemFetchRequest)
-        
-      return countOfItems
-   }
 }
 
 

@@ -156,18 +156,19 @@ struct BookmarkDetails: View {
                             }
                             editing.toggle()
                         }
+                        .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                         .padding()
                         
                     }
                     .background(.thinMaterial)
                     Form {
-                        
                         Section("Title") {
                             TextField("Title", text: $title)
                         }
                         
                         Section("Notes") {
                             TextEditor(text: $notes)
+                                .placeholder("Notes", contents: notes)
                                 .frame(height: 150)
                         }
                     }

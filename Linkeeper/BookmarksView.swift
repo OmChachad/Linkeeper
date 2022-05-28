@@ -19,12 +19,10 @@ struct BookmarksView: View {
     
     @State var editState: EditMode = .inactive
     
-    @State private var toBeDeletedBookmark: Bookmark?
-    @State private var deleteConfirmation = false
-    
     @Namespace var nm
     @State private var showDetails = false
     @State private var toBeEditedBookmark: Bookmark?
+    
     var columns: [GridItem] {
         if UIDevice.current.model == "iPhone" {
             return [UIScreen.main.bounds.width == 320  ? GridItem(.adaptive(minimum: 130, maximum: 180), spacing: 20) : GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 20)]
@@ -57,59 +55,11 @@ struct BookmarksView: View {
                     }
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(filteredBookmarks, id: \.self) { bookmark in
-                            BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, deleteConfirmation: $deleteConfirmation)
-                                .contextMenu {
-                                    Button {
-                                        bookmark.isFavorited.toggle()
-                                        try? moc.save()
-                                    } label: {
-                                        if bookmark.isFavorited == false {
-                                            Label("Add to favorites", systemImage: "heart")
-                                        } else {
-                                            Label("Remove from favorites", systemImage: "heart.slash")
-                                        }
-                                    }
-                                    
-                                    
-                                    Button {
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                            toBeEditedBookmark = bookmark
-                                            showDetails.toggle()
-                                        }
-                                    } label: {
-                                        Label("Show details", systemImage: "info.circle")
-                                    }
-                                    
-                                    Button {
-                                        UIPasteboard.general.url = bookmark.wrappedURL
-                                    } label: {
-                                        Label("Copy link", systemImage: "doc.on.doc")
-                                    }
-                                    
-                                    Button {
-                                        share(url: bookmark.wrappedURL)
-                                    } label: {
-                                        Label("Share", systemImage: "square.and.arrow.up")
-                                    }
-                                    
-                                    Button {
-                                        // Code to move
-                                    } label: {
-                                        Label("Move", systemImage: "folder")
-                                    }
-                                    
-                                    Button(role: .destructive) {
-                                        toBeDeletedBookmark = bookmark
-                                        deleteConfirmation = true
-                                    } label: {
-                                        Label("Delete", systemImage: "trash")
-                                    }
-                                }
+                            BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark)
                                 .frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
-                                .glow()
+                                .glow() // MARK: Make this optional in settings
                             //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
                                 .transition(.opacity)
-                                
                         }
                     }
                     .searchable(text: $searchText, prompt: "Find a bookmark...")
@@ -165,17 +115,6 @@ struct BookmarksView: View {
             return [Bookmark](bookmarks)
         } else {
             return bookmarks.filter { $0.wrappedTitle.localizedCaseInsensitiveContains(searchText) || $0.wrappedNotes.localizedCaseInsensitiveContains(searchText) || $0.wrappedHost.localizedCaseInsensitiveContains(searchText) }
-        }
-    }
-    
-    func share(url: URL) {
-        let activityView = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        
-        let allScenes = UIApplication.shared.connectedScenes
-        let scene = allScenes.first { $0.activationState == .foregroundActive }
-        
-        if let windowScene = scene as? UIWindowScene {
-            windowScene.keyWindow?.rootViewController?.present(activityView, animated: true, completion: nil)
         }
     }
     

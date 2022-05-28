@@ -11,12 +11,13 @@ import UIKit
 import Shimmer
 
 struct AddBookmarkView: View {
-    var folderPreset: Folder?
-    
+    @Environment(\.dismiss) var dismiss
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     
-    @Environment(\.dismiss) var dismiss
+    var folderPreset: Folder?
+    
+    @ObservedObject var clipboard = Clipboard()
     
     @State private var url = ""
     @State private var host = ""
@@ -29,7 +30,6 @@ struct AddBookmarkView: View {
     @FocusState var isInputActive: Bool
     
     @State private var addingNewFolder = false
-    
     @State private var showDonePopUp = false
     
     var body: some View {
@@ -67,8 +67,7 @@ struct AddBookmarkView: View {
                 
                 Section(footer: Text("Selecting \"None\" will cause this bookmark to only appear in the All Bookmarks section of the app")) {
                     Picker("Folder", selection: $folder) {
-                        Text("None")
-                            .tag(nil as Folder?)
+                        Text("None").tag(nil as Folder?)
                         
                         ForEach(folders, id: \.self) { folder in
                             FolderPickerItem(folder: folder)
@@ -82,22 +81,10 @@ struct AddBookmarkView: View {
                 }
                 
                 Section {
-                    
-                    ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
                         TextEditor(text: $notes)
+                            .placeholder("Add notes (optional)", contents: notes)
                             .focused($isInputActive)
-                            .padding(EdgeInsets(top: -7, leading: -4, bottom: -7, trailing: -4))
-                        if notes.isEmpty {
-                            HStack {
-                                Text("Add notes (optional)")
-                                    .foregroundColor(Color(UIColor.placeholderText))
-                                    .allowsHitTesting(false)
-                                Spacer()
-                            }
-                        }
-                    }
-                    .frame(height: 150)
-                    .padding(.top, 7)
+                            .frame(height: 150)
                 }
             }
             .toolbar {
@@ -132,7 +119,6 @@ struct AddBookmarkView: View {
                 
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
-                        .frame(maxWidth: isInputActive == true ? .infinity : 0, maxHeight: isInputActive == true ? .infinity : 0)
                     
                     Button(isInputActive == true ? "Done" : "") {
                         isInputActive = false
@@ -183,6 +169,12 @@ struct AddBookmarkView: View {
         }
         .onAppear {
             folder = folderPreset
+        }
+    }
+    
+    class Clipboard: ObservableObject {
+        func hasURLS() -> Bool {
+            return UIPasteboard.general.hasURLs
         }
     }
 }
@@ -238,3 +230,20 @@ struct FolderPickerItem: View {
     }
 }
 
+extension TextEditor {
+    func placeholder(_ text: String, contents: String) -> some View {
+        ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
+            self
+                .padding(EdgeInsets(top: -8, leading: -4, bottom: -7, trailing: -4))
+            if contents.isEmpty {
+                HStack {
+                    Text(text)
+                        .foregroundColor(Color(UIColor.placeholderText))
+                        .allowsHitTesting(false)
+                    Spacer()
+                }
+            }
+        }
+        .padding(.top, 7)
+    }
+}

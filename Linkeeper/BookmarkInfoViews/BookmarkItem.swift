@@ -17,86 +17,132 @@ struct BookmarkItem: View {
     var bookmark: Bookmark
     var namespace: Namespace.ID
     @Binding var showDetails: Bool
-    @Binding var deleteConfirmation: Bool
+    @Binding var toBeEditedBookmark: Bookmark?
+    
+    @State private var deleteConfirmation: Bool = false
+    @State private var toBeDeletedBookmark: Bookmark?
     
     @State private var isShimmering = true
     @State private var image: Image?
     @State private var preview = PreviewType.loading
     
     var body: some View {
-        VStack {
-            
-            ZStack {
-                Rectangle()
-                    .foregroundColor(.secondary.opacity(isShimmering ? 0.5 : 0.2))
-                    .shimmering(active: isShimmering)
-                    .clipped()
-                
-                Group {
-                    if preview != .loading {
-                        if preview == .thumbnail {
+        VStack(spacing: 0) {
+            Group {
+                switch(preview) {
+                    
+                    case .thumbnail:
+                        image!
+                            .resizable()
+                            .clipped()
+                    case .icon:
+                        ZStack {
+                            Rectangle()
+                                .foregroundColor(.white)
+                            
                             image!
                                 .resizable()
+                                .aspectRatio(1/1, contentMode: .fit)
+                                .padding(20)
+                                .background(Color(red: 0.8980392157, green: 0.8980392157, blue: 0.9137254902))
+                                .cornerRadius(20)
                                 .clipped()
-                        } else if preview == .icon {
-                            ZStack {
-                                Rectangle()
-                                    .foregroundColor(.white)
-                                
-                                image!
-                                    .resizable()
-                                    .aspectRatio(1/1, contentMode: .fit)
-                                    .padding(20)
-                                    .background(Color(red: 0.8980392157, green: 0.8980392157, blue: 0.9137254902))
-                                    .cornerRadius(20)
-                                    .clipped()
-                                    .scaleEffect(0.75)
-                            }
-                        } else if preview == .firstLetter {
-                            if let firstChar: Character = bookmark.wrappedTitle.first {
-                                Color(uiColor: .systemGray2)
-                                    .overlay(
-                                        Text(String(firstChar))
-                                            .font(.largeTitle.weight(.medium))
-                                            .foregroundColor(.white)
-                                            .scaleEffect(2)
-                                    )
-                            }
+                                .scaleEffect(0.75)
                         }
-                        
-                    }
-                } .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Image", in: namespace)
-                
+                    case .firstLetter:
+                        if let firstChar: Character = bookmark.wrappedTitle.first {
+                            Color(uiColor: .systemGray2)
+                                .overlay(
+                                    Text(String(firstChar))
+                                        .font(.largeTitle.weight(.medium))
+                                        .foregroundColor(.white)
+                                        .scaleEffect(2)
+                                )
+                        }
+                    default:
+                        Rectangle()
+                            .foregroundColor(.secondary.opacity(0.5))
+                            .shimmering(active: isShimmering)
+                            .clipped()
+                }
             }
+            .background(Color.secondary.opacity(0.2))
+            .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Image", in: namespace)
             .aspectRatio(4/3, contentMode: .fill)
             .frame(minWidth: 130, idealWidth: 165, maxWidth: 165)
-            VStack(alignment: .leading) {
+            
+            VStack(alignment: .leading, spacing: 0) {
                 Text(bookmark.wrappedTitle)
                     .lineLimit(2)
-                    .frame(maxWidth: .infinity, alignment: .leading)
                     .multilineTextAlignment(.leading)
                     .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Title", in: namespace)
                 Text(bookmark.wrappedHost)
                     .lineLimit(1)
                     .font(.callout)
-                    .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundColor(.secondary)
                     .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Host", in: namespace)
             }
-            .padding(.horizontal, 10)
-            .offset(y: -5)
-            .padding(5)
-        }
-        .onTapGesture {
-            openURL(bookmark.wrappedURL)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 15)
+            .padding(.vertical, 10)
         }
         .background(Color(UIColor.systemGray5))
         .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
         .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Background", in: namespace)
+        .onTapGesture {
+            openURL(bookmark.wrappedURL)
+        }
+        .contextMenu {
+            Button {
+                bookmark.isFavorited.toggle()
+                try? moc.save()
+            } label: {
+                if bookmark.isFavorited == false {
+                    Label("Add to favorites", systemImage: "heart")
+                } else {
+                    Label("Remove from favorites", systemImage: "heart.slash")
+                }
+            }
+            
+            
+            Button {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    toBeEditedBookmark = bookmark
+                    showDetails.toggle()
+                }
+            } label: {
+                Label("Show details", systemImage: "info.circle")
+            }
+            
+            Button {
+                UIPasteboard.general.url = bookmark.wrappedURL
+            } label: {
+                Label("Copy link", systemImage: "doc.on.doc")
+            }
+            
+            Button {
+                share(url: bookmark.wrappedURL)
+            } label: {
+                Label("Share", systemImage: "square.and.arrow.up")
+            }
+            
+            Button {
+                // Code to move
+            } label: {
+                Label("Move", systemImage: "folder")
+            }
+            
+            Button(role: .destructive) {
+                toBeDeletedBookmark = bookmark
+                deleteConfirmation = true
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+        }
         .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
             Button("Delete Bookmark", role: .destructive) {
-                    moc.delete(bookmark)
-                    try? moc.save()
+                moc.delete(bookmark)
+                try? moc.save()
             }
         } message: {
             Text("It will be deleted from all your iCloud devices.")
@@ -110,7 +156,7 @@ struct BookmarkItem: View {
             } else {
                 do {
                     let metadata = try await startFetchingMetadata(for: bookmark.wrappedURL)
-
+                    
                     if let imageProvider = metadata.imageProvider {
                         imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
                             guard error == nil else {
@@ -176,3 +222,15 @@ struct BookmarkItem: View {
 }
 
 
+
+
+func share(url: URL) {
+    let activityView = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+    
+    let allScenes = UIApplication.shared.connectedScenes
+    let scene = allScenes.first { $0.activationState == .foregroundActive }
+    
+    if let windowScene = scene as? UIWindowScene {
+        windowScene.keyWindow?.rootViewController?.present(activityView, animated: true, completion: nil)
+    }
+}

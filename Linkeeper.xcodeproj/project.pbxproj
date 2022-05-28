@@ -99,6 +99,16 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		C252EAB02842B1B000E296F5 /* BookmarkInfoViews */ = {
+			isa = PBXGroup;
+			children = (
+				C243E22D282B93CD00888C96 /* BookmarkItem.swift */,
+				C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */,
+				C23BDA462840C70E003DD30D /* CacheManager.swift */,
+			);
+			path = BookmarkInfoViews;
+			sourceTree = "<group>";
+		};
 		C2550E602827040000ADA0BF /* Creation Sheets */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,11 +140,9 @@
 				C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */,
 				C2C8DC3F28171D93000F4AEB /* ContentView.swift */,
 				C2550E63282705F900ADA0BF /* BookmarksView.swift */,
-				C243E22D282B93CD00888C96 /* BookmarkItem.swift */,
-				C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */,
-				C23BDA462840C70E003DD30D /* CacheManager.swift */,
-				C2550E602827040000ADA0BF /* Creation Sheets */,
 				C28B6E6828190C120030B6DD /* ColorsAndSymbols.swift */,
+				C252EAB02842B1B000E296F5 /* BookmarkInfoViews */,
+				C2550E602827040000ADA0BF /* Creation Sheets */,
 				C24DF580283E718C003C9692 /* CoreData */,
 				C2C8DC4128171D94000F4AEB /* Assets.xcassets */,
 				C2C8DC4328171D94000F4AEB /* Preview Content */,

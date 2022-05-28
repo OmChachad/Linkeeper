@@ -26,7 +26,7 @@ class CacheManager {
     var imageCache: NSCache<NSString, cachedPreview> = {
         let cache = NSCache<NSString, cachedPreview>()
         //cache.countLimit = 100
-        cache.totalCostLimit = 1024 * 1024 * 10 // 100mb
+        //cache.totalCostLimit = 1024 * 1024 * 10 // 100mb - not sure if this is right
         return cache
     }()
     
@@ -52,7 +52,9 @@ class CacheModel: ObservableObject {
     init() { }
     
     func saveToCache(image: UIImage, preview: PreviewType, bookmark: Bookmark) {
-        manager.add(preview: cachedPreview(image: image, preview: preview), name: bookmark.id!.uuidString)
+        if manager.get(name: bookmark.id!.uuidString) == nil {
+            manager.add(preview: cachedPreview(image: image, preview: preview), name: bookmark.id!.uuidString)
+        }
     }
     
     func removeImageFor(bookmark: Bookmark){
