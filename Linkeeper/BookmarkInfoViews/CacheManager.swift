@@ -52,17 +52,17 @@ class CacheModel: ObservableObject {
     init() { }
     
     func saveToCache(image: UIImage, preview: PreviewType, bookmark: Bookmark) {
-        if manager.get(name: bookmark.id!.uuidString) == nil {
-            manager.add(preview: cachedPreview(image: image, preview: preview), name: bookmark.id!.uuidString)
+        if manager.get(name: bookmark.wrappedURL.absoluteString) == nil {
+            manager.add(preview: cachedPreview(image: image, preview: preview), name: bookmark.wrappedURL.absoluteString)
         }
     }
     
     func removeImageFor(bookmark: Bookmark){
-        manager.remove (name: bookmark.id!.uuidString)
+        manager.remove (name: bookmark.wrappedURL.absoluteString)
     }
     
     func getImageFor(bookmark: Bookmark) {
-        image = manager.get(name: bookmark.id!.uuidString)
+        image = manager.get(name: bookmark.wrappedURL.absoluteString)
     }
 }
 

@@ -21,7 +21,6 @@ struct ContentView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     
     @State private var showingNewBookmarkView = false
-    
     @State private var showingNewFolderView = false
     
     @State var mode: EditMode = .inactive
@@ -29,9 +28,6 @@ struct ContentView: View {
     @State private var selection = Set<MainOption>()
     
     @State private var deleteConfirmation = false
-    
-    @AppStorage("showingAll") var showingAll: Bool = true
-    @AppStorage("showingFavorites") var showingFavorites: Bool = true
     
     @State private var mainOptions: [MainOption] = [
         MainOption(title: "All", symbol: "tray.fill", color: Color(UIColor.darkGray), onlyFavorites: false),
@@ -134,14 +130,14 @@ struct ContentView: View {
             .navigationBarTitle("Folders")
             .navigationViewStyle(.columns)
             .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {
                         
                     } label: {
                         Image(systemName: "gear")
                     }
                 }
-                ToolbarItemGroup(placement: .navigationBarLeading) {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
                     EditButton()
                 }
                 ToolbarItemGroup(placement: .bottomBar) {

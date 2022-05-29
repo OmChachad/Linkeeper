@@ -67,7 +67,7 @@ struct BookmarkItem: View {
                 }
             }
             .background(Color.secondary.opacity(0.2))
-            .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Image", in: namespace)
+            .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
             .aspectRatio(4/3, contentMode: .fill)
             .frame(minWidth: 130, idealWidth: 165, maxWidth: 165)
             
@@ -75,12 +75,12 @@ struct BookmarkItem: View {
                 Text(bookmark.wrappedTitle)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
-                    .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Title", in: namespace)
+                    .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Title", in: namespace)
                 Text(bookmark.wrappedHost)
                     .lineLimit(1)
                     .font(.callout)
                     .foregroundColor(.secondary)
-                    .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Host", in: namespace)
+                    .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Host", in: namespace)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 15)
@@ -88,7 +88,7 @@ struct BookmarkItem: View {
         }
         .background(Color(UIColor.systemGray5))
         .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-        .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Background", in: namespace)
+        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         .onTapGesture {
             openURL(bookmark.wrappedURL)
         }

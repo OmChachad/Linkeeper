@@ -26,27 +26,28 @@ struct BookmarkDetails: View {
     @State private var image: Image?
     @State private var preview = PreviewType.loading
     
+    @State private var deleteConfirmation = false
+    
+    @State private var showAddedToFav = false
+    @State private var showRemovedFromFav = false
     var body: some View {
         VStack {
             Flashcard(editing: $editing) {
                 VStack(spacing: 0) {
                     Group {
-                        if preview == .loading {
-                            Rectangle()
-                                .shimmering()
-                        } else if preview == .thumbnail {
+                        switch(preview) {
+                        case .thumbnail:
                             image!
                                 .resizable()
                                 .scaledToFit()
-                            
-                        } else if preview == .icon {
+                        case .icon:
                             ZStack {
                                 image!
                                     .resizable()
-                                    //.aspectRatio(1/1, contentMode: .fit)
+                                    .scaledToFit()
                                     .padding(20)
                             }
-                        } else if preview == .firstLetter {
+                        case .firstLetter:
                             if let firstChar: Character = bookmark.wrappedTitle.first {
                                 Color(uiColor: .systemGray2)
                                     .overlay(
@@ -56,16 +57,21 @@ struct BookmarkDetails: View {
                                             .scaleEffect(2)
                                     )
                             }
+                        default:
+                            Rectangle()
+                                .shimmering()
                         }
                     }
                     .background(Color(.systemGray6))
-                    .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Image", in: namespace)
+                    .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
                     
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5)) {
                         Button() {
-                            
+                            if bookmark.isFavorited { showRemovedFromFav = true } else { showAddedToFav = true }
+                            bookmark.isFavorited.toggle()
+                            try! moc.save()
                         } label: {
-                            Image(systemName: "heart.fill")
+                            Image(systemName: bookmark.isFavorited ? "heart.fill" : "heart")
                                 .foregroundColor(.pink)
                         }
                         
@@ -88,10 +94,21 @@ struct BookmarkDetails: View {
                         }
                         
                         Button(role: .destructive) {
-                            
+                            deleteConfirmation = true
                         } label: {
                             Image(systemName: "trash")
+                                .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+                                    Button("Delete Bookmark", role: .destructive) {
+                                        showDetails.toggle()
+                                        moc.delete(bookmark)
+                                        try? moc.save()
+                                    }
+                                } message: {
+                                    Text("It will be deleted from all your iCloud devices.")
+                                }
                         }
+                        .SPAlert(isPresent: $showAddedToFav, title: "Added to Favorites!", duration: 1, dismissOnTap: true, preset: .custom(UIImage(systemName: "heart.fill")!), haptic: .success)
+                        .SPAlert(isPresent: $showRemovedFromFav, title: "Removed from Favorites!", duration: 1, dismissOnTap: true, preset: .custom(UIImage(systemName: "heart.slash.fill")!), haptic: .success)
                     } .font(.title2)
                         .padding(10)
                         .background(Color(.systemGray4))
@@ -99,12 +116,12 @@ struct BookmarkDetails: View {
                     VStack(alignment: .leading, spacing: 0) {
                         Text(bookmark.wrappedTitle)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Title", in: namespace)
+                            .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Title", in: namespace)
                         Text(bookmark.wrappedHost)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
                             .foregroundColor(.secondary)
-                            .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Host", in: namespace)
+                            .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Host", in: namespace)
                         
                         if !bookmark.wrappedNotes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             
@@ -118,10 +135,9 @@ struct BookmarkDetails: View {
                         }
                     } .padding(20)
                 }
-               // .background(Color(UIColor.systemGray5))
                 .background(.ultraThinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-                .matchedGeometryEffect(id: "\(bookmark.id!.uuidString)-Background", in: namespace)
+                .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
                 .overlay {
                     VStack {
                         HStack {
@@ -275,7 +291,7 @@ struct Flashcard<Front, Back>: View where Front: View, Back: View {
         }
         .frame(maxWidth: 500)
         .rotation3DEffect(.degrees(Double(contentRotation)), axis: (x: 0, y: 1, z: 0))
-        .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .padding()
         .rotation3DEffect(.degrees(Double(flashcardRotation)), axis: (x: 0, y: 1, z: 0))
         

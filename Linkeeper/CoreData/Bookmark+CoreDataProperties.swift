@@ -45,6 +45,9 @@ extension Bookmark {
         date ?? Date.now
     }
     
+    public var wrappedUUID: String {
+        String(describing: id?.uuidString)
+    }
     
 }
 
