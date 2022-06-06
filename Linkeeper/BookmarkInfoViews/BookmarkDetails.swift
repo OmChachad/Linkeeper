@@ -23,26 +23,27 @@ struct BookmarkDetails: View {
     @State private var editing = false
     
     @State private var isShimmering = true
-    @State private var image: Image?
-    @State private var preview = PreviewType.loading
+    
+    var detailViewImage: DetailsPreview?
     
     @State private var deleteConfirmation = false
     
     @State private var showAddedToFav = false
     @State private var showRemovedFromFav = false
+    
     var body: some View {
         VStack {
             Flashcard(editing: $editing) {
                 VStack(spacing: 0) {
                     Group {
-                        switch(preview) {
+                        switch(detailViewImage?.previewState) {
                         case .thumbnail:
-                            image!
+                            detailViewImage?.image!
                                 .resizable()
                                 .scaledToFit()
                         case .icon:
                             ZStack {
-                                image!
+                                detailViewImage?.image!
                                     .resizable()
                                     .scaledToFit()
                                     .padding(20)
@@ -50,6 +51,7 @@ struct BookmarkDetails: View {
                         case .firstLetter:
                             if let firstChar: Character = bookmark.wrappedTitle.first {
                                 Color(uiColor: .systemGray2)
+                                    .aspectRatio(16/9, contentMode: .fit)
                                     .overlay(
                                         Text(String(firstChar))
                                             .font(.largeTitle.weight(.medium))
@@ -87,7 +89,7 @@ struct BookmarkDetails: View {
                             Image(systemName: "square.and.arrow.up")
                         }
                         
-                        Button() {
+                        Button {
                             editing.toggle()
                         } label: {
                             Image(systemName: "pencil")
@@ -189,77 +191,15 @@ struct BookmarkDetails: View {
                         }
                     }
                 }
+                .onAppear {
+                    title = bookmark.wrappedTitle
+                    notes = bookmark.wrappedNotes
+                }
                 .frame(height: 382.5)
                 .frame(maxWidth: 500)
             }
         }
-        .task {
-            title = bookmark.wrappedTitle
-            notes = bookmark.wrappedNotes
-            
-            cache.getImageFor(bookmark: bookmark)
-            if let preview = cache.image {
-                self.image = Image(uiImage: preview.value)
-                self.preview = preview.previewState
-                isShimmering = false
-            } else {
-                do {
-                    let metadata = try await startFetchingMetadata(for: bookmark.wrappedURL)
-                    
-                    if let imageProvider = metadata.imageProvider {
-                        imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
-                            guard error == nil else {
-                                showPlaceHolder()
-                                return
-                            }
-                            if let image = image as? UIImage {
-                                DispatchQueue.main.async {
-                                    self.image = Image(uiImage: image)
-                                    preview = .thumbnail
-                                    isShimmering = false
-                                    cache.saveToCache(image: image, preview: .thumbnail, bookmark: bookmark)
-                                }
-                            }
-                        }
-                    } else if let iconImageProvider = metadata.iconProvider {
-                        iconImageProvider.loadObject(ofClass: UIImage.self) { (iconImage, error) in
-                            guard error == nil else {
-                                showPlaceHolder()
-                                return
-                            }
-                            if let image = iconImage as? UIImage {
-                                DispatchQueue.main.async {
-                                    self.image = Image(uiImage: image)
-                                    preview = .icon
-                                    isShimmering = false
-                                    cache.saveToCache(image: image, preview: .icon, bookmark: bookmark)
-                                }
-                            }
-                        }
-                    } else {
-                        showPlaceHolder()
-                    }
-                } catch {
-                    showPlaceHolder()
-                    print("Failed to load data")
-                }
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
-                if preview == .loading {
-                    showPlaceHolder()
-                }
-            }
-        }
-    }
-    func showPlaceHolder() {
-        preview = .firstLetter
-        isShimmering = false
-    }
-    
-    func startFetchingMetadata(for URL: URL) async throws -> LPLinkMetadata {
-        let metadataProvider = LPMetadataProvider()
-        return try! await metadataProvider.startFetchingMetadata(for: URL)
+
     }
 }
 

@@ -29,6 +29,8 @@ struct ContentView: View {
     
     @State private var deleteConfirmation = false
     
+    @State private var folderIsSelected: Bool = false
+    
     @State private var mainOptions: [MainOption] = [
         MainOption(title: "All", symbol: "tray.fill", color: Color(UIColor.darkGray), onlyFavorites: false),
         MainOption(title: "Favorites", symbol: "heart.fill", color: Color.pink, onlyFavorites: true)
@@ -57,9 +59,9 @@ struct ContentView: View {
                                 Spacer()
                                 
                                 if let count = try? moc.count(for: NSFetchRequest<NSFetchRequestResult>(entityName: "Bookmark")) {
-                                        Text(String(count))
-                                            .foregroundColor(.secondary)
-                                
+                                    Text(String(count))
+                                        .foregroundColor(.secondary)
+                                    
                                 }
                             }
                             .frame(height: 70)
@@ -128,7 +130,7 @@ struct ContentView: View {
                 
             }
             .navigationBarTitle("Folders")
-            .navigationViewStyle(.columns)
+            .navigationViewStyle(.automatic)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {
@@ -140,19 +142,30 @@ struct ContentView: View {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     EditButton()
                 }
+                
                 ToolbarItemGroup(placement: .bottomBar) {
-                    Button {
-                        showingNewBookmarkView = true
-                    } label: {
-                        HStack {
-                            Image(systemName: "plus.circle.fill")
-                            Text("New Bookmark")
-                        }
-                        .font(.headline)
-                    }
-                    
-                    Button("Add Folder") {
-                        showingNewFolderView = true
+                    HStack {
+                            Button {
+                                showingNewBookmarkView = true
+                            } label: {
+                                HStack {
+                                    Image(systemName: "plus.circle.fill")
+                                    Text("New Bookmark")
+                                }
+                                .font(.headline)
+                            }
+                            
+                            Spacer()
+                            
+                            Button("Add Folder") {
+                                showingNewFolderView = true
+                            }
+//                        } else {
+//                            Button("Add Folder") {
+//                                showingNewFolderView = true
+//                            }
+//                            Spacer()
+//                        }
                     }
                 }
             }
@@ -162,15 +175,15 @@ struct ContentView: View {
                 .font(.title)
                 .foregroundColor(.secondary)
         }
+        .onChange(of: folderIsSelected) { new in
+            print("State Changed to \(String(describing: new))")
+        }
         .sheet(isPresented: $showingNewBookmarkView) {
             AddBookmarkView()
         }
         .sheet(isPresented: $showingNewFolderView) {
             AddFolderView()
         }
-        //.animation(.default, value: folders.count)
-        
-        
     }
     
     func delete(at offset: IndexSet) {
@@ -251,8 +264,8 @@ struct FolderItemView: View {
             Spacer()
             
             Text("\(bookmarksInFolder.count(context: moc, folder: folder))")
-                        .foregroundColor(.secondary)
-
+                .foregroundColor(.secondary)
+            
             
         }
         

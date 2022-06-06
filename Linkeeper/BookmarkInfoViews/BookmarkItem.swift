@@ -23,6 +23,8 @@ struct BookmarkItem: View {
     @State private var toBeDeletedBookmark: Bookmark?
     
     @State private var isShimmering = true
+    
+    @Binding var detailViewImage: DetailsPreview?
     @State private var image: Image?
     @State private var preview = PreviewType.loading
     
@@ -104,15 +106,18 @@ struct BookmarkItem: View {
                 }
             }
             
-            
-            Button {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    toBeEditedBookmark = bookmark
-                    showDetails.toggle()
+    
+                Button {
+                    detailViewImage = DetailsPreview(image: image, previewState: preview)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        toBeEditedBookmark = bookmark
+                        showDetails.toggle()
+                    }
+                } label: {
+                    Label("Show details", systemImage: "info.circle")
                 }
-            } label: {
-                Label("Show details", systemImage: "info.circle")
-            }
+                .disabled(preview == .loading)
             
             Button {
                 UIPasteboard.general.url = bookmark.wrappedURL
@@ -233,4 +238,14 @@ func share(url: URL) {
     if let windowScene = scene as? UIWindowScene {
         windowScene.keyWindow?.rootViewController?.present(activityView, animated: true, completion: nil)
     }
+}
+
+struct DetailsPreview {
+    var image: Image?
+    var previewState: PreviewType
+
+//    init(image: Image, preview: PreviewType) {
+//        self.image = image
+//        self.previewState = preview
+//    }
 }

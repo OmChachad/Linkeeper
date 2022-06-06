@@ -23,6 +23,8 @@ struct BookmarksView: View {
     @State private var showDetails = false
     @State private var toBeEditedBookmark: Bookmark?
     
+    @State private var detailViewImage: DetailsPreview?
+    
     var columns: [GridItem] {
         if UIDevice.current.model == "iPhone" {
             return [UIScreen.main.bounds.width == 320  ? GridItem(.adaptive(minimum: 130, maximum: 180), spacing: 20) : GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 20)]
@@ -55,7 +57,7 @@ struct BookmarksView: View {
                     }
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(filteredBookmarks, id: \.self) { bookmark in
-                            BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark)
+                            BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage)
                                 .frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
                                 .glow() // MARK: Make this optional in settings
                             //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
@@ -76,7 +78,7 @@ struct BookmarksView: View {
                         showDetails = false
                     }
                 
-                BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails)
+                BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, detailViewImage: detailViewImage)
                     .shadow(color: .black.opacity(0.25), radius: 10)
             }
         }
@@ -100,6 +102,7 @@ struct BookmarksView: View {
         .animation(.spring(), value: filteredBookmarks)
         .animation(.spring(), value: showDetails)
     }
+    
     init(folder: Folder?, onlyFavorites: Bool) {
         if let folder = folder {
             _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "folder == %@", folder))
