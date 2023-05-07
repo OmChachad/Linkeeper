@@ -18,18 +18,17 @@ struct MainOption: Hashable {
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.keyboardShortcut) var keyboardShortcut
+    
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
+    
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "isFavorited == true")) var favoriteBookmarks: FetchedResults<Bookmark>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var allBookmarks: FetchedResults<Bookmark>
     
     @State private var showingNewBookmarkView = false
     @State private var showingNewFolderView = false
     
     @State var mode: EditMode = .inactive
-    
-    @State private var selection = Set<MainOption>()
-    
-    @State private var deleteConfirmation = false
-    
-    @State private var folderIsSelected: Bool = false
     
     @State private var mainOptions: [MainOption] = [
         MainOption(title: "All", symbol: "tray.fill", color: Color(UIColor.darkGray), onlyFavorites: false),
@@ -37,32 +36,36 @@ struct ContentView: View {
     ]
     
     var body: some View {
-        NavigationView {
+        NavigationView  {
             Group {
                 List {
                     ForEach(mainOptions, id: \.self) { option in
-                        NavigationLink {
-                            BookmarksView(folder: nil, onlyFavorites: option.onlyFavorites)
-                        } label : {
+                        NavigationLink(destination: BookmarksView(folder: nil, onlyFavorites: option.onlyFavorites)) {
                             HStack {
+                                Label {
+                                    Text(option.title)
+                                        .bold()
+                                        .padding(.leading, 5)
+                                } icon: {
+                                    iconCircle(symbol: option.symbol, color: option.color)
+                                        .padding(.leading, 5)
+                                }
                                 
-                                Image(systemName: option.symbol)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 18, height: 18)
-                                    .padding(10)
-                                    .background(option.color)
-                                    .foregroundColor(.white)
-                                    .clipShape(Circle())
-                                Text(option.title)
-                                    .bold()
                                 Spacer()
                                 
-                                if let count = try? moc.count(for: NSFetchRequest<NSFetchRequestResult>(entityName: "Bookmark")) {
-                                    Text(String(count))
-                                        .foregroundColor(.secondary)
-                                    
-                                }
+//                                if option.onlyFavorites == false {
+//                                    if let count = try? moc.count(for: NSFetchRequest<NSFetchRequestResult>(entityName: "Bookmark")) {
+//                                        Text(String(count))
+//                                            .foregroundColor(.secondary)
+//                                    }
+//                                } else {
+//                                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Bookmark")
+//                                    fetchRequest.predicate = NSPredicate(format: "isFavorited == true")
+//                                    if let count = try? moc.count(for: fetchRequest) {
+                                Text(String(option.onlyFavorites ? favoriteBookmarks.count : allBookmarks.count))
+                                                    .foregroundColor(.secondary)
+//                                    }
+//                                }
                             }
                             .frame(height: 70)
                         }
@@ -74,41 +77,7 @@ struct ContentView: View {
                             NavigationLink {
                                 BookmarksView(folder: folder, onlyFavorites: false)
                             } label: {
-                                FolderItemView(folder: folder, deleteConfirmation: $deleteConfirmation)
-                                    .confirmationDialog("Do you want to delete \(pluralizedBookmark(folder)) inside \(folder.wrappedTitle) too?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-                                        Button("Delete \(pluralizedBookmark(folder))", role: .destructive) {
-                                            withAnimation {
-                                                for i in 0...(folder.bookmarksArray.count - 1) {
-                                                    moc.delete(folder.bookmarksArray[i])
-                                                }
-                                                moc.delete(folder)
-                                                try? moc.save()
-                                            }
-                                        }
-                                        
-                                        Button("Keep \(pluralizedBookmark(folder))") {
-                                            withAnimation {
-                                                moc.delete(folder)
-                                                try? moc.save()
-                                            }
-                                        }
-                                    } message: {
-                                        Text("\(pluralizedBookmark(folder)) will be deleted.")
-                                    }
-                            }
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button(role: .destructive) {
-                                    if folder.bookmarksArray.count == 0 {
-                                        withAnimation {
-                                            moc.delete(folder)
-                                            try? moc.save()
-                                        }
-                                    } else {
-                                        deleteConfirmation = true
-                                    }
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
+                                FolderItemView(folder: folder)
                             }
                             .swipeActions(edge: .trailing) {
                                 if mode == .inactive {
@@ -126,18 +95,19 @@ struct ContentView: View {
                     }
                     .headerProminence(.increased)
                 }
-                .listStyle(InsetGroupedListStyle())
+                .listStyle(.insetGrouped)
                 
             }
             .navigationBarTitle("Folders")
             .navigationViewStyle(.automatic)
             .toolbar {
-                ToolbarItemGroup(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         
                     } label: {
                         Image(systemName: "gear")
                     }
+                    .keyboardShortcut(",", modifiers: .command)
                 }
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     EditButton()
@@ -145,27 +115,21 @@ struct ContentView: View {
                 
                 ToolbarItemGroup(placement: .bottomBar) {
                     HStack {
-                            Button {
-                                showingNewBookmarkView = true
-                            } label: {
-                                HStack {
-                                    Image(systemName: "plus.circle.fill")
-                                    Text("New Bookmark")
-                                }
-                                .font(.headline)
+                        Button {
+                            showingNewBookmarkView = true
+                        } label: {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                Text("New Bookmark")
                             }
-                            
-                            Spacer()
-                            
-                            Button("Add Folder") {
-                                showingNewFolderView = true
-                            }
-//                        } else {
-//                            Button("Add Folder") {
-//                                showingNewFolderView = true
-//                            }
-//                            Spacer()
-//                        }
+                            .font(.headline)
+                        } .keyboardShortcut("n", modifiers: .command)
+                        
+                        Spacer()
+                        
+                        Button("Add Folder") {
+                            showingNewFolderView = true
+                        }
                     }
                 }
             }
@@ -175,9 +139,6 @@ struct ContentView: View {
                 .font(.title)
                 .foregroundColor(.secondary)
         }
-        .onChange(of: folderIsSelected) { new in
-            print("State Changed to \(String(describing: new))")
-        }
         .sheet(isPresented: $showingNewBookmarkView) {
             AddBookmarkView()
         }
@@ -186,12 +147,30 @@ struct ContentView: View {
         }
     }
     
+    func bookmarksCount(excludeFavourites: Bool) -> Int {
+        if excludeFavourites {
+            if let count = try? moc.count(for: NSFetchRequest<NSFetchRequestResult>(entityName: "Bookmark")) {
+                return count
+            }
+        } else {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Bookmark")
+            fetchRequest.predicate = NSPredicate(format: "isFavorited == true")
+            if let count = try? moc.count(for: fetchRequest) {
+                return count
+            }
+        }
+        
+        return 0
+    }
+    
     func delete(at offset: IndexSet) {
         offset.map { folders[$0] }.forEach(moc.delete)
         
         try? moc.save()
     }
-    private func moveItem(at sets:IndexSet,destination:Int){
+    
+    private func moveItem(at sets:IndexSet,destination:Int) {
+        // Source: https://github.com/recoding-io/swiftui-videos/blob/main/Core_Data_Order_List/Shared/ContentView.swift
         let itemToMove = sets.first!
         
         if itemToMove < destination{
@@ -224,58 +203,81 @@ struct ContentView: View {
         catch{
             print(error.localizedDescription)
         }
-        
-    }
-    
-    func pluralizedBookmark(_ folder: Folder) -> String {
-        if folder.bookmarksArray.count > 1 {
-            return "Bookmarks"
-        } else {
-            return "Bookmark"
-        }
     }
 }
-
+func pluralizedBookmark(_ folder: Folder) -> String {
+    if folder.bookmarksArray.count > 1 {
+        return "Bookmarks"
+    } else {
+        return "Bookmark"
+    }
+}
 
 struct FolderItemView: View {
     @Environment(\.managedObjectContext) var moc
     @ObservedObject var bookmarksInFolder = bookmarksCountFetcher()
     var folder: Folder
     
-    @Binding var deleteConfirmation: Bool
+    @State private var deleteConfirmation: Bool = false
     
     var body: some View {
         HStack {
             Label {
                 Text(folder.wrappedTitle)
                     .lineLimit(1)
+                    .padding(.leading, 5)
             } icon: {
-                Image(systemName: folder.wrappedSymbol)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 18, height: 18)
-                    .padding(10)
-                    .foregroundColor(.white)
-                    .background(folder.wrappedColor)
-                    .clipShape(Circle())
-                    .padding([.top, .bottom, .trailing], 4)
+                iconCircle(symbol: folder.wrappedSymbol, color: folder.wrappedColor)
+                    .padding(.leading, 5)
             }
+           
             
             Spacer()
             
             Text("\(bookmarksInFolder.count(context: moc, folder: folder))")
                 .foregroundColor(.secondary)
-            
-            
         }
-        
         .contextMenu {
             Button {
-                // Code to Edit Bookmark
+                // Code to Edit Folder
             } label: {
                 Label("Edit", systemImage: "pencil")
             }
             
+            Button(role: .destructive) {
+                if folder.bookmarksArray.count == 0 {
+                    withAnimation {
+                        moc.delete(folder)
+                        try? moc.save()
+                    }
+                } else {
+                    deleteConfirmation = true
+                }
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+        }
+        .confirmationDialog("Do you want to delete \(pluralizedBookmark(folder)) inside \(folder.wrappedTitle) too?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+            Button("Delete \(pluralizedBookmark(folder))", role: .destructive) {
+                withAnimation {
+                    for i in 0...(folder.bookmarksArray.count - 1) {
+                        moc.delete(folder.bookmarksArray[i])
+                    }
+                    moc.delete(folder)
+                    try? moc.save()
+                }
+            }
+            
+            Button("Keep \(pluralizedBookmark(folder))") {
+                withAnimation {
+                    moc.delete(folder)
+                    try? moc.save()
+                }
+            }
+        } message: {
+            Text("\(pluralizedBookmark(folder)) will be deleted.")
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button(role: .destructive) {
                 if folder.bookmarksArray.count == 0 {
                     withAnimation {
@@ -301,6 +303,21 @@ struct FolderItemView: View {
     }
 }
 
+struct iconCircle: View {
+    var symbol: String
+    var color: Color
+    
+    var body: some View {
+        Image(systemName: symbol)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 20, height: 20)
+            .padding(10)
+            .foregroundColor(.white)
+            .background(color, in: Circle())
+            .padding([.top, .bottom, .trailing], 5)
+    }
+}
 
 
 struct ContentView_Previews: PreviewProvider {

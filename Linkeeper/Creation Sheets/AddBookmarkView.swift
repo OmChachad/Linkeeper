@@ -13,6 +13,8 @@ import Shimmer
 struct AddBookmarkView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.keyboardShortcut) var keyboardShortcut
+    
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     
     var folderPreset: Folder?
@@ -74,10 +76,12 @@ struct AddBookmarkView: View {
                                 .tag(folder as Folder?)
                         }
                     }
-                    
-                    Button { addingNewFolder = true } label: {
-                        Label("Create Folder", systemImage: "plus")
-                    }
+
+//                    Button {
+//                        addingNewFolder.toggle()
+//                    } label: {
+//                        Label("Create Folder", systemImage: "plus")
+//                    }
                 }
                 
                 Section {
@@ -88,36 +92,42 @@ struct AddBookmarkView: View {
                 }
             }
             .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Button("Add") {
-                        let sanitisedURL = URL(string: url)?.sanitise
-                        let bookmark = Bookmark(context: moc)
-                        bookmark.id = UUID()
-                        bookmark.title = title
-                        bookmark.date = Date.now
-                        bookmark.host = host
-                        bookmark.notes = notes
-                        bookmark.url = sanitisedURL?.absoluteString
-                        bookmark.folder = folder
-                        
-                        try? moc.save()
-                        
-                        dismiss()
-                        showDonePopUp = true
-                    }
-                    .disabled(!url.isValidURL || title.isEmpty)
-                    .shimmering(active: url.isValidURL && title.isEmpty)
-                    
-                }
-                
-                ToolbarItemGroup(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .confirmationAction) {
                     if url.isValidURL && title.isEmpty {
                         ProgressView()
                             .opacity(0.7)
+                    } else {
+                        Button("Add") {
+                            let sanitisedURL = URL(string: url)?.sanitise
+                            let bookmark = Bookmark(context: moc)
+                            bookmark.id = UUID()
+                            bookmark.title = title
+                            bookmark.date = Date.now
+                            bookmark.host = host
+                            bookmark.notes = notes
+                            bookmark.url = sanitisedURL?.absoluteString
+                            bookmark.folder = folder
+                            
+                            try? moc.save()
+                            
+                            dismiss()
+                            showDonePopUp = true
+                        }
+                        .disabled(!url.isValidURL || title.isEmpty)
+                        .keyboardShortcut("s", modifiers: .command)
+                        .shimmering(active: url.isValidURL && title.isEmpty)
                     }
+                    
                 }
                 
-                ToolbarItemGroup(placement: .keyboard) {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .keyboardShortcut(.cancelAction)
+                }
+
+                ToolbarItem(placement: .keyboard) {
                     Spacer()
                     
                     Button(isInputActive == true ? "Done" : "") {
@@ -247,3 +257,19 @@ extension TextEditor {
         .padding(.top, 7)
     }
 }
+
+// Doesn't work, gotta think about the fix
+//func newBookmark(title: String, url: URL, host: String, notes: String, folder: Folder?) {
+//    @Environment(\.managedObjectContext) var moc
+//
+//    let bookmark = Bookmark(context: moc)
+//    bookmark.id = UUID()
+//    bookmark.title = title
+//    bookmark.date = Date.now
+//    bookmark.host = host
+//    bookmark.notes = notes
+//    bookmark.url = url.absoluteString
+//    bookmark.folder = folder
+//
+//    try? moc.save()
+//}

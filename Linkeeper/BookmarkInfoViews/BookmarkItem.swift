@@ -30,26 +30,29 @@ struct BookmarkItem: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            Group {
+            VStack {
                 switch(preview) {
-                    
+
                     case .thumbnail:
                         image!
                             .resizable()
-                            .clipped()
+                            .aspectRatio(1/1, contentMode: .fill)
+                            //.clipped()
                     case .icon:
                         ZStack {
                             Rectangle()
                                 .foregroundColor(.white)
-                            
+
                             image!
                                 .resizable()
                                 .aspectRatio(1/1, contentMode: .fit)
-                                .padding(20)
-                                .background(Color(red: 0.8980392157, green: 0.8980392157, blue: 0.9137254902))
-                                .cornerRadius(20)
-                                .clipped()
-                                .scaleEffect(0.75)
+//                                .resizable()
+//                                .aspectRatio(1/1, contentMode: .fit)
+//                                .padding(20)
+//                                .background(Color(red: 0.8980392157, green: 0.8980392157, blue: 0.9137254902))
+//                                .cornerRadius(20)
+//                                .clipped()
+//                                .scaleEffect(0.75)
                         }
                     case .firstLetter:
                         if let firstChar: Character = bookmark.wrappedTitle.first {
@@ -68,10 +71,77 @@ struct BookmarkItem: View {
                             .clipped()
                 }
             }
+            //.scaledToFill()
+            .aspectRatio(1/1, contentMode: .fill)
             .background(Color.secondary.opacity(0.2))
             .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
-            .aspectRatio(4/3, contentMode: .fill)
-            .frame(minWidth: 130, idealWidth: 165, maxWidth: 165)
+            .frame(minWidth: 130, idealWidth: 165, maxWidth: 165, minHeight: 130, idealHeight: 165, maxHeight: 165)
+            .clipped()
+//                Color.clear
+//                    .aspectRatio(4/3, contentMode: .fit)
+//                    .overlay {
+//                        //                            Color.clear
+//                        //                                .aspectRatio(1, contentMode: .fit)
+//                        //                                .overlay(
+//                        //                                    Image(uiImage: UIImage(data: data)!)
+//                        //                                        .resizable()
+//                        //                                        .scaledToFill()
+//                        //                                        .accessibility(hidden: true)
+//                        //                                )
+//                        switch(preview) {
+//                            
+//                            case .thumbnail:
+//                                image!
+//                                    .resizable()
+//                                    .clipped()
+//                            case .icon:
+//                                ZStack {
+//                                    Rectangle()
+//                                        .foregroundColor(.white)
+//                                    
+//                                    image!
+//                                        .resizable()
+//                                        .scaledToFill()
+//                                        .accessibility(hidden: true)
+//                                        .frame(minWidth: 130, idealWidth: 165, maxWidth: 165)
+//                                    
+//                                        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
+//        //                                .resizable()
+//        //                                .aspectRatio(1/1, contentMode: .fit)
+//        //                                .padding(20)
+//        //                                .background(Color(red: 0.8980392157, green: 0.8980392157, blue: 0.9137254902))
+//        //                                .cornerRadius(20)
+//        //                                .clipped()
+//        //                                .scaleEffect(0.75)
+//                                }
+//                            case .firstLetter:
+//                                if let firstChar: Character = bookmark.wrappedTitle.first {
+//                                    Color(uiColor: .systemGray2)
+//                                        .overlay(
+//                                            Text(String(firstChar))
+//                                                .font(.largeTitle.weight(.medium))
+//                                                .foregroundColor(.white)
+//                                                .scaleEffect(2)
+//                                        )
+//                                        .frame(minWidth: 130, idealWidth: 165, maxWidth: 165)
+//                                        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
+//                                }
+//                            default:
+//                                Rectangle()
+//                                    .foregroundColor(.secondary.opacity(0.5))
+//                                    .shimmering(active: isShimmering)
+//                                    .clipped()
+//                                    .frame(minWidth: 130, idealWidth: 165, maxWidth: 165)
+//                                    .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
+//                        }
+//                    }
+//                    .clipShape(Rectangle())
+//                    .accessibility(hidden: true)
+//            }
+//            .background(Color.secondary.opacity(0.2))
+////            .aspectRatio(4/3, contentMode: .fill)
+////            .frame(minWidth: 130, idealWidth: 165, maxWidth: 165)
+            
             
             VStack(alignment: .leading, spacing: 0) {
                 Text(bookmark.wrappedTitle)
@@ -89,6 +159,7 @@ struct BookmarkItem: View {
             .padding(.vertical, 10)
         }
         .background(Color(UIColor.systemGray5))
+        .frame(minWidth: 130, idealWidth: 165, maxWidth: 165)
         .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         .onTapGesture {

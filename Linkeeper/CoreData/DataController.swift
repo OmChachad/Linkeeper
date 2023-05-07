@@ -9,12 +9,20 @@ import CoreData
 import Foundation
 
 class DataController: ObservableObject {
-    let container = NSPersistentContainer(name: "Linkeeper")
-    
+    let persistentCloudKitContainer: NSPersistentCloudKitContainer
+        
     init() {
-        container.loadPersistentStores { description, error in
+        persistentCloudKitContainer = NSPersistentCloudKitContainer(name: "Linkeeper")
+        guard let description = persistentCloudKitContainer.persistentStoreDescriptions.first else {
+            fatalError ("Failed to initialize persistent container")
+        }
+        description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+        persistentCloudKitContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        persistentCloudKitContainer.viewContext.automaticallyMergesChangesFromParent = true
+        
+        persistentCloudKitContainer.loadPersistentStores { _, error in
             if let error = error {
-                print("Core Data failed to load: \(error.localizedDescription)")
+                print("Core Data failed to load: \(error.self)")
             }
         }
     }
@@ -26,6 +34,4 @@ class DataController: ObservableObject {
             print("Error \(error.localizedDescription)")
         }
     }
-    
-    //func addBookmark
 }

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct BookmarksView: View {
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.keyboardShortcut) var keyboardShortcut
+    
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var bookmarks: FetchedResults<Bookmark>
     
     var folder: Folder?
@@ -34,7 +36,7 @@ struct BookmarksView: View {
     }
     
     var body: some View {
-        ZStack {
+        Group {
             if bookmarks.count == 0 {
                 VStack {
                     Text(favorites != true ? "You do not have any bookmarks \(folder != nil ? "in this folder" : "")" : "You do not have any favorites")
@@ -58,8 +60,8 @@ struct BookmarksView: View {
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(filteredBookmarks, id: \.self) { bookmark in
                             BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage)
-                                .frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
-                                .glow() // MARK: Make this optional in settings
+                                //.frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
+                            //    .glow() // MARK: Make this optional in settings
                             //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
                                 .transition(.opacity)
                         }
@@ -69,8 +71,9 @@ struct BookmarksView: View {
                     
                 }
             }
+        }
+        .overlay {
             if showDetails {
-                
                 Color("primaryInverted").opacity(0.6)
                     .background(.ultraThinMaterial)
                     .ignoresSafeArea()
@@ -80,14 +83,18 @@ struct BookmarksView: View {
                 
                 BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, detailViewImage: detailViewImage)
                     .shadow(color: .black.opacity(0.25), radius: 10)
+                    //.drawingGroup()
             }
         }
+        .navigationTitle(folder?.wrappedTitle ?? (favorites == true ? "Favorites" : "All Bookmarks"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if editState == .inactive {
                 Menu {
                     Button { editState = .active } label: { Label("Select", systemImage: "checkmark.circle") }
+                    
                     Button { addingBookmark.toggle() } label: { Label("Add Bookmark", systemImage: "plus") }
+                        .keyboardShortcut("n", modifiers: .command)
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }

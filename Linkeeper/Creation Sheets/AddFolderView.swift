@@ -12,6 +12,8 @@ struct AddFolderView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.keyboardShortcut) var keyboardShortcut
+    
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     
     @State private var title = ""
@@ -36,6 +38,7 @@ struct AddFolderView: View {
                         .padding()
                         .background(Circle().foregroundColor(ColorOptions.values[accentColor]))
                         .shadow(color: ColorOptions.values[accentColor] ?? .red, radius: 3)
+                        .drawingGroup()
                         .padding()
                         
                         
@@ -105,21 +108,32 @@ struct AddFolderView: View {
                 
             }
                 .toolbar {
-                    Button("Add") {
-                        let newFolder = Folder(context: moc)
-                        newFolder.id = UUID()
-                        newFolder.title = self.title
-                        newFolder.accentColor = self.accentColor
-                        newFolder.symbol = self.chosenSymbol
-                        newFolder.index = Int16((folders.last?.index ?? 0) + 1)
-                        if moc.hasChanges {
-                            try? moc.save()
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Add") {
+                            let newFolder = Folder(context: moc)
+                            newFolder.id = UUID()
+                            newFolder.title = self.title
+                            newFolder.accentColor = self.accentColor
+                            newFolder.symbol = self.chosenSymbol
+                            newFolder.index = Int16((folders.last?.index ?? 0) + 1)
+                            if moc.hasChanges {
+                                try? moc.save()
+                            }
+                            dismiss()
                         }
-                        dismiss()
+                        .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        .keyboardShortcut("s", modifiers: .command)
                     }
-                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") {
+                            dismiss()
+                        }
+                        .keyboardShortcut(.cancelAction)
+                    }
 
                 }
+                .navigationViewStyle(.stack)
                 .navigationTitle(title.isEmpty ? "New Folder" : title)
         }
     }
