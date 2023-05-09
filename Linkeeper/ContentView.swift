@@ -53,19 +53,8 @@ struct ContentView: View {
                                 
                                 Spacer()
                                 
-//                                if option.onlyFavorites == false {
-//                                    if let count = try? moc.count(for: NSFetchRequest<NSFetchRequestResult>(entityName: "Bookmark")) {
-//                                        Text(String(count))
-//                                            .foregroundColor(.secondary)
-//                                    }
-//                                } else {
-//                                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Bookmark")
-//                                    fetchRequest.predicate = NSPredicate(format: "isFavorited == true")
-//                                    if let count = try? moc.count(for: fetchRequest) {
                                 Text(String(option.onlyFavorites ? favoriteBookmarks.count : allBookmarks.count))
                                                     .foregroundColor(.secondary)
-//                                    }
-//                                }
                             }
                             .frame(height: 70)
                         }
@@ -78,15 +67,6 @@ struct ContentView: View {
                                 BookmarksView(folder: folder, onlyFavorites: false)
                             } label: {
                                 FolderItemView(folder: folder)
-                            }
-                            .swipeActions(edge: .trailing) {
-                                if mode == .inactive {
-                                    Button {
-                                        // Edit Folder Actions
-                                    } label: {
-                                        Label("Edit", systemImage: "pencil")
-                                    }
-                                }
                             }
                         }
                         .onMove(perform: moveItem)
@@ -165,7 +145,7 @@ struct ContentView: View {
     
     func delete(at offset: IndexSet) {
         offset.map { folders[$0] }.forEach(moc.delete)
-        
+
         try? moc.save()
     }
     
@@ -205,18 +185,15 @@ struct ContentView: View {
         }
     }
 }
-func pluralizedBookmark(_ folder: Folder) -> String {
-    if folder.bookmarksArray.count > 1 {
-        return "Bookmarks"
-    } else {
-        return "Bookmark"
-    }
-}
 
 struct FolderItemView: View {
     @Environment(\.managedObjectContext) var moc
     @ObservedObject var bookmarksInFolder = bookmarksCountFetcher()
     var folder: Folder
+    
+    @State private var editingFolder = false
+    
+    @Environment(\.editMode) var editMode
     
     @State private var deleteConfirmation: Bool = false
     
@@ -239,7 +216,7 @@ struct FolderItemView: View {
         }
         .contextMenu {
             Button {
-                // Code to Edit Folder
+                editingFolder = true
             } label: {
                 Label("Edit", systemImage: "pencil")
             }
@@ -257,8 +234,8 @@ struct FolderItemView: View {
                 Label("Delete", systemImage: "trash")
             }
         }
-        .confirmationDialog("Do you want to delete \(pluralizedBookmark(folder)) inside \(folder.wrappedTitle) too?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-            Button("Delete \(pluralizedBookmark(folder))", role: .destructive) {
+        .confirmationDialog("Do you want to delete ^[\(folder.countOfBookmarks) Bookmarks](inflect: true) inside \(folder.wrappedTitle) too?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+            Button("Delete ^[\(folder.countOfBookmarks) Bookmarks](inflect: true)", role: .destructive) {
                 withAnimation {
                     for i in 0...(folder.bookmarksArray.count - 1) {
                         moc.delete(folder.bookmarksArray[i])
@@ -268,17 +245,17 @@ struct FolderItemView: View {
                 }
             }
             
-            Button("Keep \(pluralizedBookmark(folder))") {
+            Button("Keep ^[\(folder.countOfBookmarks) Bookmarks](inflect: true)") {
                 withAnimation {
                     moc.delete(folder)
                     try? moc.save()
                 }
             }
         } message: {
-            Text("\(pluralizedBookmark(folder)) will be deleted.")
+            Text("^[\(folder.countOfBookmarks) Bookmarks](inflect: true) will be deleted.")
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button(role: .destructive) {
+            Button {
                 if folder.bookmarksArray.count == 0 {
                     withAnimation {
                         moc.delete(folder)
@@ -290,6 +267,19 @@ struct FolderItemView: View {
             } label: {
                 Label("Delete", systemImage: "trash")
             }
+            .tint(.red)
+        }
+        .swipeActions(edge: .trailing) {
+            if editMode?.wrappedValue == .inactive {
+                Button {
+                    editingFolder = true
+                } label: {
+                    Label("Edit", systemImage: "pencil")
+                }
+            }
+        }
+        .sheet(isPresented: $editingFolder) {
+            AddFolderView(existingFolder: folder)
         }
     }
     

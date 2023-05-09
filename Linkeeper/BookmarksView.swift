@@ -27,6 +27,9 @@ struct BookmarksView: View {
     
     @State private var detailViewImage: DetailsPreview?
     
+    @State private var selectedBookmarks: Set<Bookmark> = []
+    @State private var deleteConfirmation = false
+    
     var columns: [GridItem] {
         if UIDevice.current.model == "iPhone" {
             return [UIScreen.main.bounds.width == 320  ? GridItem(.adaptive(minimum: 130, maximum: 180), spacing: 20) : GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 20)]
@@ -59,11 +62,20 @@ struct BookmarksView: View {
                     }
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(filteredBookmarks, id: \.self) { bookmark in
-                            BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage)
-                                //.frame(minHeight: 156, idealHeight: 218.2, maxHeight: 218.2)
-                            //    .glow() // MARK: Make this optional in settings
-                            //  .shadow(color: .secondary.opacity(0.5), radius: 3) // MARK: Make this optional in settings
-                                .transition(.opacity)
+                            BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage, selectedBookmarks: $selectedBookmarks)
+//                                .allowsHitTesting(editState == .inactive)
+//                                .opacity(selectedBookmarks.contains(bookmark) ? 0.75 : 1)
+//                            //    .glow() // MARK: Make this optional in settings // MARK: Make this optional in settings
+//                                .transition(.opacity)
+//                                .onTapGesture {
+//                                    if editState == .active {
+//                                        if selectedBookmarks.contains(bookmark) {
+//                                            selectedBookmarks.remove(bookmark)
+//                                        } else {
+//                                            selectedBookmarks.insert(bookmark)
+//                                        }
+//                                    }
+//                                }
                         }
                     }
                     .searchable(text: $searchText, prompt: "Find a bookmark...")
@@ -75,15 +87,13 @@ struct BookmarksView: View {
         .overlay {
             if showDetails {
                 Color("primaryInverted").opacity(0.6)
-                    .background(.ultraThinMaterial)
+                    .background(.thinMaterial)
                     .ignoresSafeArea()
                     .onTapGesture {
-                        showDetails = false
+                        showDetails.toggle()
                     }
                 
                 BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, detailViewImage: detailViewImage)
-                    .shadow(color: .black.opacity(0.25), radius: 10)
-                    //.drawingGroup()
             }
         }
         .navigationTitle(folder?.wrappedTitle ?? (favorites == true ? "Favorites" : "All Bookmarks"))
@@ -102,12 +112,52 @@ struct BookmarksView: View {
                 Button("Done") { editState = .inactive }
             }
         }
+        .overlay {
+            if editState == .active {
+                HStack {
+                    Button() {
+                        deleteConfirmation.toggle()
+                    } label: {
+                        Image(systemName: "trash")
+                            .imageScale(.large)
+                    }
+                    .disabled(selectedBookmarks.isEmpty)
+                    .confirmationDialog("Are you sure you want to delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+                        Button("Delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)", role: .destructive) {
+                            selectedBookmarks.forEach { bookmark in
+                                moc.delete(bookmark)
+                            }
+                            try? moc.save()
+                            
+                            editState = .inactive
+                        }
+                    } message: {
+                        Text("^[\(selectedBookmarks.count) Bookmark](inflect: true) will be deleted from all your iCloud devices.")
+                    }
+                    
+                    Spacer()
+                        .frame(width: 20)
+                    Button() {
+                        
+                    } label: {
+                        Image(systemName: "folder")
+                            .imageScale(.large)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(.ultraThinMaterial)
+                .frame(maxHeight: .infinity, alignment: .bottom)
+                .transition(.move(edge: .bottom))
+            }
+        }
         .environment(\.editMode, $editState)
         .sheet(isPresented: $addingBookmark) {
             AddBookmarkView(folderPreset: folder)
         }
         .animation(.spring(), value: filteredBookmarks)
         .animation(.spring(), value: showDetails)
+        .animation(.easeInOut.speed(0.5), value: editState)
     }
     
     init(folder: Folder?, onlyFavorites: Bool) {

@@ -33,7 +33,6 @@ struct BookmarkDetails: View {
     @State private var showRemovedFromFav = false
     
     var body: some View {
-        
             VStack {
                 Flashcard(editing: $editing) {
                     frontView()
@@ -42,6 +41,7 @@ struct BookmarkDetails: View {
                 }
             }
             .frame(maxHeight: 400)
+            .shadow(color: .black.opacity(0.25), radius: 10)
             .onAppear {
                 title = bookmark.wrappedTitle
                 notes = bookmark.wrappedNotes
@@ -59,16 +59,12 @@ struct BookmarkDetails: View {
                         .scaledToFit()
                         .scaledToFill()
                 case .icon:
-                    ZStack {
-                        detailViewImage?.image!
-                            .resizable()
-                            .scaledToFit()
-                            //.padding(20)
-                    }
-                    .background(.regularMaterial)
-                    .cornerRadius(20)
-                    .padding(20)
-                    //.scaledToFill()
+                    detailViewImage?.image!
+                        .resizable()
+                        .aspectRatio(1/1, contentMode: .fit)
+                        .background(.regularMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                        .padding(15)
                 case .firstLetter:
                     if let firstChar: Character = bookmark.wrappedTitle.first {
                         Color(uiColor: .systemGray2)
@@ -110,10 +106,16 @@ struct BookmarkDetails: View {
                     Image(systemName: "safari")
                 }
                 
-                Button() {
-                    
-                } label: {
-                    Image(systemName: "square.and.arrow.up")
+                if #available(iOS 16.0, *) {
+                    ShareLink(item: bookmark.wrappedURL) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                } else {
+                    Button {
+                        share(url: bookmark.wrappedURL)
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                    }
                 }
                 
                 Button {
@@ -142,26 +144,29 @@ struct BookmarkDetails: View {
                 .padding(10)
                 .background(Color(.systemGray4))
             
-            VStack(alignment: .leading, spacing: 0) {
-                Text(bookmark.wrappedTitle)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Title", in: namespace)
-                Text(bookmark.wrappedHost)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.callout)
-                    .foregroundColor(.secondary)
-                    .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Host", in: namespace)
-                
-                if !bookmark.wrappedNotes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    Spacer()
-                        .frame(height: 20)
-                    
-                    Text("NOTES")
+            AdaptiveScrollView(notes: bookmark.wrappedNotes) {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(bookmark.wrappedTitle)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Title", in: namespace)
+                    Text(bookmark.wrappedHost)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .font(.callout)
                         .foregroundColor(.secondary)
-                        .font(.headline)
-                    Text(bookmark.wrappedNotes)
+                        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Host", in: namespace)
+                    
+                    if !bookmark.wrappedNotes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        Spacer()
+                            .frame(height: 20)
+                        
+                        Text("NOTES")
+                            .foregroundColor(.secondary)
+                            .font(.headline)
+                        Text(bookmark.wrappedNotes)
+                    }
                 }
-            }.padding(20)
+                .padding(20)
+            }
         }
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
@@ -321,3 +326,21 @@ struct Flashcard<Front, Back>: View where Front: View, Back: View {
 //            }
 //        }
 //}
+
+
+struct AdaptiveScrollView<Content: View>: View {
+    var notes: String
+    
+    @ViewBuilder var content: () -> Content
+    var body: some View {
+        Group {
+            if notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                content()
+            } else {
+                ScrollView {
+                    content()
+                }
+            }
+        }
+    }
+}

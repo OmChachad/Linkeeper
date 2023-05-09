@@ -16,6 +16,8 @@ struct AddFolderView: View {
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     
+    var existingFolder: Folder?
+    
     @State private var title = ""
     @State private var accentColor = "gray"
     @State private var chosenSymbol = "car.fill"
@@ -25,20 +27,23 @@ struct AddFolderView: View {
     
     var rows = Array(repeating: GridItem(.flexible()), count: 3)
     
+    init() {}
+    init(existingFolder: Folder?) {
+        self.existingFolder = existingFolder
+    }
+    
     var body: some View {
         NavigationView {
             Form {
                 Section {
                     VStack() {
                     Image(systemName: chosenSymbol)
-                        .resizable()
-                        .scaledToFit()
+                        .font(.largeTitle)
                         .foregroundColor(.white)
-                        .frame(width: 50, height: 50)
                         .padding()
+                        .frame(width: 75, height: 75)
                         .background(Circle().foregroundColor(ColorOptions.values[accentColor]))
                         .shadow(color: ColorOptions.values[accentColor] ?? .red, radius: 3)
-                        .drawingGroup()
                         .padding()
                         
                         
@@ -83,14 +88,15 @@ struct AddFolderView: View {
                                     
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 10)
-                                            .frame(width: 40, height: 40)
                                             .opacity(chosenSymbol == symbol ? 0.15 : 0)
                                         
                                         Image(systemName: symbol)
                                             .foregroundColor(.secondary)
-                                            .onTapGesture {
-                                                chosenSymbol = symbol
-                                            }
+                                    }
+                                    .frame(width: 40, height: 40)
+                                    .contentShape(RoundedRectangle(cornerRadius: 10))
+                                    .onTapGesture {
+                                        chosenSymbol = symbol
                                     }
                                 }
                             }
@@ -109,20 +115,34 @@ struct AddFolderView: View {
             }
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
-                        Button("Add") {
-                            let newFolder = Folder(context: moc)
-                            newFolder.id = UUID()
-                            newFolder.title = self.title
-                            newFolder.accentColor = self.accentColor
-                            newFolder.symbol = self.chosenSymbol
-                            newFolder.index = Int16((folders.last?.index ?? 0) + 1)
-                            if moc.hasChanges {
-                                try? moc.save()
+                        Group {
+                            if existingFolder == nil {
+                                Button("Add") {
+                                    let newFolder = Folder(context: moc)
+                                    newFolder.id = UUID()
+                                    newFolder.title = self.title
+                                    newFolder.accentColor = self.accentColor
+                                    newFolder.symbol = self.chosenSymbol
+                                    newFolder.index = Int16((folders.last?.index ?? 0) + 1)
+                                    if moc.hasChanges {
+                                        try? moc.save()
+                                    }
+                                    dismiss()
+                                }
+                            } else {
+                                Button("Save") {
+                                    existingFolder!.title = self.title
+                                    existingFolder!.accentColor = self.accentColor
+                                    existingFolder!.symbol = self.chosenSymbol
+                                    if moc.hasChanges {
+                                        try? moc.save()
+                                    }
+                                    dismiss()
+                                }
                             }
-                            dismiss()
                         }
-                        .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                        .keyboardShortcut("s", modifiers: .command)
+                            .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                            .keyboardShortcut("s", modifiers: .command)
                     }
                     
                     ToolbarItem(placement: .cancellationAction) {
@@ -134,7 +154,14 @@ struct AddFolderView: View {
 
                 }
                 .navigationViewStyle(.stack)
-                .navigationTitle(title.isEmpty ? "New Folder" : title)
+                .navigationTitle(title.isEmpty ? (existingFolder == nil ? "New Folder" : "Edit Folder") : title)
+        }
+        .onAppear {
+            if let folder = self.existingFolder {
+                self.title = folder.wrappedTitle
+                self.accentColor = folder.accentColor ?? "gray"
+                self.chosenSymbol = folder.wrappedSymbol
+            }
         }
     }
     

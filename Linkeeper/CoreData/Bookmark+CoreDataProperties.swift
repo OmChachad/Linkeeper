@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension Bookmark {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Bookmark> {
@@ -38,7 +37,7 @@ extension Bookmark {
     }
     
     public var wrappedURL: URL {
-        URL(string: url!)!.sanitise
+        URL(string: url ?? "https://starlightapps.org")!.sanitise
     }
     
     public var wrappedDate: Date {
