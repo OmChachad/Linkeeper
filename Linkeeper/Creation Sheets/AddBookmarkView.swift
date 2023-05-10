@@ -34,6 +34,10 @@ struct AddBookmarkView: View {
     @State private var addingNewFolder = false
     @State private var showDonePopUp = false
     
+    var pasteboardContents: String? {
+        return UIPasteboard.general.string
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -48,13 +52,13 @@ struct AddBookmarkView: View {
                         Divider()
                         
                         Button {
-                            self.url = UIPasteboard.general.string!
+                            self.url = pasteboardContents!
                         } label: {
                             Image(systemName: "doc.on.clipboard")
                                 .padding(.leading, 10)
                         }
                         .buttonStyle(.borderless)
-                        .disabled(!UIPasteboard.general.hasURLs)
+                        .disabled(pasteboardContents?.isValidURL == false)
                     }
                 }
                 
@@ -77,11 +81,11 @@ struct AddBookmarkView: View {
                         }
                     }
 
-//                    Button {
-//                        addingNewFolder.toggle()
-//                    } label: {
-//                        Label("Create Folder", systemImage: "plus")
-//                    }
+                    Button {
+                        addingNewFolder.toggle()
+                    } label: {
+                        Text("Create New Folder")
+                    }
                 }
                 
                 Section {
