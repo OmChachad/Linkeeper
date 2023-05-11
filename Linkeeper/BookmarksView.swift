@@ -30,11 +30,11 @@ struct BookmarksView: View {
     @State private var selectedBookmarks: Set<Bookmark> = []
     @State private var deleteConfirmation = false
     
-    var columns: [GridItem] {
-        if UIDevice.current.model == "iPhone" {
-            return [UIScreen.main.bounds.width == 320  ? GridItem(.adaptive(minimum: 130, maximum: 180), spacing: 20) : GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 20)]
+    var minimumItemWidth: CGFloat {
+        if UIScreen.main.bounds.width == 320 {
+            return 145
         } else {
-            return [GridItem(.adaptive(minimum: 170, maximum: 180), spacing: 20)]
+            return 160
         }
     }
     
@@ -60,27 +60,17 @@ struct BookmarksView: View {
                             .foregroundColor(.secondary)
                             .padding()
                     }
-                    LazyVGrid(columns: columns, spacing: 20) {
-                        ForEach(filteredBookmarks, id: \.self) { bookmark in
-                            BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage, selectedBookmarks: $selectedBookmarks)
-//                                .allowsHitTesting(editState == .inactive)
-//                                .opacity(selectedBookmarks.contains(bookmark) ? 0.75 : 1)
-//                            //    .glow() // MARK: Make this optional in settings // MARK: Make this optional in settings
-//                                .transition(.opacity)
-//                                .onTapGesture {
-//                                    if editState == .active {
-//                                        if selectedBookmarks.contains(bookmark) {
-//                                            selectedBookmarks.remove(bookmark)
-//                                        } else {
-//                                            selectedBookmarks.insert(bookmark)
-//                                        }
-//                                    }
-//                                }
+                    GeometryReader { geo in
+                        let columns = Array(repeating: GridItem(.flexible(minimum: minimumItemWidth, maximum: 170)), count: Int(floor(geo.size.width / 160)))
+                        LazyVGrid(columns: columns, spacing: 10) {
+                            ForEach(filteredBookmarks, id: \.self) { bookmark in
+                                BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage, selectedBookmarks: $selectedBookmarks)
+                                    .padding(5)
+                            }
                         }
+                        .animation(.spring(), value: geo.size.width)
                     }
                     .searchable(text: $searchText, prompt: "Find a bookmark...")
-                    .padding(.horizontal)
-                    
                 }
             }
         }

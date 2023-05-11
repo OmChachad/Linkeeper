@@ -68,7 +68,7 @@ struct BookmarkItem: View {
             }
             .background(Color.secondary.opacity(0.2))
             .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
-            .frame(minWidth: 130, idealWidth: 165, maxWidth: 165, minHeight: 130, idealHeight: 165, maxHeight: 165)
+            .frame(minWidth: 130, idealWidth: 170, maxWidth: 170, minHeight: 130, idealHeight: 170, maxHeight: 170)
             .clipped()
             
             
@@ -89,7 +89,7 @@ struct BookmarkItem: View {
         }
         .background(Color(UIColor.systemGray5))
         .aspectRatio(3/4, contentMode: .fill)
-        .frame(minWidth: 130, idealWidth: 165, maxWidth: 165)
+        .frame(minWidth: 130, idealWidth: 170, maxWidth: 170)
         .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         
@@ -114,62 +114,7 @@ struct BookmarkItem: View {
                     .stroke(.blue, lineWidth: 2.5)
             }
         }
-        .contextMenu {
-            Button {
-                bookmark.isFavorited.toggle()
-                try? moc.save()
-            } label: {
-                if bookmark.isFavorited == false {
-                    Label("Add to favorites", systemImage: "heart")
-                } else {
-                    Label("Remove from favorites", systemImage: "heart.slash")
-                }
-            }
-            
-    
-                Button {
-                    detailViewImage = DetailsPreview(image: image, previewState: preview)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        toBeEditedBookmark = bookmark
-                        showDetails.toggle()
-                    }
-                } label: {
-                    Label("Show details", systemImage: "info.circle")
-                }
-                .disabled(preview == .loading)
-            
-            Button {
-                UIPasteboard.general.url = bookmark.wrappedURL
-            } label: {
-                Label("Copy link", systemImage: "doc.on.doc")
-            }
-            
-            if #available(iOS 16.0, *) {
-                ShareLink(item: bookmark.wrappedURL) {
-                    Label("Share", systemImage: "square.and.arrow.up")
-                }
-            } else {
-                Button {
-                    share(url: bookmark.wrappedURL)
-                } label: {
-                    Label("Share", systemImage: "square.and.arrow.up")
-                }
-            }
-            
-            Button {
-                // Code to move
-            } label: {
-                Label("Move", systemImage: "folder")
-            }
-            
-            Button(role: .destructive) {
-                toBeDeletedBookmark = bookmark
-                deleteConfirmation = true
-            } label: {
-                Label("Delete", systemImage: "trash")
-            }
-        }
+        .contextMenu { menuItems() }
         .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
             Button("Delete Bookmark", role: .destructive) {
                 moc.delete(bookmark)
@@ -240,6 +185,62 @@ struct BookmarkItem: View {
         .animation(.default, value: selectedBookmarks)
     }
     
+    func menuItems() -> some View {
+        Group {
+            Button {
+                bookmark.isFavorited.toggle()
+                try? moc.save()
+            } label: {
+                if bookmark.isFavorited == false {
+                    Label("Add to favorites", systemImage: "heart")
+                } else {
+                    Label("Remove from favorites", systemImage: "heart.slash")
+                }
+            }
+            
+            Button {
+                detailViewImage = DetailsPreview(image: image, previewState: preview)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    toBeEditedBookmark = bookmark
+                    showDetails.toggle()
+                }
+            } label: {
+                Label("Show details", systemImage: "info.circle")
+            }
+            .disabled(preview == .loading)
+            
+            Button(action: { copy(bookmark.wrappedURL) }) {
+                Label("Copy link", systemImage: "doc.on.doc")
+            }
+            
+            if #available(iOS 16.0, *) {
+                ShareLink(item: bookmark.wrappedURL) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+            } else {
+                Button {
+                    share(url: bookmark.wrappedURL)
+                } label: {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+            }
+            
+            Button {
+                // Code to move
+            } label: {
+                Label("Move", systemImage: "folder")
+            }
+            
+            Button(role: .destructive) {
+                toBeDeletedBookmark = bookmark
+                deleteConfirmation = true
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+        }
+    }
+    
     func showPlaceHolder() {
         preview = .firstLetter
         isShimmering = false
@@ -256,6 +257,9 @@ struct BookmarkItem: View {
     }
 }
 
+func copy(_ url: URL) {
+    UIPasteboard.general.url = url
+}
 
 func share(url: URL) {
     let activityView = UIActivityViewController(activityItems: [url], applicationActivities: nil)
