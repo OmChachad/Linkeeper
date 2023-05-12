@@ -58,7 +58,7 @@ struct AddBookmarkView: View {
                                 .padding(.leading, 10)
                         }
                         .buttonStyle(.borderless)
-                        .disabled(pasteboardContents?.isValidURL == false)
+                        .disabled(pasteboardContents?.isValidURL == false || pasteboardContents == nil)
                     }
                 }
                 

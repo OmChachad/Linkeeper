@@ -30,14 +30,6 @@ struct BookmarksView: View {
     @State private var selectedBookmarks: Set<Bookmark> = []
     @State private var deleteConfirmation = false
     
-    var minimumItemWidth: CGFloat {
-        if UIScreen.main.bounds.width == 320 {
-            return 145
-        } else {
-            return 160
-        }
-    }
-    
     var body: some View {
         Group {
             if bookmarks.count == 0 {
@@ -60,18 +52,14 @@ struct BookmarksView: View {
                             .foregroundColor(.secondary)
                             .padding()
                     }
-                    GeometryReader { geo in
-                        let columns = Array(repeating: GridItem(.flexible(minimum: minimumItemWidth, maximum: 170)), count: Int(floor(geo.size.width / 160)))
-                        LazyVGrid(columns: columns, spacing: 10) {
-                            ForEach(filteredBookmarks, id: \.self) { bookmark in
-                                BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage, selectedBookmarks: $selectedBookmarks)
-                                    .padding(5)
-                            }
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 145))], spacing: 20) {
+                        ForEach(filteredBookmarks, id: \.self) { bookmark in
+                            BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage, selectedBookmarks: $selectedBookmarks)
                         }
-                        .animation(.spring(), value: geo.size.width)
                     }
-                    .searchable(text: $searchText, prompt: "Find a bookmark...")
+                    .padding(.horizontal, 10)
                 }
+                .searchable(text: $searchText, prompt: "Find a bookmark...")
             }
         }
         .overlay {
