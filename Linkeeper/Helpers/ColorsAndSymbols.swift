@@ -12,17 +12,17 @@ struct ColorOptions {
     @Environment(\.colorScheme) var colorScheme
     
     static var keys = ["gray",
-    "purple",
-    "brown",
-       "indigo",
-    "pink",
-    "blurple",
-    "orange",
-    "blue",
-    "yellow",
-    "cyan",
-    "green",
-    "mint"]
+                       "purple",
+                       "brown",
+                       "indigo",
+                       "pink",
+                       "blurple",
+                       "orange",
+                       "blue",
+                       "yellow",
+                       "cyan",
+                       "green",
+                       "mint"]
     
     static var values: [String:Color] = [
         "gray": Color(uiColor: .systemGray),

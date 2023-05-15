@@ -29,10 +29,19 @@ struct BookmarksView: View {
     
     @State private var selectedBookmarks: Set<Bookmark> = []
     @State private var deleteConfirmation = false
+    @State private var movingBookmarks = false
+    
+    var minimumItemWidth: CGFloat {
+        if UIScreen.main.bounds.width == 320 {
+            return 145
+        } else {
+            return 165
+        }
+    }
     
     var body: some View {
         Group {
-            if bookmarks.count == 0 {
+            if bookmarks.isEmpty {
                 VStack {
                     Text(favorites != true ? "You do not have any bookmarks \(folder != nil ? "in this folder" : "")" : "You do not have any favorites")
                         .foregroundColor(.secondary)
@@ -52,9 +61,11 @@ struct BookmarksView: View {
                             .foregroundColor(.secondary)
                             .padding()
                     }
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 145))], spacing: 20) {
+                    
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth))], spacing: 15) {
                         ForEach(filteredBookmarks, id: \.self) { bookmark in
                             BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage, selectedBookmarks: $selectedBookmarks)
+                                .padding(.horizontal, 5)
                         }
                     }
                     .padding(.horizontal, 10)
@@ -115,8 +126,9 @@ struct BookmarksView: View {
                     
                     Spacer()
                         .frame(width: 20)
-                    Button() {
-                        
+                    
+                    Button {
+                        movingBookmarks.toggle()
                     } label: {
                         Image(systemName: "folder")
                             .imageScale(.large)
@@ -130,8 +142,14 @@ struct BookmarksView: View {
             }
         }
         .environment(\.editMode, $editState)
+        .sheet(isPresented: $movingBookmarks) {
+            MoveBookmarksView(toBeMoved: [Bookmark](selectedBookmarks))
+        }
         .sheet(isPresented: $addingBookmark) {
             AddBookmarkView(folderPreset: folder)
+        }
+        .onChange(of: editState) { _ in
+            selectedBookmarks.removeAll()
         }
         .animation(.spring(), value: filteredBookmarks)
         .animation(.spring(), value: showDetails)
@@ -163,30 +181,5 @@ struct BookmarksView_Previews: PreviewProvider {
         NavigationView {
             BookmarksView(folder: nil, onlyFavorites: false)
         }
-    }
-}
-
-extension View {
-    /// Applies the given transform if the given condition evaluates to `true`.
-    /// - Parameters:
-    ///   - condition: The condition to evaluate.
-    ///   - transform: The transform to apply to the source `View`.
-    /// - Returns: Either the original `View` or the modified `View` if the condition is `true`.
-    @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
-        if condition {
-            transform(self)
-        } else {
-            self
-        }
-    }
-}
-
-
-//.confirmationDialog("Are you sure you want to delete \(toBeDeleted?.count == 1 ? "this bookmark? It" : "these bookmarks? They") will be deleted from all your iCloud devices.", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-
-extension View {
-    func glow() -> some View {
-            self
-                .background(self.blur(radius: 5))
     }
 }

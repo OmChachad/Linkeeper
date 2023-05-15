@@ -31,6 +31,8 @@ struct BookmarkItem: View {
     @Environment(\.editMode) var editMode
     @Binding var selectedBookmarks: Set<Bookmark>
     
+    @State private var movingBookmark = false
+    
     var body: some View {
         VStack(spacing: 0) {
             VStack {
@@ -68,7 +70,7 @@ struct BookmarkItem: View {
             }
             .background(Color.secondary.opacity(0.2))
             .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
-            .frame(minWidth: 130, idealWidth: 170, maxWidth: 170, minHeight: 130, idealHeight: 170, maxHeight: 170)
+            .frame(minWidth: 140, idealWidth: 300, maxWidth: 300, minHeight: 140, idealHeight: 300, maxHeight: 300)
             .clipped()
             
             
@@ -89,10 +91,8 @@ struct BookmarkItem: View {
         }
         .background(Color(UIColor.systemGray5))
         .aspectRatio(3/4, contentMode: .fill)
-        .frame(minWidth: 130, idealWidth: 170, maxWidth: 170)
         .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
-        
         .onTapGesture {
             if editMode?.wrappedValue == .active {
                 if selectedBookmarks.contains(bookmark) {
@@ -122,6 +122,9 @@ struct BookmarkItem: View {
             }
         } message: {
             Text("It will be deleted from all your iCloud devices.")
+        }
+        .sheet(isPresented: $movingBookmark) {
+            MoveBookmarksView(toBeMoved: [bookmark])
         }
         .task {
             cache.getImageFor(bookmark: bookmark)
@@ -227,7 +230,7 @@ struct BookmarkItem: View {
             }
             
             Button {
-                // Code to move
+                movingBookmark.toggle()
             } label: {
                 Label("Move", systemImage: "folder")
             }
@@ -275,9 +278,4 @@ func share(url: URL) {
 struct DetailsPreview {
     var image: Image?
     var previewState: PreviewType
-
-//    init(image: Image, preview: PreviewType) {
-//        self.image = image
-//        self.previewState = preview
-//    }
 }

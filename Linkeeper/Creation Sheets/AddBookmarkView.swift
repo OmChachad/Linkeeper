@@ -202,31 +202,8 @@ struct AddBookmarkView_Previews: PreviewProvider {
 }
 
 
-extension URL { // This adds https to the URL if the URl doesn't have it already
 
-    //Source: https://stackoverflow.com/questions/70209276/how-can-i-add-http-or-https-to-a-swift-url
-    
-    var sanitise: URL {
-        if var components = URLComponents(url: self, resolvingAgainstBaseURL: false) {
-            if components.scheme == nil {
-                components.scheme = "https"
-            }
-            return components.url ?? self
-        }
-        return self
-    }
-}
 
-extension String {
-    var isValidURL: Bool {
-        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
-            return match.range.length == self.utf16.count
-        } else {
-            return false
-        }
-    }
-}
 
 
 struct FolderPickerItem: View {
@@ -244,23 +221,6 @@ struct FolderPickerItem: View {
     }
 }
 
-extension TextEditor {
-    func placeholder(_ text: String, contents: String) -> some View {
-        ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
-            self
-                .padding(EdgeInsets(top: -8, leading: -4, bottom: -7, trailing: -4))
-            if contents.isEmpty {
-                HStack {
-                    Text(text)
-                        .foregroundColor(Color(UIColor.placeholderText))
-                        .allowsHitTesting(false)
-                    Spacer()
-                }
-            }
-        }
-        .padding(.top, 7)
-    }
-}
 
 // Doesn't work, gotta think about the fix
 //func newBookmark(title: String, url: URL, host: String, notes: String, folder: Folder?) {
