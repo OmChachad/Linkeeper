@@ -17,6 +17,8 @@ struct BookmarksView: View {
     var folder: Folder?
     var favorites: Bool?
     
+    @State private var folderTitle = ""
+    
     @State private var addingBookmark = false
     @State private var searchText = ""
     
@@ -136,7 +138,7 @@ struct BookmarksView: View {
                 BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, detailViewImage: detailViewImage)
             }
         }
-        .navigationTitle(folder?.wrappedTitle ?? (favorites == true ? "Favorites" : "All Bookmarks"))
+        .navigationTitle(for: folder, folderTitle: $folderTitle, onlyFavorites: favorites ?? false)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if editState == .inactive {
@@ -206,6 +208,23 @@ struct BookmarksView: View {
         .onChange(of: editState) { _ in
             selectedBookmarks.removeAll()
         }
+        .onChange(of: folderTitle, perform: { newTitle in
+            if let folder = folder {
+                if folder.wrappedTitle != newTitle {
+                    if !newTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        folder.title = newTitle
+                        try? moc.save()
+                    } else {
+                        folderTitle = folder.wrappedTitle
+                    }
+                }
+            }
+        })
+        .onAppear {
+            if let folder = folder {
+                self.folderTitle = folder.wrappedTitle
+            }
+        }
         .animation(.spring(), value: filteredBookmarks)
         .animation(.spring(), value: showDetails)
         .animation(.easeInOut.speed(0.5), value: editState)
@@ -258,6 +277,20 @@ struct BookmarksView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             BookmarksView(folder: nil, onlyFavorites: false)
+        }
+    }
+}
+
+extension View {
+    func navigationTitle(for folder: Folder?, folderTitle: Binding<String>, onlyFavorites: Bool) -> some View {
+        Group {
+            if #available(iOS 16.0, *), folder != nil {
+                self
+                    .navigationTitle(folderTitle)
+            } else {
+                self
+                    .navigationTitle(folder?.wrappedTitle ?? (onlyFavorites == true ? "Favorites" : "All Bookmarks"))
+            }
         }
     }
 }
