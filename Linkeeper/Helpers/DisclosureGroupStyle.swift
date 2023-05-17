@@ -1,5 +1,5 @@
 //
-//  DisclosureGroup Style.swift
+//  DisclosureGroupStyle.swift
 //  Linkeeper
 //
 //  Created by Om Chachad on 17/05/23.
