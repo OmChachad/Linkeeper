@@ -29,7 +29,7 @@
 		C29050752A12B7E300817C48 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050742A12B7E300817C48 /* URL.swift */; };
 		C29050772A12B80300817C48 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050762A12B80300817C48 /* String.swift */; };
 		C29050792A12B81300817C48 /* TextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050782A12B81300817C48 /* TextEditor.swift */; };
-		C2C1BC862A14A0A300A0ADAA /* DisclosureGroup Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C1BC852A14A0A300A0ADAA /* DisclosureGroup Style.swift */; };
+		C2C1BC862A14A0A300A0ADAA /* DisclosureGroupStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C1BC852A14A0A300A0ADAA /* DisclosureGroupStyle.swift */; };
 		C2C1BC882A14A2FE00A0ADAA /* DisclosureGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C1BC872A14A2FE00A0ADAA /* DisclosureGroup.swift */; };
 		C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */; };
 		C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3F28171D93000F4AEB /* ContentView.swift */; };
@@ -73,7 +73,7 @@
 		C29050762A12B80300817C48 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		C29050782A12B81300817C48 /* TextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditor.swift; sourceTree = "<group>"; };
 		C29920052857257C00636E7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		C2C1BC852A14A0A300A0ADAA /* DisclosureGroup Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DisclosureGroup Style.swift"; sourceTree = "<group>"; };
+		C2C1BC852A14A0A300A0ADAA /* DisclosureGroupStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclosureGroupStyle.swift; sourceTree = "<group>"; };
 		C2C1BC872A14A2FE00A0ADAA /* DisclosureGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclosureGroup.swift; sourceTree = "<group>"; };
 		C2C8DC3A28171D93000F4AEB /* Linkeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linkeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeeperApp.swift; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 				C23BDA462840C70E003DD30D /* CacheManager.swift */,
 				C28B6E6828190C120030B6DD /* ColorsAndSymbols.swift */,
 				C290506C2A12B67900817C48 /* Flashcard.swift */,
-				C2C1BC852A14A0A300A0ADAA /* DisclosureGroup Style.swift */,
+				C2C1BC852A14A0A300A0ADAA /* DisclosureGroupStyle.swift */,
 				C290506B2A12B66800817C48 /* Extensions */,
 			);
 			path = Helpers;
@@ -380,7 +380,7 @@
 				C29050752A12B7E300817C48 /* URL.swift in Sources */,
 				C2D4EC7D283956AF00D24074 /* SPAlertIconErrorView.swift in Sources */,
 				C2D4EC7F283956AF00D24074 /* SPAlertIconAnimatable.swift in Sources */,
-				C2C1BC862A14A0A300A0ADAA /* DisclosureGroup Style.swift in Sources */,
+				C2C1BC862A14A0A300A0ADAA /* DisclosureGroupStyle.swift in Sources */,
 				C2D4EC7B283956AF00D24074 /* SPAlertIconHeartView.swift in Sources */,
 				C2D4EC80283956AF00D24074 /* SPAlertHaptic.swift in Sources */,
 				C2D4EC81283956AF00D24074 /* SPAlert.swift in Sources */,
