@@ -36,19 +36,6 @@
 		C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3F28171D93000F4AEB /* ContentView.swift */; };
 		C2C8DC4228171D94000F4AEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4128171D94000F4AEB /* Assets.xcassets */; };
 		C2C8DC4528171D94000F4AEB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */; };
-		C2D4EC75283956AF00D24074 /* SPAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC63283956AF00D24074 /* SPAlertView.swift */; };
-		C2D4EC76283956AF00D24074 /* SPAlertLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC65283956AF00D24074 /* SPAlertLayout.swift */; };
-		C2D4EC77283956AF00D24074 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC67283956AF00D24074 /* UILabelExtension.swift */; };
-		C2D4EC78283956AF00D24074 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC68283956AF00D24074 /* UIFontExtension.swift */; };
-		C2D4EC79283956AF00D24074 /* SwiftUIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC69283956AF00D24074 /* SwiftUIExtension.swift */; };
-		C2D4EC7A283956AF00D24074 /* SPAlertIconPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC6A283956AF00D24074 /* SPAlertIconPreset.swift */; };
-		C2D4EC7B283956AF00D24074 /* SPAlertIconHeartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC6C283956AF00D24074 /* SPAlertIconHeartView.swift */; };
-		C2D4EC7C283956AF00D24074 /* SPAlertSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC6D283956AF00D24074 /* SPAlertSpinnerView.swift */; };
-		C2D4EC7D283956AF00D24074 /* SPAlertIconErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC6E283956AF00D24074 /* SPAlertIconErrorView.swift */; };
-		C2D4EC7E283956AF00D24074 /* SPAlertIconDoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC6F283956AF00D24074 /* SPAlertIconDoneView.swift */; };
-		C2D4EC7F283956AF00D24074 /* SPAlertIconAnimatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC71283956AF00D24074 /* SPAlertIconAnimatable.swift */; };
-		C2D4EC80283956AF00D24074 /* SPAlertHaptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC73283956AF00D24074 /* SPAlertHaptic.swift */; };
-		C2D4EC81283956AF00D24074 /* SPAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D4EC74283956AF00D24074 /* SPAlert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,19 +69,6 @@
 		C2C8DC3F28171D93000F4AEB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C2C8DC4128171D94000F4AEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		C2D4EC63283956AF00D24074 /* SPAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlertView.swift; sourceTree = "<group>"; };
-		C2D4EC65283956AF00D24074 /* SPAlertLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlertLayout.swift; sourceTree = "<group>"; };
-		C2D4EC67283956AF00D24074 /* UILabelExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
-		C2D4EC68283956AF00D24074 /* UIFontExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
-		C2D4EC69283956AF00D24074 /* SwiftUIExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUIExtension.swift; sourceTree = "<group>"; };
-		C2D4EC6A283956AF00D24074 /* SPAlertIconPreset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlertIconPreset.swift; sourceTree = "<group>"; };
-		C2D4EC6C283956AF00D24074 /* SPAlertIconHeartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlertIconHeartView.swift; sourceTree = "<group>"; };
-		C2D4EC6D283956AF00D24074 /* SPAlertSpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlertSpinnerView.swift; sourceTree = "<group>"; };
-		C2D4EC6E283956AF00D24074 /* SPAlertIconErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlertIconErrorView.swift; sourceTree = "<group>"; };
-		C2D4EC6F283956AF00D24074 /* SPAlertIconDoneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlertIconDoneView.swift; sourceTree = "<group>"; };
-		C2D4EC71283956AF00D24074 /* SPAlertIconAnimatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlertIconAnimatable.swift; sourceTree = "<group>"; };
-		C2D4EC73283956AF00D24074 /* SPAlertHaptic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlertHaptic.swift; sourceTree = "<group>"; };
-		C2D4EC74283956AF00D24074 /* SPAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPAlert.swift; sourceTree = "<group>"; };
 		C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Linkeeper.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -179,7 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				C2C8DC3C28171D93000F4AEB /* Linkeeper */,
-				C2D4EC82283956F800D24074 /* Packages */,
 				C2C8DC3B28171D93000F4AEB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -218,82 +191,6 @@
 				C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		C2D4EC61283956AF00D24074 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				C2D4EC62283956AF00D24074 /* SPAlert */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		C2D4EC62283956AF00D24074 /* SPAlert */ = {
-			isa = PBXGroup;
-			children = (
-				C2D4EC63283956AF00D24074 /* SPAlertView.swift */,
-				C2D4EC64283956AF00D24074 /* Models */,
-				C2D4EC66283956AF00D24074 /* Extensions */,
-				C2D4EC6A283956AF00D24074 /* SPAlertIconPreset.swift */,
-				C2D4EC6B283956AF00D24074 /* Preset Views */,
-				C2D4EC70283956AF00D24074 /* Protocols */,
-				C2D4EC72283956AF00D24074 /* Services */,
-				C2D4EC74283956AF00D24074 /* SPAlert.swift */,
-			);
-			path = SPAlert;
-			sourceTree = "<group>";
-		};
-		C2D4EC64283956AF00D24074 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				C2D4EC65283956AF00D24074 /* SPAlertLayout.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		C2D4EC66283956AF00D24074 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				C2D4EC67283956AF00D24074 /* UILabelExtension.swift */,
-				C2D4EC68283956AF00D24074 /* UIFontExtension.swift */,
-				C2D4EC69283956AF00D24074 /* SwiftUIExtension.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		C2D4EC6B283956AF00D24074 /* Preset Views */ = {
-			isa = PBXGroup;
-			children = (
-				C2D4EC6C283956AF00D24074 /* SPAlertIconHeartView.swift */,
-				C2D4EC6D283956AF00D24074 /* SPAlertSpinnerView.swift */,
-				C2D4EC6E283956AF00D24074 /* SPAlertIconErrorView.swift */,
-				C2D4EC6F283956AF00D24074 /* SPAlertIconDoneView.swift */,
-			);
-			path = "Preset Views";
-			sourceTree = "<group>";
-		};
-		C2D4EC70283956AF00D24074 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				C2D4EC71283956AF00D24074 /* SPAlertIconAnimatable.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		C2D4EC72283956AF00D24074 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				C2D4EC73283956AF00D24074 /* SPAlertHaptic.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		C2D4EC82283956F800D24074 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				C2D4EC61283956AF00D24074 /* Sources */,
-			);
-			path = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -372,7 +269,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2D4EC79283956AF00D24074 /* SwiftUIExtension.swift in Sources */,
 				C290506D2A12B67900817C48 /* Flashcard.swift in Sources */,
 				C24DF57F283E7185003C9692 /* Folder+CoreDataProperties.swift in Sources */,
 				C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */,
@@ -382,35 +278,23 @@
 				C29050792A12B81300817C48 /* TextEditor.swift in Sources */,
 				C2B4F6C72A18E48100618411 /* AlertView.swift in Sources */,
 				C29050752A12B7E300817C48 /* URL.swift in Sources */,
-				C2D4EC7D283956AF00D24074 /* SPAlertIconErrorView.swift in Sources */,
-				C2D4EC7F283956AF00D24074 /* SPAlertIconAnimatable.swift in Sources */,
 				C2C1BC862A14A0A300A0ADAA /* DisclosureGroupStyle.swift in Sources */,
-				C2D4EC7B283956AF00D24074 /* SPAlertIconHeartView.swift in Sources */,
-				C2D4EC80283956AF00D24074 /* SPAlertHaptic.swift in Sources */,
-				C2D4EC81283956AF00D24074 /* SPAlert.swift in Sources */,
 				C24DF57D283E7185003C9692 /* Bookmark+CoreDataProperties.swift in Sources */,
 				C2C1BC882A14A2FE00A0ADAA /* DisclosureGroup.swift in Sources */,
-				C2D4EC7E283956AF00D24074 /* SPAlertIconDoneView.swift in Sources */,
 				C28B6E6928190C120030B6DD /* ColorsAndSymbols.swift in Sources */,
 				C24DF577283E65D2003C9692 /* DataController.swift in Sources */,
 				C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */,
-				C2D4EC76283956AF00D24074 /* SPAlertLayout.swift in Sources */,
 				C29050682A125EF100817C48 /* MoveBookmarksView.swift in Sources */,
-				C2D4EC7A283956AF00D24074 /* SPAlertIconPreset.swift in Sources */,
-				C2D4EC75283956AF00D24074 /* SPAlertView.swift in Sources */,
 				C243E22E282B93CD00888C96 /* BookmarkItem.swift in Sources */,
 				C24DF57C283E7185003C9692 /* Bookmark+CoreDataClass.swift in Sources */,
 				C23BDA472840C70E003DD30D /* CacheManager.swift in Sources */,
 				C24DF57E283E7185003C9692 /* Folder+CoreDataClass.swift in Sources */,
 				C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */,
-				C2D4EC78283956AF00D24074 /* UIFontExtension.swift in Sources */,
-				C2D4EC7C283956AF00D24074 /* SPAlertSpinnerView.swift in Sources */,
 				C29050732A12B7A500817C48 /* Shape.swift in Sources */,
 				C290506F2A12B77100817C48 /* View.swift in Sources */,
 				C2550E64282705F900ADA0BF /* BookmarksView.swift in Sources */,
 				C29050772A12B80300817C48 /* String.swift in Sources */,
 				C28B6E6F28193AE20030B6DD /* AddFolderView.swift in Sources */,
-				C2D4EC77283956AF00D24074 /* UILabelExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
