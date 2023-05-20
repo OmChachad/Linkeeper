@@ -146,14 +146,6 @@ struct AddBookmarkView: View {
             AddFolderView()
         }
         
-        .SPAlert(
-            isPresent: $showDonePopUp,
-            title: "Added to Bookmarks",
-            duration: 1.0,
-            preset: .done,
-            haptic: .success
-        )
-        
         .onChange(of: url) { newURL in
             title = ""
             if newURL.isValidURL {
