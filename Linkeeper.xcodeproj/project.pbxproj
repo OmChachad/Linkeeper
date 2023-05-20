@@ -29,6 +29,7 @@
 		C29050752A12B7E300817C48 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050742A12B7E300817C48 /* URL.swift */; };
 		C29050772A12B80300817C48 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050762A12B80300817C48 /* String.swift */; };
 		C29050792A12B81300817C48 /* TextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050782A12B81300817C48 /* TextEditor.swift */; };
+		C2B4F6C72A18E48100618411 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B4F6C62A18E48100618411 /* AlertView.swift */; };
 		C2C1BC862A14A0A300A0ADAA /* DisclosureGroupStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C1BC852A14A0A300A0ADAA /* DisclosureGroupStyle.swift */; };
 		C2C1BC882A14A2FE00A0ADAA /* DisclosureGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C1BC872A14A2FE00A0ADAA /* DisclosureGroup.swift */; };
 		C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */; };
@@ -73,6 +74,7 @@
 		C29050762A12B80300817C48 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		C29050782A12B81300817C48 /* TextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditor.swift; sourceTree = "<group>"; };
 		C29920052857257C00636E7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C2B4F6C62A18E48100618411 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		C2C1BC852A14A0A300A0ADAA /* DisclosureGroupStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclosureGroupStyle.swift; sourceTree = "<group>"; };
 		C2C1BC872A14A2FE00A0ADAA /* DisclosureGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclosureGroup.swift; sourceTree = "<group>"; };
 		C2C8DC3A28171D93000F4AEB /* Linkeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linkeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +200,7 @@
 				C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */,
 				C2C8DC3F28171D93000F4AEB /* ContentView.swift */,
 				C2550E63282705F900ADA0BF /* BookmarksView.swift */,
+				C2B4F6C62A18E48100618411 /* AlertView.swift */,
 				C290506A2A12B60E00817C48 /* Helpers */,
 				C252EAB02842B1B000E296F5 /* BookmarkInfoViews */,
 				C29050692A12B4FF00817C48 /* Modification */,
@@ -377,6 +380,7 @@
 				C29050712A12B79800817C48 /* Color.swift in Sources */,
 				C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */,
 				C29050792A12B81300817C48 /* TextEditor.swift in Sources */,
+				C2B4F6C72A18E48100618411 /* AlertView.swift in Sources */,
 				C29050752A12B7E300817C48 /* URL.swift in Sources */,
 				C2D4EC7D283956AF00D24074 /* SPAlertIconErrorView.swift in Sources */,
 				C2D4EC7F283956AF00D24074 /* SPAlertIconAnimatable.swift in Sources */,

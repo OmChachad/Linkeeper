@@ -46,6 +46,10 @@ struct BookmarkDetails: View {
                 title = bookmark.wrappedTitle
                 notes = bookmark.wrappedNotes
             }
+            .animation(.default, value: showAddedToFav)
+            .animation(.default, value: showRemovedFromFav)
+            .miniAlert(isPresented: $showAddedToFav, icon: "heart.fill", title: "Added to Favorites")
+            .miniAlert(isPresented: $showRemovedFromFav, icon: "heart.slash.fill", title: "Removed from Favorites")
 
     }
     
@@ -91,7 +95,13 @@ struct BookmarkDetails: View {
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5)) {
                 Button {
-                    if bookmark.isFavorited { showRemovedFromFav = true } else { showAddedToFav = true }
+                    if bookmark.isFavorited {
+                        showAddedToFav = false
+                        showRemovedFromFav = true
+                    } else {
+                        showRemovedFromFav = false
+                        showAddedToFav = true
+                    }
                     bookmark.isFavorited.toggle()
                     try! moc.save()
                 } label: {
@@ -138,8 +148,6 @@ struct BookmarkDetails: View {
                             Text("It will be deleted from all your iCloud devices.")
                         }
                 }
-                .SPAlert(isPresent: $showAddedToFav, title: "Added to Favorites!", duration: 1, dismissOnTap: true, preset: .custom(UIImage(systemName: "heart.fill")!), haptic: .success)
-                .SPAlert(isPresent: $showRemovedFromFav, title: "Removed from Favorites!", duration: 1, dismissOnTap: true, preset: .custom(UIImage(systemName: "heart.slash.fill")!), haptic: .success)
             }   .font(.title2)
                 .padding(10)
                 .background(Color(.systemGray4))
