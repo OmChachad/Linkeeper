@@ -274,17 +274,3 @@ struct BookmarksView_Previews: PreviewProvider {
         }
     }
 }
-
-extension View {
-    func navigationTitle(for folder: Folder?, folderTitle: Binding<String>, onlyFavorites: Bool) -> some View {
-        Group {
-            if #available(iOS 16.0, *), folder != nil {
-                self
-                    .navigationTitle(folderTitle)
-            } else {
-                self
-                    .navigationTitle(folder?.wrappedTitle ?? (onlyFavorites == true ? "Favorites" : "All Bookmarks"))
-            }
-        }
-    }
-}

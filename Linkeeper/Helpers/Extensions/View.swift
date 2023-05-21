@@ -9,6 +9,18 @@ import Foundation
 import SwiftUI
 
 extension View {
+    func navigationTitle(for folder: Folder?, folderTitle: Binding<String>, onlyFavorites: Bool) -> some View {
+        Group {
+            if #available(iOS 16.0, *), folder != nil {
+                self
+                    .navigationTitle(folderTitle)
+            } else {
+                self
+                    .navigationTitle(folder?.wrappedTitle ?? (onlyFavorites == true ? "Favorites" : "All Bookmarks"))
+            }
+        }
+    }
+    
     func glow() -> some View {
         self
             .background(self.blur(radius: 5))
