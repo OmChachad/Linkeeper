@@ -239,35 +239,29 @@ struct BookmarksView: View {
         }
     }
     
-    var filteredBookmarks: [Bookmark] {
-        if searchText.isEmpty {
-            return [Bookmark](bookmarks)
-        } else {
-            return bookmarks.filter {
-                if let folder = $0.folder {
-                    return ($0.wrappedTitle + $0.wrappedHost + $0.wrappedNotes + folder.wrappedTitle).localizedCaseInsensitiveContains(searchText)
-                } else {
-                    return ($0.wrappedTitle + $0.wrappedHost + $0.wrappedNotes).localizedCaseInsensitiveContains(searchText)
-                }
-            }
-        }
-    }
-    
     var ungroupedBookmarks: [Bookmark] {
-        let ungroupedBookmarks = bookmarks.filter({$0.folder == nil})
+        let ungroupedBookmarks = bookmarks.filter{$0.folder == nil}
         
         if searchText.isEmpty {
             return ungroupedBookmarks
         } else {
-            return ungroupedBookmarks.filter { ($0.wrappedTitle + $0.wrappedHost + $0.wrappedNotes).localizedCaseInsensitiveContains(searchText) }
+            return ungroupedBookmarks.filter { $0.doesMatch(searchText) }
         }
     }
     
+    var filteredBookmarks: [Bookmark] {
+            if searchText.isEmpty {
+                return [Bookmark](bookmarks)
+            } else {
+                return bookmarks.filter{ $0.doesMatch(searchText) }
+            }
+        }
+    
     func filteredBookmarks(for folder: Folder) -> [Bookmark] {
         if searchText.isEmpty {
-            return bookmarks.filter({$0.folder == folder})
+            return bookmarks.filter{ $0.folder == folder }
         } else {
-            return bookmarks.filter { $0.folder == folder && ($0.wrappedTitle + $0.wrappedHost + $0.wrappedNotes + $0.folder!.wrappedTitle).localizedCaseInsensitiveContains(searchText) }
+            return bookmarks.filter { $0.doesMatch(searchText, folder: folder) }
         }
     }
     
