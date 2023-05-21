@@ -48,6 +48,17 @@ extension Bookmark {
         String(describing: id?.uuidString)
     }
     
+    func doesMatch(_ searchText: String) -> Bool {
+        if let folder = self.folder {
+            return (self.wrappedTitle + self.wrappedHost + self.wrappedNotes + folder.wrappedTitle).localizedCaseInsensitiveContains(searchText)
+        } else {
+            return (self.wrappedTitle + self.wrappedHost + self.wrappedNotes).localizedCaseInsensitiveContains(searchText)
+        }
+    }
+    
+    func doesMatch(_ searchText: String, folder: Folder) -> Bool {
+        return self.folder == folder && (self.wrappedTitle + self.wrappedHost + self.wrappedNotes + self.folder!.wrappedTitle).localizedCaseInsensitiveContains(searchText)
+    }
 }
 
 extension Bookmark : Identifiable {
