@@ -97,7 +97,7 @@ struct BookmarksView: View {
                                                 .foregroundColor(.secondary)
                                                 .frame(maxWidth: .infinity, minHeight: 80, idealHeight: 100, maxHeight: 100)
                                                 .background(.regularMaterial)
-                                                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                                                .cornerRadius(15, style: .continuous)
                                                 .padding(.horizontal, 5)
                                         }
                                     } label: {

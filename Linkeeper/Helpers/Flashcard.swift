@@ -39,7 +39,7 @@ struct Flashcard<Front, Back>: View where Front: View, Back: View {
         }
         .frame(maxWidth: 500)
         .rotation3DEffect(.degrees(Double(contentRotation)), axis: (x: 0, y: 1, z: 0))
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .cornerRadius(20, style: .continuous)
         .padding()
         .rotation3DEffect(.degrees(Double(flashcardRotation)), axis: (x: 0, y: 1, z: 0))
 

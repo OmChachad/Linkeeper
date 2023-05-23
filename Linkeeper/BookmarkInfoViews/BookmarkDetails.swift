@@ -67,7 +67,7 @@ struct BookmarkDetails: View {
                         .resizable()
                         .aspectRatio(1/1, contentMode: .fit)
                         .background(.regularMaterial)
-                        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                        .cornerRadius(30, style: .continuous)
                         .padding(15)
                 case .firstLetter:
                     if let firstChar: Character = bookmark.wrappedTitle.first {
@@ -177,7 +177,7 @@ struct BookmarkDetails: View {
             }
         }
         .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+        .cornerRadius(15, style: .continuous)
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         .overlay {
             Button {

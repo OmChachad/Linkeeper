@@ -91,7 +91,7 @@ struct BookmarkItem: View {
         }
         .background(Color(UIColor.systemGray5))
         .aspectRatio(3/4, contentMode: .fill)
-        .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+        .cornerRadius(15, style: .continuous)
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         .onTapGesture {
             if editMode?.wrappedValue == .active {

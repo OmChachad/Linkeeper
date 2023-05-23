@@ -53,7 +53,7 @@ struct AddFolderView: View {
                         .submitLabel(.done)
                         .padding()
                         .background(colorScheme == .dark ? Color(UIColor.systemGray3) : Color(UIColor.systemGray5))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .cornerRadius(10, style: .continuous)
                         .padding(.bottom)
                     }
                 }

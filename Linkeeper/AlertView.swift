@@ -19,7 +19,7 @@ struct AlertView: View {
         .font(.headline)
         .padding()
         .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+        .cornerRadius(15, style: .continuous)
     }
 }
 
