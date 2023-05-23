@@ -35,6 +35,28 @@ struct BookmarksView: View {
     @State private var movingBookmarks = false
     
     @AppStorage("GroupAllByFolders") var groupByFolders: Bool = true
+    @AppStorage("SortMethod") private var sortMethod: SortMethod = .dateCreated
+    @AppStorage("SortDirection") private var sortDirection: SortDirection = .descending
+    
+    private enum SortMethod: String, Codable, CaseIterable {
+        case dateCreated = "Creation Date"
+        case title = "Title"
+    }
+    
+    private enum SortDirection: String, Codable, CaseIterable {
+        case ascending
+        case descending
+        
+        var label: String {
+            let sortMethod: SortMethod = SortMethod(rawValue: UserDefaults.standard.string(forKey: "SortMethod") ?? "Date Created") ?? .dateCreated
+            switch(sortMethod) {
+            case .dateCreated:
+                return self == .ascending ? "Oldest First" : "Newest First"
+            case .title:
+                return self == .ascending ? "Ascending" : "Descending"
+            }
+        }
+    }
     
     var minimumItemWidth: CGFloat {
         if UIScreen.main.bounds.width == 320 {
@@ -149,6 +171,33 @@ struct BookmarksView: View {
                         Toggle(isOn: $groupByFolders.animation(), label: { Label("Group by Folders", systemImage: "rectangle.grid.1x2") })
                     }
                     
+//                    Menu {
+//
+//                    } label: {
+//                        Label
+//                    }
+                    Menu {
+                        Picker("Sort By", selection: $sortMethod) {
+                            ForEach(SortMethod.allCases, id: \.self) { sortMethod in
+                                Text(sortMethod.rawValue)
+                                    .tag(sortMethod)
+                            }
+                        }
+                        
+                        Picker("Sort Direction", selection: $sortDirection) {
+                            ForEach(SortDirection.allCases, id: \.self) { sortDirection in
+                                Text(sortDirection.label)
+                                    .tag(sortDirection)
+                            }
+                        }
+                        
+                    } label: {
+                        Label("""
+Sort By
+\(sortMethod.rawValue)
+""", systemImage: "arrow.up.arrow.down")
+                    }
+                    
                     Button { addingBookmark.toggle() } label: { Label("Add Bookmark", systemImage: "plus") }
                         .keyboardShortcut("n", modifiers: .command)
                 } label: {
@@ -239,8 +288,19 @@ struct BookmarksView: View {
         }
     }
     
+    var sortedBookmarks: [Bookmark] {
+        let ascend = sortDirection == .ascending
+
+        switch(sortMethod) {
+        case .dateCreated:
+            return bookmarks.sorted(by: { ascend ? $0.wrappedDate < $1.wrappedDate : $0.wrappedDate > $1.wrappedDate })
+        case .title:
+            return bookmarks.sorted(by: { ascend ? $0.wrappedTitle < $1.wrappedTitle : $0.wrappedTitle > $1.wrappedTitle})
+        }
+    }
+    
     var ungroupedBookmarks: [Bookmark] {
-        let ungroupedBookmarks = bookmarks.filter{$0.folder == nil}
+        let ungroupedBookmarks = sortedBookmarks.filter{$0.folder == nil}
         
         if searchText.isEmpty {
             return ungroupedBookmarks
@@ -251,15 +311,15 @@ struct BookmarksView: View {
     
     var filteredBookmarks: [Bookmark] {
             if searchText.isEmpty {
-                return [Bookmark](bookmarks)
+                return [Bookmark](sortedBookmarks)
             } else {
-                return bookmarks.filter{ $0.doesMatch(searchText) }
+                return sortedBookmarks.filter{ $0.doesMatch(searchText) }
             }
         }
     
     func filteredBookmarks(for folder: Folder) -> [Bookmark] {
         if searchText.isEmpty {
-            return bookmarks.filter{ $0.folder == folder }
+            return sortedBookmarks.filter{ $0.folder == folder }
         } else {
             return bookmarks.filter { $0.doesMatch(searchText, folder: folder) }
         }
