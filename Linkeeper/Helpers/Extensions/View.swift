@@ -47,4 +47,9 @@ extension View {
             }
             .animation(.default, value: isPresented.wrappedValue)
     }
+    
+    func cornerRadius(_ radius: CGFloat, style: RoundedCornerStyle) -> some View {
+        self
+            .clipShape(RoundedRectangle(cornerRadius: radius, style: style))
+    }
 }
