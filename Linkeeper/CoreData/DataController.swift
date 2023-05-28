@@ -9,6 +9,8 @@ import CoreData
 import Foundation
 
 class DataController: ObservableObject {
+    static let shared = DataController()
+    
     let persistentCloudKitContainer: NSPersistentCloudKitContainer
         
     init() {
