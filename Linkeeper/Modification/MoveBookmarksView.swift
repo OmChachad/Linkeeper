@@ -102,6 +102,7 @@ struct MoveBookmarksView: View {
                         toBeMoved.forEach { bookmark in
                             bookmark.folder = selectedFolder
                         }
+                        try? moc.save()
                         dismiss()
                     }
                     .disabled(toBeMoved[0].folder == selectedFolder)
