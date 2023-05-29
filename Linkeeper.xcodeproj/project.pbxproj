@@ -26,6 +26,8 @@
 		C281D9B22A24EDEC00535807 /* DeleteBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */; };
 		C281D9B42A2501FE00535807 /* MoveBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B32A2501FE00535807 /* MoveBookmarks.swift */; };
 		C281D9B62A2512F900535807 /* FavoriteToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B52A2512F900535807 /* FavoriteToggle.swift */; };
+		C281D9B82A25277A00535807 /* DeleteFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B72A25277A00535807 /* DeleteFolder.swift */; };
+		C281D9BA2A2534E100535807 /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B92A2534E100535807 /* AddFolder.swift */; };
 		C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E66281900D70030B6DD /* AddBookmarkView.swift */; };
 		C28B6E6928190C120030B6DD /* ColorsAndSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorsAndSymbols.swift */; };
 		C28B6E6F28193AE20030B6DD /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6E28193AE20030B6DD /* AddFolderView.swift */; };
@@ -65,6 +67,8 @@
 		C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBookmarks.swift; sourceTree = "<group>"; };
 		C281D9B32A2501FE00535807 /* MoveBookmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveBookmarks.swift; sourceTree = "<group>"; };
 		C281D9B52A2512F900535807 /* FavoriteToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteToggle.swift; sourceTree = "<group>"; };
+		C281D9B72A25277A00535807 /* DeleteFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFolder.swift; sourceTree = "<group>"; };
+		C281D9B92A2534E100535807 /* AddFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolder.swift; sourceTree = "<group>"; };
 		C28B6E66281900D70030B6DD /* AddBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookmarkView.swift; sourceTree = "<group>"; };
 		C28B6E6828190C120030B6DD /* ColorsAndSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsAndSymbols.swift; sourceTree = "<group>"; };
 		C28B6E6E28193AE20030B6DD /* AddFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderView.swift; sourceTree = "<group>"; };
@@ -137,11 +141,13 @@
 			isa = PBXGroup;
 			children = (
 				C281D96C2A23D28200535807 /* BookmarkEntity.swift */,
-				C281D9702A23E32D00535807 /* FolderEntity.swift */,
 				C281D9742A24B81E00535807 /* AddBookmark.swift */,
 				C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */,
 				C281D9B32A2501FE00535807 /* MoveBookmarks.swift */,
 				C281D9B52A2512F900535807 /* FavoriteToggle.swift */,
+				C281D9702A23E32D00535807 /* FolderEntity.swift */,
+				C281D9B92A2534E100535807 /* AddFolder.swift */,
+				C281D9B72A25277A00535807 /* DeleteFolder.swift */,
 			);
 			path = "App Intents";
 			sourceTree = "<group>";
@@ -317,8 +323,10 @@
 				C2C1BC882A14A2FE00A0ADAA /* DisclosureGroup.swift in Sources */,
 				C28B6E6928190C120030B6DD /* ColorsAndSymbols.swift in Sources */,
 				C24DF577283E65D2003C9692 /* DataController.swift in Sources */,
+				C281D9BA2A2534E100535807 /* AddFolder.swift in Sources */,
 				C281D9732A23E8B300535807 /* FoldersManager.swift in Sources */,
 				C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */,
+				C281D9B82A25277A00535807 /* DeleteFolder.swift in Sources */,
 				C29050682A125EF100817C48 /* MoveBookmarksView.swift in Sources */,
 				C243E22E282B93CD00888C96 /* BookmarkItem.swift in Sources */,
 				C281D9B62A2512F900535807 /* FavoriteToggle.swift in Sources */,
