@@ -14,16 +14,12 @@ struct DeleteBookmark: AppIntent {
     // Title of the action in the Shortcuts app
     static var title: LocalizedStringResource = "Delete Bookmark"
     // Description of the action in the Shortcuts app
-    static var description: IntentDescription = IntentDescription("""
-    This action will delete the selected bookmark.
-    
-    By default you will be prompted for confirmation before the bookmark are deleted from your collection.
-    """, categoryName: "Edit")
+    static var description: IntentDescription = IntentDescription("Permanently deletes the Bookmark from all your iCloud devices.", categoryName: "Edit")
     
     @Parameter(title: "Bookmark", description: "The bookmark to be deleted from your collection.", requestValueDialog: IntentDialog("Which bookmark would you like to delete?"))
     var bookmark: BookmarkEntity
     
-    @Parameter(title: "Confirm Before Deleting", description: "If toggled, you will need to confirm the books will be deleted", default: true)
+    @Parameter(title: "Confirm Before Deleting", description: "If toggled, you will need to confirm before the book is deleted", default: true)
     var confirmBeforeDeleting: Bool
     
     static var parameterSummary: some ParameterSummary {

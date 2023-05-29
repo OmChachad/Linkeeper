@@ -12,7 +12,7 @@ import LinkPresentation
 struct AddBookmark: AppIntent {
     static var title: LocalizedStringResource = "Add Bookmark"
     
-    static var description: IntentDescription = IntentDescription("Add a new bookmark to your collection.", categoryName: "Create", searchKeywords: ["Create", "Link", "URL"])
+    static var description: IntentDescription = IntentDescription("Add a new bookmark to your collection.", categoryName: "Create", searchKeywords: ["Create", "Link", "URL", "New"])
     
     @Parameter(title: "Auto-Generate Title", description: """
 If enabled, the title of the bookmark will be generated based on the webpage's title. You can always change it later.
@@ -31,14 +31,12 @@ If disabled, you can add a title yourself.
     
     static var parameterSummary: some ParameterSummary {
         When(\AddBookmark.$autoTitle, .equalTo, true, {
-            Summary("Add Bookmark") {
-                \.$url
+            Summary("Add Bookmark for \(\.$url)") {
                 \.$autoTitle
                 \.$notes
             }
         }, otherwise: {
-            Summary("Add Bookmark") {
-                \.$url
+            Summary("Add Bookmark for \(\.$url)") {
                 \.$autoTitle
                 \.$title
                 \.$notes
