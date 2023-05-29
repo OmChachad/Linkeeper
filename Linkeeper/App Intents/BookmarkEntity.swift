@@ -92,8 +92,7 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
     func suggestedEntities() async throws -> [BookmarkEntity] {
         let allBookmarks = BookmarksManager.shared.getAllBookmarks()
         return allBookmarks.map {
-            #warning("Make ID non optional in Core Data later")
-            return BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
+            BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
         }
     }
     

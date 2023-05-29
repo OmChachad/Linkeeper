@@ -94,8 +94,7 @@ struct IntentsFolderQuery: EntityPropertyQuery {
     func suggestedEntities() async throws -> [FolderEntity] {
         let allFolders = FoldersManager.shared.getAllFolders()
         return allFolders.map {
-            #warning("Make ID non optional in Core Data later")
-            return FolderEntity(id: $0.id!, title: $0.wrappedTitle, bookmarks: Set<BookmarkEntity>($0.bookmarksArray.map({
+            FolderEntity(id: $0.id!, title: $0.wrappedTitle, bookmarks: Set<BookmarkEntity>($0.bookmarksArray.map({
                 BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
             })), index: Int($0.index), symbol: $0.wrappedSymbol, color: $0.accentColor ?? "red")
         }
