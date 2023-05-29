@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import LinkPresentation
 
 class BookmarksManager {
     
@@ -24,11 +25,11 @@ class BookmarksManager {
         }
     }
 
-    func addBookmark(title: String, url: String, host: String, notes: String, folder: Folder) throws -> Bookmark {
+    func addBookmark(id: UUID?, title: String, url: String, host: String, notes: String, folder: Folder?) throws -> Bookmark {
 
         let sanitisedURL = URL(string: url)?.sanitise
         let bookmark = Bookmark(context: context)
-        bookmark.id = UUID()
+        bookmark.id = id ?? UUID()
         bookmark.title = title
         bookmark.date = Date.now
         bookmark.host = host
@@ -36,12 +37,8 @@ class BookmarksManager {
         bookmark.url = sanitisedURL?.absoluteString
         bookmark.folder = folder
 
-        //do {
-            try saveContext()
-            return bookmark
-//        } catch {
-//            throw fatalError()
-//        }
+        try saveContext()
+        return bookmark
     }
 
     func findBookmark(withId id: UUID) throws -> Bookmark {
@@ -98,22 +95,20 @@ class BookmarksManager {
     
 }
 
-//enum Error: Swift.Error, CustomLocalizedStringResourceConvertible {
-//    case notFound,
-//         coreDataSave,
-//         unknownId(id: String),
-//         unknownError(message: String),
-//         deletionFailed,
-//         addFailed(title: String)
-//
-//    var localizedStringResource: LocalizedStringResource {
-//        switch self {
-//            case .addFailed(let title): return "An error occurred trying to add '\(title)'"
-//            case .deletionFailed: return "An error occured trying to delete the book"
-//            case .unknownError(let message): return "An unknown error occurred: \(message)"
-//            case .unknownId(let id): return "No books with an ID matching: \(id)"
-//            case .notFound: return "Book not found"
-//            case .coreDataSave: return "Couldn't save to CoreData"
-//        }
-//    }
-//}
+func fetchMetadata(for url: String) async throws -> LPLinkMetadata {
+    return try await withCheckedThrowingContinuation { continuation in
+        LPMetadataProvider().startFetchingMetadata(for: URL(string: url)!.sanitise) { metadata, error in
+            if let error = error {
+                continuation.resume(throwing: error)
+            } else if let metadata = metadata {
+                continuation.resume(returning: metadata)
+            } else {
+                continuation.resume(throwing: FetchMetadataError.invalidMetadata)
+            }
+        }
+    }
+}
+
+enum FetchMetadataError: Error {
+    case invalidMetadata
+}
