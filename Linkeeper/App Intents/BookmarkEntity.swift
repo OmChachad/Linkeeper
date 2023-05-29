@@ -33,7 +33,7 @@ struct BookmarkEntity: Identifiable, Hashable, Equatable, AppEntity {
     //@Property(title: "Cover Image")
     //var coverImage: IntentFile?
     
-    @Property(title: "Is Favorite")
+    @Property(title: "Favorited")
     var isFavorited: Bool
     
     @Property(title: "Date Added")
@@ -52,8 +52,8 @@ struct BookmarkEntity: Identifiable, Hashable, Equatable, AppEntity {
     var displayRepresentation: DisplayRepresentation {
         return DisplayRepresentation(
             title: "\(title)",
-            subtitle: "\(url)"
-            //image: coverImage == nil ? .init(systemName: "book.closed") : .init(data: coverImage!.data)
+            subtitle: "\(url)",
+            image: .init(systemName: "link")
         )
     }
 }
