@@ -105,7 +105,7 @@ struct BookmarkItem: View {
                 openURL(bookmark.wrappedURL)
             }
         }
-        .shadow(color: .secondary.opacity(0.5), radius: selectedBookmarks.contains(bookmark) ? 0 : 3)
+        .shadow(color: .black.opacity(0.3), radius: selectedBookmarks.contains(bookmark) ? 0 : 3)
         .opacity(selectedBookmarks.contains(bookmark) ? 0.75 : 1)
         .padding(selectedBookmarks.contains(bookmark) ? 2.5 : 0)
         .background {
