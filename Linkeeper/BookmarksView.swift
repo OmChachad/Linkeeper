@@ -104,8 +104,7 @@ struct BookmarksView: View {
                         
                         if groupByFolders && folder == nil {
                             BookmarksGrid(for: ungroupedBookmarks)
-                                .padding(.horizontal, 15)
-                                .padding(.vertical , 5)
+                                .padding(15)
                             
                             ForEach(folders, id: \.self) { folder in
                                 let folderHasBookmarks = !folder.bookmarksArray.isEmpty
