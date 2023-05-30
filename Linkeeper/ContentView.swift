@@ -307,6 +307,7 @@ struct iconCircle: View {
             Image(systemName: symbol)
                 .imageScale(.medium)
                 .padding(5)
+                .frame(width: 27.5, height: 27.5)
 #else
             Image(systemName: symbol)
                 .resizable()
