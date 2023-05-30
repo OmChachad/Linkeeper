@@ -38,7 +38,7 @@ struct Settings: View {
                         Image("Om")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 44, height: 44)
+                            .frame(width: 60, height: 60)
                             .clipShape(Circle())
                             .shadow(radius: 2)
                         
