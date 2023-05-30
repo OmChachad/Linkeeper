@@ -46,6 +46,7 @@
 		C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3F28171D93000F4AEB /* ContentView.swift */; };
 		C2C8DC4228171D94000F4AEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4128171D94000F4AEB /* Assets.xcassets */; };
 		C2C8DC4528171D94000F4AEB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */; };
+		C2E806E62A26111E00A41D0C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E52A26111E00A41D0C /* Settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +90,7 @@
 		C2C8DC3F28171D93000F4AEB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C2C8DC4128171D94000F4AEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C2E806E52A26111E00A41D0C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Linkeeper.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -227,6 +229,7 @@
 				C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */,
 				C2C8DC3F28171D93000F4AEB /* ContentView.swift */,
 				C2550E63282705F900ADA0BF /* BookmarksView.swift */,
+				C2E806E42A26110D00A41D0C /* Settings */,
 				C252EAB02842B1B000E296F5 /* BookmarkInfoViews */,
 				C29050692A12B4FF00817C48 /* Modification */,
 				C2550E602827040000ADA0BF /* Creation Sheets */,
@@ -245,6 +248,15 @@
 				C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C2E806E42A26110D00A41D0C /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C2E806E52A26111E00A41D0C /* Settings.swift */,
+			);
+			name = Settings;
+			path = BookmarkInfoViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,6 +352,7 @@
 				C28B6E6928190C120030B6DD /* ColorsAndSymbols.swift in Sources */,
 				C24DF577283E65D2003C9692 /* DataController.swift in Sources */,
 				C281D9BA2A2534E100535807 /* AddFolder.swift in Sources */,
+				C2E806E62A26111E00A41D0C /* Settings.swift in Sources */,
 				C281D9732A23E8B300535807 /* FoldersManager.swift in Sources */,
 				C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */,
 				C281D9B82A25277A00535807 /* DeleteFolder.swift in Sources */,

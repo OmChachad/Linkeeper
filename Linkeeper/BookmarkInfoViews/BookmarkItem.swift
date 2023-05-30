@@ -12,6 +12,7 @@ struct BookmarkItem: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.openURL) var openURL
     
+    @AppStorage("ShadowsEnabled") var shadowsEnabled = true
     @ObservedObject var cache = CacheModel()
     
     var bookmark: Bookmark
@@ -105,7 +106,7 @@ struct BookmarkItem: View {
                 openURL(bookmark.wrappedURL)
             }
         }
-        .shadow(color: .black.opacity(0.3), radius: selectedBookmarks.contains(bookmark) ? 0 : 3)
+        .shadow(color: .black.opacity(0.3), radius: shadowsEnabled ? (selectedBookmarks.contains(bookmark) ? 0 : 3) : 0) // Checks if the shadows are enabled in Settings, otherwise only shows them when the bookmark is not selected.
         .opacity(selectedBookmarks.contains(bookmark) ? 0.75 : 1)
         .padding(selectedBookmarks.contains(bookmark) ? 2.5 : 0)
         .background {

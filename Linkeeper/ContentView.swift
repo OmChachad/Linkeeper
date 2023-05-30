@@ -27,6 +27,7 @@ struct ContentView: View {
     
     @State private var showingNewBookmarkView = false
     @State private var showingNewFolderView = false
+    @State private var showingSettings = false
     
     @State var mode: EditMode = .inactive
     
@@ -84,7 +85,7 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        
+                        showingSettings.toggle()
                     } label: {
                         Image(systemName: "gear")
                     }
@@ -122,6 +123,7 @@ struct ContentView: View {
                 .font(.title)
                 .foregroundColor(.secondary)
         }
+        .sheet(isPresented: $showingSettings, content: Settings.init)
         .sheet(isPresented: $showingNewBookmarkView) {
             AddBookmarkView(folderPreset: currentFolder)
         }

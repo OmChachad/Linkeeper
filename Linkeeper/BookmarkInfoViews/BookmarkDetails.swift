@@ -151,6 +151,7 @@ struct BookmarkDetails: View {
             }   .font(.title2)
                 .padding(10)
                 .background(Color(.systemGray4))
+                .buttonStyle(.borderless)
             
             AdaptiveScrollView(notes: bookmark.wrappedNotes) {
                 VStack(alignment: .leading, spacing: 0) {
@@ -192,6 +193,7 @@ struct BookmarkDetails: View {
             .padding(7.5)
             .keyboardShortcut(.cancelAction)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            .buttonStyle(.borderless)
         }
     }
     func backView() -> some View {
@@ -214,6 +216,7 @@ struct BookmarkDetails: View {
                 .padding()
                 
             }
+            .buttonStyle(.borderless)
             .background(.thinMaterial)
             
             Form {
