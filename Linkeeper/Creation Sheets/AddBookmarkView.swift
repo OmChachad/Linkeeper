@@ -97,7 +97,7 @@ struct AddBookmarkView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    if url.isValidURL && title.isEmpty {
+                    if let url = URL(string: url)?.sanitise, url.absoluteString.isValidURL, title.isEmpty {
                         ProgressView()
                             .opacity(0.7)
                     } else {
@@ -147,32 +147,38 @@ struct AddBookmarkView: View {
         }
         // Alert for "Added New Bookmark" to be added later down the line
         .onChange(of: url) { newURL in
+            askForTitle = false
             title = ""
-            if newURL.isValidURL {
-                
-                if let URLforTitle = URL(string: newURL)?.sanitise {
-                    LPMetadataProvider().startFetchingMetadata(for: URLforTitle) { (metadata, error) in
+            DispatchQueue.global().asyncAfter(deadline: .now() + 10) {
+                if url == newURL && self.title.isEmpty {
+                    if let url = URL(string: newURL), url.sanitise.absoluteString.isValidURL {
+                        askForTitle = true
+                    }
+                }
+            }
+            
+            if let url = URL(string: newURL)?.sanitise, url.absoluteString.isValidURL {
+                    LPMetadataProvider().startFetchingMetadata(for: url) { (metadata, error) in
                         guard error == nil else {
                             return
                         }
                         DispatchQueue.main.async {
                             let receivedMetadata = metadata
                             if let URLTitle = receivedMetadata?.title {
-                                self.title = URLTitle
-                                askForTitle = false
-                            } else {
-                                withAnimation {
-                                    askForTitle = true
+                                if title.isEmpty {
+                                    self.title = URLTitle
+                                    askForTitle = false
                                 }
+                            } else {
+                                askForTitle = true
                             }
                             if let URLHost = receivedMetadata?.url?.host {
                                 self.host = URLHost
                             }
                         }
-                    }
-                }
-            }
+                    }            }
         }
+        .animation(.default, value: askForTitle)
         .onAppear {
             folder = folderPreset
         }

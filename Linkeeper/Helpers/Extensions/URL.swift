@@ -7,16 +7,14 @@
 
 import Foundation
 
-extension URL { // This adds https to the URL if the URl doesn't have it already
-
-    //Source: https://stackoverflow.com/questions/70209276/how-can-i-add-http-or-https-to-a-swift-url
-    
+extension URL {
     var sanitise: URL {
-        if var components = URLComponents(url: self, resolvingAgainstBaseURL: false) {
-            if components.scheme == nil {
-                components.scheme = "https"
-            }
-            return components.url ?? self
+        // Check if the scheme already exists
+        if self.scheme == nil {
+            // Append "http://" to the URL if it doesn't have a scheme
+            let urlString = "https://" + self.absoluteString
+            print(urlString)
+            return URL(string: urlString) ?? self
         }
         return self
     }
