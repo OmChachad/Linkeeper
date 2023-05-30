@@ -61,7 +61,7 @@ struct Settings: View {
                 Section("Linkeeper") {
                     HStack {
                         Button("Privacy Policy") {
-                            openURL(URL(string: "")!)
+                            openURL(URL(string: "https://www.termsfeed.com/live/1e93b5c3-6583-4028-b032-56ba480a1cf0")!)
                         }
                         
                         Spacer()
