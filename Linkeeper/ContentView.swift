@@ -35,6 +35,8 @@ struct ContentView: View {
         MainOption(title: "Favorites", symbol: "heart.fill", color: Color.pink, onlyFavorites: true)
     ]
     
+    @State private var currentFolder: Folder?
+    
     var body: some View {
         NavigationView  {
             Group {
@@ -63,7 +65,7 @@ struct ContentView: View {
                     
                     Section(header: Text("My Folders")) {
                         ForEach(folders) { folder in
-                            NavigationLink {
+                            NavigationLink(tag: folder, selection: $currentFolder) {
                                 BookmarksView(folder: folder, onlyFavorites: false)
                             } label: {
                                 FolderItemView(folder: folder)
@@ -120,7 +122,7 @@ struct ContentView: View {
                 .foregroundColor(.secondary)
         }
         .sheet(isPresented: $showingNewBookmarkView) {
-            AddBookmarkView()
+            AddBookmarkView(folderPreset: currentFolder)
         }
         .sheet(isPresented: $showingNewFolderView) {
             AddFolderView()
