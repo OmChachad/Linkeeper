@@ -47,6 +47,8 @@
 		C2C8DC4228171D94000F4AEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4128171D94000F4AEB /* Assets.xcassets */; };
 		C2C8DC4528171D94000F4AEB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */; };
 		C2E806E62A26111E00A41D0C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E52A26111E00A41D0C /* Settings.swift */; };
+		C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E72A26194E00A41D0C /* IntroductionView.swift */; };
+		C2E806EB2A261C2200A41D0C /* Shiny in Frameworks */ = {isa = PBXBuildFile; productRef = C2E806EA2A261C2200A41D0C /* Shiny */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +93,7 @@
 		C2C8DC4128171D94000F4AEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C2E806E52A26111E00A41D0C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		C2E806E72A26194E00A41D0C /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Linkeeper.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -99,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2E806EB2A261C2200A41D0C /* Shiny in Frameworks */,
 				C24DF575283E62C4003C9692 /* Shimmer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,6 +232,7 @@
 				C29920052857257C00636E7F /* Info.plist */,
 				C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */,
 				C2C8DC3F28171D93000F4AEB /* ContentView.swift */,
+				C2E806E72A26194E00A41D0C /* IntroductionView.swift */,
 				C2550E63282705F900ADA0BF /* BookmarksView.swift */,
 				C2E806E42A26110D00A41D0C /* Settings */,
 				C252EAB02842B1B000E296F5 /* BookmarkInfoViews */,
@@ -277,6 +282,7 @@
 			name = Linkeeper;
 			packageProductDependencies = (
 				C24DF574283E62C4003C9692 /* Shimmer */,
+				C2E806EA2A261C2200A41D0C /* Shiny */,
 			);
 			productName = Marked;
 			productReference = C2C8DC3A28171D93000F4AEB /* Linkeeper.app */;
@@ -308,6 +314,7 @@
 			mainGroup = C2C8DC3128171D93000F4AEB;
 			packageReferences = (
 				C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				C2E806E92A261C2200A41D0C /* XCRemoteSwiftPackageReference "shiny" */,
 			);
 			productRefGroup = C2C8DC3B28171D93000F4AEB /* Products */;
 			projectDirPath = "";
@@ -345,6 +352,7 @@
 				C29050792A12B81300817C48 /* TextEditor.swift in Sources */,
 				C2B4F6C72A18E48100618411 /* AlertView.swift in Sources */,
 				C29050752A12B7E300817C48 /* URL.swift in Sources */,
+				C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */,
 				C2C1BC862A14A0A300A0ADAA /* DisclosureGroupStyle.swift in Sources */,
 				C281D9712A23E32D00535807 /* FolderEntity.swift in Sources */,
 				C24DF57D283E7185003C9692 /* Bookmark+CoreDataProperties.swift in Sources */,
@@ -505,6 +513,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Linkeeper/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Linkeeper;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -539,6 +549,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Linkeeper/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Linkeeper;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -592,6 +604,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		C2E806E92A261C2200A41D0C /* XCRemoteSwiftPackageReference "shiny" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maustinstar/shiny.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -599,6 +619,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
+		};
+		C2E806EA2A261C2200A41D0C /* Shiny */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C2E806E92A261C2200A41D0C /* XCRemoteSwiftPackageReference "shiny" */;
+			productName = Shiny;
 		};
 /* End XCSwiftPackageProductDependency section */
 
