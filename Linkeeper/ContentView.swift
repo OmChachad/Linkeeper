@@ -77,7 +77,7 @@ struct ContentView: View {
                     }
                     .headerProminence(.increased)
                 }
-                .listStyle(.sidebar)
+                .sideBarForMac()
                 
             }
             .navigationBarTitle("Folders")

@@ -26,6 +26,16 @@ extension View {
             .background(self.blur(radius: 5))
     }
     
+    func sideBarForMac() -> some View {
+        #if targetEnvironment(macCatalyst)
+            return self
+            .listStyle(.sidebar)
+        #else
+            return self
+            .listStyle(.insetGrouped)
+        #endif
+    }
+    
     func miniAlert(isPresented: Binding<Bool>, icon: String, title: String) -> some View {
         Color.clear
             .frame(maxWidth: .infinity, maxHeight: .infinity)
