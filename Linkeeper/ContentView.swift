@@ -50,7 +50,6 @@ struct ContentView: View {
                                         .padding(.leading, 5)
                                 } icon: {
                                     iconCircle(symbol: option.symbol, color: option.color)
-                                        .padding(.leading, 5)
                                 }
                                 
                                 Spacer()
@@ -58,7 +57,7 @@ struct ContentView: View {
                                 Text(String(option.onlyFavorites ? favoriteBookmarks.count : allBookmarks.count))
                                                     .foregroundColor(.secondary)
                             }
-                            .frame(height: 70)
+                            .frame(height: 50)
                         }
                     }
                     
@@ -77,7 +76,7 @@ struct ContentView: View {
                     }
                     .headerProminence(.increased)
                 }
-                .listStyle(.insetGrouped)
+                .listStyle(.sidebar)
                 
             }
             .navigationBarTitle("Folders")
@@ -90,9 +89,11 @@ struct ContentView: View {
                         Image(systemName: "gear")
                     }
                     .keyboardShortcut(",", modifiers: .command)
+                    .buttonStyle(.borderless)
                 }
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     EditButton()
+                        .buttonStyle(.borderless)
                 }
                 
                 ToolbarItemGroup(placement: .bottomBar) {
@@ -100,12 +101,11 @@ struct ContentView: View {
                         Button {
                             showingNewBookmarkView = true
                         } label: {
-                            HStack {
-                                Image(systemName: "plus.circle.fill")
-                                Text("New Bookmark")
-                            }
-                            .font(.headline)
-                        } .keyboardShortcut("n", modifiers: .command)
+                            Label("New Bookmark", systemImage: "plus.circle.fill")
+                                .labelStyle(.titleAndIcon)
+                                .font(.headline)
+                        }
+                        .keyboardShortcut("n", modifiers: .command)
                         
                         Spacer()
                         
@@ -113,6 +113,7 @@ struct ContentView: View {
                             showingNewFolderView = true
                         }
                     }
+                    .buttonStyle(.borderless)
                 }
             }
             .environment(\.editMode, $mode)
@@ -207,7 +208,6 @@ struct FolderItemView: View {
                     .padding(.leading, 5)
             } icon: {
                 iconCircle(symbol: folder.wrappedSymbol, color: folder.wrappedColor)
-                    .padding(.leading, 5)
             }
            
             
@@ -300,14 +300,22 @@ struct iconCircle: View {
     var color: Color
     
     var body: some View {
-        Image(systemName: symbol)
-            .resizable()
-            .scaledToFit()
-            .frame(width: 20, height: 20)
-            .padding(10)
-            .foregroundColor(.white)
-            .background(color, in: Circle())
-            .padding([.top, .bottom, .trailing], 5)
+        Group {
+#if targetEnvironment(macCatalyst)
+            Image(systemName: symbol)
+                .imageScale(.medium)
+                .padding(5)
+#else
+            Image(systemName: symbol)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 20, height: 20)
+                .padding(10)
+#endif
+        }
+        .foregroundColor(.white)
+        .background(color, in: Circle())
+        .padding(5)
     }
 }
 

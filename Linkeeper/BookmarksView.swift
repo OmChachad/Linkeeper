@@ -105,7 +105,7 @@ struct BookmarksView: View {
                         if groupByFolders && folder == nil {
                             BookmarksGrid(for: ungroupedBookmarks)
                                 .padding(.horizontal, 15)
-                                .padding(.bottom , 2.5)
+                                .padding(.vertical , 5)
                             
                             ForEach(folders, id: \.self) { folder in
                                 let folderHasBookmarks = !folder.bookmarksArray.isEmpty
@@ -140,7 +140,7 @@ struct BookmarksView: View {
                             }
                         } else {
                             BookmarksGrid(for: filteredBookmarks)
-                                .padding(.horizontal, 10)
+                                .padding(15)
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -163,60 +163,33 @@ struct BookmarksView: View {
         .navigationTitle(for: folder, folderTitle: $folderTitle, onlyFavorites: favorites ?? false)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if editState == .inactive {
-                Menu {
-                    Button { editState = .active } label: { Label("Select", systemImage: "checkmark.circle") }
-                    
-                    if folder == nil {
-                        Toggle(isOn: $groupByFolders.animation(), label: { Label("Group by Folders", systemImage: "rectangle.grid.1x2") })
-                    }
-                    
-//                    Menu {
-//
-//                    } label: {
-//                        Label
-//                    }
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                if editState == .inactive {
                     Menu {
-                        Picker("Sort By", selection: $sortMethod) {
-                            ForEach(SortMethod.allCases, id: \.self) { sortMethod in
-                                Text(sortMethod.rawValue)
-                                    .tag(sortMethod)
-                            }
-                        }
-                        
-                        Picker("Sort Direction", selection: $sortDirection) {
-                            ForEach(SortDirection.allCases, id: \.self) { sortDirection in
-                                Text(sortDirection.label)
-                                    .tag(sortDirection)
-                            }
-                        }
-                        
+                        toolbarItems()
                     } label: {
-                        Label("""
-Sort By
-\(sortMethod.rawValue)
-""", systemImage: "arrow.up.arrow.down")
+                        Image(systemName: "ellipsis.circle")
                     }
-                    
-                    Button { addingBookmark.toggle() } label: { Label("Add Bookmark", systemImage: "plus") }
-                        .keyboardShortcut("n", modifiers: .command)
-                } label: {
-                    Image(systemName: "ellipsis.circle")
+                    .menuStyle(.borderlessButton)
+                } else {
+                    Button("Done") { editState = .inactive }
                 }
-            } else {
-                Button("Done") { editState = .inactive }
+                
+                #if targetEnvironment(macCatalyst)
+                EditButton()
+                #endif
             }
         }
         .overlay {
             if editState == .active {
                 HStack {
-                    Button() {
+                    Button(role: .destructive) {
                         deleteConfirmation.toggle()
                     } label: {
                         Image(systemName: "trash")
                             .imageScale(.large)
                     }
-                    .disabled(selectedBookmarks.isEmpty)
+                    .tint(Color.red)
                     .confirmationDialog("Are you sure you want to delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
                         Button("Delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)", role: .destructive) {
                             selectedBookmarks.forEach { bookmark in
@@ -240,6 +213,7 @@ Sort By
                             .imageScale(.large)
                     }
                 }
+                .disabled(selectedBookmarks.isEmpty)
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(.ultraThinMaterial)
@@ -279,6 +253,47 @@ Sort By
         .animation(.easeInOut.speed(0.5), value: editState)
     }
     
+    func toolbarItems() -> some View {
+        Group {
+            Button { editState = .active } label: { Label("Select", systemImage: "checkmark.circle") }
+            
+            if folder == nil {
+                Toggle(isOn: $groupByFolders.animation(), label: { Label("Group by Folders", systemImage: "rectangle.grid.1x2") })
+            }
+            
+            Menu {
+                Picker("Sort By", selection: $sortMethod) {
+                    ForEach(SortMethod.allCases, id: \.self) { sortMethod in
+                        Text(sortMethod.rawValue)
+                            .tag(sortMethod)
+                    }
+                }
+                
+                Picker("Sort Direction", selection: $sortDirection) {
+                    ForEach(SortDirection.allCases, id: \.self) { sortDirection in
+                        Text(sortDirection.label)
+                            .tag(sortDirection)
+                    }
+                }
+                
+            } label: {
+                #if targetEnvironment(macCatalyst)
+                
+                Label("Sort By", systemImage: "arrow.up.arrow.down")
+                #else
+                
+                Label("""
+Sort By
+\(sortMethod.rawValue)
+""", systemImage: "arrow.up.arrow.down")
+                #endif
+            }
+            
+            Button { addingBookmark.toggle() } label: { Label("Add Bookmark", systemImage: "plus") }
+                .keyboardShortcut("n", modifiers: .command)
+        }
+        .buttonStyle(.borderless)
+    }
     func BookmarksGrid(for bookmarks: [Bookmark]) -> some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth))], spacing: 15) {
             ForEach(bookmarks, id: \.self) { bookmark in
