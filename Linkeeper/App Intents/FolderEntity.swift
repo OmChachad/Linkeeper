@@ -121,10 +121,17 @@ struct IntentsFolderQuery: EntityPropertyQuery {
             EqualToComparator { NSPredicate(format: "title = %@", $0) }
             ContainsComparator { NSPredicate(format: "title CONTAINS %@", $0) }
         }
+        
+        Property(\FolderEntity.$index) {
+            EqualToComparator { NSPredicate(format: "index = %d", Int16($0)) }
+            LessThanComparator { NSPredicate(format: "index < %d", Int16($0))}
+            GreaterThanComparator { NSPredicate(format: "index > %d", Int16($0))}
+        }
     }
     
     static var sortingOptions = SortingOptions {
         SortableBy(\FolderEntity.$title)
+        SortableBy(\FolderEntity.$index)
     }
     
     func entities(
@@ -140,7 +147,11 @@ struct IntentsFolderQuery: EntityPropertyQuery {
         //request.fetchLimit = limit ?? 5
         request.predicate = predicate
         request.sortDescriptors = sortedBy.isEmpty ? [NSSortDescriptor(key: "index", ascending: true)] : sortedBy.map({
-            return NSSortDescriptor(keyPath: \Folder.index, ascending: $0.order == .ascending)
+            let keys = [
+                \FolderEntity.$title : "title",
+                \FolderEntity.$index : "index"
+            ]
+            return NSSortDescriptor(key: keys[$0.by] ?? "index", ascending: $0.order == .ascending)
         })
         let matchingFolders = try context.fetch(request)
         return matchingFolders.map {

@@ -161,7 +161,17 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
         //request.fetchLimit = limit ?? 5
         request.predicate = predicate
         request.sortDescriptors = sortedBy.isEmpty ? [NSSortDescriptor(key: "date", ascending: true)] : sortedBy.map({
-                return NSSortDescriptor(keyPath: \Bookmark.date, ascending: $0.order == .ascending)
+            let keys =
+            [
+                \BookmarkEntity.$title : "title",
+                 \BookmarkEntity.$url : "url",
+                 \BookmarkEntity.$dateAdded : "date",
+                 \BookmarkEntity.$notes : "notes",
+                 \BookmarkEntity.$host : "host",
+                 \BookmarkEntity.$isFavorited : "isFavorited"
+            ]
+            
+            return NSSortDescriptor(key: keys[$0.by] ?? "date", ascending: $0.order == .ascending)
         })
         let matchingBookmarks = try context.fetch(request)
         return matchingBookmarks.map {
