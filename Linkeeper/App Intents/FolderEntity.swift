@@ -120,26 +120,11 @@ struct IntentsFolderQuery: EntityPropertyQuery {
         Property(\FolderEntity.$title) {
             EqualToComparator { NSPredicate(format: "title = %@", $0) }
             ContainsComparator { NSPredicate(format: "title CONTAINS %@", $0) }
-
         }
-//        Property(\FolderEntity.$host) {
-//            EqualToComparator { NSPredicate(format: "host = %@", $0) }
-//            ContainsComparator { NSPredicate(format: "host CONTAINS %@", $0) }
-//        }
-//        Property(\FolderEntity.$isFavorited) {
-//            EqualToComparator { NSPredicate(format: "isFavorited = %@", $0) }
-//        }
-//        Property(\FolderEntity.$dateAdded) {
-//            LessThanComparator { NSPredicate(format: "date < %@", $0 as NSDate) }
-//            GreaterThanComparator { NSPredicate(format: "date > %@", $0 as NSDate) }
-//        }
     }
     
     static var sortingOptions = SortingOptions {
         SortableBy(\FolderEntity.$title)
-//        SortableBy(\FolderEntity.$host)
-//        SortableBy(\FolderEntity.$isFavorited)
-//        SortableBy(\FolderEntity.$dateAdded)
     }
     
     func entities(
@@ -152,11 +137,11 @@ struct IntentsFolderQuery: EntityPropertyQuery {
         let context = DataController.shared.persistentCloudKitContainer.viewContext
         let request: NSFetchRequest<Folder> = Folder.fetchRequest()
         let predicate = NSCompoundPredicate(type: mode == .and ? .and : .or, subpredicates: comparators)
-        request.fetchLimit = limit ?? 5
+        //request.fetchLimit = limit ?? 5
         request.predicate = predicate
-//        request.sortDescriptors = sortedBy.map({
-//            NSSortDescriptor(key: $0.by, ascending: $0.order == .ascending)
-//        })
+        request.sortDescriptors = sortedBy.isEmpty ? [NSSortDescriptor(key: "index", ascending: true)] : sortedBy.map({
+            return NSSortDescriptor(keyPath: \Folder.index, ascending: $0.order == .ascending)
+        })
         let matchingFolders = try context.fetch(request)
         return matchingFolders.map {
             FolderEntity(id: $0.id!, title: $0.wrappedTitle, bookmarks: Set<BookmarkEntity>($0.bookmarksArray.map({

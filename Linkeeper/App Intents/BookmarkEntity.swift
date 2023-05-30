@@ -116,13 +116,23 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
             ContainsComparator { NSPredicate(format: "title CONTAINS %@", $0) }
 
         }
+        Property(\BookmarkEntity.$url) {
+            EqualToComparator { NSPredicate(format: "url = %@", $0) }
+            ContainsComparator { NSPredicate(format: "url CONTAINS %@", $0) }
+        }
+        Property(\BookmarkEntity.$notes) {
+            EqualToComparator { NSPredicate(format: "notes = %@", $0) }
+            ContainsComparator { NSPredicate(format: "notes CONTAINS %@", $0) }
+            
+        }
         Property(\BookmarkEntity.$host) {
             EqualToComparator { NSPredicate(format: "host = %@", $0) }
             ContainsComparator { NSPredicate(format: "host CONTAINS %@", $0) }
         }
         Property(\BookmarkEntity.$isFavorited) {
-            EqualToComparator { NSPredicate(format: "isFavorited = %@", $0) }
+            EqualToComparator { NSPredicate(format: "isFavorited == %@", NSNumber(value: $0)) }
         }
+        
         Property(\BookmarkEntity.$dateAdded) {
             LessThanComparator { NSPredicate(format: "date < %@", $0 as NSDate) }
             GreaterThanComparator { NSPredicate(format: "date > %@", $0 as NSDate) }
@@ -131,6 +141,8 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
     
     static var sortingOptions = SortingOptions {
         SortableBy(\BookmarkEntity.$title)
+        SortableBy(\BookmarkEntity.$url)
+        SortableBy(\BookmarkEntity.$notes)
         SortableBy(\BookmarkEntity.$host)
         SortableBy(\BookmarkEntity.$isFavorited)
         SortableBy(\BookmarkEntity.$dateAdded)
@@ -146,11 +158,11 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
         let context = DataController.shared.persistentCloudKitContainer.viewContext
         let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
         let predicate = NSCompoundPredicate(type: mode == .and ? .and : .or, subpredicates: comparators)
-        request.fetchLimit = limit ?? 5
+        //request.fetchLimit = limit ?? 5
         request.predicate = predicate
-//        request.sortDescriptors = sortedBy.map({
-//            NSSortDescriptor(key: $0.by, ascending: $0.order == .ascending)
-//        })
+        request.sortDescriptors = sortedBy.isEmpty ? [NSSortDescriptor(key: "date", ascending: true)] : sortedBy.map({
+                return NSSortDescriptor(keyPath: \Bookmark.date, ascending: $0.order == .ascending)
+        })
         let matchingBookmarks = try context.fetch(request)
         return matchingBookmarks.map {
             BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
