@@ -58,9 +58,10 @@ struct ContentView: View {
                                 Text(String(option.onlyFavorites ? favoriteBookmarks.count : allBookmarks.count))
                                                     .foregroundColor(.secondary)
                             }
-                            .frame(height: 50)
+                            .frame(height: 60)
                         }
                     }
+                    .materialRowBackgroundForMac()
                     
                     
                     Section(header: Text("My Folders")) {
