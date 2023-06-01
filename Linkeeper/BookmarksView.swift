@@ -294,7 +294,7 @@ Sort By
         .buttonStyle(.borderless)
     }
     func BookmarksGrid(for bookmarks: [Bookmark]) -> some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 190))], spacing: 15) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 15) {
             ForEach(bookmarks, id: \.self) { bookmark in
                 BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage, selectedBookmarks: $selectedBookmarks)
                     .padding(.horizontal, 5)
