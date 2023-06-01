@@ -180,7 +180,7 @@ struct BookmarkDetails: View {
         .background(.ultraThinMaterial)
         .cornerRadius(15, style: .continuous)
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
-        .overlay {
+        .overlay(alignment: .topTrailing) {
             Button {
                 showDetails.toggle()
             } label: {
@@ -192,7 +192,6 @@ struct BookmarkDetails: View {
             }
             .padding(7.5)
             .keyboardShortcut(.cancelAction)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
             .buttonStyle(.borderless)
         }
     }
