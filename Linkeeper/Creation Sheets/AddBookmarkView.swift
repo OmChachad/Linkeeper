@@ -19,8 +19,6 @@ struct AddBookmarkView: View {
     
     var folderPreset: Folder?
     
-    @ObservedObject var clipboard = Clipboard()
-    
     @State private var url = ""
     @State private var host = ""
     @State private var title = ""
@@ -35,7 +33,19 @@ struct AddBookmarkView: View {
     @State private var showDonePopUp = false
     
     var pasteboardContents: String? {
-        return UIPasteboard.general.string
+        if !isMacCatalyst, #available(iOS 16.0, *) {
+            return ""
+        } else {
+            return UIPasteboard.general.string
+        }
+    }
+    
+    var isMacCatalyst: Bool {
+        #if targetEnvironment(macCatalyst)
+            return true
+        #else
+            return false
+        #endif
     }
     
     var body: some View {
@@ -51,14 +61,26 @@ struct AddBookmarkView: View {
                         
                         Divider()
                         
-                        Button {
-                            self.url = pasteboardContents!
-                        } label: {
-                            Image(systemName: "doc.on.clipboard")
-                                .padding(.leading, 10)
+                        if !isMacCatalyst, #available(iOS 16.0, *) {
+                            PasteButton(payloadType: URL.self) { content in
+                                if let url = content.first {
+                                    self.url = url.absoluteString
+                                }
+                            }
+                            .labelStyle(.iconOnly)
+                            .buttonBorderShape(.capsule)
+                            .offset(x: 5)
+                        } else {
+                            Button {
+                                self.url = pasteboardContents!
+                            } label: {
+                                Image(systemName: "doc.on.clipboard")
+                                    .padding(.leading, 10)
+                            }
+                            .buttonStyle(.borderless)
+                            .disabled(pasteboardContents?.isValidURL == false || pasteboardContents == nil)
+                            .padding(.trailing, 5)
                         }
-                        .buttonStyle(.borderless)
-                        .disabled(pasteboardContents?.isValidURL == false || pasteboardContents == nil)
                     }
                 }
                 
@@ -181,12 +203,6 @@ struct AddBookmarkView: View {
         .animation(.default, value: askForTitle)
         .onAppear {
             folder = folderPreset
-        }
-    }
-    
-    class Clipboard: ObservableObject {
-        func hasURLS() -> Bool {
-            return UIPasteboard.general.hasURLs
         }
     }
 }
