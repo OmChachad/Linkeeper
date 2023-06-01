@@ -136,41 +136,28 @@ struct BookmarkItem: View {
                 isShimmering = false
             } else {
                 do {
-                    let metadata = try await startFetchingMetadata(for: bookmark.wrappedURL)
-                    
-                    if let imageProvider = metadata.imageProvider {
-                        imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
-                            guard error == nil else {
-                                //showPlaceHolder()
-                                return
-                            }
-                            if let image = image as? UIImage {
-                                DispatchQueue.main.async {
-                                    self.image = Image(uiImage: image)
-                                    preview = .thumbnail
-                                    isShimmering = false
-                                    cache.saveToCache(image: image, preview: .thumbnail, bookmark: bookmark)
+                    let metadata = try await startFetchingMetadata(for: bookmark.wrappedURL, fetchSubresources: true, timeout: 15)
+                    if let metadata = metadata {
+                        let imageProvider = metadata.imageProvider ?? metadata.iconProvider
+                        if imageProvider != nil {
+                            let imageType: PreviewType = metadata.imageProvider != nil ? .thumbnail : .icon
+                            imageProvider!.loadObject(ofClass: UIImage.self) { (image, error) in
+                                guard error == nil else {
+                                    return
+                                }
+                                if let image = image as? UIImage {
+                                    DispatchQueue.main.async {
+                                        self.image = Image(uiImage: image)
+                                        preview = imageType
+                                        isShimmering = false
+                                        cache.saveToCache(image: image, preview: imageType, bookmark: bookmark)
+                                    }
+                                    return
                                 }
                             }
                         }
-                    } else if let iconImageProvider = metadata.iconProvider {
-                        iconImageProvider.loadObject(ofClass: UIImage.self) { (iconImage, error) in
-                            guard error == nil else {
-                                //showPlaceHolder()
-                                return
-                            }
-                            if let image = iconImage as? UIImage {
-                                DispatchQueue.main.async {
-                                    self.image = Image(uiImage: image)
-                                    preview = .icon
-                                    isShimmering = false
-                                    cache.saveToCache(image: image, preview: .icon, bookmark: bookmark)
-                                }
-                            }
-                        }
-                    } else {
-                        showPlaceHolder()
                     }
+                    
                     if preview == .loading {
                         showPlaceHolder()
                     }
@@ -252,14 +239,24 @@ struct BookmarkItem: View {
         preview = .firstLetter
         isShimmering = false
     }
-    
-    func startFetchingMetadata(for URL: URL) async throws -> LPLinkMetadata {
+}
+
+func startFetchingMetadata(for url: URL, fetchSubresources: Bool, timeout: TimeInterval?) async throws -> LPLinkMetadata? {
+    return try await withCheckedThrowingContinuation { continuation in
         let metadataProvider = LPMetadataProvider()
+        metadataProvider.shouldFetchSubresources = fetchSubresources
+        if let timeout = timeout {
+            metadataProvider.timeout = timeout
+        }
         
-        do {
-            return try await metadataProvider.startFetchingMetadata(for: URL)
-        } catch {
-            return LPLinkMetadata()
+        metadataProvider.startFetchingMetadata(for: url) { metadata, error in
+            if error != nil {
+                continuation.resume(returning: nil)
+            } else if let metadata = metadata {
+                continuation.resume(returning: metadata)
+            } else {
+                continuation.resume(returning: nil)
+            }
         }
     }
 }

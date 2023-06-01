@@ -171,22 +171,12 @@ struct AddBookmarkView: View {
         .onChange(of: url) { newURL in
             askForTitle = false
             title = ""
-            DispatchQueue.global().asyncAfter(deadline: .now() + 10) {
-                if url == newURL && self.title.isEmpty {
-                    if let url = URL(string: newURL), url.sanitise.absoluteString.isValidURL {
-                        askForTitle = true
-                    }
-                }
-            }
             
             if let url = URL(string: newURL)?.sanitise, url.absoluteString.isValidURL {
-                    LPMetadataProvider().startFetchingMetadata(for: url) { (metadata, error) in
-                        guard error == nil else {
-                            return
-                        }
+                Task {
+                    if let metadata = try await startFetchingMetadata(for: url, fetchSubresources: false, timeout: 10) {
                         DispatchQueue.main.async {
-                            let receivedMetadata = metadata
-                            if let URLTitle = receivedMetadata?.title {
+                            if let URLTitle = metadata.title {
                                 if title.isEmpty {
                                     self.title = URLTitle
                                     askForTitle = false
@@ -194,11 +184,19 @@ struct AddBookmarkView: View {
                             } else {
                                 askForTitle = true
                             }
-                            if let URLHost = receivedMetadata?.url?.host {
+                            if let URLHost = metadata.url?.host {
                                 self.host = URLHost
                             }
                         }
-                    }            }
+                    } else {
+                        return
+                    }
+                }
+                
+                if title.isEmpty {
+                    askForTitle = true
+                }
+            }
         }
         .animation(.default, value: askForTitle)
         .onAppear {

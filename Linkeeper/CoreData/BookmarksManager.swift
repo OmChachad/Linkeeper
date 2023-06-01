@@ -94,21 +94,3 @@ class BookmarksManager {
     }
     
 }
-
-func fetchMetadata(for url: String) async throws -> LPLinkMetadata {
-    return try await withCheckedThrowingContinuation { continuation in
-        LPMetadataProvider().startFetchingMetadata(for: URL(string: url)!.sanitise) { metadata, error in
-            if let error = error {
-                continuation.resume(throwing: error)
-            } else if let metadata = metadata {
-                continuation.resume(returning: metadata)
-            } else {
-                continuation.resume(throwing: FetchMetadataError.invalidMetadata)
-            }
-        }
-    }
-}
-
-enum FetchMetadataError: Error {
-    case invalidMetadata
-}
