@@ -53,8 +53,23 @@ If disabled, you can add a title yourself.
             if !autoTitle && (title == nil || ((title?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) != false)) {
                 throw CustomError.message("Missing title")
             }
-            let title = autoTitle ? try await fetchMetadata(for: url.sanitise.absoluteString).title : self.title
-            let bookmark = try BookmarksManager.shared.addBookmark(id: nil, title: title ?? "Error", url: url.sanitise.absoluteString, host: url.host() ?? "", notes: notes ?? "", folder: nil)
+            let title: String = await {
+                if autoTitle {
+                    let metadataProvider = LPMetadataProvider()
+                    metadataProvider.shouldFetchSubresources = false
+                    metadataProvider.timeout = 15
+                    
+                    do {
+                        return try await metadataProvider.startFetchingMetadata(for: url).title ?? url.host
+                    } catch {
+                        return nil
+                    }
+                } else {
+                    return self.title
+                }
+            }() ?? "Unknown Title"
+            //let title = autoTitle ? try await fetchMetadata(for: url.sanitise.absoluteString).title : self.title
+            let bookmark = try BookmarksManager.shared.addBookmark(id: nil, title: title, url: url.sanitise.absoluteString, host: url.host ?? "", notes: notes ?? "", folder: nil)
             let entity = BookmarkEntity(id: bookmark.id!, title: bookmark.wrappedTitle, url: bookmark.wrappedURL.absoluteString, host: bookmark.wrappedHost, notes: bookmark.wrappedNotes, isFavorited: false, dateAdded: bookmark.wrappedDate)
                 return .result(value: entity)
         } catch let error {
