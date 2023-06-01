@@ -48,6 +48,14 @@ struct AddBookmarkView: View {
         #endif
     }
     
+    var isValidURL: Bool {
+        if let url = URL(string: url)?.sanitise, url.absoluteString.isValidURL {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -139,7 +147,7 @@ struct AddBookmarkView: View {
                             dismiss()
                             showDonePopUp = true
                         }
-                        .disabled(!url.isValidURL || title.isEmpty)
+                        .disabled(!isValidURL || title.isEmpty)
                         .keyboardShortcut("s", modifiers: .command)
                         .shimmering(active: url.isValidURL && title.isEmpty)
                     }
@@ -199,10 +207,10 @@ struct AddBookmarkView: View {
                     } else {
                         return
                     }
-                }
-                
-                if title.isEmpty {
-                    askForTitle = true
+                    
+                    if title.isEmpty {
+                        askForTitle = true
+                    }
                 }
             }
         }
