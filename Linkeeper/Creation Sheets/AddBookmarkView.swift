@@ -184,8 +184,16 @@ struct AddBookmarkView: View {
                             } else {
                                 askForTitle = true
                             }
-                            if let URLHost = metadata.url?.host {
-                                self.host = URLHost
+                            if #available(iOS 16.0, *) {
+                                if let URLHost = url.host {
+                                    self.host = URLHost
+                                }
+                            } else {
+                                if let URLHost = metadata.url?.host ?? metadata.originalURL?.host {
+                                    self.host = URLHost
+                                } else {
+                                    self.host = url.absoluteString
+                                }
                             }
                         }
                     } else {
