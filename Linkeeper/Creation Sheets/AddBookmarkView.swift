@@ -7,7 +7,6 @@
 
 import SwiftUI
 import LinkPresentation
-import UIKit
 import Shimmer
 
 struct AddBookmarkView: View {
