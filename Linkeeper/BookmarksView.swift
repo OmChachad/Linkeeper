@@ -106,12 +106,15 @@ struct BookmarksView: View {
                         }
                         
                         if groupByFolders && folder == nil {
-                            BookmarksGrid(for: ungroupedBookmarks)
-                                .padding(15)
+                            if !ungroupedBookmarks.isEmpty {
+                                BookmarksGrid(for: ungroupedBookmarks)
+                                    .padding(15)
+                            }
                             
                             ForEach(folders, id: \.self) { folder in
                                 let folderHasBookmarks = !folder.bookmarksArray.isEmpty
-                                if searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty {
+                                let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
+                                if showGroup {
                                     DisclosureGroup {
                                         if folderHasBookmarks {
                                             BookmarksGrid(for: filteredBookmarks(for: folder))
