@@ -33,13 +33,14 @@ struct ContentView: View {
     
     
     @State private var currentFolder: Folder?
+    @State private var showingAll = false
     
     var body: some View {
         NavigationView  {
             Group {
                 List {
                     Group {
-                        NavigationLink(destination: BookmarksView()) {
+                        NavigationLink(destination: BookmarksView(), isActive: $showingAll) {
                             ListItem(markdown: "**All**", systemName: "tray.fill", color: Color(UIColor.darkGray), subItemsCount: allBookmarks.count)
                         }
                         NavigationLink(destination: BookmarksView(onlyFavorites: true)) {
@@ -63,7 +64,7 @@ struct ContentView: View {
                     }
                     .headerProminence(.increased)
                 }
-                .sideBarForMac() 
+                .sideBarForMac()
             }
             .navigationBarTitle("Folders")
             .navigationViewStyle(.automatic)
@@ -104,16 +105,20 @@ struct ContentView: View {
             }
             .environment(\.editMode, $mode)
             
-            Text("No folder is selected")
+            Text("No folder is selected.")
                 .font(.title)
+                .fontWeight(.semibold)
                 .foregroundColor(.secondary)
         }
         .sheet(isPresented: $showingSettings, content: Settings.init)
         .sheet(isPresented: $showingNewBookmarkView) {
             AddBookmarkView(folderPreset: currentFolder)
         }
-        .sheet(isPresented: $showingNewFolderView) {
-            AddFolderView()
+        .sheet(isPresented: $showingNewFolderView, content: AddFolderView.init)
+        .onAppear {
+            #if targetEnvironment(macCatalyst)
+                showingAll = true
+            #endif
         }
     }
     
