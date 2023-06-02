@@ -177,7 +177,9 @@ struct BookmarksView: View {
                     }
                     .menuStyle(.borderlessButton)
                 } else {
+                    #if !targetEnvironment(macCatalyst)
                     Button("Done") { editState = .inactive }
+                    #endif
                 }
                 
                 #if targetEnvironment(macCatalyst)
