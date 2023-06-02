@@ -31,10 +31,6 @@ struct ContentView: View {
     
     @State var mode: EditMode = .inactive
     
-    @State private var mainOptions: [MainOption] = [
-        MainOption(title: "All", symbol: "tray.fill", color: Color(UIColor.darkGray), onlyFavorites: false),
-        MainOption(title: "Favorites", symbol: "heart.fill", color: Color.pink, onlyFavorites: true)
-    ]
     
     @State private var currentFolder: Folder?
     
@@ -42,25 +38,15 @@ struct ContentView: View {
         NavigationView  {
             Group {
                 List {
-                    ForEach(mainOptions, id: \.self) { option in
-                        NavigationLink(destination: BookmarksView(folder: nil, onlyFavorites: option.onlyFavorites)) {
-                            HStack {
-                                Label {
-                                    Text(option.title)
-                                        .bold()
-                                        .padding(.leading, 5)
-                                } icon: {
-                                    iconCircle(symbol: option.symbol, color: option.color)
-                                }
-                                
-                                Spacer()
-                                
-                                Text(String(option.onlyFavorites ? favoriteBookmarks.count : allBookmarks.count))
-                                                    .foregroundColor(.secondary)
-                            }
-                            .frame(height: 60)
+                    Group {
+                        NavigationLink(destination: BookmarksView(folder: nil, onlyFavorites: false)) {
+                            ListItem(title: "**All**", systemName: "tray.fill", color: Color(UIColor.darkGray), subItemsCount: allBookmarks.count)
+                        }
+                        NavigationLink(destination: BookmarksView(folder: nil, onlyFavorites: false)) {
+                            ListItem(title: "**Favorites**", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
                         }
                     }
+                    .frame(height: 60)
                     .materialRowBackgroundForMac()
                     
                     
@@ -204,21 +190,7 @@ struct FolderItemView: View {
     @State private var deleteConfirmation: Bool = false
     
     var body: some View {
-        HStack {
-            Label {
-                Text(folder.wrappedTitle)
-                    .lineLimit(1)
-                    .padding(.leading, 5)
-            } icon: {
-                iconCircle(symbol: folder.wrappedSymbol, color: folder.wrappedColor)
-            }
-           
-            
-            Spacer()
-            
-            Text("\(bookmarksInFolder.count(context: moc, folder: folder))")
-                .foregroundColor(.secondary)
-        }
+        ListItem(title: folder.wrappedTitle, systemName: folder.wrappedSymbol, color: folder.wrappedColor, subItemsCount: bookmarksInFolder.count(context: moc, folder: folder))
         .contextMenu {
             Button {
                 editingFolder = true
@@ -298,31 +270,50 @@ struct FolderItemView: View {
     }
 }
 
-struct iconCircle: View {
-    var symbol: String
+struct ListItem: View {
+    var title: String
+    var systemName: String
     var color: Color
+    var subItemsCount: Int
     
     var body: some View {
+        HStack {
+            Label {
+                Text(try! AttributedString(markdown: title.data(using: .utf8) ?? Data()))
+                    .lineLimit(1)
+                    .padding(.leading, 5)
+            } icon: {
+                icon()
+            }
+            
+            Spacer()
+            
+            Text(String(subItemsCount))
+                .foregroundColor(.secondary)
+                .frame(minWidth: 15, alignment: .center)
+        }
+    }
+    
+    func icon() -> some View {
         Group {
-#if targetEnvironment(macCatalyst)
-            Image(systemName: symbol)
+        #if targetEnvironment(macCatalyst)
+            Image(systemName: systemName)
                 .imageScale(.medium)
                 .padding(5)
                 .frame(width: 27.5, height: 27.5)
-#else
-            Image(systemName: symbol)
+        #else
+            Image(systemName: systemName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 20, height: 20)
                 .padding(10)
-#endif
+        #endif
         }
         .foregroundColor(.white)
         .background(color, in: Circle())
         .padding(5)
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
