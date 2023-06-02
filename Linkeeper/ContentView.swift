@@ -39,10 +39,10 @@ struct ContentView: View {
             Group {
                 List {
                     Group {
-                        NavigationLink(destination: BookmarksView(folder: nil, onlyFavorites: false)) {
+                        NavigationLink(destination: BookmarksView()) {
                             ListItem(title: "**All**", systemName: "tray.fill", color: Color(UIColor.darkGray), subItemsCount: allBookmarks.count)
                         }
-                        NavigationLink(destination: BookmarksView(folder: nil, onlyFavorites: false)) {
+                        NavigationLink(destination: BookmarksView(onlyFavorites: true)) {
                             ListItem(title: "**Favorites**", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
                         }
                     }
@@ -53,7 +53,7 @@ struct ContentView: View {
                     Section(header: Text("My Folders")) {
                         ForEach(folders) { folder in
                             NavigationLink(tag: folder, selection: $currentFolder) {
-                                BookmarksView(folder: folder, onlyFavorites: false)
+                                BookmarksView(folder: folder)
                             } label: {
                                 FolderItemView(folder: folder)
                             }

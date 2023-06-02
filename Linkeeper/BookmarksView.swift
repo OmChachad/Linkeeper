@@ -66,14 +66,17 @@ struct BookmarksView: View {
         }
     }
     
-    init(folder: Folder?, onlyFavorites: Bool) {
-        if let folder = folder {
-            _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "folder == %@", folder))
-        } else if onlyFavorites {
-            _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "isFavorited == true"))
-        }
+    
+    init() {}
+    
+    init(folder: Folder) {
+        _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "folder == %@", folder))
         
         self.folder = folder
+    }
+    
+    init(onlyFavorites: Bool = true) {
+        _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "isFavorited == true"))
         self.favorites = onlyFavorites
     }
     
@@ -344,7 +347,7 @@ Sort By
 struct BookmarksView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            BookmarksView(folder: nil, onlyFavorites: false)
+            BookmarksView()
         }
     }
 }
