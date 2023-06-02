@@ -40,10 +40,10 @@ struct ContentView: View {
                 List {
                     Group {
                         NavigationLink(destination: BookmarksView()) {
-                            ListItem(title: "**All**", systemName: "tray.fill", color: Color(UIColor.darkGray), subItemsCount: allBookmarks.count)
+                            ListItem(markdown: "**All**", systemName: "tray.fill", color: Color(UIColor.darkGray), subItemsCount: allBookmarks.count)
                         }
                         NavigationLink(destination: BookmarksView(onlyFavorites: true)) {
-                            ListItem(title: "**Favorites**", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
+                            ListItem(markdown: "**Favorites**", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
                         }
                     }
                     .frame(height: 60)
@@ -60,12 +60,10 @@ struct ContentView: View {
                         }
                         .onMove(perform: moveItem)
                         .onDelete(perform: delete)
-                        
                     }
                     .headerProminence(.increased)
                 }
-                .sideBarForMac()
-                
+                .sideBarForMac() 
             }
             .navigationBarTitle("Folders")
             .navigationViewStyle(.automatic)
@@ -271,15 +269,33 @@ struct FolderItemView: View {
 }
 
 struct ListItem: View {
-    var title: String
+    var title: AttributedString
     var systemName: String
     var color: Color
     var subItemsCount: Int
     
+    init(title: String, systemName: String, color: Color, subItemsCount: Int) {
+        self.title = AttributedString(title)
+        self.systemName = systemName
+        self.color = color
+        self.subItemsCount = subItemsCount
+    }
+    
+    init(markdown: String, systemName: String, color: Color, subItemsCount: Int) {
+        if let data = markdown.data(using: .utf8) {
+            self.title = try! AttributedString(markdown: data)
+        } else {
+            self.title = AttributedString(markdown)
+        }
+        self.systemName = systemName
+        self.color = color
+        self.subItemsCount = subItemsCount
+    }
+    
     var body: some View {
         HStack {
             Label {
-                Text(try! AttributedString(markdown: title.data(using: .utf8) ?? Data()))
+                Text(title)
                     .lineLimit(1)
                     .padding(.leading, 5)
             } icon: {
