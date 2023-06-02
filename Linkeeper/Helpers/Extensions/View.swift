@@ -42,7 +42,7 @@ extension View {
         
             .listRowBackground (
                 Color(uiColor: .systemGray).opacity(0.25)
-                    .background(.ultraThinMaterial)
+                    //.background(.regularM)
                     .cornerRadius(10, style: .continuous)
                     .padding(
                         EdgeInsets(
