@@ -108,6 +108,13 @@ struct BookmarkItem: View {
                 openURL(bookmark.wrappedURL)
             }
         }
+        .onLongPressGesture(minimumDuration: 0.1, perform: {
+            #if targetEnvironment(macCatalyst)
+            detailViewImage = DetailsPreview(image: image, previewState: preview)
+            toBeEditedBookmark = bookmark
+            showDetails.toggle()
+            #endif
+        })
         .shadow(color: .black.opacity(0.3), radius: shadowsEnabled ? (selectedBookmarks.contains(bookmark) ? 0 : 3) : 0) // Checks if the shadows are enabled in Settings, otherwise only shows them when the bookmark is not selected.
         .opacity(selectedBookmarks.contains(bookmark) ? 0.75 : 1)
         .padding(selectedBookmarks.contains(bookmark) ? 2.5 : 0)
@@ -245,9 +252,7 @@ func startFetchingMetadata(for url: URL, fetchSubresources: Bool, timeout: TimeI
     return try await withCheckedThrowingContinuation { continuation in
         let metadataProvider = LPMetadataProvider()
         metadataProvider.shouldFetchSubresources = fetchSubresources
-        if let timeout = timeout {
-            metadataProvider.timeout = timeout
-        }
+        metadataProvider.timeout = timeout ?? metadataProvider.timeout
         
         metadataProvider.startFetchingMetadata(for: url) { metadata, error in
             if error != nil {
