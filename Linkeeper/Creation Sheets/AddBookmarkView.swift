@@ -31,6 +31,8 @@ struct AddBookmarkView: View {
     @State private var addingNewFolder = false
     @State private var showDonePopUp = false
     
+    @AppStorage("removeTrackingParameters") var removeTrackingParameters = false
+    
     var pasteboardContents: String? {
         if !isMacCatalyst, #available(iOS 16.0, *) {
             return ""
@@ -48,7 +50,7 @@ struct AddBookmarkView: View {
     }
     
     var isValidURL: Bool {
-        if let url = URL(string: url)?.sanitise, url.absoluteString.isValidURL {
+        if url.isValidURL, URL(string: url)?.sanitise != nil {
             return true
         } else {
             return false
@@ -89,6 +91,10 @@ struct AddBookmarkView: View {
                             .padding(.trailing, 5)
                         }
                     }
+                } footer: {
+                    if removeTrackingParameters {
+                        Text("You have remove tracking parameters enabled, this will remove any content after **?** in the URL.")
+                    }
                 }
                 
                 
@@ -100,8 +106,8 @@ struct AddBookmarkView: View {
                     }
                 }
                 
-                Section(footer: Text("Selecting \"None\" will cause this bookmark to only appear in the All Bookmarks section of the app")) {
-                    Picker("Folder", selection: $folder) {
+                Section {
+                    Picker("Folder", selection: $folder.animation()) {
                         Text("None").tag(nil as Folder?)
                         
                         ForEach(folders, id: \.self) { folder in
@@ -115,6 +121,10 @@ struct AddBookmarkView: View {
                     } label: {
                         Text("Create New Folder")
                     }
+                } footer: {
+                    if folder == nil {
+                        Text("Selecting \"None\" will cause this bookmark to only appear in the All Bookmarks section of the app")
+                    }
                 }
                 
                 Section {
@@ -126,19 +136,22 @@ struct AddBookmarkView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    if let url = URL(string: url)?.sanitise, url.absoluteString.isValidURL, title.isEmpty {
+                    if url.isValidURL, URL(string: url)?.sanitise != nil, title.isEmpty {
                         ProgressView()
                             .opacity(0.7)
                     } else {
                         Button("Add") {
-                            let sanitisedURL = URL(string: url)?.sanitise
+                            var sanitisedURL = URL(string: url)?.sanitise.absoluteString ?? url
+                            if removeTrackingParameters {
+                                sanitisedURL = sanitisedURL.components(separatedBy: "?").first ?? sanitisedURL
+                            }
                             let bookmark = Bookmark(context: moc)
                             bookmark.id = UUID()
                             bookmark.title = title
                             bookmark.date = Date.now
                             bookmark.host = host
                             bookmark.notes = notes
-                            bookmark.url = sanitisedURL?.absoluteString
+                            bookmark.url = sanitisedURL
                             bookmark.folder = folder
                             
                             try? moc.save()
@@ -203,8 +216,6 @@ struct AddBookmarkView: View {
                                 }
                             }
                         }
-                    } else {
-                        return
                     }
                     
                     if title.isEmpty {
@@ -220,18 +231,11 @@ struct AddBookmarkView: View {
     }
 }
 
-
-
 struct AddBookmarkView_Previews: PreviewProvider {
     static var previews: some View {
         AddBookmarkView()
     }
 }
-
-
-
-
-
 
 struct FolderPickerItem: View {
     var folder: Folder
@@ -247,20 +251,3 @@ struct FolderPickerItem: View {
         }
     }
 }
-
-
-// Doesn't work, gotta think about the fix
-//func newBookmark(title: String, url: URL, host: String, notes: String, folder: Folder?) {
-//    @Environment(\.managedObjectContext) var moc
-//
-//    let bookmark = Bookmark(context: moc)
-//    bookmark.id = UUID()
-//    bookmark.title = title
-//    bookmark.date = Date.now
-//    bookmark.host = host
-//    bookmark.notes = notes
-//    bookmark.url = url.absoluteString
-//    bookmark.folder = folder
-//
-//    try? moc.save()
-//}

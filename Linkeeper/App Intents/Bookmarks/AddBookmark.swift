@@ -44,7 +44,6 @@ If disabled, you can add a title yourself.
         })
     }
     
-    @MainActor // <-- include if the code needs to be run on the main thread
     func perform() async throws -> some ReturnsValue<BookmarkEntity> {
         guard url.sanitise.absoluteString.isValidURL == true else {
             throw CustomError.message("Invalid URL")
@@ -62,14 +61,23 @@ If disabled, you can add a title yourself.
                     do {
                         return try await metadataProvider.startFetchingMetadata(for: url).title ?? url.host
                     } catch {
-                        return nil
+                        return url.host ?? "Unknown Title"
                     }
                 } else {
                     return self.title
                 }
-            }() ?? "Unknown Title"
-            //let title = autoTitle ? try await fetchMetadata(for: url.sanitise.absoluteString).title : self.title
-            let bookmark = try BookmarksManager.shared.addBookmark(id: nil, title: title, url: url.sanitise.absoluteString, host: url.host ?? "", notes: notes ?? "", folder: nil)
+            }() ?? url.host ?? "Unknown Title"
+            
+            let urlString: String = {
+                let url = url.absoluteString
+                if UserDefaults.standard.bool(forKey: "removeTrackingParameters") == true {
+                         return url.components(separatedBy: "?").first ?? url
+                } else {
+                    return url
+                }
+            }()
+            
+            let bookmark = try BookmarksManager.shared.addBookmark(id: nil, title: title, url: urlString, host: url.host ?? "", notes: notes ?? "", folder: nil)
             let entity = BookmarkEntity(id: bookmark.id!, title: bookmark.wrappedTitle, url: bookmark.wrappedURL.absoluteString, host: bookmark.wrappedHost, notes: bookmark.wrappedNotes, isFavorited: false, dateAdded: bookmark.wrappedDate)
                 return .result(value: entity)
         } catch let error {
