@@ -22,13 +22,16 @@ struct IntroductionView: View {
     var body: some View {
         VStack {
             Spacer()
+            
             Image("Icon")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 150, height: 150)
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
                 .shadow(radius: 5)
+            
             Spacer()
+            
             Text("Welcome to Linkeeper")
                 .font(.system(.title))
                 .fontWeight(.semibold)

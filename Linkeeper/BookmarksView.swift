@@ -83,18 +83,7 @@ struct BookmarksView: View {
     var body: some View {
         Group {
             if bookmarks.isEmpty {
-                VStack {
-                    Text(favorites != true ? "You do not have any bookmarks \(folder != nil ? "in this folder" : "")" : "You do not have any favorites")
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .frame(alignment: .center)
-                        .padding(5)
-                    if favorites != true {
-                        Button("Create a bookmark") {
-                            addingBookmark.toggle()
-                        }
-                    }
-                }
+                noBookmarksView()
             } else {
                 ScrollView {
                     Group {
@@ -260,6 +249,21 @@ struct BookmarksView: View {
         .animation(.easeInOut.speed(0.5), value: editState)
     }
     
+    func noBookmarksView() -> some View {
+        VStack {
+            Text(favorites != true ? "You do not have any bookmarks \(folder != nil ? "in this folder" : "")" : "You do not have any favorites")
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .frame(alignment: .center)
+                .padding(5)
+            if favorites != true {
+                Button("Create a bookmark") {
+                    addingBookmark.toggle()
+                }
+            }
+        }
+    }
+    
     func toolbarItems() -> some View {
         Group {
             Button { editState = .active } label: { Label("Select", systemImage: "checkmark.circle") }
@@ -301,6 +305,7 @@ Sort By
         }
         .buttonStyle(.borderless)
     }
+    
     func BookmarksGrid(for bookmarks: [Bookmark]) -> some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 15) {
             ForEach(bookmarks, id: \.self) { bookmark in

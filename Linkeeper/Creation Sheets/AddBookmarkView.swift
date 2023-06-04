@@ -231,12 +231,6 @@ struct AddBookmarkView: View {
     }
 }
 
-struct AddBookmarkView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddBookmarkView()
-    }
-}
-
 struct FolderPickerItem: View {
     var folder: Folder
     

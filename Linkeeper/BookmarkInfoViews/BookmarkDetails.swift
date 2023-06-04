@@ -234,10 +234,7 @@ struct BookmarkDetails: View {
 }
 
 
-
-
-
-struct AdaptiveScrollView<Content: View>: View {
+private struct AdaptiveScrollView<Content: View>: View {
     var notes: String
     
     @ViewBuilder var content: () -> Content

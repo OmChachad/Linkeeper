@@ -17,6 +17,8 @@
 		C24DF57D283E7185003C9692 /* Bookmark+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */; };
 		C24DF57E283E7185003C9692 /* Folder+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57A283E7185003C9692 /* Folder+CoreDataClass.swift */; };
 		C24DF57F283E7185003C9692 /* Folder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57B283E7185003C9692 /* Folder+CoreDataProperties.swift */; };
+		C25316022A2D0398004F1491 /* FolderItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25316012A2D0398004F1491 /* FolderItemView.swift */; };
+		C25316042A2D03D2004F1491 /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25316032A2D03D2004F1491 /* ListItem.swift */; };
 		C2550E64282705F900ADA0BF /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2550E63282705F900ADA0BF /* BookmarksView.swift */; };
 		C281D96D2A23D28200535807 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
 		C281D96F2A23D4FF00535807 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96E2A23D4FF00535807 /* BookmarksManager.swift */; };
@@ -61,6 +63,8 @@
 		C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bookmark+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C24DF57A283E7185003C9692 /* Folder+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C24DF57B283E7185003C9692 /* Folder+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		C25316012A2D0398004F1491 /* FolderItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderItemView.swift; sourceTree = "<group>"; };
+		C25316032A2D03D2004F1491 /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		C2550E63282705F900ADA0BF /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		C281D96C2A23D28200535807 /* BookmarkEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEntity.swift; sourceTree = "<group>"; };
 		C281D96E2A23D4FF00535807 /* BookmarksManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksManager.swift; sourceTree = "<group>"; };
@@ -185,6 +189,8 @@
 		C290506A2A12B60E00817C48 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C25316012A2D0398004F1491 /* FolderItemView.swift */,
+				C25316032A2D03D2004F1491 /* ListItem.swift */,
 				C2B4F6C62A18E48100618411 /* AlertView.swift */,
 				C23BDA462840C70E003DD30D /* CacheManager.swift */,
 				C28B6E6828190C120030B6DD /* ColorsAndSymbols.swift */,
@@ -231,15 +237,15 @@
 				C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */,
 				C29920052857257C00636E7F /* Info.plist */,
 				C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */,
-				C2C8DC3F28171D93000F4AEB /* ContentView.swift */,
 				C2E806E72A26194E00A41D0C /* IntroductionView.swift */,
+				C2C8DC3F28171D93000F4AEB /* ContentView.swift */,
 				C2550E63282705F900ADA0BF /* BookmarksView.swift */,
-				C2E806E42A26110D00A41D0C /* Settings */,
 				C252EAB02842B1B000E296F5 /* BookmarkInfoViews */,
 				C29050692A12B4FF00817C48 /* Modification */,
 				C2550E602827040000ADA0BF /* Creation Sheets */,
-				C24DF580283E718C003C9692 /* CoreData */,
+				C2E806E42A26110D00A41D0C /* Settings */,
 				C290506A2A12B60E00817C48 /* Helpers */,
+				C24DF580283E718C003C9692 /* CoreData */,
 				C281D96B2A23C86D00535807 /* App Intents */,
 				C2C8DC4128171D94000F4AEB /* Assets.xcassets */,
 				C2C8DC4328171D94000F4AEB /* Preview Content */,
@@ -362,11 +368,13 @@
 				C281D9BA2A2534E100535807 /* AddFolder.swift in Sources */,
 				C2E806E62A26111E00A41D0C /* Settings.swift in Sources */,
 				C281D9732A23E8B300535807 /* FoldersManager.swift in Sources */,
+				C25316042A2D03D2004F1491 /* ListItem.swift in Sources */,
 				C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */,
 				C281D9B82A25277A00535807 /* DeleteFolder.swift in Sources */,
 				C29050682A125EF100817C48 /* MoveBookmarksView.swift in Sources */,
 				C243E22E282B93CD00888C96 /* BookmarkItem.swift in Sources */,
 				C281D9B62A2512F900535807 /* FavoriteToggle.swift in Sources */,
+				C25316022A2D0398004F1491 /* FolderItemView.swift in Sources */,
 				C24DF57C283E7185003C9692 /* Bookmark+CoreDataClass.swift in Sources */,
 				C23BDA472840C70E003DD30D /* CacheManager.swift in Sources */,
 				C24DF57E283E7185003C9692 /* Folder+CoreDataClass.swift in Sources */,
