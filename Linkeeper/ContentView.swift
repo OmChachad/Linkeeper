@@ -28,35 +28,33 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView  {
-            Group {
-                List {
-                    Group {
-                        NavigationLink(destination: BookmarksView(), isActive: $showingAll) {
-                            ListItem(markdown: "**All**", systemName: "tray.fill", color: Color(UIColor.darkGray), subItemsCount: allBookmarks.count)
-                        }
-                        NavigationLink(destination: BookmarksView(onlyFavorites: true)) {
-                            ListItem(markdown: "**Favorites**", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
-                        }
+            List {
+                Group {
+                    NavigationLink(destination: BookmarksView(), isActive: $showingAll) {
+                        ListItem(markdown: "**All**", systemName: "tray.fill", color: Color(UIColor.darkGray), subItemsCount: allBookmarks.count)
                     }
-                    .frame(height: 60)
-                    .materialRowBackgroundForMac()
-                    
-                    
-                    Section(header: Text("My Folders")) {
-                        ForEach(folders) { folder in
-                            NavigationLink(tag: folder, selection: $currentFolder) {
-                                BookmarksView(folder: folder)
-                            } label: {
-                                FolderItemView(folder: folder)
-                            }
-                        }
-                        .onMove(perform: moveItem)
-                        .onDelete(perform: delete)
+                    NavigationLink(destination: BookmarksView(onlyFavorites: true)) {
+                        ListItem(markdown: "**Favorites**", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
                     }
-                    .headerProminence(.increased)
                 }
-                .sideBarForMac()
+                .frame(height: 60)
+                .materialRowBackgroundForMac()
+                
+                
+                Section(header: Text("My Folders")) {
+                    ForEach(folders) { folder in
+                        NavigationLink(tag: folder, selection: $currentFolder) {
+                            BookmarksView(folder: folder)
+                        } label: {
+                            FolderItemView(folder: folder)
+                        }
+                    }
+                    .onMove(perform: moveItem)
+                    .onDelete(perform: delete)
+                }
+                .headerProminence(.increased)
             }
+            .sideBarForMac()
             .navigationBarTitle("Folders")
             .navigationViewStyle(.automatic)
             .toolbar {
@@ -69,6 +67,7 @@ struct ContentView: View {
                     .keyboardShortcut(",", modifiers: .command)
                     .buttonStyle(.borderless)
                 }
+                
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     EditButton()
                         .buttonStyle(.borderless)
@@ -114,7 +113,7 @@ struct ContentView: View {
         }
     }
     
-    func bookmarksCount(excludeFavourites: Bool) -> Int {
+    private func bookmarksCount(excludeFavourites: Bool) -> Int {
         if excludeFavourites {
             if let count = try? moc.count(for: NSFetchRequest<NSFetchRequestResult>(entityName: "Bookmark")) {
                 return count
@@ -130,7 +129,7 @@ struct ContentView: View {
         return 0
     }
     
-    func delete(at offset: IndexSet) {
+    private func delete(at offset: IndexSet) {
         offset.map { folders[$0] }.forEach(moc.delete)
 
         try? moc.save()
