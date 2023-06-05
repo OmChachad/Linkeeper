@@ -89,6 +89,7 @@ struct ContentView: View {
                         Button("Add Folder") {
                             showingNewFolderView = true
                         }
+                        .keyboardShortcut("n", modifiers: [.shift, .command])
                     }
                     .buttonStyle(.borderless)
                 }
