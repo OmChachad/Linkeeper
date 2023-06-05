@@ -58,7 +58,7 @@ struct ContentView: View {
             .navigationBarTitle("Folders")
             .navigationViewStyle(.automatic)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         showingSettings.toggle()
                     } label: {
