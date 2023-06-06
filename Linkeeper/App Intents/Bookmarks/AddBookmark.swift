@@ -49,9 +49,6 @@ If disabled, you can add a title yourself.
             throw CustomError.message("Invalid URL")
         }
         do {
-            if !autoTitle && (title == nil || ((title?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) != false)) {
-                throw CustomError.message("Missing title")
-            }
             let title: String = await {
                 if autoTitle {
                     let metadataProvider = LPMetadataProvider()
@@ -59,14 +56,26 @@ If disabled, you can add a title yourself.
                     metadataProvider.timeout = 15
                     
                     do {
-                        return try await metadataProvider.startFetchingMetadata(for: url).title ?? url.host
+                        return try await metadataProvider.startFetchingMetadata(for: url).title ?? url.host ?? "Unknown Title"
                     } catch {
-                        return url.host ?? "Unknown Title"
+                        do {
+                            return try await $title.requestValue("Failed to fetch title for \(url.host ?? "Bookmark"), please provide a title yourself.")
+                        } catch {
+                            return url.host ?? "Unknown Title"
+                        }
                     }
                 } else {
-                    return self.title
+                    if let title = self.title, !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        return title
+                    } else {
+                        do {
+                            return try await $title.requestValue("Missing Title: Please provide a valid bookmark title.")
+                        } catch {
+                            return url.host ?? "Unknown Title"
+                        }
+                    }
                 }
-            }() ?? url.host ?? "Unknown Title"
+            }()
             
             let urlString: String = {
                 let url = url.absoluteString
