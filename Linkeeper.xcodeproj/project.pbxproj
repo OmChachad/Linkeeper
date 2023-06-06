@@ -51,6 +51,7 @@
 		C2E806E62A26111E00A41D0C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E52A26111E00A41D0C /* Settings.swift */; };
 		C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E72A26194E00A41D0C /* IntroductionView.swift */; };
 		C2E806EB2A261C2200A41D0C /* Shiny in Frameworks */ = {isa = PBXBuildFile; productRef = C2E806EA2A261C2200A41D0C /* Shiny */; };
+		C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +100,7 @@
 		C2E806E52A26111E00A41D0C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		C2E806E72A26194E00A41D0C /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Linkeeper.entitlements; sourceTree = "<group>"; };
+		C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppShortcuts Provider.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 		C281D96B2A23C86D00535807 /* App Intents */ = {
 			isa = PBXGroup;
 			children = (
+				C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */,
 				C266E78C2A25D4A0009CBD96 /* Bookmarks */,
 				C266E78D2A25D4C7009CBD96 /* Folders */,
 			);
@@ -380,6 +383,7 @@
 				C24DF57E283E7185003C9692 /* Folder+CoreDataClass.swift in Sources */,
 				C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */,
 				C281D9B22A24EDEC00535807 /* DeleteBookmarks.swift in Sources */,
+				C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */,
 				C281D9B42A2501FE00535807 /* MoveBookmarks.swift in Sources */,
 				C281D96D2A23D28200535807 /* BookmarkEntity.swift in Sources */,
 				C29050732A12B7A500817C48 /* Shape.swift in Sources */,
