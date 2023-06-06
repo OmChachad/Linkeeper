@@ -17,10 +17,10 @@ struct AddFolder: AppIntent {
     @Parameter(title: "Title", description: "Provide a title for your folder.")
     var title: String
     
-    @Parameter(title: "Icon", description: "Provide an icon for your folder. You may input the name of a valid SF Symbol.", optionsProvider: IconOptionsProvider())
+    @Parameter(title: "Icon", description: "Provide an icon for your folder. You may input the name of a valid SF Symbol.", requestValueDialog: "Choose an icon for your folder", optionsProvider: IconOptionsProvider())
     var icon: String
     
-    @Parameter(title: "Color", optionsProvider: ColorOptionsProvider())
+    @Parameter(title: "Color", requestValueDialog: "Choose a color for your folder", optionsProvider: ColorOptionsProvider())
     var color: String
     
     static var parameterSummary: some ParameterSummary {
