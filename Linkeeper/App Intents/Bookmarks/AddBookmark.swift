@@ -21,7 +21,7 @@ If disabled, you can add a title yourself.
     var autoTitle: Bool
     
     @Parameter(title: "Title", description: "The title for the bookmark.", inputOptions: String.IntentInputOptions(capitalizationType: .words), requestValueDialog: "What would you like to title your bookmark?")
-    var title: String?
+    var bookmarkTitle: String?
     
     @Parameter(title: "URL", description: "The website to be bookmarked. Needs to start with \"https://\", \"http://\" or any other URL scheme.")
     var url: URL
@@ -38,7 +38,7 @@ If disabled, you can add a title yourself.
         }, otherwise: {
             Summary("Add Bookmark for \(\.$url)") {
                 \.$autoTitle
-                \.$title
+                \.$bookmarkTitle
                 \.$notes
             }
         })
@@ -59,17 +59,17 @@ If disabled, you can add a title yourself.
                         return try await metadataProvider.startFetchingMetadata(for: url).title ?? url.host ?? "Unknown Title"
                     } catch {
                         do {
-                            return try await $title.requestValue("Failed to fetch title for \(url.host ?? "Bookmark"), please provide a title yourself.")
+                            return try await $bookmarkTitle.requestValue("Failed to fetch title for \(url.host ?? "Bookmark"), please provide a title yourself.")
                         } catch {
                             return url.host ?? "Unknown Title"
                         }
                     }
                 } else {
-                    if let title = self.title, !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    if let title = self.bookmarkTitle, !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         return title
                     } else {
                         do {
-                            return try await $title.requestValue("Missing Title: Please provide a valid bookmark title.")
+                            return try await $bookmarkTitle.requestValue("Missing Title: Please provide a valid bookmark title.")
                         } catch {
                             return url.host ?? "Unknown Title"
                         }
