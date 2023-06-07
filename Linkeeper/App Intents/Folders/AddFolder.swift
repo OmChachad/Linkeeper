@@ -15,7 +15,7 @@ struct AddFolder: AppIntent {
     static var description: IntentDescription = IntentDescription("Create a new folder.", categoryName: "Create", searchKeywords: ["Group", "New", "Create", "Bookmark"])
     
     @Parameter(title: "Title", description: "Provide a title for your folder.")
-    var title: String
+    var folderTitle: String
     
     @Parameter(title: "Icon", description: "Provide an icon for your folder. You may input the name of a valid SF Symbol.", requestValueDialog: "Choose an icon for your folder", optionsProvider: IconOptionsProvider())
     var icon: String
@@ -24,7 +24,7 @@ struct AddFolder: AppIntent {
     var color: String
     
     static var parameterSummary: some ParameterSummary {
-        Summary("Add Folder \(\.$title)") {
+        Summary("Add Folder \(\.$folderTitle)") {
             \.$icon
             \.$color
         }
@@ -32,7 +32,7 @@ struct AddFolder: AppIntent {
     
     func perform() async throws -> some ReturnsValue<FolderEntity>{
         do {
-            let folder = try FoldersManager.shared.addFolder(title: title, accentColor: color, chosenSymbol: icon)
+            let folder = try FoldersManager.shared.addFolder(title: folderTitle, accentColor: color, chosenSymbol: icon)
             let entity = FolderEntity(id: folder.id!, title: folder.wrappedTitle, bookmarks: Set<BookmarkEntity>(), index: Int(folder.index), symbol: folder.wrappedSymbol, color: folder.accentColor ?? "")
             return .result(value: entity)
         } catch {
