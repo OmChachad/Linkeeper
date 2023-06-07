@@ -41,7 +41,7 @@ struct Settings: View {
                 } header: {
                     Text("Advanced")
                 } footer: {
-                    Text("Removing tracking parameters enhances privacy by reducing online tracking by stripping parameters after **?** in an URL, but it may affect website functionality and personalization on some websites.")
+                    Text("Removing tracking parameters enhances privacy by reducing online tracking by stripping parameters after **?** in an URL, but it may affect website personalization on some websites.")
                 }
 
                 
