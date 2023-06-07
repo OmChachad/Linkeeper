@@ -17,18 +17,23 @@ struct LinkeeperShortcuts: AppShortcutsProvider {
             intent: AddBookmark(),
             phrases: ["Create a bookmark in \(.applicationName)",
                       "Create a \(.applicationName) bookmark",
+                      "Create a new \(.applicationName) bookmark",
                       "Add a \(.applicationName) bookmark",
                      "Add a bookmark to \(.applicationName)",
                       "Keep a link in \(.applicationName)"
                      ],
-            shortTitle: "Add a bookmark"
+            shortTitle: "New Bookmark",
+            systemImageName: "bookmark.fill"
         )
         
         AppShortcut(
             intent: AddFolder(),
             phrases: ["Create a folder in \(.applicationName)",
+                      "Create a new \(.applicationName) folder",
                      "Add a folder to \(.applicationName)"
-                     ]
+                     ],
+            shortTitle: "New Folder",
+            systemImageName: "folder.fill.badge.plus"
         )
     }
 }
