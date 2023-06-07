@@ -65,12 +65,12 @@ struct ContentView: View {
                         Image(systemName: "gear")
                     }
                     .keyboardShortcut(",", modifiers: .command)
-                    .buttonStyle(.borderless)
+                    .borderlessMacCatalystButton()
                 }
                 
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     EditButton()
-                        .buttonStyle(.borderless)
+                        .borderlessMacCatalystButton()
                 }
                 
                 ToolbarItemGroup(placement: .bottomBar) {
@@ -91,7 +91,7 @@ struct ContentView: View {
                         }
                         .keyboardShortcut("n", modifiers: [.shift, .command])
                     }
-                    .buttonStyle(.borderless)
+                    .borderlessMacCatalystButton()
                 }
             }
             .environment(\.editMode, $mode)

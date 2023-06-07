@@ -303,7 +303,7 @@ Sort By
             Button { addingBookmark.toggle() } label: { Label("Add Bookmark", systemImage: "plus") }
                 .keyboardShortcut("n", modifiers: .command)
         }
-        .buttonStyle(.borderless)
+        .borderlessMacCatalystButton()
     }
     
     func BookmarksGrid(for bookmarks: [Bookmark]) -> some View {
