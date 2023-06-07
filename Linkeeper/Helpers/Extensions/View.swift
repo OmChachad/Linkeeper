@@ -36,6 +36,15 @@ extension View {
         #endif
     }
     
+    func borderlessMacCatalystButton() -> some View {
+        #if targetEnvironment(macCatalyst)
+            return self
+            .buttonStyle(.borderless)
+        #else
+            return self
+        #endif
+    }
+    
     func materialRowBackgroundForMac() -> some View {
 #if targetEnvironment(macCatalyst)
         self
