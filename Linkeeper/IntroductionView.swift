@@ -20,7 +20,7 @@ struct IntroductionView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 15) {
             Spacer()
             
             Image("Icon")
@@ -63,9 +63,9 @@ struct IntroductionView: View {
                     }
             }
             .buttonStyle(.borderless)
-            .padding()
+            //.padding()
         }
-        .padding()
+        .padding(30)
     }
 }
 
