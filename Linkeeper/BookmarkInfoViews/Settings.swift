@@ -59,6 +59,11 @@ struct Settings: View {
                                 .font(.title3.bold())
                             Text("I'm the developer behind Linkeeper, thanks for checking out my app. I hope you are enjoying using it!")
                                 .foregroundColor(.secondary)
+                            HStack {
+                                socialLink(url: "https://www.youtube.com/TheiTE")
+                                socialLink(url: "https://itecheverything.com")
+                                socialLink(url: "https://twitter.com/TheOriginaliTE")
+                            }
                         }
                         .multilineTextAlignment(.center)
                     }
@@ -79,7 +84,7 @@ struct Settings: View {
                         
                         Spacer()
                         
-                        Button("Developer's Website") {
+                        Button("Our Website") {
                             openURL(URL(string: "https://starlightapps.org")!)
                         }
                     }
@@ -91,6 +96,46 @@ struct Settings: View {
                     .keyboardShortcut(.cancelAction)
             }
         }
+    }
+    
+    private func socialLink(url: String) -> some View {
+        let url: URL = URL(string: url) ?? URL(string: "https://starlightapps.org")!
+        
+        return VStack {
+            symbol(for: url)
+                .padding(5)
+                .padding(.horizontal, 10)
+                .background(.secondary.opacity(0.15))
+                .cornerRadius(20)
+        }.onTapGesture {
+            openURL(url)
+        }
+    }
+    
+    private func symbol(for url: URL) -> some View {
+        Group {
+            if #available(iOS 16.0, *) {
+                switch url.host() {
+                case "www.youtube.com":
+                    YouTube()
+                        .foregroundColor(.red)
+                case "twitter.com":
+                    Twitter()
+                        .foregroundColor(Color(red: 0.0, green: 0.6745, blue: 0.9333))
+                default:
+                    Image(systemName: "globe")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(.blue)
+                }
+            } else {
+                Image(systemName: "globe")
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(.blue)
+            }
+        }
+        .frame(width: 22.5, height: 22.5)
     }
 }
 
