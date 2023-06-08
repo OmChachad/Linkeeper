@@ -46,7 +46,7 @@ struct Settings: View {
 
                 
                 Section("About") {
-                    HStack {
+                    VStack{
                         Image("Om")
                             .resizable()
                             .scaledToFit()
@@ -54,12 +54,13 @@ struct Settings: View {
                             .clipShape(Circle())
                             .shadow(radius: 2)
                         
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .center) {
                             Text("Hi, I'm Om Chachad! 👋🏻")
                                 .font(.title3.bold())
                             Text("I'm the developer behind Linkeeper, thanks for checking out my app. I hope you are enjoying using it!")
                                 .foregroundColor(.secondary)
                         }
+                        .multilineTextAlignment(.center)
                     }
                     .padding(.vertical, 5)
                     
