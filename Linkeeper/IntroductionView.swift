@@ -82,6 +82,9 @@ private extension View {
 
 struct IntroductionView_Previews: PreviewProvider {
     static var previews: some View {
-        IntroductionView()
+        VStack {}
+            .sheet(isPresented: .constant(true), content: {
+                IntroductionView()
+            })
     }
 }
