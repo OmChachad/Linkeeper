@@ -15,15 +15,15 @@ struct LinkeeperShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
             intent: AddBookmark(),
-            phrases: ["Create a bookmark in \(.applicationName)",
+            phrases: ["Add a \(.applicationName) bookmark",
+                      "Create a bookmark in \(.applicationName)",
                       "Create a \(.applicationName) bookmark",
                       "Create a new \(.applicationName) bookmark",
-                      "Add a \(.applicationName) bookmark",
                      "Add a bookmark to \(.applicationName)",
                       "Keep a link in \(.applicationName)"
                      ],
             shortTitle: "New Bookmark",
-            systemImageName: "bookmark.fill"
+            systemImageName: "plus"
         )
         
         AppShortcut(
