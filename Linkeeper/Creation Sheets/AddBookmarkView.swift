@@ -57,6 +57,15 @@ struct AddBookmarkView: View {
         }
     }
     
+    init(folderPreset: Folder? = nil) {
+        self.folderPreset = folderPreset
+    }
+    
+    init(urlString: String, folderPreset: Folder? = nil) {
+        self.url = url
+        self.folder = folderPreset
+    }
+    
     var body: some View {
         NavigationView {
             Form {
