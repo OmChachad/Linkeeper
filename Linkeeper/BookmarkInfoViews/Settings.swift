@@ -14,6 +14,14 @@ struct Settings: View {
     @AppStorage("ShadowsEnabled") var shadowsEnabled = true
     @AppStorage("removeTrackingParameters") var removeTrackingParameters = false
     
+    var isMacCatalyst: Bool {
+        #if targetEnvironment(macCatalyst)
+            return true
+        #else
+            return false
+        #endif
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -135,7 +143,7 @@ struct Settings: View {
                     .foregroundColor(.blue)
             }
         }
-        .frame(width: 22.5, height: 22.5)
+        .frame(width: isMacCatalyst ? 17.5 : 22.5, height: isMacCatalyst ? 17.5 : 22.5)
     }
 }
 
