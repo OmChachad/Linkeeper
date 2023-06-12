@@ -25,7 +25,7 @@ class BookmarksManager {
         }
     }
 
-    func addBookmark(id: UUID?, title: String, url: String, host: String, notes: String, folder: Folder?) throws -> Bookmark {
+    func addBookmark(id: UUID? = UUID(), title: String, url: String, host: String, notes: String, folder: Folder?) throws -> Bookmark {
 
         let sanitisedURL = URL(string: url)?.sanitise
         let bookmark = Bookmark(context: context)
