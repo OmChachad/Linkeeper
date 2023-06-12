@@ -45,13 +45,13 @@ extension View {
         #endif
     }
     
-    func materialRowBackgroundForMac() -> some View {
+    func materialRowBackgroundForMac(isSelected: Bool = false) -> some View {
 #if targetEnvironment(macCatalyst)
         self
         
             .listRowBackground (
-                Color(uiColor: .systemGray).opacity(0.25)
-                    //.background(.regularM)
+                Color(uiColor: isSelected ? UIColor(.accentColor) : .systemGray)
+                    .opacity(isSelected ? 1 : 0.25)
                     .cornerRadius(10, style: .continuous)
                     .padding(
                         EdgeInsets(

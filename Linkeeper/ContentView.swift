@@ -18,6 +18,7 @@ struct ContentView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var allBookmarks: FetchedResults<Bookmark>
     
     @State private var showingAll = false
+    @State private var showingFavorites = false
     @State private var showingNewBookmarkView = false
     @State private var showingNewFolderView = false
     @State private var showingSettings = false
@@ -33,12 +34,14 @@ struct ContentView: View {
                     NavigationLink(destination: BookmarksView(), isActive: $showingAll) {
                         ListItem(markdown: "**All**", systemName: "tray.fill", color: Color(UIColor.darkGray), subItemsCount: allBookmarks.count)
                     }
-                    NavigationLink(destination: BookmarksView(onlyFavorites: true)) {
+                    .materialRowBackgroundForMac(isSelected: showingAll)
+                    
+                    NavigationLink(destination: BookmarksView(onlyFavorites: true), isActive: $showingFavorites) {
                         ListItem(markdown: "**Favorites**", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
                     }
+                    .materialRowBackgroundForMac(isSelected: showingFavorites)
                 }
                 .frame(height: 60)
-                .materialRowBackgroundForMac()
                 
                 
                 Section(header: Text("My Folders")) {
