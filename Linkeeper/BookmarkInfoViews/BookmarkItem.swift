@@ -93,7 +93,6 @@ struct BookmarkItem: View {
         .background(Color(UIColor.systemGray5))
         .aspectRatio(3/4, contentMode: .fill)
         .cornerRadius(15, style: .continuous)
-        
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         .contextMenu { menuItems() }
         .onTapGesture {
@@ -115,6 +114,7 @@ struct BookmarkItem: View {
             showDetails.toggle()
             #endif
         })
+        .onDrag { NSItemProvider(object: bookmark.wrappedURL as NSURL) }
         .shadow(color: .black.opacity(0.3), radius: shadowsEnabled ? (selectedBookmarks.contains(bookmark) ? 0 : 3) : 0) // Checks if the shadows are enabled in Settings, otherwise only shows them when the bookmark is not selected.
         .opacity(selectedBookmarks.contains(bookmark) ? 0.75 : 1)
         .padding(selectedBookmarks.contains(bookmark) ? 2.5 : 0)
