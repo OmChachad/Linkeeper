@@ -75,7 +75,7 @@ If disabled, you can add a title yourself.
                         }
                     }
                 }
-            }()
+            }().trimmingCharacters(in: .whitespacesAndNewlines)
             
             let urlString: String = {
                 let url = url.absoluteString
