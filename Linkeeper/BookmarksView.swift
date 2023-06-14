@@ -146,7 +146,9 @@ struct BookmarksView: View {
             providers.forEach { provider in
                 _ = provider.loadObject(ofClass: URL.self) { url, _ in
                     if let url {
-                        addDroppedBookmark(for: url)
+                        if bookmarks.first(where: {$0.url == url.absoluteString}) == nil {
+                            addDroppedBookmark(for: url)
+                        }
                     }
                 }
             }
