@@ -253,7 +253,7 @@ func startFetchingMetadata(for url: URL, fetchSubresources: Bool, timeout: TimeI
     return try await withCheckedThrowingContinuation { continuation in
         let metadataProvider = LPMetadataProvider()
         metadataProvider.shouldFetchSubresources = fetchSubresources
-        //metadataProvider.timeout = timeout ?? metadataProvider.timeout
+        metadataProvider.timeout = timeout ?? metadataProvider.timeout
         
         metadataProvider.startFetchingMetadata(for: url) { metadata, error in
             if error != nil {
