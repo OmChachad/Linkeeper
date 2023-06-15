@@ -33,7 +33,7 @@ struct AddBookmarkView: View {
     
     var pasteboardContents: String? {
         if !isMacCatalyst, #available(iOS 16.0, *) {
-            return ""
+            return nil
         } else {
             return UIPasteboard.general.string
         }
@@ -77,26 +77,7 @@ struct AddBookmarkView: View {
                         
                         Divider()
                         
-                        if !isMacCatalyst, #available(iOS 16.0, *) {
-                            PasteButton(payloadType: URL.self) { content in
-                                if let url = content.first {
-                                    self.url = url.absoluteString
-                                }
-                            }
-                            .labelStyle(.iconOnly)
-                            .buttonBorderShape(.capsule)
-                            .offset(x: 5)
-                        } else {
-                            Button {
-                                self.url = pasteboardContents!
-                            } label: {
-                                Image(systemName: "doc.on.clipboard")
-                                    .padding(.leading, 10)
-                            }
-                            .buttonStyle(.borderless)
-                            .disabled(pasteboardContents?.isValidURL == false || pasteboardContents == nil)
-                            .padding(.trailing, 5)
-                        }
+                        pasteButton()
                     }
                 } footer: {
                     if removeTrackingParameters {
@@ -147,37 +128,16 @@ struct AddBookmarkView: View {
                         ProgressView()
                             .opacity(0.7)
                     } else {
-                        Button("Add") {
-                            var sanitisedURL = URL(string: url)?.sanitise.absoluteString ?? url
-                            if removeTrackingParameters {
-                                sanitisedURL = sanitisedURL.components(separatedBy: "?").first ?? sanitisedURL
-                            }
-                            let bookmark = Bookmark(context: moc)
-                            bookmark.id = UUID()
-                            bookmark.title = title
-                            bookmark.date = Date.now
-                            bookmark.host = host
-                            bookmark.notes = notes
-                            bookmark.url = sanitisedURL
-                            bookmark.folder = folder
-                            
-                            try? moc.save()
-                            
-                            dismiss()
-                            showDonePopUp = true
-                        }
-                        .disabled(!isValidURL || title.isEmpty)
-                        .keyboardShortcut("s", modifiers: .command)
-                        .shimmering(active: url.isValidURL && title.isEmpty)
+                        Button("Add", action: addBookmark)
+                            .disabled(!isValidURL || title.isEmpty)
+                            .keyboardShortcut("s", modifiers: .command)
+                            .shimmering(active: url.isValidURL && title.isEmpty)
                     }
-                    
                 }
                 
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                    .keyboardShortcut(.cancelAction)
+                    Button("Cancel", action: dismiss.callAsFunction)
+                        .keyboardShortcut(.cancelAction)
                 }
 
                 ToolbarItem(placement: .keyboard) {
@@ -232,6 +192,51 @@ struct AddBookmarkView: View {
             }
         }
         .animation(.default, value: askForTitle)
+    }
+    
+    func pasteButton() -> some View {
+        Group {
+            if !isMacCatalyst, #available(iOS 16.0, *) {
+                PasteButton(payloadType: URL.self) { content in
+                    if let url = content.first {
+                        self.url = url.absoluteString
+                    }
+                }
+                .labelStyle(.iconOnly)
+                .buttonBorderShape(.capsule)
+                .offset(x: 5)
+            } else {
+                Button {
+                    self.url = pasteboardContents!
+                } label: {
+                    Image(systemName: "doc.on.clipboard")
+                        .padding(.leading, 10)
+                }
+                .buttonStyle(.borderless)
+                .disabled(pasteboardContents?.isValidURL == false || pasteboardContents == nil)
+                .padding(.trailing, 5)
+            }
+        }
+    }
+    
+    func addBookmark() {
+        var sanitisedURL = URL(string: url)?.sanitise.absoluteString ?? url
+        if removeTrackingParameters {
+            sanitisedURL = sanitisedURL.components(separatedBy: "?").first ?? sanitisedURL
+        }
+        let bookmark = Bookmark(context: moc)
+        bookmark.id = UUID()
+        bookmark.title = title
+        bookmark.date = Date.now
+        bookmark.host = host
+        bookmark.notes = notes
+        bookmark.url = sanitisedURL
+        bookmark.folder = folder
+        
+        try? moc.save()
+        
+        dismiss()
+        showDonePopUp = true
     }
 }
 
