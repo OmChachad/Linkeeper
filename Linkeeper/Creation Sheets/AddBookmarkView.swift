@@ -16,8 +16,6 @@ struct AddBookmarkView: View {
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     
-    var folderPreset: Folder?
-    
     @State private var url = ""
     @State private var host = ""
     @State private var title = ""
@@ -58,7 +56,7 @@ struct AddBookmarkView: View {
     }
     
     init(folderPreset: Folder? = nil) {
-        self.folderPreset = folderPreset
+        _folder = State(initialValue: folderPreset)
     }
     
     init(urlString: String, folderPreset: Folder? = nil) {
@@ -234,9 +232,6 @@ struct AddBookmarkView: View {
             }
         }
         .animation(.default, value: askForTitle)
-        .onAppear {
-            folder = folderPreset
-        }
     }
 }
 
