@@ -52,7 +52,6 @@
 		C2C8DC4528171D94000F4AEB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */; };
 		C2E806E62A26111E00A41D0C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E52A26111E00A41D0C /* Settings.swift */; };
 		C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E72A26194E00A41D0C /* IntroductionView.swift */; };
-		C2E806EB2A261C2200A41D0C /* Shiny in Frameworks */ = {isa = PBXBuildFile; productRef = C2E806EA2A261C2200A41D0C /* Shiny */; };
 		C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
 /* End PBXBuildFile section */
 
@@ -112,7 +111,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2E806EB2A261C2200A41D0C /* Shiny in Frameworks */,
 				C24DF575283E62C4003C9692 /* Shimmer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,7 +303,6 @@
 			name = Linkeeper;
 			packageProductDependencies = (
 				C24DF574283E62C4003C9692 /* Shimmer */,
-				C2E806EA2A261C2200A41D0C /* Shiny */,
 			);
 			productName = Marked;
 			productReference = C2C8DC3A28171D93000F4AEB /* Linkeeper.app */;
@@ -647,11 +644,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
-		};
-		C2E806EA2A261C2200A41D0C /* Shiny */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C2E806E92A261C2200A41D0C /* XCRemoteSwiftPackageReference "shiny" */;
-			productName = Shiny;
 		};
 /* End XCSwiftPackageProductDependency section */
 

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Shiny
 
 struct IntroductionView: View {
     @Environment(\.dismiss) var dismiss
@@ -49,17 +48,12 @@ struct IntroductionView: View {
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background {
-                        #if !targetEnvironment(macCatalyst)
                         RoundedRectangle(cornerRadius: 15, style: .continuous)
-                            .shiny(Gradient(colors: [
+                            .fill(LinearGradient(colors: [
                                 Color(red: 67/255, green: 183/255, blue: 253/255),
                                 Color(red: 183/255, green: 33/255, blue: 223/255),
                                 Color(red: 239/255, green: 169/255, blue: 40/255)
-                            ]))
-                        #else
-                        RoundedRectangle(cornerRadius: 15, style: .continuous)
-                            .foregroundColor(.accentColor)
-                        #endif
+                            ], startPoint: .topTrailing, endPoint: .bottomLeading))
                     }
             }
             .buttonStyle(.borderless)
