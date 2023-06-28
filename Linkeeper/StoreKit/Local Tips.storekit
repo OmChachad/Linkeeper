@@ -10,7 +10,7 @@
       "internalID" : "F7107A17",
       "localizations" : [
         {
-          "description" : "",
+          "description" : "Let the developer know you love the app!",
           "displayName" : "Appreciation",
           "locale" : "en_US"
         }
@@ -25,7 +25,7 @@
       "internalID" : "66B46A83",
       "localizations" : [
         {
-          "description" : "",
+          "description" : "Show your gratitude with a thoughtful token!",
           "displayName" : "Heartfelt Gift",
           "locale" : "en_US"
         }
@@ -40,7 +40,7 @@
       "internalID" : "0992FC57",
       "localizations" : [
         {
-          "description" : "",
+          "description" : "Make a meaningful impact to the developer!",
           "displayName" : "Impactful Gesture",
           "locale" : "en_US"
         }
@@ -55,7 +55,7 @@
       "internalID" : "56AB90E7",
       "localizations" : [
         {
-          "description" : "",
+          "description" : "Supercharge the developer's efforts!",
           "displayName" : "Mega Support",
           "locale" : "en_US"
         }

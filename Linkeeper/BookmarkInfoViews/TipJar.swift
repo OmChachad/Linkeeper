@@ -98,11 +98,17 @@ struct TipItem: View {
     
     var body: some View {
         HStack {
-            Text(storeKit.emoji(for: product.id))
+            Text("\(storeKit.emoji(for: product.id)) ")
                 .font(.largeTitle)
             
-            Text(" \(product.displayName)")
-                .bold()
+            VStack(alignment: .leading, spacing: 2.5) {
+                Text("\(product.displayName)")
+                    .bold()
+                Text(product.description)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .padding(.trailing, 5)
             
             Spacer()
             
