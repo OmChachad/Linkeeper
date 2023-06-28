@@ -41,12 +41,7 @@ struct TipJar: View {
                     VStack(spacing: 5) {
                         bulletLine("Appreciate the App", systemImage: "star.fill", tint: .yellow)
                         bulletLine("Support Indie Development", systemImage: "wrench.and.screwdriver.fill", tint: .purple)
-                        #if targetEnvironment(macCatalyst)
-                        bulletLine("Unlock More App Icons on iOS/iPadOS", systemImage: "square.fill", tint: .mint)
-                        #else
-                        bulletLine("Unlock More App Icons", systemImage: "square.fill", tint: .mint)
-                        
-                        #endif
+                        bulletLine("Unlock More App Icons\(isMacCatalyst ? "on iOS/iPadOS" : "")", systemImage: "square.fill", tint: .mint)
                     }
                 } label: {
                     Text("All Perks")
@@ -55,7 +50,7 @@ struct TipJar: View {
                 }
                 .groupBoxStyle(DefaultGroupBoxStyle())
             }
-            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .listRowInsets(isMacCatalyst ? adaptedInsets : EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             
             if storeKit.tippableProducts.isEmpty {
                 ProgressView()
@@ -77,7 +72,6 @@ struct TipJar: View {
                 } label: {
                     Label("Write a Review", systemImage: "square.and.pencil")
                 }
-                .listRowInsets(adaptedInsets)
             } header: {
                 Text("Can't tip? Other ways to support")
             }
