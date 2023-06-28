@@ -60,7 +60,10 @@ struct TipJar: View {
                             .listRowInsets(adaptedInsets)
                     }
                 } footer: {
-                    Text("*All tips matter equally,* Thank you so much!")
+                    Text("""
+                    I get 70% of how much you tip, 30% goes to Apple.
+                    *All tips matter equally,* Thank you so much!
+                    """)
                 }
             }
             
