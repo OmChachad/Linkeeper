@@ -28,29 +28,27 @@ struct TipJar: View {
     var body: some View {
         Form {
             Section {
-                GroupBox {
-                    Text("Tipping lets me, the sole developer of Linkeeper, know that you're enjoying the app, helps sustain development and lets me keep the app 100% free for all users. Enjoy additional perks as a thank you for your support!")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                } label: {
+                VStack(alignment: .leading) {
                     Text("🤔 Why should I tip?")
                         .font(.title3.bold())
-                        .padding(.bottom, 0.5)
+                        .padding(.vertical, 5)
+                    
+                    Text("Tipping lets me, the sole developer of Linkeeper, know that you're enjoying the app, helps sustain development and lets me keep the app 100% free for all users. Enjoy additional perks as a thank you for your support!")
                 }
                 
-                GroupBox {
+                VStack(alignment: .leading) {
+                    Text("All Perks")
+                        .bold()
+                        .padding(.vertical, 5)
+                    
                     VStack(spacing: 5) {
                         bulletLine("Appreciate the App", systemImage: "star.fill", tint: .yellow)
                         bulletLine("Support Indie Development", systemImage: "wrench.and.screwdriver.fill", tint: .purple)
                         bulletLine("Unlock More App Icons\(isMacCatalyst ? "on iOS/iPadOS" : "")", systemImage: "square.fill", tint: .mint)
                     }
-                } label: {
-                    Text("All Perks")
-                        .bold()
-                        .padding(.bottom, 1)
                 }
-                .groupBoxStyle(DefaultGroupBoxStyle())
             }
-            .listRowInsets(isMacCatalyst ? adaptedInsets : EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .listRowInsets(adaptedInsets)
             
             if storeKit.tippableProducts.isEmpty {
                 ProgressView()
@@ -86,7 +84,7 @@ struct TipJar: View {
         } icon: {
             Image(systemName: systemImage)
                 .foregroundColor(tint)
-                .frame(width: 20, alignment: .center)
+                .frame(width: 15, alignment: .center)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
