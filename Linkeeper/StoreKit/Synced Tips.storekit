@@ -1,0 +1,21 @@
+{
+  "identifier" : "83267910",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6449708232",
+    "_developerTeamID" : "3S6NT5MUQZ",
+    "_lastSynchronizedDate" : 709635180.42856801
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}

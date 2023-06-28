@@ -22,7 +22,7 @@ struct IntroductionView: View {
         VStack(spacing: 15) {
             Spacer()
             
-            Image("Icon")
+            Image("ClassicIconImage")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 150, height: 150)

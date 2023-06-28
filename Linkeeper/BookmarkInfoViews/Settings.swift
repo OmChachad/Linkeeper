@@ -14,6 +14,8 @@ struct Settings: View {
     @AppStorage("ShadowsEnabled") var shadowsEnabled = true
     @AppStorage("removeTrackingParameters") var removeTrackingParameters = false
     
+    @ObservedObject var storeKit = Store.shared
+    
     var isMacCatalyst: Bool {
         #if targetEnvironment(macCatalyst)
             return true
@@ -25,7 +27,37 @@ struct Settings: View {
     var body: some View {
         NavigationView {
             Form {
-                #if targetEnvironment(macCatalyst)
+                Section("About") {
+                    VStack{
+                        Image("Om")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                            .clipShape(Circle())
+                            .shadow(radius: 2)
+                        
+                        VStack(alignment: .center) {
+                            Text("Hi, I'm Om Chachad! 👋🏻")
+                                .font(.title3.bold())
+                            Text("I'm the developer behind Linkeeper, thanks for checking out my app. I hope you are enjoying using it!")
+                                .frame(maxWidth: .infinity)
+                                .foregroundColor(.secondary)
+                            HStack {
+                                socialLink(url: "https://www.youtube.com/TheiTE")
+                                socialLink(url: "https://itecheverything.com")
+                                socialLink(url: "https://twitter.com/TheOriginaliTE")
+                            }
+                        }
+                        .multilineTextAlignment(.center)
+                    }
+                    
+                    NavigationLink("""
+                    **Enjoying the app?**
+                    Please consider tipping!
+                    """, destination: TipJar().environmentObject(storeKit))
+                }
+                
+#if targetEnvironment(macCatalyst)
                 Section {
                     HStack {
                         Image(systemName: "exclamationmark.triangle.fill")
@@ -36,7 +68,7 @@ struct Settings: View {
                     }
                     .padding(.vertical, 5)
                 }
-                #endif
+#endif
                 
                 Section("Customisation") {
                     Toggle("Enable Shadows around Bookmarks", isOn: $shadowsEnabled)
@@ -51,40 +83,25 @@ struct Settings: View {
                 } footer: {
                     Text("Removing tracking parameters enhances privacy by reducing online tracking by stripping parameters after **?** in an URL, but it may affect website personalization on some websites.")
                 }
-
-                
-                Section("About") {
-                    VStack{
-                        Image("Om")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 60, height: 60)
-                            .clipShape(Circle())
-                            .shadow(radius: 2)
-                        
-                        VStack(alignment: .center) {
-                            Text("Hi, I'm Om Chachad! 👋🏻")
-                                .font(.title3.bold())
-                            Text("I'm the developer behind Linkeeper, thanks for checking out my app. I hope you are enjoying using it!")
-                                .foregroundColor(.secondary)
-                            HStack {
-                                socialLink(url: "https://www.youtube.com/TheiTE")
-                                socialLink(url: "https://itecheverything.com")
-                                socialLink(url: "https://twitter.com/TheOriginaliTE")
-                            }
+            
+                if storeKit.userHasTipped && !isMacCatalyst {
+                    Section {
+                        NavigationLink(destination: ChangeIconsView()) {
+                            Label("Change App Icon", systemImage: "square.fill")
                         }
-                        .multilineTextAlignment(.center)
+                    } header: {
+                        Text("Tipping Perks")
                     }
-                    .padding(.vertical, 5)
-                    
+                }
+                
+                
+                Section("Linkeeper") {
                     HStack {
                         Text("Get in touch")
                         Spacer()
                         Text("contact@starlightapps.org")
                     }
-                }
-                
-                Section("Linkeeper") {
+                    
                     HStack {
                         Button("Privacy Policy") {
                             openURL(URL(string: "https://www.termsfeed.com/live/1e93b5c3-6583-4028-b032-56ba480a1cf0")!)

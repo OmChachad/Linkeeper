@@ -50,6 +50,12 @@
 		C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3F28171D93000F4AEB /* ContentView.swift */; };
 		C2C8DC4228171D94000F4AEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4128171D94000F4AEB /* Assets.xcassets */; };
 		C2C8DC4528171D94000F4AEB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */; };
+		C2C8EE8E2A4C2EF900CCD36F /* Tips.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2C8EE8D2A4C2EF900CCD36F /* Tips.plist */; };
+		C2C8EE902A4C354700CCD36F /* TipJar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EE8F2A4C354700CCD36F /* TipJar.swift */; };
+		C2C8EE922A4C8BB300CCD36F /* ChangeIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EE912A4C8BB300CCD36F /* ChangeIconsView.swift */; };
+		C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */; };
+		C2E0CEE52A4C2C8200EA9473 /* Local Tips.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C2E0CEE42A4C2C8200EA9473 /* Local Tips.storekit */; };
+		C2E0CEE62A4C2C8400EA9473 /* Synced Tips.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C2E0CEE32A4C2C6600EA9473 /* Synced Tips.storekit */; };
 		C2E806E62A26111E00A41D0C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E52A26111E00A41D0C /* Settings.swift */; };
 		C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E72A26194E00A41D0C /* IntroductionView.swift */; };
 		C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
@@ -100,6 +106,12 @@
 		C2C8DC3F28171D93000F4AEB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C2C8DC4128171D94000F4AEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2C8DC4428171D94000F4AEB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C2C8EE8D2A4C2EF900CCD36F /* Tips.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Tips.plist; sourceTree = "<group>"; };
+		C2C8EE8F2A4C354700CCD36F /* TipJar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJar.swift; sourceTree = "<group>"; };
+		C2C8EE912A4C8BB300CCD36F /* ChangeIconsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeIconsView.swift; sourceTree = "<group>"; };
+		C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
+		C2E0CEE32A4C2C6600EA9473 /* Synced Tips.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Synced Tips.storekit"; sourceTree = "<group>"; };
+		C2E0CEE42A4C2C8200EA9473 /* Local Tips.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Local Tips.storekit"; sourceTree = "<group>"; };
 		C2E806E52A26111E00A41D0C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		C2E806E72A26194E00A41D0C /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Linkeeper.entitlements; sourceTree = "<group>"; };
@@ -261,6 +273,7 @@
 				C290506A2A12B60E00817C48 /* Helpers */,
 				C234F6E92A31BD4D00401721 /* Shapes */,
 				C24DF580283E718C003C9692 /* CoreData */,
+				C2E0CEE02A4C2C1A00EA9473 /* StoreKit */,
 				C281D96B2A23C86D00535807 /* App Intents */,
 				C2C8DC4128171D94000F4AEB /* Assets.xcassets */,
 				C2C8DC4328171D94000F4AEB /* Preview Content */,
@@ -276,10 +289,23 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		C2E0CEE02A4C2C1A00EA9473 /* StoreKit */ = {
+			isa = PBXGroup;
+			children = (
+				C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */,
+				C2C8EE8D2A4C2EF900CCD36F /* Tips.plist */,
+				C2E0CEE32A4C2C6600EA9473 /* Synced Tips.storekit */,
+				C2E0CEE42A4C2C8200EA9473 /* Local Tips.storekit */,
+			);
+			path = StoreKit;
+			sourceTree = "<group>";
+		};
 		C2E806E42A26110D00A41D0C /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				C2E806E52A26111E00A41D0C /* Settings.swift */,
+				C2C8EE8F2A4C354700CCD36F /* TipJar.swift */,
+				C2C8EE912A4C8BB300CCD36F /* ChangeIconsView.swift */,
 			);
 			name = Settings;
 			path = BookmarkInfoViews;
@@ -350,6 +376,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2E0CEE52A4C2C8200EA9473 /* Local Tips.storekit in Resources */,
+				C2C8EE8E2A4C2EF900CCD36F /* Tips.plist in Resources */,
+				C2E0CEE62A4C2C8400EA9473 /* Synced Tips.storekit in Resources */,
 				C2C8DC4528171D94000F4AEB /* Preview Assets.xcassets in Resources */,
 				C2C8DC4228171D94000F4AEB /* Assets.xcassets in Resources */,
 			);
@@ -382,8 +411,10 @@
 				C281D9BA2A2534E100535807 /* AddFolder.swift in Sources */,
 				C2E806E62A26111E00A41D0C /* Settings.swift in Sources */,
 				C281D9732A23E8B300535807 /* FoldersManager.swift in Sources */,
+				C2C8EE902A4C354700CCD36F /* TipJar.swift in Sources */,
 				C25316042A2D03D2004F1491 /* ListItem.swift in Sources */,
 				C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */,
+				C2C8EE922A4C8BB300CCD36F /* ChangeIconsView.swift in Sources */,
 				C281D9B82A25277A00535807 /* DeleteFolder.swift in Sources */,
 				C29050682A125EF100817C48 /* MoveBookmarksView.swift in Sources */,
 				C243E22E282B93CD00888C96 /* BookmarkItem.swift in Sources */,
@@ -402,6 +433,7 @@
 				C29050732A12B7A500817C48 /* Shape.swift in Sources */,
 				C290506F2A12B77100817C48 /* View.swift in Sources */,
 				C2550E64282705F900ADA0BF /* BookmarksView.swift in Sources */,
+				C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */,
 				C281D96F2A23D4FF00535807 /* BookmarksManager.swift in Sources */,
 				C29050772A12B80300817C48 /* String.swift in Sources */,
 				C28B6E6F28193AE20030B6DD /* AddFolderView.swift in Sources */,
@@ -528,6 +560,7 @@
 		C2C8DC4928171D94000F4AEB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "ClassicIcon DarkIcon";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Linkeeper/Linkeeper.entitlements;
@@ -552,18 +585,20 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,6";
+				TARGETED_DEVICE_FAMILY = "1,2,6,7";
 			};
 			name = Debug;
 		};
 		C2C8DC4A28171D94000F4AEB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "ClassicIcon DarkIcon";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Linkeeper/Linkeeper.entitlements;
@@ -588,12 +623,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,6";
+				TARGETED_DEVICE_FAMILY = "1,2,6,7";
 			};
 			name = Release;
 		};

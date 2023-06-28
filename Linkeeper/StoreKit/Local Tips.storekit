@@ -1,0 +1,78 @@
+{
+  "identifier" : "FFB466EE",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "F7107A17",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "Appreciation",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "Tip1",
+      "referenceName" : "Appreciation",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "66B46A83",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "Heartfelt Gift",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "Tip2",
+      "referenceName" : "Heartfelt Gift",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "0992FC57",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "Impactful Gesture",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "Tip3",
+      "referenceName" : "Impactful Gesture",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "19.99",
+      "familyShareable" : false,
+      "internalID" : "56AB90E7",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "Mega Support",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "Tip4",
+      "referenceName" : "Mega Support",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_askToBuyEnabled" : true
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}
