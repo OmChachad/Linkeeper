@@ -24,6 +24,10 @@ struct Settings: View {
         #endif
     }
     
+    var adaptedInsets: EdgeInsets? {
+        isMacCatalyst ? EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10) : nil
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -50,11 +54,13 @@ struct Settings: View {
                         }
                         .multilineTextAlignment(.center)
                     }
+                    .listRowInsets(adaptedInsets)
                     
                     NavigationLink("""
                     **Enjoying the app?**
                     Please consider tipping!
                     """, destination: TipJar().environmentObject(storeKit))
+                    .listRowInsets(adaptedInsets)
                 }
                 
 #if targetEnvironment(macCatalyst)
@@ -68,12 +74,14 @@ struct Settings: View {
                     }
                     .padding(.vertical, 5)
                 }
+                .listRowInsets(adaptedInsets)
 #endif
                 
                 Section("Customisation") {
                     Toggle("Enable Shadows around Bookmarks", isOn: $shadowsEnabled)
                         .toggleStyle(.switch)
                 }
+                .listRowInsets(adaptedInsets)
                 
                 Section {
                     Toggle("Remove tracking parameters from URLs", isOn: $removeTrackingParameters)
@@ -83,6 +91,7 @@ struct Settings: View {
                 } footer: {
                     Text("Removing tracking parameters enhances privacy by reducing online tracking by stripping parameters after **?** in an URL, but it may affect website personalization on some websites.")
                 }
+                .listRowInsets(adaptedInsets)
             
                 if storeKit.userHasTipped && !isMacCatalyst {
                     Section {
@@ -101,6 +110,7 @@ struct Settings: View {
                         Spacer()
                         Text("contact@starlightapps.org")
                     }
+                    .listRowInsets(adaptedInsets)
                     
                     HStack {
                         Button("Privacy Policy") {
@@ -113,6 +123,7 @@ struct Settings: View {
                             openURL(URL(string: "https://starlightapps.org")!)
                         }
                     }
+                    .listRowInsets(adaptedInsets)
                 }
             }
             .navigationTitle("Settings")

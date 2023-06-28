@@ -13,6 +13,18 @@ struct TipJar: View {
     
     @EnvironmentObject var storeKit: Store
     
+    var isMacCatalyst: Bool {
+        #if targetEnvironment(macCatalyst)
+            return true
+        #else
+            return false
+        #endif
+    }
+    
+    var adaptedInsets: EdgeInsets? {
+        isMacCatalyst ? EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10) : nil
+    }
+    
     var body: some View {
         Form {
             Section {
@@ -52,6 +64,7 @@ struct TipJar: View {
                     List(storeKit.tippableProducts) { product in
                         TipItem(product: product)
                             .environmentObject(storeKit)
+                            .listRowInsets(adaptedInsets)
                     }
                 } footer: {
                     Text("*All tips matter equally,* Thank you so much!")
@@ -64,6 +77,7 @@ struct TipJar: View {
                 } label: {
                     Label("Write a Review", systemImage: "square.and.pencil")
                 }
+                .listRowInsets(adaptedInsets)
             } header: {
                 Text("Can't tip? Other ways to support")
             }
