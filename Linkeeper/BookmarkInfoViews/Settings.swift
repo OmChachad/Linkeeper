@@ -56,10 +56,19 @@ struct Settings: View {
                     }
                     .listRowInsets(adaptedInsets)
                     
-                    NavigationLink("""
-                    **Enjoying the app?**
-                    Please consider tipping!
-                    """, destination: TipJar().environmentObject(storeKit))
+                    NavigationLink {
+                        TipJar()
+                            .environmentObject(storeKit)
+                    } label: {
+                        HStack {
+                            Text("🤩")
+                                .font(.title)
+                            Text("""
+                            **Enjoying the app?**
+                            Please consider tipping!
+                            """)
+                        }
+                    }
                     .listRowInsets(adaptedInsets)
                 }
                 
