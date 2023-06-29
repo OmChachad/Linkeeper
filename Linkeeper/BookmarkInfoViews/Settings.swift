@@ -16,6 +16,10 @@ struct Settings: View {
     
     @ObservedObject var storeKit = Store.shared
     
+    @State private var isImportingFromSafari = false
+    @State private var showingImporter = false
+    @State private var htmlContent = ""
+    
     var isMacCatalyst: Bool {
         #if targetEnvironment(macCatalyst)
             return true
@@ -112,6 +116,13 @@ struct Settings: View {
                     }
                 }
                 
+                Section("Import Bookmarks") {
+                    Button("Import from Safari") {
+                        isImportingFromSafari.toggle()
+                    }
+                    .listRowInsets(adaptedInsets)
+                }
+                
                 
                 Section("Linkeeper") {
                     HStack {
@@ -141,6 +152,19 @@ struct Settings: View {
                     .keyboardShortcut(.cancelAction)
             }
         }
+        .fileImporter(isPresented: $isImportingFromSafari, allowedContentTypes: [.html]) { result in
+            do {
+                let fileURL = try result.get()
+                self.htmlContent = try String(contentsOf: fileURL)
+                showingImporter.toggle()
+            } catch {
+                print("File import error: \(error.localizedDescription)")
+            }
+        }
+        .sheet(isPresented: $showingImporter) {
+            ImportView(htmlContents: htmlContent)
+        }
+        
     }
     
     private func socialLink(url: String) -> some View {

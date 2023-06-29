@@ -53,6 +53,8 @@
 		C2C8EE8E2A4C2EF900CCD36F /* Tips.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2C8EE8D2A4C2EF900CCD36F /* Tips.plist */; };
 		C2C8EE902A4C354700CCD36F /* TipJar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EE8F2A4C354700CCD36F /* TipJar.swift */; };
 		C2C8EE922A4C8BB300CCD36F /* ChangeIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EE912A4C8BB300CCD36F /* ChangeIconsView.swift */; };
+		C2C8EE962A4D853A00CCD36F /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = C2C8EE952A4D853A00CCD36F /* SwiftSoup */; };
+		C2C8EE982A4D88BD00CCD36F /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EE972A4D88BD00CCD36F /* ImportView.swift */; };
 		C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */; };
 		C2E0CEE52A4C2C8200EA9473 /* Local Tips.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C2E0CEE42A4C2C8200EA9473 /* Local Tips.storekit */; };
 		C2E0CEE62A4C2C8400EA9473 /* Synced Tips.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C2E0CEE32A4C2C6600EA9473 /* Synced Tips.storekit */; };
@@ -109,6 +111,7 @@
 		C2C8EE8D2A4C2EF900CCD36F /* Tips.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Tips.plist; sourceTree = "<group>"; };
 		C2C8EE8F2A4C354700CCD36F /* TipJar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJar.swift; sourceTree = "<group>"; };
 		C2C8EE912A4C8BB300CCD36F /* ChangeIconsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeIconsView.swift; sourceTree = "<group>"; };
+		C2C8EE972A4D88BD00CCD36F /* ImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.swift; sourceTree = "<group>"; };
 		C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
 		C2E0CEE32A4C2C6600EA9473 /* Synced Tips.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Synced Tips.storekit"; sourceTree = "<group>"; };
 		C2E0CEE42A4C2C8200EA9473 /* Local Tips.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Local Tips.storekit"; sourceTree = "<group>"; };
@@ -124,6 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C24DF575283E62C4003C9692 /* Shimmer in Frameworks */,
+				C2C8EE962A4D853A00CCD36F /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +310,7 @@
 				C2E806E52A26111E00A41D0C /* Settings.swift */,
 				C2C8EE8F2A4C354700CCD36F /* TipJar.swift */,
 				C2C8EE912A4C8BB300CCD36F /* ChangeIconsView.swift */,
+				C2C8EE972A4D88BD00CCD36F /* ImportView.swift */,
 			);
 			name = Settings;
 			path = BookmarkInfoViews;
@@ -329,6 +334,7 @@
 			name = Linkeeper;
 			packageProductDependencies = (
 				C24DF574283E62C4003C9692 /* Shimmer */,
+				C2C8EE952A4D853A00CCD36F /* SwiftSoup */,
 			);
 			productName = Marked;
 			productReference = C2C8DC3A28171D93000F4AEB /* Linkeeper.app */;
@@ -361,6 +367,7 @@
 			packageReferences = (
 				C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				C2E806E92A261C2200A41D0C /* XCRemoteSwiftPackageReference "shiny" */,
+				C2C8EE942A4D853A00CCD36F /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = C2C8DC3B28171D93000F4AEB /* Products */;
 			projectDirPath = "";
@@ -396,6 +403,7 @@
 				C281D9752A24B81E00535807 /* AddBookmark.swift in Sources */,
 				C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */,
 				C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */,
+				C2C8EE982A4D88BD00CCD36F /* ImportView.swift in Sources */,
 				C29050712A12B79800817C48 /* Color.swift in Sources */,
 				C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */,
 				C29050792A12B81300817C48 /* TextEditor.swift in Sources */,
@@ -665,6 +673,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		C2C8EE942A4D853A00CCD36F /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		C2E806E92A261C2200A41D0C /* XCRemoteSwiftPackageReference "shiny" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/maustinstar/shiny.git";
@@ -680,6 +696,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
+		};
+		C2C8EE952A4D853A00CCD36F /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C2C8EE942A4D853A00CCD36F /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
 		};
 /* End XCSwiftPackageProductDependency section */
 
