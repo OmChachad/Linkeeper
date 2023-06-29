@@ -58,8 +58,6 @@ struct ContentView: View {
                 .headerProminence(.increased)
             }
             .sideBarForMac()
-            .navigationBarTitle("Folders")
-            .navigationViewStyle(.automatic)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
