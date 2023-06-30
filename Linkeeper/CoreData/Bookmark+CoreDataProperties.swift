@@ -48,6 +48,10 @@ extension Bookmark {
         String(describing: id?.uuidString)
     }
     
+    var draggable: DraggableBookmark {
+        return DraggableBookmark(id: id ?? UUID(), title: wrappedTitle, url: wrappedURL, notes: wrappedNotes, dateAdded: wrappedDate, isFavorited: isFavorited)
+    }
+    
     func doesMatch(_ searchText: String) -> Bool {
         if let folder = self.folder {
             return (self.wrappedTitle + self.wrappedHost + self.wrappedNotes + folder.wrappedTitle).localizedCaseInsensitiveContains(searchText)

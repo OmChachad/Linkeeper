@@ -51,6 +51,14 @@ struct ContentView: View {
                         } label: {
                             FolderItemView(folder: folder)
                         }
+                        .dropDestination { bookmark, url in
+                            if let bookmark {
+                                bookmark.folder = folder
+                                try? moc.save()
+                            } else {
+                                addDroppedBookmark(for: url, to: folder)
+                            }
+                        }
                     }
                     .onMove(perform: moveItem)
                     .onDelete(perform: delete)
@@ -170,6 +178,25 @@ struct ContentView: View {
         }
         catch{
             print(error.localizedDescription)
+        }
+    }
+    
+    func addDroppedBookmark(for url: URL, to folder: Folder? = nil) {
+        let bookmark = try? BookmarksManager().addBookmark(title: "Loading...", url: url.absoluteString, host: url.host ?? "Unknown Host", notes: "", folder: folder)
+        
+        Task {
+            if let metadata = try await startFetchingMetadata(for: url, fetchSubresources: false, timeout: 10) {
+                DispatchQueue.main.async {
+                    if let URLTitle = metadata.title {
+                        bookmark?.title = URLTitle
+                        try? moc.save()
+                    } else {
+                        bookmark?.title = "Could not fetch title..."
+                    }
+                }
+            }
+            
+            try? moc.save()
         }
     }
 }

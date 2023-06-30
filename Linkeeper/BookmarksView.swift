@@ -106,7 +106,7 @@ struct BookmarksView: View {
                                 if showGroup {
                                     DisclosureGroup {
                                         if folderHasBookmarks {
-                                            BookmarksGrid(for: filteredBookmarks(for: folder))
+                                            BookmarksGrid(for: filteredBookmarks(for: folder), folder: folder)
                                                 .padding(.vertical, 5)
                                         } else {
                                             Text("No Bookmarks")
@@ -133,7 +133,7 @@ struct BookmarksView: View {
                                 }
                             }
                         } else {
-                            BookmarksGrid(for: filteredBookmarks)
+                            BookmarksGrid(for: filteredBookmarks, folder: folder)
                                 .padding(15)
                         }
                     }
@@ -141,18 +141,6 @@ struct BookmarksView: View {
                 }
                 .searchable(text: $searchText, prompt: "Find a bookmark...")
             }
-        }
-        .onDrop(of: ["public.url"], isTargeted: nil) { providers in
-            providers.forEach { provider in
-                _ = provider.loadObject(ofClass: URL.self) { url, _ in
-                    if let url {
-                        if bookmarks.first(where: {$0.url == url.absoluteString}) == nil {
-                            addDroppedBookmark(for: url)
-                        }
-                    }
-                }
-            }
-            return true
         }
         .overlay {
             if showDetails {
@@ -261,7 +249,7 @@ struct BookmarksView: View {
         .animation(.easeInOut.speed(0.5), value: editState)
     }
     
-    func addDroppedBookmark(for url: URL) {
+    func addDroppedBookmark(for url: URL, to folder: Folder? = nil) {
         let bookmark = try? BookmarksManager().addBookmark(title: "Loading...", url: url.absoluteString, host: url.host ?? "Unknown Host", notes: "", folder: folder)
         
         Task {
@@ -269,14 +257,15 @@ struct BookmarksView: View {
                 DispatchQueue.main.async {
                     if let URLTitle = metadata.title {
                         bookmark?.title = URLTitle
+                        try? moc.save()
                     } else {
                         bookmark?.title = "Could not fetch title..."
                     }
                 }
             }
+            
+            try? moc.save()
         }
-        
-        try? moc.save()
     }
     
     func noBookmarksView() -> some View {
@@ -336,11 +325,20 @@ Sort By
         .borderlessMacCatalystButton()
     }
     
-    func BookmarksGrid(for bookmarks: [Bookmark]) -> some View {
+    func BookmarksGrid(for bookmarks: [Bookmark], folder: Folder? = nil) -> some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 15) {
             ForEach(bookmarks, id: \.self) { bookmark in
                 BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage, selectedBookmarks: $selectedBookmarks)
                     .padding(.horizontal, 5)
+            }
+        }
+        .contentShape(Rectangle())
+        .dropDestination { bookmark, url in
+            if let bookmark {
+                bookmark.folder = folder
+                try? moc.save()
+            } else {
+                addDroppedBookmark(for: url, to: folder)
             }
         }
     }
