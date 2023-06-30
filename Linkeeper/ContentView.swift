@@ -56,7 +56,7 @@ struct ContentView: View {
                                 bookmark.folder = folder
                                 try? moc.save()
                             } else {
-                                BookmarksManager.shared.addDroppedBookmark(for: url, to: folder)
+                                BookmarksManager.shared.addDroppedURL(url, to: folder)
                             }
                         }
                     }

@@ -25,7 +25,7 @@ class BookmarksManager {
         }
     }
     
-    func addDroppedBookmark(for url: URL, to folder: Folder? = nil) {
+    func addDroppedURL(_ url: URL, to folder: Folder? = nil) {
         let bookmark = try? addBookmark(title: "Loading...", url: url.absoluteString, host: url.host ?? "Unknown Host", notes: "", folder: folder)
         
         Task {
