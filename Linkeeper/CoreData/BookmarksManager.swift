@@ -45,7 +45,6 @@ class BookmarksManager {
     }
 
     func addBookmark(id: UUID? = UUID(), title: String, url: String, host: String, notes: String, folder: Folder?) throws -> Bookmark {
-
         let sanitisedURL = URL(string: url)?.sanitise
         let bookmark = Bookmark(context: context)
         bookmark.id = id ?? UUID()
@@ -74,23 +73,7 @@ class BookmarksManager {
             throw fatalError("Could not fetch")
         }
     }
-//
-//    // Mark a book as read or unread
-//    func markBook(withId id: UUID, as status: BookStatus) throws {
-//        do {
-//            let matchingBook = try Self.shared.findBook(withId: id)
-//            switch status {
-//                case .read:
-//                    matchingBook.isRead = true
-//                case .unread:
-//                    matchingBook.isRead = false
-//            }
-//            try saveContext()
-//        } catch let error {
-//            throw error
-//        }
-//    }
-//
+
     func deleteBookmark(withId id: UUID) throws {
         do {
             let matchingBookmark = try Self.shared.findBookmark(withId: id)
@@ -101,7 +84,7 @@ class BookmarksManager {
             throw fatalError()
         }
     }
-//
+
     func saveContext() throws {
         do {
             if context.hasChanges {
