@@ -24,6 +24,25 @@ class BookmarksManager {
             return []
         }
     }
+    
+    func addDroppedBookmark(for url: URL, to folder: Folder? = nil) {
+        let bookmark = try? addBookmark(title: "Loading...", url: url.absoluteString, host: url.host ?? "Unknown Host", notes: "", folder: folder)
+        
+        Task {
+            if let metadata = try await startFetchingMetadata(for: url, fetchSubresources: false, timeout: 10) {
+                DispatchQueue.main.async {
+                    if let URLTitle = metadata.title {
+                        bookmark?.title = URLTitle
+                    } else {
+                        bookmark?.title = "Could not fetch title..."
+                    }
+                    try? self.saveContext()
+                }
+            }
+            
+            try? saveContext()
+        }
+    }
 
     func addBookmark(id: UUID? = UUID(), title: String, url: String, host: String, notes: String, folder: Folder?) throws -> Bookmark {
 
