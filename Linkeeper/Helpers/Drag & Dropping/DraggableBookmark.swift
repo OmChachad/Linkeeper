@@ -26,7 +26,7 @@ struct DraggableBookmark: Codable {
 extension DraggableBookmark: Codable, Transferable {
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .draggableBookmark)
-        ProxyRepresentation(exporting: \.url)
+        ProxyRepresentation(exporting: \.url.absoluteString)
     }
 }
 
