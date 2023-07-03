@@ -22,23 +22,23 @@ enum ColorOption: String, CaseIterable {
     case green
     case mint
     
-    private static var values: [String : Color] = [
-        "gray": Color(uiColor: .systemGray),
-        "purple": Color.purple,
-        "orange": Color.orange,
-        "pink": Color.red,
-        "yellow": Color.yellow,
-        "mint": Color.mint,
-        "indigo": Color.indigo,
-        "green": Color.green,
-        "cyan": Color.cyan,
-        "brown": Color.brown,
-        "blue": Color.blue,
-        "blurple": Color(red: 0.5294117647, green: 0.4823529412, blue: 0.9019607843)
+    private static var values: [ColorOption : Color] = [
+        .gray : Color(uiColor: .systemGray),
+        .purple : Color.purple,
+        .orange : Color.orange,
+        .pink : Color.red,
+        .yellow : Color.yellow,
+        .mint : Color.mint,
+        .indigo : Color.indigo,
+        .green : Color.green,
+        .cyan : Color.cyan,
+        .brown : Color.brown,
+        .blue : Color.blue,
+        .blurple : Color(red: 0.5294117647, green: 0.4823529412, blue: 0.9019607843)
     ]
     
     var color: Color {
-        return ColorOption.values[self.rawValue] ?? .gray
+        return ColorOption.values[self] ?? .gray
     }
 }
 
