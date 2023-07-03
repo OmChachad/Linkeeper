@@ -250,11 +250,16 @@ struct BookmarksView: View {
     
     func noBookmarksView() -> some View {
         VStack {
+            Image(systemName: "bookmark.slash.fill")
+                .font(.system(size: 60))
+                .foregroundColor(.secondary)
+            
             Text(favorites != true ? "You do not have any bookmarks \(folder != nil ? "in this folder" : "")" : "You do not have any favorites")
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .frame(alignment: .center)
                 .padding(5)
+            
             if favorites != true {
                 Button("Create a bookmark") {
                     addingBookmark.toggle()
