@@ -10,20 +10,21 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
-    @Environment(\.keyboardShortcut) var keyboardShortcut
     
+    // CoreData FetchRequests
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
-    
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "isFavorited == true")) var favoriteBookmarks: FetchedResults<Bookmark>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var allBookmarks: FetchedResults<Bookmark>
     
+    // NavigationLink States
     @State private var showingAll = false
     @State private var showingFavorites = false
+    
+    // Toolbar Button Variables
+    @State private var showingSettings = false
+    @State var mode: EditMode = .inactive
     @State private var showingNewBookmarkView = false
     @State private var showingNewFolderView = false
-    @State private var showingSettings = false
-    
-    @State var mode: EditMode = .inactive
     
     @State private var currentFolder: Folder?
     
@@ -121,22 +122,6 @@ struct ContentView: View {
                 showingAll = true
             #endif
         }
-    }
-    
-    private func bookmarksCount(excludeFavourites: Bool) -> Int {
-        if excludeFavourites {
-            if let count = try? moc.count(for: NSFetchRequest<NSFetchRequestResult>(entityName: "Bookmark")) {
-                return count
-            }
-        } else {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Bookmark")
-            fetchRequest.predicate = NSPredicate(format: "isFavorited == true")
-            if let count = try? moc.count(for: fetchRequest) {
-                return count
-            }
-        }
-        
-        return 0
     }
     
     private func delete(at offset: IndexSet) {
