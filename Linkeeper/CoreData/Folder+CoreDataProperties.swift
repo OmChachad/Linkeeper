@@ -32,7 +32,7 @@ extension Folder {
        }
        
        public var wrappedColor: Color {
-           ColorOptions.values[accentColor ?? "pink"] ?? Color.red
+           ColorOption(rawValue: accentColor ?? "gray")?.color ?? Color.gray
        }
        
        public var bookmarksArray: [Bookmark] {

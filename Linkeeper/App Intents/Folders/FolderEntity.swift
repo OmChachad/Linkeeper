@@ -47,7 +47,7 @@ struct FolderEntity: Identifiable, Hashable, Equatable, AppEntity {
     }
     
     var displayRepresentation: DisplayRepresentation {
-        let image = UIImage(systemName: symbol)?.withTintColor(UIColor(ColorOptions.values[color] ?? .accentColor))
+        let image = UIImage(systemName: symbol)?.withTintColor(UIColor(ColorOption(rawValue: color)?.color ?? .gray))
         let inflectedBookmark = bookmarks.count == 1 ? "Bookmark" : "Bookmarks"
         
         return DisplayRepresentation(
@@ -83,7 +83,7 @@ struct IntentsFolderQuery: EntityPropertyQuery {
                 if let match = try? FoldersManager.shared.findFolder(withId: identifier) {
                     return FolderEntity(id: match.id!, title: match.wrappedTitle, bookmarks: Set<BookmarkEntity>(match.bookmarksArray.map({
                         BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-                    })), index: Int(match.index), symbol: match.wrappedSymbol, color: match.accentColor ?? "red")
+                    })), index: Int(match.index), symbol: match.wrappedSymbol, color: match.accentColor ?? "gray")
                 } else {
                     return nil
                 }
@@ -96,7 +96,7 @@ struct IntentsFolderQuery: EntityPropertyQuery {
         return allFolders.map {
             FolderEntity(id: $0.id!, title: $0.wrappedTitle, bookmarks: Set<BookmarkEntity>($0.bookmarksArray.map({
                 BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-            })), index: Int($0.index), symbol: $0.wrappedSymbol, color: $0.accentColor ?? "red")
+            })), index: Int($0.index), symbol: $0.wrappedSymbol, color: $0.accentColor ?? "gray")
         }
     }
     
@@ -112,7 +112,7 @@ struct IntentsFolderQuery: EntityPropertyQuery {
         return matchingFolders.map {
             FolderEntity(id: $0.id!, title: $0.wrappedTitle, bookmarks: Set<BookmarkEntity>($0.bookmarksArray.map({
                 BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-            })), index: Int($0.index), symbol: $0.wrappedSymbol, color: $0.accentColor ?? "red")
+            })), index: Int($0.index), symbol: $0.wrappedSymbol, color: $0.accentColor ?? "gray")
         }
     }
          

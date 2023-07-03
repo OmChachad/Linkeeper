@@ -8,23 +8,21 @@
 import Foundation
 import SwiftUI
 
-struct ColorOptions {
-    @Environment(\.colorScheme) var colorScheme
+enum ColorOption: String, CaseIterable {
+    case gray
+    case purple
+    case brown
+    case indigo
+    case pink
+    case blurple
+    case orange
+    case blue
+    case yellow
+    case cyan
+    case green
+    case mint
     
-    static var keys = ["gray",
-                       "purple",
-                       "brown",
-                       "indigo",
-                       "pink",
-                       "blurple",
-                       "orange",
-                       "blue",
-                       "yellow",
-                       "cyan",
-                       "green",
-                       "mint"]
-    
-    static var values: [String:Color] = [
+    private static var values: [String : Color] = [
         "gray": Color(uiColor: .systemGray),
         "purple": Color.purple,
         "orange": Color.orange,
@@ -36,8 +34,12 @@ struct ColorOptions {
         "cyan": Color.cyan,
         "brown": Color.brown,
         "blue": Color.blue,
-        "blurple": Color( red: 0.5294117647, green: 0.4823529412, blue: 0.9019607843)
+        "blurple": Color(red: 0.5294117647, green: 0.4823529412, blue: 0.9019607843)
     ]
+    
+    var color: Color {
+        return ColorOption.values[self.rawValue] ?? .gray
+    }
 }
 
 var symbols = [    ["car.fill", "bus.fill", "bicycle", "airplane", "house.fill", "building.2.fill", "cart.fill", "bag.fill", "fork.knife",  "takeoutbag.and.cup.and.straw.fill", "thermometer", "sun.max.fill", "moon.fill", "snowflake", "cloud.fill", "cloud.rain.fill", "umbrella.fill", "flame.fill", "binoculars.fill", "globe", "photo.fill", "camera.fill", "doc.on.clipboard.fill", "calendar", "envelope.fill", "paperplane.fill", "briefcase.fill", "folder.fill", "creditcard.fill", "phone.fill", "laptopcomputer", "desktopcomputer", "chart.bar.fill", "printer.fill", "archivebox.fill", "tv.fill", "gamecontroller.fill", "headphones", "ear.fill", "music.note", "speaker.fill", "books.vertical.fill", "book.fill", "bookmark.fill", "eyeglasses", "ticket.fill", "dice.fill", "sportscourt.fill", "lifepreserver.fill", "hare.fill", "clock.fill", "alarm.fill", "stopwatch.fill", "bell.fill", "heart.fill", "star.fill", "lightbulb.fill", "bolt.fill", "flag.fill", "tag.fill", "key.fill", "hourglass", "lock.fill", "battery.100", "wand.and.rays", "paintbrush.fill", "pencil", "scissors", "magnifyingglass", "link", "hammer.fill", "wrench.fill", "gear", "trash.fill", "cup.and.saucer.fill", "tshirt.fill", "bandage.fill", "stethoscope", "facemask.fill", "atom", "graduationcap.fill", "gift.fill", "bed.double.fill", "map.fill", "speedometer", "barometer", "network", "rectangle.split.2x1", "photo.fill.on.rectangle.fill", "camera.aperture", "arrow.up.circle.fill", "plus.bubble.fill", "square.fill", "hand.point.up.braille.fill", "square.and.arrow.down.fill", "square.and.arrow.up.fill", "play.circle.fill", "questionmark.circle.fill", "checkmark.circle.fill", "plus.circle.fill", "info.circle.fill", "face.smiling.fill", "xmark.square", "doc.text.fill", "square.grid.2x2.fill", "ellipsis", "list.bullet", "checklist", "rays", "infinity", "location.fill", "mappin.and.ellipse", "crop", "shuffle", "quote.bubble.fill", "quote.bubble", "camera.filters", "wifi", "airplayaudio", "airplayvideo", "music.note.list", "timer", "square.and.pencil", "dial.min.fill", "dial.max.fill", "wallet.pass.fill", "command",],

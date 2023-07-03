@@ -19,7 +19,7 @@ struct AddFolderView: View {
     var existingFolder: Folder?
     
     @State private var title = ""
-    @State private var accentColor = "gray"
+    @State private var accentColor: ColorOption = .gray
     @State private var chosenSymbol = "car.fill"
 
     @State private var symbolCategories = ["Objects", "People", "Symbols"]
@@ -42,8 +42,8 @@ struct AddFolderView: View {
                         .foregroundColor(.white)
                         .padding()
                         .frame(width: 75, height: 75)
-                        .background(Circle().foregroundColor(ColorOptions.values[accentColor]))
-                        .shadow(color: ColorOptions.values[accentColor] ?? .red, radius: 3)
+                        .background(Circle().foregroundColor(accentColor.color))
+                        .shadow(color: accentColor.color, radius: 3)
                         .padding()
                         
                         
@@ -63,9 +63,9 @@ struct AddFolderView: View {
                     HStack {
                         Spacer()
                         LazyHGrid(rows: Array(repeating: GridItem(.flexible()), count: 2), spacing: 10) {
-                            ForEach(ColorOptions.keys, id: \.self) { colorKey in
+                            ForEach(ColorOption.allCases, id: \.self) { colorKey in
                                 Circle()
-                                    .foregroundColor(ColorOptions.values[colorKey])
+                                    .foregroundColor(colorKey.color)
                                     .frame(width: 30)
                                     .padding(4)
                                     .overlay(Circle().stroke(Color.blue, lineWidth: colorKey == accentColor ? 2.5 : 0.0))
@@ -121,7 +121,7 @@ struct AddFolderView: View {
                                     let newFolder = Folder(context: moc)
                                     newFolder.id = UUID()
                                     newFolder.title = self.title
-                                    newFolder.accentColor = self.accentColor
+                                    newFolder.accentColor = self.accentColor.rawValue
                                     newFolder.symbol = self.chosenSymbol
                                     newFolder.index = Int16((folders.last?.index ?? 0) + 1)
                                     if moc.hasChanges {
@@ -132,7 +132,7 @@ struct AddFolderView: View {
                             } else {
                                 Button("Save") {
                                     existingFolder!.title = self.title
-                                    existingFolder!.accentColor = self.accentColor
+                                    existingFolder!.accentColor = self.accentColor.rawValue
                                     existingFolder!.symbol = self.chosenSymbol
                                     if moc.hasChanges {
                                         try? moc.save()
@@ -159,7 +159,7 @@ struct AddFolderView: View {
         .onAppear {
             if let folder = self.existingFolder {
                 self.title = folder.wrappedTitle
-                self.accentColor = folder.accentColor ?? "gray"
+                self.accentColor = ColorOption(rawValue: folder.accentColor ?? "gray")!
                 self.chosenSymbol = folder.wrappedSymbol
             }
         }

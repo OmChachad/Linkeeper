@@ -33,7 +33,7 @@ struct AddFolder: AppIntent {
     func perform() async throws -> some ReturnsValue<FolderEntity>{
         do {
             let folder = try FoldersManager.shared.addFolder(title: folderTitle, accentColor: color, chosenSymbol: icon)
-            let entity = FolderEntity(id: folder.id!, title: folder.wrappedTitle, bookmarks: Set<BookmarkEntity>(), index: Int(folder.index), symbol: folder.wrappedSymbol, color: folder.accentColor ?? "")
+            let entity = FolderEntity(id: folder.id!, title: folder.wrappedTitle, bookmarks: Set<BookmarkEntity>(), index: Int(folder.index), symbol: folder.wrappedSymbol, color: folder.accentColor ?? "gray")
             return .result(value: entity)
         } catch {
             throw error
@@ -118,14 +118,14 @@ struct IconOptionsProvider: DynamicOptionsProvider {
 @available(iOS 16.0, *)
 struct ColorOptionsProvider: DynamicOptionsProvider {
     func results() async throws -> ItemCollection<String> {
-        let colors = ColorOptions.keys
+        let colors = ColorOption.allCases
         return ItemCollection {
             ItemSection(items:
                             colors.map {
                 IntentItem<String>.init(
-                    $0,
-                    title: LocalizedStringResource(stringLiteral: $0.capitalized),
-                    image: .init(data: UIImage(systemName: "circle.fill")?.withTintColor(UIColor(ColorOptions.values[$0]!)).pngData() ?? Data())
+                    $0.rawValue,
+                    title: LocalizedStringResource(stringLiteral: $0.rawValue.capitalized),
+                    image: .init(data: UIImage(systemName: "circle.fill")?.withTintColor(UIColor($0.color)).pngData() ?? Data())
                 )
             }
             )
