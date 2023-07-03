@@ -36,6 +36,7 @@ struct IntroductionView: View {
                 .fontWeight(.semibold)
                 .multilineTextAlignment(.center)
                 .expandedFont()
+            
             Text("Linkeeper is the best URL bookmarking app out there, with deep integration into \(deviceOS), iCloud Sync, extensive Siri Shortcuts actions, and a stunning user interface that makes it a joy to use and feels like home. Oh, and, it's *100% free!*")
                 .multilineTextAlignment(.center)
             
@@ -57,9 +58,9 @@ struct IntroductionView: View {
                     }
             }
             .buttonStyle(.borderless)
-            //.padding()
         }
         .padding(30)
+        .interactiveDismissDisabled()
     }
 }
 

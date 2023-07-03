@@ -9,8 +9,8 @@ import SwiftUI
 
 struct BookmarksView: View {
     @Environment(\.managedObjectContext) var moc
-    @Environment(\.keyboardShortcut) var keyboardShortcut
     
+    // CoreData FetchRequests
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var bookmarks: FetchedResults<Bookmark>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     
@@ -19,21 +19,20 @@ struct BookmarksView: View {
     
     @State private var folderTitle = ""
     
-    @State private var addingBookmark = false
-    @State private var searchText = ""
-    
-    @State var editState: EditMode = .inactive
-    
+    // For Detail View
     @Namespace var nm
     @State private var showDetails = false
     @State private var toBeEditedBookmark: Bookmark?
-    
     @State private var detailViewImage: DetailsPreview?
     
     @State private var selectedBookmarks: Set<Bookmark> = []
     @State private var deleteConfirmation = false
     @State private var movingBookmarks = false
     
+    // ToolbarItems-related variables
+    @State var editState: EditMode = .inactive
+    @State private var addingBookmark = false
+    @State private var searchText = ""
     @AppStorage("GroupAllByFolders") var groupByFolders: Bool = true
     @AppStorage("SortMethod") private var sortMethod: SortMethod = .dateCreated
     @AppStorage("SortDirection") private var sortDirection: SortDirection = .descending

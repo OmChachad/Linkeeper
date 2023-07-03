@@ -18,10 +18,7 @@ struct LinkeeperApp: App {
                 .environment(\.managedObjectContext, dataController.persistentCloudKitContainer.viewContext)
                 .sheet(isPresented: $showIntroduction, onDismiss: {
                     showIntroduction = false
-                }) {
-                    IntroductionView()
-                        .interactiveDismissDisabled()
-                }
+                }, content: IntroductionView.init)
         }
     }
 }
