@@ -35,25 +35,25 @@ struct AddFolderView: View {
         NavigationView {
             Form {
                 Section {
-                    VStack() {
-                    Image(systemName: chosenSymbol)
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(width: 75, height: 75)
-                        .background(Circle().foregroundColor(accentColor.color))
-                        .shadow(color: accentColor.color, radius: 3)
-                        .padding()
-                        
-                        
-                    TextField("Title", text: $title)
-                        .font(.headline)
-                        .multilineTextAlignment(.center)
-                        .submitLabel(.done)
-                        .padding()
-                        .background(colorScheme == .dark ? Color(UIColor.systemGray3) : Color(UIColor.systemGray5))
-                        .cornerRadius(10, style: .continuous)
-                        .padding(.bottom)
+                    VStack {
+                        Image(systemName: chosenSymbol)
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(width: 75, height: 75)
+                            .background(Circle().foregroundColor(accentColor.color))
+                            .shadow(color: accentColor.color, radius: 3)
+                            .padding()
+                            
+                            
+                        TextField("Title", text: $title)
+                            .font(.headline)
+                            .multilineTextAlignment(.center)
+                            .submitLabel(.done)
+                            .padding()
+                            .background(colorScheme == .dark ? Color(UIColor.systemGray3) : Color(UIColor.systemGray5))
+                            .cornerRadius(10, style: .continuous)
+                            .padding(.bottom)
                     }
                 }
                 
@@ -117,32 +117,13 @@ struct AddFolderView: View {
                     ToolbarItem(placement: .confirmationAction) {
                         Group {
                             if existingFolder == nil {
-                                Button("Add") {
-                                    let newFolder = Folder(context: moc)
-                                    newFolder.id = UUID()
-                                    newFolder.title = self.title
-                                    newFolder.accentColor = self.accentColor.rawValue
-                                    newFolder.symbol = self.chosenSymbol
-                                    newFolder.index = Int16((folders.last?.index ?? 0) + 1)
-                                    if moc.hasChanges {
-                                        try? moc.save()
-                                    }
-                                    dismiss()
-                                }
+                                Button("Add", action: addFolder)
                             } else {
-                                Button("Save") {
-                                    existingFolder!.title = self.title
-                                    existingFolder!.accentColor = self.accentColor.rawValue
-                                    existingFolder!.symbol = self.chosenSymbol
-                                    if moc.hasChanges {
-                                        try? moc.save()
-                                    }
-                                    dismiss()
-                                }
+                                Button("Save", action: saveChangesToFolder)
                             }
                         }
-                            .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                            .keyboardShortcut("s", modifiers: .command)
+                        .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        .keyboardShortcut("s", modifiers: .command)
                     }
                     
                     ToolbarItem(placement: .cancellationAction) {
@@ -163,6 +144,29 @@ struct AddFolderView: View {
                 self.chosenSymbol = folder.wrappedSymbol
             }
         }
+    }
+    
+    func addFolder() {
+        let newFolder = Folder(context: moc)
+        newFolder.id = UUID()
+        newFolder.title = self.title
+        newFolder.accentColor = self.accentColor.rawValue
+        newFolder.symbol = self.chosenSymbol
+        newFolder.index = Int16((folders.last?.index ?? 0) + 1)
+        if moc.hasChanges {
+            try? moc.save()
+        }
+        dismiss()
+    }
+    
+    func saveChangesToFolder() {
+        existingFolder!.title = self.title
+        existingFolder!.accentColor = self.accentColor.rawValue
+        existingFolder!.symbol = self.chosenSymbol
+        if moc.hasChanges {
+            try? moc.save()
+        }
+        dismiss()
     }
     
     func getRecordsCount() -> Int? {
