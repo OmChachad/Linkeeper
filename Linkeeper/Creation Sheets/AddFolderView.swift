@@ -22,8 +22,7 @@ struct AddFolderView: View {
     @State private var accentColor: ColorOption = .gray
     @State private var chosenSymbol = "car.fill"
 
-    @State private var symbolCategories = ["Objects", "People", "Symbols"]
-    @State private var chosenSymbolCategory = 0
+    @State private var chosenSymbolCategory: SymbolCategory = .objects
     
     var rows = Array(repeating: GridItem(.flexible()), count: 3)
     
@@ -84,12 +83,11 @@ struct AddFolderView: View {
                     VStack {
                         ScrollView(.horizontal) {
                             LazyHGrid(rows: rows) {
-                                ForEach(symbols[chosenSymbolCategory], id: \.self) { symbol in
-                                    
+                                ForEach(chosenSymbolCategory.symbolKeys, id: \.self) { symbol in
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 10)
                                             .opacity(chosenSymbol == symbol ? 0.15 : 0)
-                                        
+
                                         Image(systemName: symbol)
                                             .foregroundColor(.secondary)
                                     }
@@ -103,12 +101,14 @@ struct AddFolderView: View {
                             .frame(maxWidth: .infinity,  minHeight: 130, maxHeight: 130)
                             .padding(.vertical, 5)
                         }
+                        
                         Picker("Choose", selection: $chosenSymbolCategory) {
-                            ForEach(0..<3) {
-                                Text(symbolCategories[$0])
+                            ForEach(SymbolCategory.allCases, id: \.self) {
+                                Text($0.rawValue)
                             }
-                        } .pickerStyle(.segmented)
-                            .padding(.bottom)
+                        }
+                        .pickerStyle(.segmented)
+                        .padding(.bottom)
                     }
                 }
                 
