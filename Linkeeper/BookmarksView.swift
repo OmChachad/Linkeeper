@@ -94,43 +94,46 @@ struct BookmarksView: View {
                         }
                         
                         if groupByFolders && folder == nil {
-                            if !ungroupedBookmarks.isEmpty {
-                                BookmarksGrid(for: ungroupedBookmarks)
-                                    .padding(15)
-                            }
-                            
-                            ForEach(folders, id: \.self) { folder in
-                                let folderHasBookmarks = !folder.bookmarksArray.isEmpty
-                                let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
-                                if showGroup {
-                                    DisclosureGroup {
-                                        if folderHasBookmarks {
-                                            BookmarksGrid(for: filteredBookmarks(for: folder), folder: folder)
-                                                .padding(.vertical, 5)
-                                        } else {
-                                            Text("No Bookmarks")
-                                                .foregroundColor(.secondary)
-                                                .frame(maxWidth: .infinity, minHeight: 80, idealHeight: 100, maxHeight: 100)
-                                                .background(.regularMaterial)
-                                                .cornerRadius(15, style: .continuous)
-                                                .padding(.horizontal, 5)
+                            LazyVStack(pinnedViews: [.sectionHeaders]) {
+                                if !ungroupedBookmarks.isEmpty {
+                                    BookmarksGrid(for: ungroupedBookmarks)
+                                        .padding([.top, .leading, .trailing], 15)
+                                }
+                                
+                                ForEach(folders, id: \.self) { folder in
+                                    let folderHasBookmarks = !folder.bookmarksArray.isEmpty
+                                    let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
+                                    if showGroup {
+                                        Section {
+                                            Group {
+                                                if folderHasBookmarks {
+                                                    BookmarksGrid(for: filteredBookmarks(for: folder), folder: folder)
+                                                } else {
+                                                    noBookmarksInSection()
+                                                }
+                                            }
+                                            .padding(.horizontal, 15)
+                                        } header: {
+                                            HStack {
+                                                Label {
+                                                    Text(folder.wrappedTitle)
+                                                        .foregroundColor(.primary)
+                                                } icon: {
+                                                    Image(systemName: folder.wrappedSymbol)
+                                                        .imageScale(.large)
+                                                        .foregroundColor(folder.wrappedColor)
+                                                        .frame(width: 25)
+                                                }
+                                            }
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.vertical, 5)
+                                            .padding(.horizontal, 15)
+                                            .background(Color(uiColor: .systemBackground).opacity(0.95))
                                         }
-                                    } label: {
-                                        Label {
-                                            Text(folder.wrappedTitle)
-                                                .foregroundColor(.primary)
-                                        } icon: {
-                                            Image(systemName: folder.wrappedSymbol)
-                                                .imageScale(.large)
-                                                .foregroundColor(folder.wrappedColor)
-                                        }
-                                        .padding(.vertical, 5)
                                     }
-                                    .expandByDefault(folderHasBookmarks)
-                                    .padding(.horizontal, 15)
-                                    .padding(.vertical, 5)
                                 }
                             }
+                            .padding(.bottom, 15)
                         } else {
                             BookmarksGrid(for: filteredBookmarks, folder: folder)
                                 .padding(15)
@@ -143,7 +146,7 @@ struct BookmarksView: View {
         }
         .overlay {
             if showDetails {
-                Color("primaryInverted").opacity(0.6)
+                Color("primaryInverted").opacity(0.3)
                     .background(.thinMaterial)
                     .ignoresSafeArea()
                     .onTapGesture {
@@ -266,6 +269,15 @@ struct BookmarksView: View {
                 }
             }
         }
+    }
+    
+    func noBookmarksInSection() -> some View {
+        Text("No Bookmarks")
+            .foregroundColor(.secondary)
+            .frame(maxWidth: .infinity, minHeight: 80, idealHeight: 100, maxHeight: 100)
+            .background(.regularMaterial)
+            .cornerRadius(15, style: .continuous)
+            .padding(.horizontal, 5)
     }
     
     func toolbarItems() -> some View {
