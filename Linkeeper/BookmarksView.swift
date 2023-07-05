@@ -115,15 +115,10 @@ struct BookmarksView: View {
                                             .padding(.horizontal, 15)
                                         } header: {
                                             HStack {
-                                                Label {
-                                                    Text(folder.wrappedTitle)
-                                                        .foregroundColor(.primary)
-                                                } icon: {
-                                                    Image(systemName: folder.wrappedSymbol)
-                                                        .imageScale(.large)
-                                                        .foregroundColor(folder.wrappedColor)
-                                                        .frame(width: 25)
-                                                }
+                                                Label(folder.wrappedTitle, systemImage: folder.wrappedSymbol)
+                                                    .font(.headline)
+                                                    .imageScale(.large)
+                                                    .foregroundColor(folder.wrappedColor)
                                             }
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.vertical, 5)
