@@ -9,13 +9,21 @@ import Foundation
 import SwiftUI
 import LinkPresentation
 
-class cachedPreview {
-    var value: UIImage
+struct cachedPreview: Codable {
+    var imageData: Data?
     var previewState: PreviewType
     
     init(image: UIImage, preview: PreviewType) {
-        self.value = image
+        self.imageData = image.pngData()
         self.previewState = preview
+    }
+    
+    var image: Image? {
+        if let data = imageData, let uiImage = UIImage(data: data) {
+            return Image(uiImage: uiImage)
+        }
+        
+        return Image("ClassicIconImage")
     }
 }
 
@@ -23,25 +31,29 @@ class CacheManager {
     static let instance = CacheManager()
     private init() { }
     
-    var imageCache: NSCache<NSString, cachedPreview> = {
-        let cache = NSCache<NSString, cachedPreview>()
-        //cache.countLimit = 100
-        //cache.totalCostLimit = 1024 * 1024 * 10 // 100mb - not sure if this is right
-        return cache
-    }()
-    
-    func add(preview: cachedPreview, name: String) {
-        imageCache.setObject(preview, forKey: name as NSString)
-        print("Added to cache!")
+    func add(preview: cachedPreview, id: UUID) {
+        if let path = getPath(for: id) {
+            if let encodedPreview = try? JSONEncoder().encode(preview) {
+                try? encodedPreview.write(to: path)
+            }
+        }
     }
     
-    func remove(name: String) {
-        imageCache.removeObject(forKey:name as NSString)
-        print("Removed from cache!")
+    func remove(id: UUID) {
+        if let path = getPath(for: id), FileManager.default.fileExists(atPath: path.path) {
+            try? FileManager.default.removeItem(atPath: path.absoluteString)
+        }
     }
     
-    func get(name: String) -> cachedPreview? {
-        return imageCache.object(forKey: name as NSString)
+    func get(id: UUID) -> cachedPreview? {
+        if let path = getPath(for: id), FileManager.default.fileExists(atPath: path.path), let data = try? Data(contentsOf: path), let cachedPreview = try? JSONDecoder().decode(cachedPreview.self, from: data) {
+                return cachedPreview
+        }
+        return nil
+    }
+    
+    func getPath(for id: UUID) -> URL? {
+        FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent(id.uuidString)
     }
 }
 
@@ -52,21 +64,21 @@ class CacheModel: ObservableObject {
     init() { }
     
     func saveToCache(image: UIImage, preview: PreviewType, bookmark: Bookmark) {
-        if manager.get(name: bookmark.wrappedURL.absoluteString) == nil {
-            manager.add(preview: cachedPreview(image: image, preview: preview), name: bookmark.wrappedURL.absoluteString)
+        if manager.get(id: bookmark.id ?? UUID()) == nil {
+            manager.add(preview: cachedPreview(image: image, preview: preview), id: bookmark.id ?? UUID())
         }
     }
     
     func removeImageFor(bookmark: Bookmark){
-        manager.remove (name: bookmark.wrappedURL.absoluteString)
+        manager.remove (id: bookmark.id ?? UUID())
     }
     
     func getImageFor(bookmark: Bookmark) {
-        image = manager.get(name: bookmark.wrappedURL.absoluteString)
+        image = manager.get(id: bookmark.id ?? UUID())
     }
 }
 
-enum PreviewType {
+enum PreviewType: Codable {
     case loading
     case thumbnail
     case icon

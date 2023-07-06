@@ -25,7 +25,7 @@ struct BookmarkDetails: View {
     
     @State private var isShimmering = true
     
-    var detailViewImage: DetailsPreview?
+    var detailViewImage: cachedPreview?
     
     @State private var deleteConfirmation = false
     

@@ -23,7 +23,7 @@ struct BookmarksView: View {
     @Namespace var nm
     @State private var showDetails = false
     @State private var toBeEditedBookmark: Bookmark?
-    @State private var detailViewImage: DetailsPreview?
+    @State private var detailViewImage: cachedPreview?
     
     @State private var selectedBookmarks: Set<Bookmark> = []
     @State private var deleteConfirmation = false

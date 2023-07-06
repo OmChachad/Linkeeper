@@ -23,11 +23,8 @@ struct BookmarkItem: View {
     @State private var deleteConfirmation: Bool = false
     @State private var toBeDeletedBookmark: Bookmark?
     
-    @State private var isShimmering = true
-    
-    @Binding var detailViewImage: DetailsPreview?
-    @State private var image: Image?
-    @State private var preview = PreviewType.loading
+    @Binding var detailViewImage: cachedPreview?
+    @State private var cachedPreview: cachedPreview?
     
     @Environment(\.editMode) var editMode
     @Binding var selectedBookmarks: Set<Bookmark>
@@ -37,9 +34,9 @@ struct BookmarkItem: View {
     var body: some View {
         VStack(spacing: 0) {
             VStack {
-                switch(preview) {
+                switch(cachedPreview?.previewState) {
                     case .thumbnail:
-                        image!
+                        cachedPreview!.image!
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     case .icon:
@@ -47,7 +44,7 @@ struct BookmarkItem: View {
                             Rectangle()
                                 .foregroundColor(.white)
 
-                            image!
+                            cachedPreview!.image!
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                         }
@@ -64,7 +61,7 @@ struct BookmarkItem: View {
                     default:
                         Rectangle()
                             .foregroundColor(.secondary.opacity(0.5))
-                            .shimmering(active: isShimmering)
+                            .shimmering()
                             .clipped()
                 }
             }
@@ -108,13 +105,16 @@ struct BookmarkItem: View {
         }
         .onLongPressGesture(minimumDuration: 0.1, perform: {
             #if targetEnvironment(macCatalyst)
-            detailViewImage = DetailsPreview(image: image, previewState: preview)
-            toBeEditedBookmark = bookmark
-            showDetails.toggle()
+            if let cachedPreview {
+                detailViewImage = cachedPreview
+                toBeEditedBookmark = bookmark
+                showDetails.toggle()
+            }
             #endif
         })
         .draggable(bookmark)
         .animation(.default, value: bookmark.wrappedTitle)
+        .animation(.default, value: cachedPreview?.previewState)
         .shadow(color: .black.opacity(0.3), radius: shadowsEnabled ? (selectedBookmarks.contains(bookmark) ? 0 : 3) : 0) // Checks if the shadows are enabled in Settings, otherwise only shows them when the bookmark is not selected.
         .opacity(selectedBookmarks.contains(bookmark) ? 0.75 : 1)
         .padding(selectedBookmarks.contains(bookmark) ? 2.5 : 0)
@@ -136,51 +136,8 @@ struct BookmarkItem: View {
             MoveBookmarksView(toBeMoved: [bookmark])
         }
         .task {
-            cache.getImageFor(bookmark: bookmark)
-            if let preview = cache.image {
-                self.image = Image(uiImage: preview.value)
-                self.preview = preview.previewState
-                isShimmering = false
-            } else {
-                do {
-                    let metadata = try await startFetchingMetadata(for: bookmark.wrappedURL, fetchSubresources: true, timeout: 15)
-                    if let metadata = metadata {
-                        let imageProvider = metadata.imageProvider ?? metadata.iconProvider
-                        if imageProvider != nil {
-                            let imageType: PreviewType = metadata.imageProvider != nil ? .thumbnail : .icon
-                            imageProvider!.loadObject(ofClass: UIImage.self) { (image, error) in
-                                guard error == nil else {
-                                    return
-                                }
-                                if let image = image as? UIImage {
-                                    DispatchQueue.main.async {
-                                        self.image = Image(uiImage: image)
-                                        preview = imageType
-                                        isShimmering = false
-                                        cache.saveToCache(image: image, preview: imageType, bookmark: bookmark)
-                                    }
-                                    return
-                                }
-                            }
-                        }
-                    }
-                    
-                    if preview == .loading {
-                        showPlaceHolder()
-                    }
-                } catch {
-                    showPlaceHolder()
-                    print("Failed to load data")
-                }
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
-                if preview == .loading {
-                    showPlaceHolder()
-                }
-            }
+            bookmark.cachedImage(saveTo: $cachedPreview)
         }
-        .animation(.default, value: isShimmering)
         .animation(.default, value: selectedBookmarks)
     }
     
@@ -199,16 +156,18 @@ struct BookmarkItem: View {
                 }
                 
                 Button {
-                    detailViewImage = DetailsPreview(image: image, previewState: preview)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        toBeEditedBookmark = bookmark
-                        showDetails.toggle()
+                    if let cachedPreview {
+                        detailViewImage = cachedPreview
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            toBeEditedBookmark = bookmark
+                            showDetails.toggle()
+                        }
                     }
                 } label: {
                     Label("Show details", systemImage: "info.circle")
                 }
-                .disabled(preview == .loading)
+                .disabled(cachedPreview?.previewState == .loading || cachedPreview == nil)
                 
                 Button(action: { copy(bookmark.wrappedURL) }) {
                     Label("Copy link", systemImage: "doc.on.doc")
@@ -240,11 +199,6 @@ struct BookmarkItem: View {
                 }
             }
         }
-    }
-    
-    func showPlaceHolder() {
-        preview = .firstLetter
-        isShimmering = false
     }
 }
 
@@ -279,9 +233,4 @@ func share(url: URL) {
     if let windowScene = scene as? UIWindowScene {
         windowScene.keyWindow?.rootViewController?.present(activityView, animated: true, completion: nil)
     }
-}
-
-struct DetailsPreview {
-    var image: Image?
-    var previewState: PreviewType
 }
