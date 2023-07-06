@@ -42,9 +42,9 @@ struct TipJar: View {
                         .padding(.vertical, 5)
                     
                     VStack(spacing: 5) {
-                        bulletLine("Appreciate the App", systemImage: "star.fill", tint: .yellow)
-                        bulletLine("Support Indie Development", systemImage: "wrench.and.screwdriver.fill", tint: .purple)
-                        bulletLine("Unlock More App Icons\(isMacCatalyst ? "on iOS/iPadOS" : "")", systemImage: "square.fill", tint: .mint)
+                        bulletLine("Appreciate the App", systemImage: "heart.fill", tint: .pink)
+                        bulletLine("Support Indie Development", systemImage: "wrench.and.screwdriver.fill", tint: .blue)
+                        bulletLine("Unlock More App Icons\(isMacCatalyst ? " on iOS/iPadOS" : "")", systemImage: "square.stack.3d.down.right.fill", tint: .purple)
                     }
                 }
             }
@@ -87,7 +87,7 @@ struct TipJar: View {
         } icon: {
             Image(systemName: systemImage)
                 .foregroundColor(tint)
-                .frame(width: 15, alignment: .center)
+                .frame(width: 10, alignment: .center)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
