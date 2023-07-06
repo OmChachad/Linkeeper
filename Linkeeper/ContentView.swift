@@ -19,6 +19,7 @@ struct ContentView: View {
     // NavigationLink States
     @State private var showingAll = false
     @State private var showingFavorites = false
+    @State private var showingPinnedFolder: [Bool] = []
     
     // Toolbar Button Variables
     @State private var showingSettings = false
@@ -41,12 +42,16 @@ struct ContentView: View {
                         ListItem(markdown: "**Favorites**", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
                     }
                     .materialRowBackgroundForMac(isSelected: showingFavorites)
+                    
+                    ForEach(pinnedFolders) { folder in
+                        PinnedFolderView(folder: folder)
+                    }
                 }
                 .frame(height: 60)
                 
                 
                 Section(header: Text("My Folders")) {
-                    ForEach(folders) { folder in
+                    ForEach(folders.filter { !$0.isPinned } ) { folder in
                         NavigationLink(tag: folder, selection: $currentFolder) {
                             BookmarksView(folder: folder)
                         } label: {
@@ -116,12 +121,17 @@ struct ContentView: View {
             AddBookmarkView(folderPreset: currentFolder)
         }
         .sheet(isPresented: $showingNewFolderView, content: AddFolderView.init)
+        .animation(.default, value: pinnedFolders)
         .onAppear {
             // Makes "All Bookmarks" the default view, when Linkeeper is opened on macOS.
             #if targetEnvironment(macCatalyst)
                 showingAll = true
             #endif
         }
+    }
+    
+    var pinnedFolders: [Folder] {
+        folders.filter { $0.isPinned }
     }
     
     private func delete(at offset: IndexSet) {
@@ -170,5 +180,17 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct PinnedFolderView: View {
+    var folder: Folder
+    @State private var isSelected = false
+    
+    var body: some View {
+        NavigationLink(destination: BookmarksView(folder: folder), isActive: $isSelected) {
+            FolderItemView(folder: folder)
+        }
+        .materialRowBackgroundForMac(isSelected: isSelected)
     }
 }

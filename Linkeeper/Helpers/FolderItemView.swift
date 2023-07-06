@@ -28,6 +28,17 @@ struct FolderItemView: View {
                 Label("Edit", systemImage: "pencil")
             }
             
+            Button {
+                folder.isPinned.toggle()
+                try? moc.save()
+            } label: {
+                if folder.isPinned {
+                    Label("Unpin", systemImage: "pin.slash")
+                } else {
+                    Label("Pin", systemImage: "pin.fill")
+                }
+            }
+            
             Button(role: .destructive) {
                 if folder.bookmarksArray.count == 0 {
                     withAnimation {
@@ -83,6 +94,21 @@ struct FolderItemView: View {
                 } label: {
                     Label("Edit", systemImage: "pencil")
                 }
+            }
+        }
+        .swipeActions(edge: .leading) {
+            if editMode?.wrappedValue == .inactive {
+                Button {
+                    folder.isPinned.toggle()
+                    try? moc.save()
+                } label: {
+                    if folder.isPinned {
+                        Label("Unpin", systemImage: "pin.slash")
+                    } else {
+                        Label("Pin", systemImage: "pin.fill")
+                    }
+                }
+                .tint(.yellow)
             }
         }
         .sheet(isPresented: $editingFolder) {

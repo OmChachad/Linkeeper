@@ -18,9 +18,10 @@ extension Folder {
 
     @NSManaged public var accentColor: String?
     @NSManaged public var id: UUID?
+    @NSManaged public var index: Int16
     @NSManaged public var symbol: String?
     @NSManaged public var title: String?
-    @NSManaged public var index: Int16
+    @NSManaged public var isPinned: Bool
     @NSManaged public var bookmark: NSSet?
     
     public var wrappedTitle: String {
