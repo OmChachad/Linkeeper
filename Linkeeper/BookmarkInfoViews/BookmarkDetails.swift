@@ -243,8 +243,18 @@ private struct AdaptiveScrollView<Content: View>: View {
             if notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 content()
             } else {
-                ScrollView {
-                    content()
+                if #available(iOS 16.0, *) {
+                    ViewThatFits {
+                        content()
+                        
+                        ScrollView {
+                            content()
+                        }
+                    }
+                } else {
+                    ScrollView {
+                        content()
+                    }
                 }
             }
         }
