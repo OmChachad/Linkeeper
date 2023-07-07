@@ -173,16 +173,8 @@ struct BookmarkItem: View {
                     Label("Copy link", systemImage: "doc.on.doc")
                 }
                 
-                if #available(iOS 16.0, *) {
-                    ShareLink(item: bookmark.wrappedURL) {
-                        Label("Share", systemImage: "square.and.arrow.up")
-                    }
-                } else {
-                    Button {
-                        share(url: bookmark.wrappedURL)
-                    } label: {
-                        Label("Share", systemImage: "square.and.arrow.up")
-                    }
+                ShareButton(url: bookmark.wrappedURL) {
+                    Label("Share", systemImage: "square.and.arrow.up")
                 }
                 
                 Button {
@@ -217,16 +209,5 @@ func startFetchingMetadata(for url: URL, fetchSubresources: Bool, timeout: TimeI
                 continuation.resume(returning: nil)
             }
         }
-    }
-}
-
-func share(url: URL) {
-    let activityView = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-    
-    let allScenes = UIApplication.shared.connectedScenes
-    let scene = allScenes.first { $0.activationState == .foregroundActive }
-    
-    if let windowScene = scene as? UIWindowScene {
-        windowScene.keyWindow?.rootViewController?.present(activityView, animated: true, completion: nil)
     }
 }

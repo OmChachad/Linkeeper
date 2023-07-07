@@ -44,6 +44,7 @@
 		C29050772A12B80300817C48 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050762A12B80300817C48 /* String.swift */; };
 		C29050792A12B81300817C48 /* TextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050782A12B81300817C48 /* TextEditor.swift */; };
 		C296410A2A56E9A000693284 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29641092A56E9A000693284 /* Bookmark.swift */; };
+		C29B00EF2A58862A0081FEBC /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00EE2A58862A0081FEBC /* ShareButton.swift */; };
 		C2B4F6C72A18E48100618411 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B4F6C62A18E48100618411 /* AlertView.swift */; };
 		C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */; };
 		C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3F28171D93000F4AEB /* ContentView.swift */; };
@@ -105,6 +106,7 @@
 		C29050782A12B81300817C48 /* TextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditor.swift; sourceTree = "<group>"; };
 		C29641092A56E9A000693284 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
 		C29920052857257C00636E7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C29B00EE2A58862A0081FEBC /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		C2B4F6C62A18E48100618411 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		C2C8DC3A28171D93000F4AEB /* Linkeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linkeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeeperApp.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				C2C8EE9E2A4DF86800CCD36F /* Drag & Dropping */,
 				C25316012A2D0398004F1491 /* FolderItemView.swift */,
 				C25316032A2D03D2004F1491 /* ListItem.swift */,
+				C29B00EE2A58862A0081FEBC /* ShareButton.swift */,
 				C2B4F6C62A18E48100618411 /* AlertView.swift */,
 				C23BDA462840C70E003DD30D /* CacheManager.swift */,
 				C290506C2A12B67900817C48 /* Flashcard.swift */,
@@ -437,6 +440,7 @@
 				C29050712A12B79800817C48 /* Color.swift in Sources */,
 				C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */,
 				C29050792A12B81300817C48 /* TextEditor.swift in Sources */,
+				C29B00EF2A58862A0081FEBC /* ShareButton.swift in Sources */,
 				C2B4F6C72A18E48100618411 /* AlertView.swift in Sources */,
 				C29050752A12B7E300817C48 /* URL.swift in Sources */,
 				C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */,

@@ -116,16 +116,8 @@ struct BookmarkDetails: View {
                     Image(systemName: "safari")
                 }
                 
-                if #available(iOS 16.0, *) {
-                    ShareLink(item: bookmark.wrappedURL) {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                } else {
-                    Button {
-                        share(url: bookmark.wrappedURL)
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                    }
+                ShareButton(url: bookmark.wrappedURL) {
+                    Image(systemName: "square.and.arrow.up")
                 }
                 
                 Button {
