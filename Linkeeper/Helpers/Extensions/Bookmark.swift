@@ -9,6 +9,10 @@ import Foundation
 import SwiftUI
 
 extension Bookmark {
+    func copyURL() {
+        UIPasteboard.general.url = self.wrappedURL
+    }
+    
     @MainActor
     func cachedImage(saveTo preview: Binding<cachedPreview?>) {
         let cacheManager = CacheManager.instance

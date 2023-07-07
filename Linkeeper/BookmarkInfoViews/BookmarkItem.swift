@@ -169,7 +169,7 @@ struct BookmarkItem: View {
                 }
                 .disabled(cachedPreview?.previewState == .loading || cachedPreview == nil)
                 
-                Button(action: { copy(bookmark.wrappedURL) }) {
+                Button(action: bookmark.copyURL) {
                     Label("Copy link", systemImage: "doc.on.doc")
                 }
                 
@@ -218,10 +218,6 @@ func startFetchingMetadata(for url: URL, fetchSubresources: Bool, timeout: TimeI
             }
         }
     }
-}
-
-func copy(_ url: URL) {
-    UIPasteboard.general.url = url
 }
 
 func share(url: URL) {
