@@ -148,10 +148,8 @@ struct BookmarkDetails: View {
             AdaptiveScrollView(notes: bookmark.wrappedNotes) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(bookmark.wrappedTitle)
-                        .frame(maxWidth: .infinity, alignment: .leading)
                         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Title", in: namespace)
                     Text(bookmark.wrappedHost)
-                        .frame(maxWidth: .infinity, alignment: .leading)
                         .font(.callout)
                         .foregroundColor(.secondary)
                         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Host", in: namespace)
@@ -166,6 +164,7 @@ struct BookmarkDetails: View {
                         Text(bookmark.wrappedNotes)
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(20)
             }
         }

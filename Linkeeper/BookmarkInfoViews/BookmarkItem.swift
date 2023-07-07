@@ -35,19 +35,10 @@ struct BookmarkItem: View {
         VStack(spacing: 0) {
             VStack {
                 switch(cachedPreview?.previewState) {
-                    case .thumbnail:
+                    case .thumbnail, .icon:
                         cachedPreview!.image!
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                    case .icon:
-                        ZStack {
-                            Rectangle()
-                                .foregroundColor(.white)
-
-                            cachedPreview!.image!
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        }
                     case .firstLetter:
                         if let firstChar: Character = bookmark.wrappedTitle.first {
                             Color(uiColor: .systemGray2)
@@ -62,7 +53,6 @@ struct BookmarkItem: View {
                         Rectangle()
                             .foregroundColor(.secondary.opacity(0.5))
                             .shimmering()
-                            .clipped()
                 }
             }
             .background(Color.secondary.opacity(0.2))
@@ -94,7 +84,6 @@ struct BookmarkItem: View {
         .onTapGesture {
             if editMode?.wrappedValue == .active {
                 if selectedBookmarks.contains(bookmark) {
-                    
                     selectedBookmarks.remove(bookmark)
                 } else {
                     selectedBookmarks.insert(bookmark)
@@ -189,24 +178,6 @@ struct BookmarkItem: View {
                 } label: {
                     Label("Delete", systemImage: "trash")
                 }
-            }
-        }
-    }
-}
-
-func startFetchingMetadata(for url: URL, fetchSubresources: Bool, timeout: TimeInterval?) async throws -> LPLinkMetadata? {
-    return try await withCheckedThrowingContinuation { continuation in
-        let metadataProvider = LPMetadataProvider()
-        metadataProvider.shouldFetchSubresources = fetchSubresources
-        metadataProvider.timeout = timeout ?? metadataProvider.timeout
-        
-        metadataProvider.startFetchingMetadata(for: url) { metadata, error in
-            if error != nil {
-                continuation.resume(returning: nil)
-            } else if let metadata = metadata {
-                continuation.resume(returning: metadata)
-            } else {
-                continuation.resume(returning: nil)
             }
         }
     }
