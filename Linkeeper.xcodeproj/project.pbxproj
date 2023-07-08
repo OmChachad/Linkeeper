@@ -231,13 +231,13 @@
 		C290506A2A12B60E00817C48 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				C2C8EE9E2A4DF86800CCD36F /* Drag & Dropping */,
 				C25316012A2D0398004F1491 /* FolderItemView.swift */,
 				C25316032A2D03D2004F1491 /* ListItem.swift */,
 				C29B00EE2A58862A0081FEBC /* ShareButton.swift */,
 				C2B4F6C62A18E48100618411 /* AlertView.swift */,
 				C23BDA462840C70E003DD30D /* CacheManager.swift */,
 				C290506C2A12B67900817C48 /* Flashcard.swift */,
+				C2C8EE9E2A4DF86800CCD36F /* Drag & Dropping */,
 				C29B00F22A588B260081FEBC /* Functions */,
 				C2E3899A2A5497760085D801 /* Enums */,
 				C290506B2A12B66800817C48 /* Extensions */,

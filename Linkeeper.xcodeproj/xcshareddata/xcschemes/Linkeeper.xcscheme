@@ -51,7 +51,7 @@
          </BuildableReference>
       </BuildableProductRunnable>
       <StoreKitConfigurationFileReference
-         identifier = "../../Linkeeper/StoreKit/Local Tips.storekit">
+         identifier = "../../Linkeeper/StoreKit/Synced Tips.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction
