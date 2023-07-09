@@ -47,6 +47,7 @@
 		C29B00EF2A58862A0081FEBC /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00EE2A58862A0081FEBC /* ShareButton.swift */; };
 		C29B00F12A588B1D0081FEBC /* Metadata Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F02A588B1D0081FEBC /* Metadata Fetcher.swift */; };
 		C29B00F42A59E67D0081FEBC /* PinnedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F32A59E67D0081FEBC /* PinnedItemView.swift */; };
+		C29B00F72A5B38E40081FEBC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29B00F62A5B38E40081FEBC /* CloudKit.framework */; };
 		C2B4F6C72A18E48100618411 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B4F6C62A18E48100618411 /* AlertView.swift */; };
 		C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */; };
 		C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3F28171D93000F4AEB /* ContentView.swift */; };
@@ -111,6 +112,7 @@
 		C29B00EE2A58862A0081FEBC /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		C29B00F02A588B1D0081FEBC /* Metadata Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metadata Fetcher.swift"; sourceTree = "<group>"; };
 		C29B00F32A59E67D0081FEBC /* PinnedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedItemView.swift; sourceTree = "<group>"; };
+		C29B00F62A5B38E40081FEBC /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		C2B4F6C62A18E48100618411 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		C2C8DC3A28171D93000F4AEB /* Linkeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linkeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeeperApp.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C29B00F72A5B38E40081FEBC /* CloudKit.framework in Frameworks */,
 				C24DF575283E62C4003C9692 /* Shimmer in Frameworks */,
 				C2C8EE962A4D853A00CCD36F /* SwiftSoup in Frameworks */,
 			);
@@ -271,11 +274,20 @@
 			path = Functions;
 			sourceTree = "<group>";
 		};
+		C29B00F52A5B38E40081FEBC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C29B00F62A5B38E40081FEBC /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C2C8DC3128171D93000F4AEB = {
 			isa = PBXGroup;
 			children = (
 				C2C8DC3C28171D93000F4AEB /* Linkeeper */,
 				C2C8DC3B28171D93000F4AEB /* Products */,
+				C29B00F52A5B38E40081FEBC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
