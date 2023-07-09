@@ -29,47 +29,59 @@ struct ContentView: View {
     
     @State private var currentFolder: Folder?
     
+    var isMacCatalyst: Bool {
+        #if targetEnvironment(macCatalyst)
+            return true
+        #else
+            return false
+        #endif
+    }
+    
+    var spacing: CGFloat { isMacCatalyst ? 10 : 15 }
+    
     var body: some View {
         NavigationView  {
-            List {
-                Group {
-                    NavigationLink(destination: BookmarksView(), isActive: $showingAll) {
-                        ListItem(markdown: "**All**", systemName: "tray.fill", color: Color(UIColor.darkGray), subItemsCount: allBookmarks.count)
-                    }
-                    .materialRowBackgroundForMac(isSelected: showingAll)
-                    
-                    NavigationLink(destination: BookmarksView(onlyFavorites: true), isActive: $showingFavorites) {
-                        ListItem(markdown: "**Favorites**", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
-                    }
-                    .materialRowBackgroundForMac(isSelected: showingFavorites)
-                    
-                    ForEach(pinnedFolders) { folder in
-                        PinnedFolderView(folder: folder)
-                    }
-                }
-                .frame(height: 60)
-                
-                
-                Section(header: Text("My Folders")) {
-                    ForEach(folders.filter { !$0.isPinned } ) { folder in
-                        NavigationLink(tag: folder, selection: $currentFolder) {
-                            BookmarksView(folder: folder)
-                        } label: {
-                            FolderItemView(folder: folder)
+            VStack(spacing: 0) {
+                VStack {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
+                        PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color(UIColor.darkGray), count: allBookmarks.count)
+                            .buttonStyle(.plain)
+                        
+                        
+                        PinnedItemView(destination: BookmarksView(onlyFavorites: true), title: "Favorites", symbolName: "heart.fill", tint: .pink, count:   favoriteBookmarks.count)
+                            .buttonStyle(.plain)
+                        
+                        ForEach(pinnedFolders) { folder in
+                            PinnedItemView(destination: BookmarksView(folder: folder), title: folder.wrappedTitle, symbolName: folder.wrappedSymbol, tint: folder.wrappedColor, count: folder.bookmarksArray.count)
                         }
-                        .dropDestination { bookmark, url in
-                            if let bookmark {
-                                bookmark.folder = folder
-                                try? moc.save()
-                            } else {
-                                BookmarksManager.shared.addDroppedURL(url, to: folder)
+                        .buttonStyle(.plain)
+                    }
+                    .padding(isMacCatalyst ? 12.5 : 20)
+                }
+                .background(isMacCatalyst ? .clear : Color(uiColor: .systemGroupedBackground))
+                
+                List {
+                    Section(header: Text("My Folders")) {
+                        ForEach(folders.filter { !$0.isPinned } ) { folder in
+                            NavigationLink(tag: folder, selection: $currentFolder) {
+                                BookmarksView(folder: folder)
+                            } label: {
+                                FolderItemView(folder: folder)
+                            }
+                            .dropDestination { bookmark, url in
+                                if let bookmark {
+                                    bookmark.folder = folder
+                                    try? moc.save()
+                                } else {
+                                    BookmarksManager.shared.addDroppedURL(url, to: folder)
+                                }
                             }
                         }
+                        .onMove(perform: moveItem)
+                        .onDelete(perform: delete)
                     }
-                    .onMove(perform: moveItem)
-                    .onDelete(perform: delete)
+                    .headerProminence(.increased)
                 }
-                .headerProminence(.increased)
             }
             .sideBarForMac()
             .toolbar {

@@ -46,6 +46,7 @@
 		C296410A2A56E9A000693284 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29641092A56E9A000693284 /* Bookmark.swift */; };
 		C29B00EF2A58862A0081FEBC /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00EE2A58862A0081FEBC /* ShareButton.swift */; };
 		C29B00F12A588B1D0081FEBC /* Metadata Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F02A588B1D0081FEBC /* Metadata Fetcher.swift */; };
+		C29B00F42A59E67D0081FEBC /* PinnedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F32A59E67D0081FEBC /* PinnedItemView.swift */; };
 		C2B4F6C72A18E48100618411 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B4F6C62A18E48100618411 /* AlertView.swift */; };
 		C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */; };
 		C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3F28171D93000F4AEB /* ContentView.swift */; };
@@ -109,6 +110,7 @@
 		C29920052857257C00636E7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C29B00EE2A58862A0081FEBC /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		C29B00F02A588B1D0081FEBC /* Metadata Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metadata Fetcher.swift"; sourceTree = "<group>"; };
+		C29B00F32A59E67D0081FEBC /* PinnedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedItemView.swift; sourceTree = "<group>"; };
 		C2B4F6C62A18E48100618411 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		C2C8DC3A28171D93000F4AEB /* Linkeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linkeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeeperApp.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				C25316012A2D0398004F1491 /* FolderItemView.swift */,
+				C29B00F32A59E67D0081FEBC /* PinnedItemView.swift */,
 				C25316032A2D03D2004F1491 /* ListItem.swift */,
 				C29B00EE2A58862A0081FEBC /* ShareButton.swift */,
 				C2B4F6C62A18E48100618411 /* AlertView.swift */,
@@ -463,6 +466,7 @@
 				C281D9BA2A2534E100535807 /* AddFolder.swift in Sources */,
 				C2E806E62A26111E00A41D0C /* Settings.swift in Sources */,
 				C281D9732A23E8B300535807 /* FoldersManager.swift in Sources */,
+				C29B00F42A59E67D0081FEBC /* PinnedItemView.swift in Sources */,
 				C2C8EE902A4C354700CCD36F /* TipJar.swift in Sources */,
 				C25316042A2D03D2004F1491 /* ListItem.swift in Sources */,
 				C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */,
