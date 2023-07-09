@@ -51,18 +51,17 @@ struct ListItem: View {
     
     func icon() -> some View {
         Group {
-        #if targetEnvironment(macCatalyst)
-            Image(systemName: systemName)
-                .imageScale(.medium)
-                .padding(5)
-                .frame(width: 27.5, height: 27.5)
-        #else
-            Image(systemName: systemName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 20, height: 20)
-                .padding(10)
-        #endif
+            #if targetEnvironment(macCatalyst)
+                Image(systemName: systemName)
+                    .imageScale(.medium)
+                    .padding(5)
+                    .frame(width: 30, height: 30)
+            #else
+                Image(systemName: systemName)
+                    .imageScale(.medium)
+                    .padding(7.5)
+                    .frame(width: 40, height: 40)
+            #endif
         }
         .foregroundColor(.white)
         .background(color, in: Circle())

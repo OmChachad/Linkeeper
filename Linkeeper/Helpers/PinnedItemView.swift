@@ -65,20 +65,11 @@ struct PinnedItemView<Content: View>: View {
     }
     
     func icon() -> some View {
-        Group {
-            #if targetEnvironment(macCatalyst)
-                Image(systemName: symbolName)
-                    .imageScale(.medium)
-                    .padding(5)
-                    .frame(width: 27.5, height: 27.5)
-            #else
-                Image(systemName: symbolName)
-                    .imageScale(.medium)
-                    .padding(7.5)
-                    .frame(width: 35, height: 35)
-            #endif
-        }
-        .foregroundColor(.white)
-        .background(tint, in: Circle())
+        Image(systemName: symbolName)
+            .imageScale(.medium)
+            .padding(isMacCatalyst ? 5 : 7.5)
+            .frame(width: isMacCatalyst ? 27.5 : 35, height: isMacCatalyst ? 27.5 : 35)
+            .foregroundColor(.white)
+            .background(tint, in: Circle())
     }
 }
