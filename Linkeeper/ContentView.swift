@@ -194,15 +194,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-struct PinnedFolderView: View {
-    var folder: Folder
-    @State private var isSelected = false
-    
-    var body: some View {
-        NavigationLink(destination: BookmarksView(folder: folder), isActive: $isSelected) {
-            FolderItemView(folder: folder)
-        }
-        .materialRowBackgroundForMac(isSelected: isSelected)
-    }
-}
