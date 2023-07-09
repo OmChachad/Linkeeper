@@ -16,11 +16,6 @@ struct ContentView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "isFavorited == true")) var favoriteBookmarks: FetchedResults<Bookmark>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var allBookmarks: FetchedResults<Bookmark>
     
-    // NavigationLink States
-    @State private var showingAll = false
-    @State private var showingFavorites = false
-    @State private var showingPinnedFolder: [Bool] = []
-    
     // Toolbar Button Variables
     @State private var showingSettings = false
     @State var mode: EditMode = .inactive
@@ -44,7 +39,7 @@ struct ContentView: View {
             VStack(spacing: 0) {
                 VStack {
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
-                        PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color(UIColor.darkGray), count: allBookmarks.count)
+                        PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color(UIColor.darkGray), count: allBookmarks.count, isActiveByDefault: isMacCatalyst)
                             .buttonStyle(.plain)
                         
                         
@@ -134,12 +129,6 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showingNewFolderView, content: AddFolderView.init)
         .animation(.default, value: pinnedFolders)
-        .onAppear {
-            // Makes "All Bookmarks" the default view, when Linkeeper is opened on macOS.
-            #if targetEnvironment(macCatalyst)
-                showingAll = true
-            #endif
-        }
     }
     
     var pinnedFolders: [Folder] {

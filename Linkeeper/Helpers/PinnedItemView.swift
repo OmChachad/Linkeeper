@@ -24,6 +24,23 @@ struct PinnedItemView<Content: View>: View {
         #endif
     }
     
+    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int) {
+        self.destination = destination
+        self.title = title
+        self.symbolName = symbolName
+        self.tint = tint
+        self.count = count
+    }
+    
+    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveByDefault: Bool) {
+        self.destination = destination
+        self.title = title
+        self.symbolName = symbolName
+        self.tint = tint
+        self.count = count
+        _isActive = State(initialValue: isActiveByDefault)
+    }
+    
     var body: some View {
         NavigationLink(destination: destination, isActive: $isActive) {
             VStack(alignment: .leading) {
