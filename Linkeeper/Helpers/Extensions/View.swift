@@ -45,28 +45,6 @@ extension View {
         #endif
     }
     
-    func materialRowBackgroundForMac(isSelected: Bool = false) -> some View {
-#if targetEnvironment(macCatalyst)
-        self
-        
-            .listRowBackground (
-                Color(uiColor: isSelected ? UIColor(.accentColor) : .systemGray)
-                    .opacity(isSelected ? 1 : 0.25)
-                    .cornerRadius(10, style: .continuous)
-                    .padding(
-                        EdgeInsets(
-                            top: 5,
-                            leading: 0,
-                            bottom: 5,
-                            trailing: 0
-                        )
-                    )
-            )
-#else
-        self
-#endif
-    }
-    
     func miniAlert(isPresented: Binding<Bool>, icon: String, title: String) -> some View {
         Color.clear
             .frame(maxWidth: .infinity, maxHeight: .infinity)
