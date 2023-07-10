@@ -57,7 +57,7 @@ struct ContentView: View {
                         }
                         .buttonStyle(.plain)
                     }
-                    .padding(isMacCatalyst ? 12.5 : 20)
+                    .padding(isMacCatalyst ? 12.5 : UIDevice.current.userInterfaceIdiom == .pad ? 15 : 20)
                 }
                 .background(isMacCatalyst ? .clear : Color(uiColor: .systemGroupedBackground))
                 
