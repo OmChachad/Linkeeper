@@ -32,11 +32,7 @@ struct FolderItemView: View {
                 folder.isPinned.toggle()
                 try? moc.save()
             } label: {
-                if folder.isPinned {
-                    Label("Unpin", systemImage: "pin.slash")
-                } else {
-                    Label("Pin", systemImage: "pin")
-                }
+                Label("Pin", systemImage: "pin")
             }
             
             Button(role: .destructive) {
