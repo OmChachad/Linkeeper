@@ -149,7 +149,18 @@ struct ContentView: View {
     
     private func moveItem(at sets:IndexSet,destination:Int) {
         // Source: https://github.com/recoding-io/swiftui-videos/blob/main/Core_Data_Order_List/Shared/ContentView.swift
-        let itemToMove = sets.first!
+        var itemToMove = sets.first!
+        var destination = destination
+        
+        pinnedFolders.forEach { folder in
+            if folders.firstIndex(of: folder)! <= itemToMove {
+                itemToMove += 1
+            }
+            
+            if folders.firstIndex(of: folder)! <= destination {
+                destination += 1
+            }
+        }
         
         if itemToMove < destination{
             var startIndex = itemToMove + 1
@@ -161,8 +172,7 @@ struct ContentView: View {
                 startIndex = startIndex + 1
             }
             folders[itemToMove].index = startOrder
-        }
-        else if destination < itemToMove{
+        } else if destination < itemToMove{
             var startIndex = destination
             let endIndex = itemToMove - 1
             var startOrder = folders[destination].index + 1
@@ -175,12 +185,7 @@ struct ContentView: View {
             folders[itemToMove].index = newOrder
         }
         
-        do{
-            try moc.save()
-        }
-        catch{
-            print(error.localizedDescription)
-        }
+        try? moc.save()
     }
 }
 
