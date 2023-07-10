@@ -423,7 +423,6 @@
 			mainGroup = C2C8DC3128171D93000F4AEB;
 			packageReferences = (
 				C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
-				C2E806E92A261C2200A41D0C /* XCRemoteSwiftPackageReference "shiny" */,
 				C2C8EE942A4D853A00CCD36F /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = C2C8DC3B28171D93000F4AEB /* Products */;
@@ -743,14 +742,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
-			};
-		};
-		C2E806E92A261C2200A41D0C /* XCRemoteSwiftPackageReference "shiny" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/maustinstar/shiny.git";
-			requirement = {
-				branch = master;
-				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
