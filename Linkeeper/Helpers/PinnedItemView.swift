@@ -16,6 +16,14 @@ struct PinnedItemView<Content: View>: View {
     
     @State private var isActive = false
     
+    var isMacCatalystOriPad: Bool {
+        #if targetEnvironment(macCatalyst)
+            return true
+        #else
+            return UIDevice.current.userInterfaceIdiom == .pad
+        #endif
+    }
+    
     var isMacCatalyst: Bool {
         #if targetEnvironment(macCatalyst)
             return true
@@ -51,17 +59,18 @@ struct PinnedItemView<Content: View>: View {
                     
                     Text(String(count))
                         .font(.system(.title, design: .rounded).bold())
-                        .foregroundColor(isActive ? .white : .primary)
+                        .foregroundColor(isMacCatalystOriPad ? (isActive ? .white : .primary) : .primary)
                 }
                 
                 Text(title)
                     .bold()
-                    .foregroundColor(isActive ? .white : .primary.opacity(0.5))
+                    .foregroundColor(isMacCatalystOriPad ? isActive ? .white : .primary.opacity(0.5) : .secondary)
             }
             .padding(10)
-            .background(isActive ? .accentColor : isMacCatalyst ? Color(uiColor: .systemGray).opacity(0.25) : Color(uiColor: .secondarySystemGroupedBackground))
+            .background(isMacCatalystOriPad ? (isActive ? .accentColor : Color(uiColor: .systemGray).opacity(0.25)) : Color(uiColor: .secondarySystemGroupedBackground))
             .cornerRadius(10, style: .continuous)
         }
+        .onAppear {print(isMacCatalystOriPad) }
     }
     
     func icon() -> some View {
