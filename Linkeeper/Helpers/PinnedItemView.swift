@@ -49,6 +49,26 @@ struct PinnedItemView<Content: View>: View {
         _isActive = State(initialValue: isActiveByDefault)
     }
     
+    var backgroundColor: Color {
+        if isMacCatalystOriPad {
+            if isActive {
+                return tint
+            } else {
+                return Color(uiColor: isMacCatalyst ? .systemGray : .secondarySystemGroupedBackground).opacity(isMacCatalyst ? 0.25 : 1)
+            }
+        } else {
+            return Color(uiColor: .secondarySystemGroupedBackground)
+        }
+    }
+    
+    var titleColor: Color {
+        if isMacCatalystOriPad {
+            return isActive ? .white : .primary.opacity(isMacCatalyst ? 0.75 : 0.5)
+        } else {
+            return .secondary
+        }
+    }
+    
     var body: some View {
         NavigationLink(destination: destination, isActive: $isActive) {
             VStack(alignment: .leading) {
@@ -59,15 +79,15 @@ struct PinnedItemView<Content: View>: View {
                     
                     Text(String(count))
                         .font(.system(.title, design: .rounded).bold())
-                        .foregroundColor(isMacCatalystOriPad ? (isActive ? .white : .primary) : .primary)
+                        .foregroundColor(isMacCatalystOriPad && isActive ? .white : .primary)
                 }
                 
                 Text(title)
                     .bold()
-                    .foregroundColor(isMacCatalystOriPad ? isActive ? .white : .primary.opacity(0.5) : .secondary)
+                    .foregroundColor(titleColor)
             }
             .padding(10)
-            .background(isMacCatalystOriPad ? (isActive ? tint : Color(uiColor: .systemGray).opacity(0.25)) : Color(uiColor: .secondarySystemGroupedBackground))
+            .background(backgroundColor)
             .cornerRadius(10, style: .continuous)
         }
         .onAppear {print(isMacCatalystOriPad) }
