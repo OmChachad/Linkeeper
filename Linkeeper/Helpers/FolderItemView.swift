@@ -35,7 +35,7 @@ struct FolderItemView: View {
                 if folder.isPinned {
                     Label("Unpin", systemImage: "pin.slash")
                 } else {
-                    Label("Pin", systemImage: "pin.fill")
+                    Label("Pin", systemImage: "pin")
                 }
             }
             
