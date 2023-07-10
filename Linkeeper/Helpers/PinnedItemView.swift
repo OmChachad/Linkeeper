@@ -67,7 +67,7 @@ struct PinnedItemView<Content: View>: View {
                     .foregroundColor(isMacCatalystOriPad ? isActive ? .white : .primary.opacity(0.5) : .secondary)
             }
             .padding(10)
-            .background(isMacCatalystOriPad ? (isActive ? .accentColor : Color(uiColor: .systemGray).opacity(0.25)) : Color(uiColor: .secondarySystemGroupedBackground))
+            .background(isMacCatalystOriPad ? (isActive ? tint : Color(uiColor: .systemGray).opacity(0.25)) : Color(uiColor: .secondarySystemGroupedBackground))
             .cornerRadius(10, style: .continuous)
         }
         .onAppear {print(isMacCatalystOriPad) }
@@ -78,7 +78,7 @@ struct PinnedItemView<Content: View>: View {
             .imageScale(.medium)
             .padding(isMacCatalyst ? 5 : 7.5)
             .frame(width: isMacCatalyst ? 27.5 : 35, height: isMacCatalyst ? 27.5 : 35)
-            .foregroundColor(.white)
-            .background(tint, in: Circle())
+            .foregroundColor(isMacCatalystOriPad && isActive ? tint : .white)
+            .background(isMacCatalystOriPad && isActive ? .white : tint, in: Circle())
     }
 }
