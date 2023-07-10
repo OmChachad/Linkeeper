@@ -48,6 +48,12 @@ struct ContentView: View {
                         
                         ForEach(pinnedFolders) { folder in
                             PinnedItemView(destination: BookmarksView(folder: folder), title: folder.wrappedTitle, symbolName: folder.wrappedSymbol, tint: folder.wrappedColor, count: folder.bookmarksArray.count)
+                                .contextMenu {
+                                    Button("Unpin") {
+                                        folder.isPinned.toggle()
+                                        try? moc.save()
+                                    }
+                                }
                         }
                         .buttonStyle(.plain)
                     }
