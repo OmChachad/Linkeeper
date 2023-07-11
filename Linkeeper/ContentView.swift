@@ -39,7 +39,7 @@ struct ContentView: View {
             VStack(spacing: 0) {
                 VStack {
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
-                        PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color(UIColor.darkGray), count: allBookmarks.count, isActiveByDefault: isMacCatalyst)
+                        PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: isMacCatalyst)
                             .buttonStyle(.plain)
                         
                         
