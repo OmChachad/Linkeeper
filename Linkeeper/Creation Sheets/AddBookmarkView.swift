@@ -106,7 +106,7 @@ struct AddBookmarkView: View {
                                 .tag(folder as Folder?)
                         }
                     }
-
+                    
                     Button {
                         addingNewFolder.toggle()
                     } label: {
@@ -119,10 +119,10 @@ struct AddBookmarkView: View {
                 }
                 
                 Section {
-                        TextEditor(text: $notes)
-                            .placeholder("Add notes (optional)", contents: notes)
-                            .focused($isInputActive)
-                            .frame(height: 150)
+                    TextEditor(text: $notes)
+                        .placeholder("Add notes (optional)", contents: notes)
+                        .focused($isInputActive)
+                        .frame(height: 150)
                 }
             }
             .toolbar {
@@ -142,9 +142,9 @@ struct AddBookmarkView: View {
                         dismiss()
                         cancellationAction()
                     }
-                        .keyboardShortcut(.cancelAction)
+                    .keyboardShortcut(.cancelAction)
                 }
-
+                
                 ToolbarItem(placement: .keyboard) {
                     Spacer()
                     
