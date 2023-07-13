@@ -23,7 +23,7 @@ struct DraggableBookmark: Codable {
 }
 
 @available(iOS 16.0, *)
-extension DraggableBookmark: Codable, Transferable {
+extension DraggableBookmark: Transferable {
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .draggableBookmark)
         ProxyRepresentation(exporting: \.url.absoluteString)

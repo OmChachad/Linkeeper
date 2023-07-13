@@ -34,7 +34,6 @@ class DataController: ObservableObject {
         description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.org.starlightapps.linkeeper")
         persistentCloudKitContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         persistentCloudKitContainer.viewContext.automaticallyMergesChangesFromParent = true
-        
         persistentCloudKitContainer.loadPersistentStores { storeDescription, error in
             if let error = error {
                 fatalError("Core Data failed to load: \(error.self)")

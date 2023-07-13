@@ -7,7 +7,6 @@
 
 import SwiftUI
 import LinkPresentation
-import Shimmer
 
 struct AddBookmarkView: View {
     @Environment(\.dismiss) var dismiss
@@ -56,13 +55,17 @@ struct AddBookmarkView: View {
     }
     
     init(folderPreset: Folder? = nil) {
+        self.cancellationAction = {}
         _folder = State(initialValue: folderPreset)
     }
     
-    init(urlString: String, folderPreset: Folder? = nil) {
-        self.url = url
-        self.folder = folderPreset
+    init(urlString: String, folderPreset: Folder? = nil, onCancel cancellationAction: @escaping () -> Void = {}) {
+        _url = State(initialValue: urlString)
+        _folder = State(initialValue: folderPreset)
+        self.cancellationAction = cancellationAction
     }
+    
+    var cancellationAction: () -> Void
     
     var body: some View {
         NavigationView {
@@ -131,12 +134,14 @@ struct AddBookmarkView: View {
                         Button("Add", action: addBookmark)
                             .disabled(!isValidURL || title.isEmpty)
                             .keyboardShortcut("s", modifiers: .command)
-                            .shimmering(active: url.isValidURL && title.isEmpty)
                     }
                 }
                 
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel", action: dismiss.callAsFunction)
+                    Button("Cancel") {
+                        dismiss()
+                        cancellationAction()
+                    }
                         .keyboardShortcut(.cancelAction)
                 }
 
@@ -159,39 +164,46 @@ struct AddBookmarkView: View {
             askForTitle = false
             title = ""
             
-            if let url = URL(string: newURL)?.sanitise, url.absoluteString.isValidURL {
-                Task {
-                    if let metadata = try await startFetchingMetadata(for: url, fetchSubresources: false, timeout: 10) {
-                        DispatchQueue.main.async {
-                            if let URLTitle = metadata.title {
-                                if title.isEmpty {
-                                    self.title = URLTitle
-                                    askForTitle = false
-                                }
-                            } else {
-                                askForTitle = true
-                            }
-                            if #available(iOS 16.0, *) {
-                                if let URLHost = url.host {
-                                    self.host = URLHost
-                                }
-                            } else {
-                                if let URLHost = metadata.url?.host ?? metadata.originalURL?.host {
-                                    self.host = URLHost
-                                } else {
-                                    self.host = url.absoluteString
-                                }
-                            }
-                        }
-                    }
-                    
-                    if title.isEmpty {
-                        askForTitle = true
-                    }
-                }
+            fetchTitle(url: newURL)
+        }
+        .onAppear {
+            if !url.isEmpty {
+                fetchTitle(url: url)
             }
         }
         .animation(.default, value: askForTitle)
+    }
+    
+    func fetchTitle(url: String) {
+        if let url = URL(string: url)?.sanitise, url.absoluteString.isValidURL {
+            Task {
+                if let metadata = try await startFetchingMetadata(for: url, fetchSubresources: false, timeout: 10) {
+                    if let URLTitle = metadata.title {
+                        if title.isEmpty {
+                            self.title = URLTitle
+                            askForTitle = false
+                        }
+                    } else {
+                        askForTitle = true
+                    }
+                    if #available(iOS 16.0, *) {
+                        if let URLHost = url.host {
+                            self.host = URLHost
+                        }
+                    } else {
+                        if let URLHost = metadata.url?.host ?? metadata.originalURL?.host {
+                            self.host = URLHost
+                        } else {
+                            self.host = url.absoluteString
+                        }
+                    }
+                }
+                
+                if title.isEmpty {
+                    askForTitle = true
+                }
+            }
+        }
     }
     
     func pasteButton() -> some View {
@@ -236,6 +248,7 @@ struct AddBookmarkView: View {
         try? moc.save()
         
         dismiss()
+        cancellationAction()
         showDonePopUp = true
     }
 }

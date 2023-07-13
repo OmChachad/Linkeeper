@@ -49,6 +49,32 @@
 		C29B00F42A59E67D0081FEBC /* PinnedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F32A59E67D0081FEBC /* PinnedItemView.swift */; };
 		C29B00F72A5B38E40081FEBC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29B00F62A5B38E40081FEBC /* CloudKit.framework */; };
 		C2A14A262A5DD21E003A5308 /* StoreURL Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A14A252A5DD21E003A5308 /* StoreURL Extension.swift */; };
+		C2A14A2E2A601C24003A5308 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A14A2D2A601C24003A5308 /* ShareViewController.swift */; };
+		C2A14A312A601C24003A5308 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2A14A2F2A601C24003A5308 /* MainInterface.storyboard */; };
+		C2A14A352A601C24003A5308 /* AddBookmarkSheet.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C2A14A2B2A601C23003A5308 /* AddBookmarkSheet.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C2A14A3B2A602498003A5308 /* Bookmark+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */; };
+		C2A14A3C2A602498003A5308 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF576283E65D2003C9692 /* DataController.swift */; };
+		C2A14A3D2A602498003A5308 /* FoldersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9722A23E8B300535807 /* FoldersManager.swift */; };
+		C2A14A3E2A602498003A5308 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96E2A23D4FF00535807 /* BookmarksManager.swift */; };
+		C2A14A3F2A602498003A5308 /* StoreURL Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A14A252A5DD21E003A5308 /* StoreURL Extension.swift */; };
+		C2A14A402A602498003A5308 /* Folder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57B283E7185003C9692 /* Folder+CoreDataProperties.swift */; };
+		C2A14A412A602498003A5308 /* Folder+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57A283E7185003C9692 /* Folder+CoreDataClass.swift */; };
+		C2A14A422A602498003A5308 /* Bookmark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF578283E7185003C9692 /* Bookmark+CoreDataClass.swift */; };
+		C2A14A432A60249B003A5308 /* Linkeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */; };
+		C2A14A442A6024C4003A5308 /* DraggableBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EE9F2A4DF89800CCD36F /* DraggableBookmark.swift */; };
+		C2A14A452A6024C4003A5308 /* DragExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA32A4DFB1C00CCD36F /* DragExtension.swift */; };
+		C2A14A462A6024C4003A5308 /* DropExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */; };
+		C2A14A472A6024C4003A5308 /* DropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* DropItem.swift */; };
+		C2A14A482A6024D4003A5308 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050742A12B7E300817C48 /* URL.swift */; };
+		C2A14A492A602512003A5308 /* Metadata Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F02A588B1D0081FEBC /* Metadata Fetcher.swift */; };
+		C2A14A4A2A60251B003A5308 /* ColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorOption.swift */; };
+		C2A14A4B2A60253A003A5308 /* AddBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E66281900D70030B6DD /* AddBookmarkView.swift */; };
+		C2A14A4C2A602549003A5308 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050762A12B80300817C48 /* String.swift */; };
+		C2A14A4D2A602551003A5308 /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6E28193AE20030B6DD /* AddFolderView.swift */; };
+		C2A14A4E2A602558003A5308 /* SymbolOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3899B2A54978E0085D801 /* SymbolOption.swift */; };
+		C2A14A4F2A602561003A5308 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506E2A12B77100817C48 /* View.swift */; };
+		C2A14A502A602566003A5308 /* TextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050782A12B81300817C48 /* TextEditor.swift */; };
+		C2A14A512A602570003A5308 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B4F6C62A18E48100618411 /* AlertView.swift */; };
 		C2B4F6C72A18E48100618411 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B4F6C62A18E48100618411 /* AlertView.swift */; };
 		C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */; };
 		C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8DC3F28171D93000F4AEB /* ContentView.swift */; };
@@ -71,6 +97,30 @@
 		C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E72A26194E00A41D0C /* IntroductionView.swift */; };
 		C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C2A14A332A601C24003A5308 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2C8DC3228171D93000F4AEB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C2A14A2A2A601C23003A5308;
+			remoteInfo = AddBookmarkSheet;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C2A14A3A2A601C24003A5308 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C2A14A352A601C24003A5308 /* AddBookmarkSheet.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C234F6EA2A31BD6700401721 /* YouTube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTube.swift; sourceTree = "<group>"; };
@@ -115,6 +165,11 @@
 		C29B00F32A59E67D0081FEBC /* PinnedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedItemView.swift; sourceTree = "<group>"; };
 		C29B00F62A5B38E40081FEBC /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		C2A14A252A5DD21E003A5308 /* StoreURL Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StoreURL Extension.swift"; sourceTree = "<group>"; };
+		C2A14A2B2A601C23003A5308 /* AddBookmarkSheet.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AddBookmarkSheet.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2A14A2D2A601C24003A5308 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		C2A14A302A601C24003A5308 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		C2A14A322A601C24003A5308 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2A14A362A601C24003A5308 /* AddBookmarkSheet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AddBookmarkSheet.entitlements; sourceTree = "<group>"; };
 		C2B4F6C62A18E48100618411 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		C2C8DC3A28171D93000F4AEB /* Linkeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linkeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeeperApp.swift; sourceTree = "<group>"; };
@@ -140,6 +195,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C2A14A282A601C23003A5308 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C2C8DC3728171D93000F4AEB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -285,10 +347,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C2A14A2C2A601C24003A5308 /* AddBookmarkSheet */ = {
+			isa = PBXGroup;
+			children = (
+				C2A14A362A601C24003A5308 /* AddBookmarkSheet.entitlements */,
+				C2A14A2D2A601C24003A5308 /* ShareViewController.swift */,
+				C2A14A2F2A601C24003A5308 /* MainInterface.storyboard */,
+				C2A14A322A601C24003A5308 /* Info.plist */,
+			);
+			path = AddBookmarkSheet;
+			sourceTree = "<group>";
+		};
 		C2C8DC3128171D93000F4AEB = {
 			isa = PBXGroup;
 			children = (
 				C2C8DC3C28171D93000F4AEB /* Linkeeper */,
+				C2A14A2C2A601C24003A5308 /* AddBookmarkSheet */,
 				C2C8DC3B28171D93000F4AEB /* Products */,
 				C29B00F52A5B38E40081FEBC /* Frameworks */,
 			);
@@ -298,6 +372,7 @@
 			isa = PBXGroup;
 			children = (
 				C2C8DC3A28171D93000F4AEB /* Linkeeper.app */,
+				C2A14A2B2A601C23003A5308 /* AddBookmarkSheet.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -379,6 +454,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C2A14A2A2A601C23003A5308 /* AddBookmarkSheet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2A14A372A601C24003A5308 /* Build configuration list for PBXNativeTarget "AddBookmarkSheet" */;
+			buildPhases = (
+				C2A14A272A601C23003A5308 /* Sources */,
+				C2A14A282A601C23003A5308 /* Frameworks */,
+				C2A14A292A601C23003A5308 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AddBookmarkSheet;
+			productName = AddBookmarkSheet;
+			productReference = C2A14A2B2A601C23003A5308 /* AddBookmarkSheet.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C2C8DC3928171D93000F4AEB /* Linkeeper */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C2C8DC4828171D94000F4AEB /* Build configuration list for PBXNativeTarget "Linkeeper" */;
@@ -386,10 +478,12 @@
 				C2C8DC3628171D93000F4AEB /* Sources */,
 				C2C8DC3728171D93000F4AEB /* Frameworks */,
 				C2C8DC3828171D93000F4AEB /* Resources */,
+				C2A14A3A2A601C24003A5308 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C2A14A342A601C24003A5308 /* PBXTargetDependency */,
 			);
 			name = Linkeeper;
 			packageProductDependencies = (
@@ -407,9 +501,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1330;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
+					C2A14A2A2A601C23003A5308 = {
+						CreatedOnToolsVersion = 14.3;
+					};
 					C2C8DC3928171D93000F4AEB = {
 						CreatedOnToolsVersion = 13.3;
 					};
@@ -433,11 +530,20 @@
 			projectRoot = "";
 			targets = (
 				C2C8DC3928171D93000F4AEB /* Linkeeper */,
+				C2A14A2A2A601C23003A5308 /* AddBookmarkSheet */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C2A14A292A601C23003A5308 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2A14A312A601C24003A5308 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C2C8DC3828171D93000F4AEB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -453,6 +559,37 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C2A14A272A601C23003A5308 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2A14A4C2A602549003A5308 /* String.swift in Sources */,
+				C2A14A2E2A601C24003A5308 /* ShareViewController.swift in Sources */,
+				C2A14A472A6024C4003A5308 /* DropItem.swift in Sources */,
+				C2A14A402A602498003A5308 /* Folder+CoreDataProperties.swift in Sources */,
+				C2A14A492A602512003A5308 /* Metadata Fetcher.swift in Sources */,
+				C2A14A512A602570003A5308 /* AlertView.swift in Sources */,
+				C2A14A4A2A60251B003A5308 /* ColorOption.swift in Sources */,
+				C2A14A3E2A602498003A5308 /* BookmarksManager.swift in Sources */,
+				C2A14A3F2A602498003A5308 /* StoreURL Extension.swift in Sources */,
+				C2A14A482A6024D4003A5308 /* URL.swift in Sources */,
+				C2A14A3D2A602498003A5308 /* FoldersManager.swift in Sources */,
+				C2A14A4D2A602551003A5308 /* AddFolderView.swift in Sources */,
+				C2A14A422A602498003A5308 /* Bookmark+CoreDataClass.swift in Sources */,
+				C2A14A412A602498003A5308 /* Folder+CoreDataClass.swift in Sources */,
+				C2A14A442A6024C4003A5308 /* DraggableBookmark.swift in Sources */,
+				C2A14A502A602566003A5308 /* TextEditor.swift in Sources */,
+				C2A14A4B2A60253A003A5308 /* AddBookmarkView.swift in Sources */,
+				C2A14A432A60249B003A5308 /* Linkeeper.xcdatamodeld in Sources */,
+				C2A14A4E2A602558003A5308 /* SymbolOption.swift in Sources */,
+				C2A14A462A6024C4003A5308 /* DropExtension.swift in Sources */,
+				C2A14A452A6024C4003A5308 /* DragExtension.swift in Sources */,
+				C2A14A3C2A602498003A5308 /* DataController.swift in Sources */,
+				C2A14A4F2A602561003A5308 /* View.swift in Sources */,
+				C2A14A3B2A602498003A5308 /* Bookmark+CoreDataProperties.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C2C8DC3628171D93000F4AEB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -517,7 +654,84 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		C2A14A342A601C24003A5308 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C2A14A2A2A601C23003A5308 /* AddBookmarkSheet */;
+			targetProxy = C2A14A332A601C24003A5308 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C2A14A2F2A601C24003A5308 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C2A14A302A601C24003A5308 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		C2A14A382A601C24003A5308 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = AddBookmarkSheet/AddBookmarkSheet.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AddBookmarkSheet/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AddBookmarkSheet;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper.AddBookmarkSheet;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C2A14A392A601C24003A5308 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = AddBookmarkSheet/AddBookmarkSheet.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AddBookmarkSheet/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AddBookmarkSheet;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper.AddBookmarkSheet;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		C2C8DC4628171D94000F4AEB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -635,6 +849,7 @@
 		C2C8DC4928171D94000F4AEB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "ClassicIcon DarkIcon";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -673,6 +888,7 @@
 		C2C8DC4A28171D94000F4AEB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "ClassicIcon DarkIcon";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -711,6 +927,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C2A14A372A601C24003A5308 /* Build configuration list for PBXNativeTarget "AddBookmarkSheet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2A14A382A601C24003A5308 /* Debug */,
+				C2A14A392A601C24003A5308 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C2C8DC3528171D93000F4AEB /* Build configuration list for PBXProject "Linkeeper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
