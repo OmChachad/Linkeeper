@@ -50,7 +50,6 @@
 		C29B00F72A5B38E40081FEBC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29B00F62A5B38E40081FEBC /* CloudKit.framework */; };
 		C2A14A262A5DD21E003A5308 /* StoreURL Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A14A252A5DD21E003A5308 /* StoreURL Extension.swift */; };
 		C2A14A2E2A601C24003A5308 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A14A2D2A601C24003A5308 /* ShareViewController.swift */; };
-		C2A14A312A601C24003A5308 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2A14A2F2A601C24003A5308 /* MainInterface.storyboard */; };
 		C2A14A352A601C24003A5308 /* AddBookmarkSheet.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C2A14A2B2A601C23003A5308 /* AddBookmarkSheet.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C2A14A3B2A602498003A5308 /* Bookmark+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */; };
 		C2A14A3C2A602498003A5308 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF576283E65D2003C9692 /* DataController.swift */; };
@@ -167,7 +166,6 @@
 		C2A14A252A5DD21E003A5308 /* StoreURL Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StoreURL Extension.swift"; sourceTree = "<group>"; };
 		C2A14A2B2A601C23003A5308 /* AddBookmarkSheet.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AddBookmarkSheet.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2A14A2D2A601C24003A5308 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		C2A14A302A601C24003A5308 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		C2A14A322A601C24003A5308 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2A14A362A601C24003A5308 /* AddBookmarkSheet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AddBookmarkSheet.entitlements; sourceTree = "<group>"; };
 		C2B4F6C62A18E48100618411 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
@@ -352,7 +350,6 @@
 			children = (
 				C2A14A362A601C24003A5308 /* AddBookmarkSheet.entitlements */,
 				C2A14A2D2A601C24003A5308 /* ShareViewController.swift */,
-				C2A14A2F2A601C24003A5308 /* MainInterface.storyboard */,
 				C2A14A322A601C24003A5308 /* Info.plist */,
 			);
 			path = AddBookmarkSheet;
@@ -540,7 +537,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2A14A312A601C24003A5308 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,17 +657,6 @@
 			targetProxy = C2A14A332A601C24003A5308 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		C2A14A2F2A601C24003A5308 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C2A14A302A601C24003A5308 /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C2A14A382A601C24003A5308 /* Debug */ = {
