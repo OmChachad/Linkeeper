@@ -102,7 +102,7 @@ struct AddBookmarkView: View {
                         Text("None").tag(nil as Folder?)
                         
                         ForEach(folders, id: \.self) { folder in
-                            FolderPickerItem(folder: folder)
+                            folderPickerItem(for: folder)
                                 .tag(folder as Folder?)
                         }
                     }
@@ -251,12 +251,8 @@ struct AddBookmarkView: View {
         cancellationAction()
         showDonePopUp = true
     }
-}
-
-struct FolderPickerItem: View {
-    var folder: Folder
     
-    var body: some View {
+    func folderPickerItem(for folder: Folder) -> some View {
         HStack {
             Image(systemName: folder.wrappedSymbol)
                 .resizable()
