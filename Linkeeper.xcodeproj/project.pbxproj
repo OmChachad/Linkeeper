@@ -50,7 +50,7 @@
 		C29B00F72A5B38E40081FEBC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29B00F62A5B38E40081FEBC /* CloudKit.framework */; };
 		C2A14A262A5DD21E003A5308 /* StoreURL Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A14A252A5DD21E003A5308 /* StoreURL Extension.swift */; };
 		C2A14A2E2A601C24003A5308 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A14A2D2A601C24003A5308 /* ShareViewController.swift */; };
-		C2A14A352A601C24003A5308 /* Share Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C2A14A2B2A601C23003A5308 /* Share Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C2A14A352A601C24003A5308 /* Share Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C2A14A2B2A601C23003A5308 /* Share Extension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C2A14A3B2A602498003A5308 /* Bookmark+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */; };
 		C2A14A3C2A602498003A5308 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF576283E65D2003C9692 /* DataController.swift */; };
 		C2A14A3D2A602498003A5308 /* FoldersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9722A23E8B300535807 /* FoldersManager.swift */; };
@@ -653,6 +653,7 @@
 /* Begin PBXTargetDependency section */
 		C2A14A342A601C24003A5308 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = C2A14A2A2A601C23003A5308 /* Share Extension */;
 			targetProxy = C2A14A332A601C24003A5308 /* PBXContainerItemProxy */;
 		};
