@@ -56,6 +56,9 @@ struct ContentView: View {
                                         Label("Unpin", systemImage: "pin.slash")
                                     }
                                 }
+                                .dropDestination { bookmark, url in
+                                    addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
+                                }
                         }
                         .buttonStyle(.plain)
                     }
@@ -72,12 +75,7 @@ struct ContentView: View {
                                 FolderItemView(folder: folder)
                             }
                             .dropDestination { bookmark, url in
-                                if let bookmark {
-                                    bookmark.folder = folder
-                                    try? moc.save()
-                                } else {
-                                    BookmarksManager.shared.addDroppedURL(url, to: folder)
-                                }
+                                addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
                             }
                         }
                         .onMove(perform: moveItem)
@@ -147,6 +145,15 @@ struct ContentView: View {
         offset.map { folders[$0] }.forEach(moc.delete)
 
         try? moc.save()
+    }
+    
+    func addDroppedBookmarkToFolder(bookmark: Bookmark?, url: URL, folder: Folder) {
+        if let bookmark {
+            bookmark.folder = folder
+            try? moc.save()
+        } else {
+            BookmarksManager.shared.addDroppedURL(url, to: folder)
+        }
     }
     
     private func moveItem(at sets:IndexSet,destination:Int) {
