@@ -669,7 +669,7 @@
 				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AddBookmarkSheet/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = AddBookmarkSheet;
+				INFOPLIST_KEY_CFBundleDisplayName = "Add Bookmark";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -699,7 +699,7 @@
 				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AddBookmarkSheet/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = AddBookmarkSheet;
+				INFOPLIST_KEY_CFBundleDisplayName = "Add Bookmark";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
