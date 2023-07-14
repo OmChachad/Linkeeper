@@ -41,6 +41,14 @@ struct ContentView: View {
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
                         PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: isMacCatalyst)
                             .buttonStyle(.plain)
+                            .dropDestination { bookmark, url in
+                                if let bookmark {
+                                    bookmark.folder = nil
+                                    try? moc.save()
+                                } else {
+                                    BookmarksManager.shared.addDroppedURL(url)
+                                }
+                            }
                         
                         
                         PinnedItemView(destination: BookmarksView(onlyFavorites: true), title: "Favorites", symbolName: "heart.fill", tint: .pink, count:   favoriteBookmarks.count)
