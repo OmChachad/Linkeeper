@@ -85,6 +85,7 @@ struct PinnedItemView<Content: View>: View {
                 Text(title)
                     .bold()
                     .foregroundColor(titleColor)
+                    .lineLimit(1)
             }
             .padding(10)
             .background(backgroundColor)
