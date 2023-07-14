@@ -25,7 +25,7 @@ class BookmarksManager {
         }
     }
     
-    func addDroppedURL(_ url: URL, to folder: Folder? = nil) {
+    func addDroppedURL(_ url: URL, to folder: Folder? = nil) -> Bookmark? {
         let bookmark = try? addBookmark(title: "Loading...", url: url.absoluteString, host: url.host ?? "Unknown Host", notes: "", folder: folder)
         
         Task {
@@ -42,6 +42,8 @@ class BookmarksManager {
             
             try? saveContext()
         }
+        
+        return bookmark
     }
 
     func addBookmark(id: UUID? = UUID(), title: String, url: String, host: String, notes: String, folder: Folder?) throws -> Bookmark {

@@ -57,8 +57,11 @@ struct ContentView: View {
                                 if let bookmark {
                                     bookmark.isFavorited = true
                                     try? moc.save()
+                                } else {
+                                    let bookmark = BookmarksManager.shared.addDroppedURL(url)
+                                    bookmark?.isFavorited = true
+                                    try? moc.save()
                                 }
-                                // The ability to add URLs to favorites is to be added
                             }
                         
                         ForEach(pinnedFolders) { folder in
