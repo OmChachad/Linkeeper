@@ -53,6 +53,13 @@ struct ContentView: View {
                         
                         PinnedItemView(destination: BookmarksView(onlyFavorites: true), title: "Favorites", symbolName: "heart.fill", tint: .pink, count:   favoriteBookmarks.count)
                             .buttonStyle(.plain)
+                            .dropDestination { bookmark, url in
+                                if let bookmark {
+                                    bookmark.isFavorited = true
+                                    try? moc.save()
+                                }
+                                // The ability to add URLs to favorites is to be added
+                            }
                         
                         ForEach(pinnedFolders) { folder in
                             PinnedItemView(destination: BookmarksView(folder: folder), title: folder.wrappedTitle, symbolName: folder.wrappedSymbol, tint: folder.wrappedColor, count: folder.bookmarksArray.count)
