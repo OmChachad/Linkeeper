@@ -31,6 +31,10 @@ struct BookmarkItem: View {
     
     @State private var movingBookmark = false
     
+    var isSelected: Bool {
+        selectedBookmarks.contains(bookmark)
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             VStack {
@@ -83,7 +87,7 @@ struct BookmarkItem: View {
         .contextMenu { menuItems() }
         .onTapGesture {
             if editMode?.wrappedValue == .active {
-                if selectedBookmarks.contains(bookmark) {
+                if isSelected {
                     selectedBookmarks.remove(bookmark)
                 } else {
                     selectedBookmarks.insert(bookmark)
@@ -92,6 +96,7 @@ struct BookmarkItem: View {
                 openURL(bookmark.wrappedURL)
             }
         }
+        .contextMenu { menuItems() }
         .onLongPressGesture(minimumDuration: 0.1, perform: {
             #if targetEnvironment(macCatalyst)
                 toBeEditedBookmark = bookmark
@@ -99,13 +104,11 @@ struct BookmarkItem: View {
             #endif
         })
         .draggable(bookmark)
-        .animation(.default, value: bookmark.wrappedTitle)
-        .animation(.default, value: cachedPreview?.previewState)
-        .shadow(color: .black.opacity(0.3), radius: shadowsEnabled ? (selectedBookmarks.contains(bookmark) ? 0 : 3) : 0) // Checks if the shadows are enabled in Settings, otherwise only shows them when the bookmark is not selected.
-        .opacity(selectedBookmarks.contains(bookmark) ? 0.75 : 1)
-        .padding(selectedBookmarks.contains(bookmark) ? 2.5 : 0)
+        .shadow(color: .black.opacity(0.3), radius: shadowsEnabled ? (isSelected ? 0 : 3) : 0) // Checks if the shadows are enabled in Settings, otherwise only shows them when the bookmark is not selected.
+        .opacity(isSelected ? 0.75 : 1)
+        .padding(isSelected ? 2.5 : 0)
         .background {
-            if selectedBookmarks.contains(bookmark) {
+            if isSelected {
                 RoundedRectangle(cornerRadius: 15.5, style: .continuous)
                     .stroke(.blue, lineWidth: 2.5)
             }
@@ -125,6 +128,8 @@ struct BookmarkItem: View {
             bookmark.cachedImage(saveTo: $cachedPreview)
         }
         .animation(.default, value: selectedBookmarks)
+        .animation(.default, value: bookmark.wrappedTitle)
+        .animation(.default, value: cachedPreview?.previewState)
     }
     
     func menuItems() -> some View {
