@@ -149,7 +149,6 @@ struct BookmarkItem: View {
                 } label: {
                     Label("Show details", systemImage: "info.circle")
                 }
-                .disabled(cachedPreview?.previewState == .loading || cachedPreview == nil)
                 
                 Button(action: bookmark.copyURL) {
                     Label("Copy link", systemImage: "doc.on.doc")
