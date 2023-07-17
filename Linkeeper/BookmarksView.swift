@@ -23,7 +23,6 @@ struct BookmarksView: View {
     @Namespace var nm
     @State private var showDetails = false
     @State private var toBeEditedBookmark: Bookmark?
-    @State private var detailViewImage: cachedPreview?
     
     @State private var selectedBookmarks: Set<Bookmark> = []
     @State private var deleteConfirmation = false
@@ -148,7 +147,7 @@ struct BookmarksView: View {
                         showDetails.toggle()
                     }
                 
-                BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, detailViewImage: detailViewImage)
+                BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails)
             }
         }
         .navigationTitle(for: folder, folderTitle: $folderTitle, onlyFavorites: favorites ?? false)
@@ -320,7 +319,7 @@ Sort By
     func BookmarksGrid(for bookmarks: [Bookmark], folder: Folder? = nil) -> some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 15) {
             ForEach(bookmarks, id: \.self) { bookmark in
-                BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, detailViewImage: $detailViewImage, selectedBookmarks: $selectedBookmarks)
+                BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks)
                     .padding(.horizontal, 5)
             }
         }

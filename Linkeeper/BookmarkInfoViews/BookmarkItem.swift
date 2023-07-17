@@ -23,7 +23,7 @@ struct BookmarkItem: View {
     @State private var deleteConfirmation: Bool = false
     @State private var toBeDeletedBookmark: Bookmark?
     
-    @Binding var detailViewImage: cachedPreview?
+    //@Binding var detailViewImage: cachedPreview?
     @State private var cachedPreview: cachedPreview?
     
     @Environment(\.editMode) var editMode
@@ -94,11 +94,8 @@ struct BookmarkItem: View {
         }
         .onLongPressGesture(minimumDuration: 0.1, perform: {
             #if targetEnvironment(macCatalyst)
-            if let cachedPreview {
-                detailViewImage = cachedPreview
                 toBeEditedBookmark = bookmark
                 showDetails.toggle()
-            }
             #endif
         })
         .draggable(bookmark)
@@ -145,13 +142,9 @@ struct BookmarkItem: View {
                 }
                 
                 Button {
-                    if let cachedPreview {
-                        detailViewImage = cachedPreview
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            toBeEditedBookmark = bookmark
-                            showDetails.toggle()
-                        }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        toBeEditedBookmark = bookmark
+                        showDetails.toggle()
                     }
                 } label: {
                     Label("Show details", systemImage: "info.circle")

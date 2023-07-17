@@ -25,7 +25,7 @@ struct BookmarkDetails: View {
     
     @State private var isShimmering = true
     
-    var detailViewImage: cachedPreview?
+    @State private var cachedPreview: cachedPreview?
     
     @State private var deleteConfirmation = false
     
@@ -56,14 +56,14 @@ struct BookmarkDetails: View {
     func frontView() -> some View {
         VStack(spacing: 0) {
             VStack {
-                switch(detailViewImage?.previewState) {
+                switch(cachedPreview?.previewState) {
                 case .thumbnail:
-                    detailViewImage?.image!
+                    cachedPreview?.image!
                         .resizable()
                         .scaledToFit()
                         .scaledToFill()
                 case .icon:
-                    detailViewImage?.image!
+                    cachedPreview?.image!
                         .resizable()
                         .aspectRatio(1/1, contentMode: .fit)
                         .background(.regularMaterial)
@@ -184,6 +184,9 @@ struct BookmarkDetails: View {
             .padding(7.5)
             .keyboardShortcut(.cancelAction)
             .buttonStyle(.borderless)
+        }
+        .task {
+            bookmark.cachedImage(saveTo: $cachedPreview)
         }
     }
     func backView() -> some View {
