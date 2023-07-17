@@ -14,7 +14,7 @@ struct cachedPreview: Codable {
     var previewState: PreviewType
     
     init(image: UIImage, preview: PreviewType) {
-        self.imageData = image.jpegData(compressionQuality: 0.1)
+        self.imageData = image.jpegData(compressionQuality: 0.5)
         self.previewState = preview
     }
     
