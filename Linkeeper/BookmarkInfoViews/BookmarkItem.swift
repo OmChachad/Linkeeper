@@ -63,6 +63,7 @@ struct BookmarkItem: View {
             .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
             .frame(minWidth: 140, idealWidth: 300, maxWidth: 300, minHeight: 140, idealHeight: 300, maxHeight: 300)
             .clipped()
+            .contentShape(Rectangle())
             
             
             VStack(alignment: .leading, spacing: 0) {
