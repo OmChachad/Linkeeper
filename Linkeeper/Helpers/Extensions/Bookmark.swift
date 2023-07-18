@@ -18,13 +18,17 @@ extension Bookmark {
         let cacheManager = CacheManager.instance
         
         if let cachedPreview = cacheManager.get(for: self) {
-            preview.wrappedValue = cachedPreview
+            withAnimation {
+                preview.wrappedValue = cachedPreview
+            }
         } else {
             Task {
                 await cachePreviewInto(preview)
                 
                 if preview.wrappedValue == nil {
-                    preview.wrappedValue = cachedPreview(image: UIImage(), preview: .firstLetter)
+                    withAnimation {
+                        preview.wrappedValue = cachedPreview(image: UIImage(), preview: .firstLetter)
+                    }
                 }
             }
         }
