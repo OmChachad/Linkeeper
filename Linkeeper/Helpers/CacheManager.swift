@@ -31,6 +31,18 @@ class CacheManager {
     static let instance = CacheManager()
     private init() { }
     
+    func add(preview: cachedPreview, for bookmark: Bookmark) {
+        add(preview: preview, id: bookmark.id ?? UUID())
+    }
+    
+    func remove(for bookmark: Bookmark) {
+        remove(id: bookmark.id ?? UUID())
+    }
+    
+    func get(for bookmark: Bookmark) -> cachedPreview? {
+        get(id: bookmark.id ?? UUID())
+    }
+    
     func add(preview: cachedPreview, id: UUID) {
         if let path = getPath(for: id) {
             if let encodedPreview = try? JSONEncoder().encode(preview) {

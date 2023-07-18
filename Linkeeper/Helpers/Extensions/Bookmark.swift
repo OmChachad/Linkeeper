@@ -16,9 +16,8 @@ extension Bookmark {
     @MainActor
     func cachedImage(saveTo preview: Binding<cachedPreview?>) {
         let cacheManager = CacheManager.instance
-        let bookmarkID = self.id ?? UUID()
         
-        if let cachedPreview = cacheManager.get(id: bookmarkID) {
+        if let cachedPreview = cacheManager.get(for: self) {
             preview.wrappedValue = cachedPreview
         } else {
             Task {
@@ -33,7 +32,6 @@ extension Bookmark {
     
     func cachePreviewInto(_ preview: Binding<cachedPreview?>) async {
         let cacheManager = CacheManager.instance
-        let bookmarkID = self.id ?? UUID()
         
         let metadata = try? await startFetchingMetadata(for: self.wrappedURL, fetchSubresources: true, timeout: 15)
         if let metadata = metadata {
@@ -42,7 +40,7 @@ extension Bookmark {
                 imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
                     guard error == nil else { return }
                     if let image = image as? UIImage {
-                        cacheManager.add(preview: cachedPreview(image: image, preview: imageType), id: bookmarkID)
+                        cacheManager.add(preview: cachedPreview(image: image, preview: imageType), for: self)
                         preview.wrappedValue = cachedPreview(image: image, preview: imageType)
                     }
                 }
