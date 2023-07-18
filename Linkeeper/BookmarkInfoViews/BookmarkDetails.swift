@@ -39,8 +39,8 @@ struct BookmarkDetails: View {
                     backView()
                 }
             }
-            .frame(maxHeight: 400)
             .shadow(color: .black.opacity(0.25), radius: 10)
+            .padding(10)
             .onAppear {
                 title = bookmark.wrappedTitle
                 notes = bookmark.wrappedNotes
@@ -60,36 +60,34 @@ struct BookmarkDetails: View {
                     cachedPreview?.image!
                         .resizable()
                         .scaledToFit()
-                        .scaledToFill()
                 case .icon:
                     cachedPreview?.image!
                         .resizable()
                         .aspectRatio(1/1, contentMode: .fit)
-                        .background(.regularMaterial)
-                        .cornerRadius(30, style: .continuous)
+                        .cornerRadius(20, style: .continuous)
                         .padding(15)
+                        .frame(maxWidth: .infinity, maxHeight: 175)
+                        .clipped()
                 case .firstLetter:
-                    if let firstChar: Character = bookmark.wrappedTitle.first {
-                        Color(uiColor: .systemGray2)
-                            .aspectRatio(16/9, contentMode: .fit)
-                            .overlay(
-                                Text(String(firstChar))
-                                    .font(.largeTitle.weight(.medium))
-                                    .foregroundColor(.white)
-                                    .scaleEffect(2)
-                            )
-                        
-                            .scaledToFill()
-                    }
-                    
+                    Color(uiColor: .systemGray2)
+                        .aspectRatio(16/9, contentMode: .fit)
+                        .overlay(
+                            Group {
+                                if let firstChar: Character = bookmark.wrappedTitle.first {
+                                    Text(String(firstChar))
+                                        .font(.largeTitle.weight(.medium))
+                                        .foregroundColor(.white)
+                                        .scaleEffect(2)
+                                }
+                            }
+                        )
                 default:
                     Rectangle()
+                        .foregroundColor(.secondary.opacity(0.5))
                         .shimmering()
+                        .aspectRatio(16/9, contentMode: .fit)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: 175)
-            .clipped()
-            .background(Color(.systemGray6))
             .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5)) {
