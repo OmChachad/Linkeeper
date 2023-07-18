@@ -57,27 +57,6 @@ class CacheManager {
     }
 }
 
-class CacheModel: ObservableObject {
-    @Published var image: cachedPreview?
-    let manager = CacheManager.instance
-    
-    init() { }
-    
-    func saveToCache(image: UIImage, preview: PreviewType, bookmark: Bookmark) {
-        if manager.get(id: bookmark.id ?? UUID()) == nil {
-            manager.add(preview: cachedPreview(image: image, preview: preview), id: bookmark.id ?? UUID())
-        }
-    }
-    
-    func removeImageFor(bookmark: Bookmark){
-        manager.remove (id: bookmark.id ?? UUID())
-    }
-    
-    func getImageFor(bookmark: Bookmark) {
-        image = manager.get(id: bookmark.id ?? UUID())
-    }
-}
-
 enum PreviewType: Codable {
     case loading
     case thumbnail

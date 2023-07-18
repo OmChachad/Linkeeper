@@ -12,7 +12,6 @@ import Shimmer
 struct BookmarkDetails: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.openURL) var openURL
-    @ObservedObject var cache = CacheModel()
     @Environment(\.keyboardShortcut) var keyboardShortcut
     
     var bookmark: Bookmark
@@ -186,7 +185,7 @@ struct BookmarkDetails: View {
             .buttonStyle(.borderless)
         }
         .task {
-            bookmark.cachedImage(saveTo: $cachedPreview)
+            await bookmark.cachedImage(saveTo: $cachedPreview)
         }
     }
     func backView() -> some View {

@@ -13,7 +13,6 @@ struct BookmarkItem: View {
     @Environment(\.openURL) var openURL
     
     @AppStorage("ShadowsEnabled") var shadowsEnabled = true
-    @ObservedObject var cache = CacheModel()
     
     var bookmark: Bookmark
     var namespace: Namespace.ID
