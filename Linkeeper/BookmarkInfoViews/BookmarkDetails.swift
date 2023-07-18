@@ -28,9 +28,6 @@ struct BookmarkDetails: View {
     
     @State private var deleteConfirmation = false
     
-    @State private var showAddedToFav = false
-    @State private var showRemovedFromFav = false
-    
     var body: some View {
             VStack {
                 Flashcard(editing: $editing) {
@@ -45,10 +42,6 @@ struct BookmarkDetails: View {
                 title = bookmark.wrappedTitle
                 notes = bookmark.wrappedNotes
             }
-            .animation(.default, value: showAddedToFav)
-            .animation(.default, value: showRemovedFromFav)
-            .miniAlert(isPresented: $showAddedToFav, icon: "heart.fill", title: "Added to Favorites")
-            .miniAlert(isPresented: $showRemovedFromFav, icon: "heart.slash.fill", title: "Removed from Favorites")
 
     }
     
@@ -92,13 +85,6 @@ struct BookmarkDetails: View {
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5)) {
                 Button {
-                    if bookmark.isFavorited {
-                        showAddedToFav = false
-                        showRemovedFromFav = true
-                    } else {
-                        showRemovedFromFav = false
-                        showAddedToFav = true
-                    }
                     bookmark.isFavorited.toggle()
                     try! moc.save()
                 } label: {
