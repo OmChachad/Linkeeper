@@ -93,7 +93,7 @@ struct BookmarkItem: View {
                     selectedBookmarks.insert(bookmark)
                 }
             } else {
-                openURL(bookmark.wrappedURL)
+                openBookmark()
             }
         }
         .contextMenu { menuItems() }
@@ -176,6 +176,13 @@ struct BookmarkItem: View {
                     Label("Delete", systemImage: "trash")
                 }
             }
+        }
+    }
+    
+    func openBookmark() {
+        openURL(bookmark.wrappedURL)
+        Task {
+            await bookmark.cachePreviewInto($cachedPreview)
         }
     }
 }

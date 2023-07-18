@@ -109,9 +109,7 @@ struct BookmarkDetails: View {
                 }
                 .keyboardShortcut("F", modifiers: [.shift, .command])
                 
-                Button() {
-                    openURL(bookmark.wrappedURL)
-                } label: {
+                Button(action: openBookmark) {
                     Image(systemName: "safari")
                 }
                 
@@ -188,6 +186,7 @@ struct BookmarkDetails: View {
             await bookmark.cachedImage(saveTo: $cachedPreview)
         }
     }
+    
     func backView() -> some View {
         VStack(spacing: 0) {
             HStack {
@@ -222,6 +221,13 @@ struct BookmarkDetails: View {
                         .frame(height: 150)
                 }
             }
+        }
+    }
+    
+    func openBookmark() {
+        openURL(bookmark.wrappedURL)
+        Task {
+            await bookmark.cachePreviewInto($cachedPreview)
         }
     }
 }
