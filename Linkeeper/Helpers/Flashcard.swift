@@ -27,14 +27,8 @@ struct Flashcard<Front, Back>: View where Front: View, Back: View {
         Group {
             if flipped {
                 back()
-                    .background {
-                        front()
-                    }
             } else {
                 front()
-                    .background {
-                        back()
-                    }
             }
         }
         .frame(maxWidth: 500)
@@ -42,7 +36,6 @@ struct Flashcard<Front, Back>: View where Front: View, Back: View {
         .cornerRadius(20, style: .continuous)
         .padding()
         .rotation3DEffect(.degrees(Double(flashcardRotation)), axis: (x: 0, y: 1, z: 0))
-
         .onChange(of: editing) { newValue in
             flipFlashcard()
         }
