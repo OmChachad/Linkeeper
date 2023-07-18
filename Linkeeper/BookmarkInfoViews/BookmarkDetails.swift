@@ -163,7 +163,8 @@ struct BookmarkDetails: View {
                     .font(.headline)
                     .foregroundColor(.secondary)
                     .padding(5)
-                    .background(Circle().foregroundColor(Color(UIColor.systemGray3)))
+                    .background(.thickMaterial, in: Circle())
+                    .background(.black.opacity(0.5), in: Circle())
             }
             .padding(7.5)
             .keyboardShortcut(.cancelAction)
