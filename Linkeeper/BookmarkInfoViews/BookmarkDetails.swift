@@ -28,21 +28,24 @@ struct BookmarkDetails: View {
     
     @State private var deleteConfirmation = false
     
+    init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>) {
+        self.bookmark = bookmark
+        self.namespace = namespace
+        _showDetails = showDetails
+        _title = State(initialValue: bookmark.wrappedTitle)
+        _notes = State(initialValue: bookmark.wrappedNotes)
+    }
+    
     var body: some View {
-            VStack {
-                Flashcard(editing: $editing) {
-                    frontView()
-                } back: {
-                    backView()
-                }
+        VStack {
+            Flashcard(editing: $editing) {
+                frontView()
+            } back: {
+                backView()
             }
-            .shadow(color: .black.opacity(0.25), radius: 10)
-            .padding(10)
-            .onAppear {
-                title = bookmark.wrappedTitle
-                notes = bookmark.wrappedNotes
-            }
-
+        }
+        .shadow(color: .black.opacity(0.25), radius: 10)
+        .padding(10)
     }
     
     func frontView() -> some View {
