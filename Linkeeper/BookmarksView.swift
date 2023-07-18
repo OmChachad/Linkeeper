@@ -144,7 +144,7 @@ struct BookmarksView: View {
                     .background(.thinMaterial)
                     .ignoresSafeArea()
                     .onTapGesture {
-                        showDetails.toggle()
+                        showDetails = false
                     }
                 
                 BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails)

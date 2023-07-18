@@ -158,7 +158,7 @@ struct BookmarkDetails: View {
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         .overlay(alignment: .topTrailing) {
             Button {
-                showDetails.toggle()
+                showDetails = false
             } label: {
                 Image(systemName: "xmark")
                     .font(.headline)
