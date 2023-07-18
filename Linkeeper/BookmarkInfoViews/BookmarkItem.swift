@@ -103,7 +103,7 @@ struct BookmarkItem: View {
             #endif
         })
         .draggable(bookmark)
-        .shadow(color: .black.opacity(0.3), radius: shadowsEnabled ? (isSelected ? 0 : 3) : 0) // Checks if the shadows are enabled in Settings, otherwise only shows them when the bookmark is not selected.
+        .shadow(color: .black.opacity(0.2), radius: shadowsEnabled ? (isSelected ? 0 : 2) : 0) // Checks if the shadows are enabled in Settings, otherwise only shows them when the bookmark is not selected.
         .opacity(isSelected ? 0.75 : 1)
         .padding(isSelected ? 2.5 : 0)
         .background {
