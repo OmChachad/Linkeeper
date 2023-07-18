@@ -42,6 +42,7 @@ struct BookmarkDetails: View {
                 frontView()
             } back: {
                 backView()
+                    .frame(maxHeight: 400)
             }
         }
         .shadow(color: .black.opacity(0.25), radius: 10)
