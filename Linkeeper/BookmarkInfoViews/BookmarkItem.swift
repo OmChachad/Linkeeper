@@ -38,24 +38,24 @@ struct BookmarkItem: View {
         VStack(spacing: 0) {
             VStack {
                 switch(cachedPreview?.previewState) {
-                    case .thumbnail, .icon:
-                        cachedPreview!.image!
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    case .firstLetter:
-                        if let firstChar: Character = bookmark.wrappedTitle.first {
-                            Color(uiColor: .systemGray2)
-                                .overlay(
-                                    Text(String(firstChar))
-                                        .font(.largeTitle.weight(.medium))
-                                        .foregroundColor(.white)
-                                        .scaleEffect(2)
-                                )
-                        }
-                    default:
-                        Rectangle()
-                            .foregroundColor(.secondary.opacity(0.5))
-                            .shimmering()
+                case .thumbnail, .icon:
+                    cachedPreview!.image!
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                case .firstLetter:
+                    if let firstChar: Character = bookmark.wrappedTitle.first {
+                        Color(uiColor: .systemGray2)
+                            .overlay(
+                                Text(String(firstChar))
+                                    .font(.largeTitle.weight(.medium))
+                                    .foregroundColor(.white)
+                                    .scaleEffect(2)
+                            )
+                    }
+                default:
+                    Rectangle()
+                        .foregroundColor(.secondary.opacity(0.5))
+                        .shimmering()
                 }
             }
             .background(Color.secondary.opacity(0.2))
