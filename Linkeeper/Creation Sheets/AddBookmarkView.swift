@@ -21,6 +21,7 @@ struct AddBookmarkView: View {
     @State private var notes = ""
     @State private var folder: Folder?
     
+    @FocusState var isURLFieldActive: Bool
     @FocusState var isNotesFieldActive: Bool
     
     @State private var addingNewFolder = false
@@ -78,6 +79,7 @@ struct AddBookmarkView: View {
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                             .submitLabel(.done)
+                            .focused($isURLFieldActive)
                         
                         Divider()
                         
@@ -157,7 +159,6 @@ struct AddBookmarkView: View {
             }
             .navigationBarTitle(title.isEmpty ? "New Bookmark" : title)
         }
-        
         .sheet(isPresented: $addingNewFolder) {
             AddFolderView()
         }
@@ -172,6 +173,8 @@ struct AddBookmarkView: View {
         .onAppear {
             if !url.isEmpty {
                 fetchTitle(url: url)
+            } else {
+                isURLFieldActive = true
             }
         }
         .animation(.default, value: askForTitle)
