@@ -134,7 +134,7 @@ struct Settings: View {
                     
                     HStack {
                         Button("Privacy Policy") {
-                            openURL(URL(string: "https://www.termsfeed.com/live/1e93b5c3-6583-4028-b032-56ba480a1cf0")!)
+                            openURL(URL(string: "https://www.starlightapps.org/privacy-policy")!)
                         }
                         
                         Spacer()
