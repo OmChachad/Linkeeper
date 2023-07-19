@@ -17,9 +17,12 @@ struct MoveBookmarksView: View {
     
     var toBeMoved: [Bookmark]
     var completion: () -> Void
-//    init(toBeMoved: [Bookmark]) {
-//        self.toBeMoved = toBeMoved
-//    }
+    
+    init(toBeMoved: [Bookmark], completion: @escaping () -> Void) {
+        self.toBeMoved = toBeMoved
+        self.completion = completion
+        _selectedFolder = State(initialValue: toBeMoved.first?.folder)
+    }
     
     @State private var selectedFolder: Folder? = nil
     
@@ -116,10 +119,10 @@ struct MoveBookmarksView: View {
                     }
                 }
             }
-            .onAppear {
-                selectedFolder = toBeMoved.first?.folder
-                try? moc.save()
-            }
+//            .onAppear {
+//                selectedFolder = toBeMoved.first?.folder
+//                try? moc.save()
+//            }
             .sheet(isPresented: $creatingFolder) {
                 AddFolderView()
             }
