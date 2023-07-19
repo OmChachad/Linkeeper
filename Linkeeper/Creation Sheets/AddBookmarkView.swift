@@ -45,7 +45,6 @@ struct AddBookmarkView: View {
         #endif
     }
     
-    
     @State private var askForTitle = false
     @State private var isLoading = false
     var isValidURL: Bool {
