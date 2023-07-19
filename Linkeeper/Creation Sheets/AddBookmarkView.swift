@@ -21,7 +21,7 @@ struct AddBookmarkView: View {
     @State private var notes = ""
     @State private var folder: Folder?
     
-    @FocusState var isInputActive: Bool
+    @FocusState var isNotesFieldActive: Bool
     
     @State private var addingNewFolder = false
     @State private var showDonePopUp = false
@@ -122,8 +122,17 @@ struct AddBookmarkView: View {
                 Section {
                     TextEditor(text: $notes)
                         .placeholder("Add notes (optional)", contents: notes)
-                        .focused($isInputActive)
+                        .focused($isNotesFieldActive)
                         .frame(height: 150)
+                        .toolbar {
+                            ToolbarItemGroup(placement: .keyboard) {
+                                Spacer()
+                                
+                                Button(isNotesFieldActive == true ? "Done" : "") {
+                                    isNotesFieldActive = false
+                                }.allowsHitTesting(isNotesFieldActive)
+                            }
+                        }
                 }
             }
             .toolbar {
@@ -144,14 +153,6 @@ struct AddBookmarkView: View {
                         cancellationAction()
                     }
                     .keyboardShortcut(.cancelAction)
-                }
-                
-                ToolbarItem(placement: .keyboard) {
-                    Spacer()
-                    
-                    Button(isInputActive == true ? "Done" : "") {
-                        isInputActive = false
-                    } .allowsHitTesting(isInputActive)
                 }
             }
             .navigationBarTitle(title.isEmpty ? "New Bookmark" : title)
