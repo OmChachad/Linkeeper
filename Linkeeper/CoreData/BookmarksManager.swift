@@ -47,14 +47,20 @@ class BookmarksManager {
     }
 
     func addBookmark(id: UUID? = UUID(), title: String, url: String, host: String, notes: String, folder: Folder?) throws -> Bookmark {
-        let sanitisedURL = URL(string: url)?.sanitise
+        let urlString: String = {
+            if UserDefaults.standard.bool(forKey: "removeTrackingParameters") == true && !url.contains("youtube.com/watch") {
+                     return url.components(separatedBy: "?").first ?? url
+            } else {
+                return url
+            }
+        }()
         let bookmark = Bookmark(context: context)
         bookmark.id = id ?? UUID()
         bookmark.title = title
         bookmark.date = Date.now
         bookmark.host = host
         bookmark.notes = notes
-        bookmark.url = sanitisedURL?.absoluteString
+        bookmark.url = urlString
         bookmark.folder = folder
 
         try saveContext()

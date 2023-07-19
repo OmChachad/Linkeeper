@@ -74,16 +74,7 @@ If disabled, you can add a title yourself.
                 }
             }().trimmingCharacters(in: .whitespacesAndNewlines)
             
-            let urlString: String = {
-                let url = url.absoluteString
-                if UserDefaults.standard.bool(forKey: "removeTrackingParameters") == true && !url.contains("youtube.com/watch")  {
-                         return url.components(separatedBy: "?").first ?? url
-                } else {
-                    return url
-                }
-            }()
-            
-            let bookmark = try BookmarksManager.shared.addBookmark(id: nil, title: title, url: urlString, host: url.host ?? urlString, notes: notes ?? "", folder: nil)
+            let bookmark = try BookmarksManager.shared.addBookmark(id: nil, title: title, url: url.sanitise.absoluteString, host: url.host ?? url.absoluteString, notes: notes ?? "", folder: nil)
             let entity = BookmarkEntity(id: bookmark.id!, title: bookmark.wrappedTitle, url: bookmark.wrappedURL.absoluteString, host: bookmark.wrappedHost, notes: bookmark.wrappedNotes, isFavorited: false, dateAdded: bookmark.wrappedDate)
                 return .result(value: entity)
         } catch let error {
