@@ -38,7 +38,7 @@ struct ImportView: View {
                 }
                 
                 if failedImportCount > 0 {
-                    Text("^[Could not import \(failedImportCount) Bookmark](inflect: true)")
+                    Text("Could not import ^[\(failedImportCount) Bookmark](inflect: true)")
                 }
             }
             .padding()
