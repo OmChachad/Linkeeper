@@ -76,7 +76,7 @@ If disabled, you can add a title yourself.
             
             let urlString: String = {
                 let url = url.absoluteString
-                if UserDefaults.standard.bool(forKey: "removeTrackingParameters") == true {
+                if UserDefaults.standard.bool(forKey: "removeTrackingParameters") == true && !url.contains("youtube.com/watch")  {
                          return url.components(separatedBy: "?").first ?? url
                 } else {
                     return url

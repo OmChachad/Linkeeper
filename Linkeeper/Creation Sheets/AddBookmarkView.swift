@@ -242,7 +242,7 @@ struct AddBookmarkView: View {
     
     func addBookmark() {
         var sanitisedURL = URL(string: url)?.sanitise.absoluteString ?? url
-        if removeTrackingParameters {
+        if removeTrackingParameters && !sanitisedURL.contains("youtube.com/watch") {
             sanitisedURL = sanitisedURL.components(separatedBy: "?").first ?? sanitisedURL
         }
         let bookmark = Bookmark(context: moc)
