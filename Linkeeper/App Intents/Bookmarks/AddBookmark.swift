@@ -45,9 +45,6 @@ If disabled, you can add a title yourself.
     }
     
     func perform() async throws -> some ReturnsValue<BookmarkEntity> {
-        guard url.sanitise.absoluteString.isValidURL == true else {
-            throw CustomError.message("Invalid URL")
-        }
         do {
             let title: String = await {
                 if autoTitle {
@@ -86,7 +83,7 @@ If disabled, you can add a title yourself.
                 }
             }()
             
-            let bookmark = try BookmarksManager.shared.addBookmark(id: nil, title: title, url: urlString, host: url.host ?? "", notes: notes ?? "", folder: nil)
+            let bookmark = try BookmarksManager.shared.addBookmark(id: nil, title: title, url: urlString, host: url.host ?? urlString, notes: notes ?? "", folder: nil)
             let entity = BookmarkEntity(id: bookmark.id!, title: bookmark.wrappedTitle, url: bookmark.wrappedURL.absoluteString, host: bookmark.wrappedHost, notes: bookmark.wrappedNotes, isFavorited: false, dateAdded: bookmark.wrappedDate)
                 return .result(value: entity)
         } catch let error {

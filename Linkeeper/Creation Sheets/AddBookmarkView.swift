@@ -21,8 +21,6 @@ struct AddBookmarkView: View {
     @State private var notes = ""
     @State private var folder: Folder?
     
-    @State private var askForTitle = false
-    
     @FocusState var isInputActive: Bool
     
     @State private var addingNewFolder = false
@@ -46,8 +44,11 @@ struct AddBookmarkView: View {
         #endif
     }
     
+    
+    @State private var askForTitle = false
+    @State private var isLoading = false
     var isValidURL: Bool {
-        if url.isValidURL, URL(string: url)?.sanitise != nil {
+        if URL(string: url)?.sanitise != nil {
             return true
         } else {
             return false
@@ -127,7 +128,7 @@ struct AddBookmarkView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    if url.isValidURL, URL(string: url)?.sanitise != nil, title.isEmpty {
+                    if isLoading {
                         ProgressView()
                             .opacity(0.7)
                     } else {
@@ -163,6 +164,7 @@ struct AddBookmarkView: View {
         .onChange(of: url) { newURL in
             askForTitle = false
             title = ""
+            host = ""
             
             fetchTitle(url: newURL)
         }
@@ -175,8 +177,9 @@ struct AddBookmarkView: View {
     }
     
     func fetchTitle(url: String) {
-        if let url = URL(string: url)?.sanitise, url.absoluteString.isValidURL {
+        if let url = URL(string: url)?.sanitise {//?.sanitise, url.absoluteString.isValidURL {
             Task {
+                isLoading = true
                 if let metadata = try await startFetchingMetadata(for: url, fetchSubresources: false, timeout: 10) {
                     if let URLTitle = metadata.title {
                         if title.isEmpty {
@@ -192,11 +195,18 @@ struct AddBookmarkView: View {
                     } else {
                         self.host = url.absoluteString
                     }
+                } else {
+                    if let URLHost = url.host {
+                        self.host = URLHost
+                    } else {
+                        self.host = url.absoluteString
+                    }
                 }
                 
                 if title.isEmpty {
                     askForTitle = true
                 }
+                isLoading = false
             }
         }
     }
