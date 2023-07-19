@@ -16,21 +16,21 @@ struct MoveBookmarksView: View {
     @State private var creatingFolder = false
     
     var toBeMoved: [Bookmark]
-    
-    init(toBeMoved: [Bookmark]) {
-        self.toBeMoved = toBeMoved
-    }
+    var completion: () -> Void
+//    init(toBeMoved: [Bookmark]) {
+//        self.toBeMoved = toBeMoved
+//    }
     
     @State private var selectedFolder: Folder? = nil
     
     var body: some View {
         NavigationView {
             VStack {
-                if selectedFolder != nil && selectedFolder != toBeMoved[0].folder {
+                if selectedFolder != nil && selectedFolder != toBeMoved.first?.folder {
                     Text("^[\(toBeMoved.count) Bookmark](inflect: true) will be moved to **\(selectedFolder!.wrappedTitle)**")
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 20)
-                } else if toBeMoved[0].folder != selectedFolder && selectedFolder == nil {
+                } else if toBeMoved.first?.folder != selectedFolder && selectedFolder == nil {
                     Text("^[\(toBeMoved.count) Bookmark](inflect: true) will be removed from any Folder, and will only be accessible from the **All** section.")
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 20)
@@ -40,7 +40,7 @@ struct MoveBookmarksView: View {
                 }
                 
                 HStack {
-                    StackOfTwoIcons(bookmarks: toBeMoved)
+                    StackOfTwoIcons(bookmarks: [Bookmark](toBeMoved))
                     Text("^[**\(toBeMoved.count) Bookmark**](inflect: true)")
                 }
                 .padding(10)
@@ -103,9 +103,11 @@ struct MoveBookmarksView: View {
                             bookmark.folder = selectedFolder
                         }
                         try? moc.save()
+                        completion()
+                        //toBeMoved.removeAll()
                         dismiss()
                     }
-                    .disabled(toBeMoved[0].folder == selectedFolder)
+                    .disabled(toBeMoved.first?.folder == selectedFolder)
                 }
                 
                 ToolbarItemGroup(placement: .navigationBarLeading) {
@@ -115,7 +117,7 @@ struct MoveBookmarksView: View {
                 }
             }
             .onAppear {
-                selectedFolder = toBeMoved[0].folder
+                selectedFolder = toBeMoved.first?.folder
                 try? moc.save()
             }
             .sheet(isPresented: $creatingFolder) {

@@ -188,7 +188,7 @@ struct BookmarksView: View {
                                 moc.delete(bookmark)
                             }
                             try? moc.save()
-                            
+                            selectedBookmarks.removeAll()
                             editState = .inactive
                         }
                     } message: {
@@ -215,7 +215,10 @@ struct BookmarksView: View {
         }
         .environment(\.editMode, $editState)
         .sheet(isPresented: $movingBookmarks) {
-            MoveBookmarksView(toBeMoved: [Bookmark](selectedBookmarks))
+            MoveBookmarksView(toBeMoved: [Bookmark](selectedBookmarks)) {
+                selectedBookmarks.removeAll()
+                editState = .inactive
+            }
         }
         .sheet(isPresented: $addingBookmark) {
             AddBookmarkView(folderPreset: folder)

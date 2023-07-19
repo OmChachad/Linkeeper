@@ -121,7 +121,7 @@ struct BookmarkItem: View {
             Text("It will be deleted from all your iCloud devices.")
         }
         .sheet(isPresented: $movingBookmark) {
-            MoveBookmarksView(toBeMoved: [bookmark])
+            MoveBookmarksView(toBeMoved: [bookmark]) {}
         }
         .task {
             bookmark.cachedImage(saveTo: $cachedPreview)
