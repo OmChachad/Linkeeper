@@ -31,7 +31,7 @@ class DataController: ObservableObject {
             fatalError ("Failed to initialize persistent container")
         }
         description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-        description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.org.starlightapps.linkeeper")
+        description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.org.starlightapps.Linkeeper")
         persistentCloudKitContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         persistentCloudKitContainer.viewContext.automaticallyMergesChangesFromParent = true
         persistentCloudKitContainer.loadPersistentStores { storeDescription, error in
@@ -58,15 +58,15 @@ class DataController: ObservableObject {
                         print(error.localizedDescription)
                     }
                     
-//                    // delete old store
-//                    let fileCoordinator = NSFileCoordinator(filePresenter: nil)
-//                    fileCoordinator.coordinate(writingItemAt: url, options: .forDeleting, error: nil, byAccessor: { url in
-//                        do {
-//                            try FileManager.default.removeItem(at: url)
-//                        } catch {
-//                            print(error.localizedDescription)
-//                        }
-//                    })
+                    // delete old store
+                    let fileCoordinator = NSFileCoordinator(filePresenter: nil)
+                    fileCoordinator.coordinate(writingItemAt: oldStoreURL, options: .forDeleting, error: nil, byAccessor: { url in
+                        do {
+                            try FileManager.default.removeItem(at: oldStoreURL)
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    })
                 }
             }
         }
