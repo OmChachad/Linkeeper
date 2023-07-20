@@ -1,5 +1,5 @@
 //
-//  swift
+//  DataController.swift
 //  Linkeeper
 //
 //  Created by Om Chachad on 25/05/22.
@@ -71,39 +71,6 @@ class DataController: ObservableObject {
             }
         }
         print(persistentCloudKitContainer.persistentStoreDescriptions)
-        
-        // This is to make sure there is no duplicate bookmark or folder.
-        let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
-        do {
-            let bookmarks = try persistentCloudKitContainer.viewContext.fetch(request)
-            var uniqueBookmarks: [String] = []
-            bookmarks.forEach { bookmark in
-                if !uniqueBookmarks.contains(bookmark.wrappedUUID) {
-                    uniqueBookmarks.append(bookmark.wrappedUUID)
-                } else {
-                    persistentCloudKitContainer.viewContext.delete(bookmark)
-                }
-            }
-        } catch let error {
-            print("Couldn't fetch all bookmarks: \(error.localizedDescription)")
-        }
-        
-        let foldersRequest: NSFetchRequest<Folder> = Folder.fetchRequest()
-        do {
-            let folders = try persistentCloudKitContainer.viewContext.fetch(foldersRequest)
-            var uniqueFolders: [UUID] = []
-            folders.forEach { folder in
-                if !uniqueFolders.contains(folder.id ?? UUID()) {
-                    uniqueFolders.append(folder.id ?? UUID())
-                } else {
-                    persistentCloudKitContainer.viewContext.delete(folder)
-                }
-            }
-        } catch let error {
-            print("Couldn't fetch all bookmarks: \(error.localizedDescription)")
-        }
-        
-        try? persistentCloudKitContainer.viewContext.save()
     }
     
     func save(context: NSManagedObjectContext) {
