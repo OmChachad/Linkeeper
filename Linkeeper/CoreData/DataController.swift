@@ -71,6 +71,89 @@ class DataController: ObservableObject {
             }
         }
         print(persistentCloudKitContainer.persistentStoreDescriptions)
+        
+        // This is to make sure there is no duplicate bookmark or folder.
+        // Deduplicate bookmarks
+        var uniqueBookmarks: Set<UUID> = Set()
+        var bookmarksToDelete: [Bookmark] = []
+
+        do {
+            let bookmarks = try persistentCloudKitContainer.viewContext.fetch(Bookmark.fetchRequest())
+            bookmarks.forEach { bookmark in
+                if let id = bookmark.id {
+                    if !uniqueBookmarks.contains(id) {
+                        uniqueBookmarks.insert(id)
+                    } else {
+                        bookmarksToDelete.append(bookmark)
+                    }
+                }
+            }
+        } catch let error {
+            print("Couldn't fetch all bookmarks: \(error.localizedDescription)")
+        }
+
+        bookmarksToDelete.forEach { bookmark in
+            persistentCloudKitContainer.viewContext.delete(bookmark)
+        }
+
+        // Deduplicate folders
+        var uniqueFolders: Set<UUID> = Set()
+        var foldersToDelete: [Folder] = []
+
+        do {
+            let folders = try persistentCloudKitContainer.viewContext.fetch(Folder.fetchRequest())
+            folders.forEach { folder in
+                if let id = folder.id {
+                    if !uniqueFolders.contains(id) {
+                        uniqueFolders.insert(id)
+                    } else {
+                        foldersToDelete.append(folder)
+                    }
+                }
+            }
+        } catch let error {
+            print("Couldn't fetch all folders: \(error.localizedDescription)")
+        }
+
+        foldersToDelete.forEach { folder in
+            persistentCloudKitContainer.viewContext.delete(folder)
+        }
+
+        try? persistentCloudKitContainer.viewContext.save()
+
+    }
+    
+    func deduplicate<T: NSManagedObject>(type: T.Type, idKeyPath: KeyPath<T, UUID?>) {
+        guard let entityName = T.entity().name else {
+            return
+        }
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        request.returnsObjectsAsFaults = false
+        
+        do {
+            let objects = try persistentCloudKitContainer.viewContext.fetch(request) as? [T] ?? []
+            var uniqueIDs: Set<UUID> = Set()
+            var objectsToDelete: [T] = []
+            
+            for object in objects {
+                if let id = object[keyPath: idKeyPath] {
+                    if uniqueIDs.contains(id) {
+                        objectsToDelete.append(object)
+                    } else {
+                        uniqueIDs.insert(id)
+                    }
+                }
+            }
+            
+            objectsToDelete.forEach { object in
+                persistentCloudKitContainer.viewContext.delete(object)
+            }
+            
+            try? persistentCloudKitContainer.viewContext.save()
+        } catch let error {
+            print("Couldn't fetch \(entityName): \(error.localizedDescription)")
+        }
     }
     
     func save(context: NSManagedObjectContext) {
