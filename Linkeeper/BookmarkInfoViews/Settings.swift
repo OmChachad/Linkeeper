@@ -97,7 +97,7 @@ struct Settings: View {
                 .listRowInsets(adaptedInsets)
                 
                 Section {
-                    Toggle("Remove tracking parameters from URLs", isOn: $removeTrackingParameters)
+                    Toggle("Remove tracking parameters from URLs (Beta)", isOn: $removeTrackingParameters)
                         .toggleStyle(.switch)
                 } header: {
                     Text("Advanced")
