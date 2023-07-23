@@ -44,7 +44,7 @@ struct AddFolderView: View {
                             .foregroundColor(.white)
                             .padding()
                             .frame(width: 75, height: 75)
-                            .background(Circle().foregroundColor(accentColor.color))
+                            .background(accentColor.color, in: Circle())
                             .shadow(color: accentColor.color, radius: 3)
                             .padding()
                             
@@ -140,8 +140,6 @@ struct AddFolderView: View {
                 .navigationViewStyle(.stack)
                 .navigationTitle(title.isEmpty ? (existingFolder == nil ? "New Folder" : "Edit Folder") : title)
         }
-        .onAppear {
-            if let folder = self.existingFolder {
     }
     
     func addFolder() {
