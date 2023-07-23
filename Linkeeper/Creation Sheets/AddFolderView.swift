@@ -27,8 +27,11 @@ struct AddFolderView: View {
     var rows = Array(repeating: GridItem(.flexible()), count: 3)
     
     init() {}
-    init(existingFolder: Folder?) {
-        self.existingFolder = existingFolder
+    init(existingFolder folder: Folder) {
+        self.existingFolder = folder
+        self._title = State(initialValue: folder.wrappedTitle)
+        self._accentColor = State(initialValue: ColorOption(rawValue: folder.accentColor ?? "gray")!)
+        self._chosenSymbol = State(initialValue: folder.wrappedSymbol)
     }
     
     var body: some View {
@@ -139,11 +142,6 @@ struct AddFolderView: View {
         }
         .onAppear {
             if let folder = self.existingFolder {
-                self.title = folder.wrappedTitle
-                self.accentColor = ColorOption(rawValue: folder.accentColor ?? "gray")!
-                self.chosenSymbol = folder.wrappedSymbol
-            }
-        }
     }
     
     func addFolder() {
