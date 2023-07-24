@@ -56,12 +56,11 @@ struct ContentView: View {
                             .dropDestination { bookmark, url in
                                 if let bookmark {
                                     bookmark.isFavorited = true
-                                    try? moc.save()
                                 } else {
                                     let bookmark = BookmarksManager.shared.addDroppedURL(url)
                                     bookmark?.isFavorited = true
-                                    try? moc.save()
                                 }
+                                try? moc.save()
                             }
                         
                         ForEach(pinnedFolders) { folder in
@@ -161,7 +160,6 @@ struct ContentView: View {
     
     private func delete(at offset: IndexSet) {
         offset.map { folders[$0] }.forEach(moc.delete)
-
         try? moc.save()
     }
     
