@@ -90,7 +90,7 @@ struct BookmarkDetails: View {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5)) {
                 Button {
                     bookmark.isFavorited.toggle()
-                    try! moc.save()
+                    try? moc.save()
                 } label: {
                     Image(systemName: bookmark.isFavorited ? "heart.fill" : "heart")
                         .foregroundColor(.pink)
