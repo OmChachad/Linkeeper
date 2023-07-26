@@ -36,11 +36,11 @@ class BookmarksManager {
                     } else {
                         bookmark?.title = "Could not fetch title..."
                     }
-                    try? self.saveContext()
+                    self.saveContext()
                 }
             }
             
-            try? saveContext()
+            saveContext()
         }
         
         return bookmark
@@ -63,7 +63,7 @@ class BookmarksManager {
         bookmark.url = urlString
         bookmark.folder = folder
 
-        try saveContext()
+        saveContext()
         return bookmark
     }
 
@@ -86,13 +86,13 @@ class BookmarksManager {
         do {
             let matchingBookmark = try Self.shared.findBookmark(withId: id)
             context.delete(matchingBookmark)
-            try saveContext()
+            saveContext()
         } catch let error {
             print("Couldn't delete bookmark with ID: \(id.uuidString): \(error.localizedDescription)")
         }
     }
 
-    func saveContext() throws {
+    func saveContext() {
         do {
             if context.hasChanges {
                 try context.save()

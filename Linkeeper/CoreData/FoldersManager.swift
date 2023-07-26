@@ -33,12 +33,8 @@ class FoldersManager {
         newFolder.symbol = chosenSymbol
         newFolder.index = Int16((getAllFolders().last?.index ?? 0) + 1)
 
-        //do {
-            try saveContext()
-            return newFolder
-//        } catch {
-//            throw fatalError()
-//        }
+        saveContext()
+        return newFolder
     }
 
     func findFolder(withId id: UUID) throws -> Folder {
@@ -76,13 +72,13 @@ class FoldersManager {
         do {
             let matchingBookmark = try Self.shared.findFolder(withId: id)
             context.delete(matchingBookmark)
-            try saveContext()
+            saveContext()
         } catch let error {
             print("Couldn't delete folder with ID: \(id.uuidString): \(error.localizedDescription)")
         }
     }
 //
-    func saveContext() throws {
+    func saveContext() {
         do {
             if context.hasChanges {
                 try context.save()
