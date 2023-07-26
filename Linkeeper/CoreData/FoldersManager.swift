@@ -48,11 +48,11 @@ class FoldersManager {
 
         do {
             guard let foundFolder = try context.fetch(request).first else {
-                throw fatalError("Could not fetch")
+                fatalError("Could not fetch")
             }
             return foundFolder
         } catch {
-            throw fatalError("Could not fetch")
+            fatalError("Could not fetch")
         }
     }
 //
@@ -79,7 +79,6 @@ class FoldersManager {
             try saveContext()
         } catch let error {
             print("Couldn't delete folder with ID: \(id.uuidString): \(error.localizedDescription)")
-            throw fatalError()
         }
     }
 //

@@ -74,11 +74,11 @@ class BookmarksManager {
 
         do {
             guard let foundBook = try context.fetch(request).first else {
-                throw fatalError("Could not fetch")
+                fatalError("Could not fetch CoreData")
             }
             return foundBook
         } catch {
-            throw fatalError("Could not fetch")
+            fatalError("Could not fetch CoreData")
         }
     }
 
@@ -89,7 +89,6 @@ class BookmarksManager {
             try saveContext()
         } catch let error {
             print("Couldn't delete bookmark with ID: \(id.uuidString): \(error.localizedDescription)")
-            throw fatalError()
         }
     }
 
