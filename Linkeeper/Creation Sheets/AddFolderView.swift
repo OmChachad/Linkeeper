@@ -25,13 +25,16 @@ struct AddFolderView: View {
     @State private var chosenSymbolCategory: SymbolCategory = .objects
     
     var rows = Array(repeating: GridItem(.flexible()), count: 3)
+    var completionAction: (Bool) -> Void
     
-    init() {}
-    init(existingFolder folder: Folder) {
+    init(existingFolder folder: Folder? = nil, onComplete completionAction: @escaping (Bool) -> Void = {_ in }) {
         self.existingFolder = folder
-        self._title = State(initialValue: folder.wrappedTitle)
-        self._accentColor = State(initialValue: ColorOption(rawValue: folder.accentColor ?? "gray")!)
-        self._chosenSymbol = State(initialValue: folder.wrappedSymbol)
+        if let folder {
+            self._title = State(initialValue: folder.wrappedTitle)
+            self._accentColor = State(initialValue: ColorOption(rawValue: folder.accentColor ?? "gray")!)
+            self._chosenSymbol = State(initialValue: folder.wrappedSymbol)
+        }
+        self.completionAction = completionAction
     }
     
     var body: some View {
@@ -131,6 +134,7 @@ struct AddFolderView: View {
                     
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Cancel") {
+                            completionAction(false)
                             dismiss()
                         }
                         .keyboardShortcut(.cancelAction)
@@ -152,6 +156,8 @@ struct AddFolderView: View {
         if moc.hasChanges {
             try? moc.save()
         }
+        
+        completionAction(true)
         dismiss()
     }
     
