@@ -56,17 +56,17 @@ struct AddBookmarkView: View {
     }
     
     init(folderPreset: Folder? = nil) {
-        self.cancellationAction = {}
+        self.completionAction = { _ in}
         _folder = State(initialValue: folderPreset)
     }
     
-    init(urlString: String, folderPreset: Folder? = nil, onCancel cancellationAction: @escaping () -> Void = {}) {
+    init(urlString: String, folderPreset: Folder? = nil, onComplete completionAction: @escaping (Bool) -> Void = {_ in }) {
         _url = State(initialValue: urlString)
         _folder = State(initialValue: folderPreset)
-        self.cancellationAction = cancellationAction
+        self.completionAction = completionAction
     }
     
-    var cancellationAction: () -> Void
+    var completionAction: (Bool) -> Void
     
     var body: some View {
         NavigationView {
@@ -151,7 +151,7 @@ struct AddBookmarkView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
                         dismiss()
-                        cancellationAction()
+                        completionAction(false)
                     }
                     .keyboardShortcut(.cancelAction)
                 }
@@ -256,7 +256,7 @@ struct AddBookmarkView: View {
         try? moc.save()
         
         dismiss()
-        cancellationAction()
+        completionAction(true)
         showDonePopUp = true
     }
     

@@ -29,7 +29,7 @@ class ShareViewController: UIViewController {
                 if let url = item as? URL {
                     DispatchQueue.main.async {
                         let dataController = DataController.shared
-                        let swiftUIView = AddBookmarkView(urlString: url.absoluteString, onCancel: self.close).environment(\.managedObjectContext, dataController.persistentCloudKitContainer.viewContext)
+                        let swiftUIView = AddBookmarkView(urlString: url.absoluteString, onComplete: self.close).environment(\.managedObjectContext, dataController.persistentCloudKitContainer.viewContext)
                         let hostingController = UIHostingController(rootView: swiftUIView)
                         self.addChild(hostingController)
                         self.view.addSubview(hostingController.view)
@@ -41,7 +41,7 @@ class ShareViewController: UIViewController {
         }
     }
     
-    func close() {
+    func close(_ isSuccess: Bool) {
         extensionContext?.completeRequest(returningItems: [])
     }
     
