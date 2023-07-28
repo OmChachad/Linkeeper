@@ -20,7 +20,10 @@ struct BookmarkDetails: View {
     
     @State private var title = ""
     @State private var notes = ""
+    @State private var isFavorited = false
     @State private var editing = false
+    
+    @State private var hideFavoriteOption = false
     
     @State private var isShimmering = true
     
@@ -28,12 +31,14 @@ struct BookmarkDetails: View {
     
     @State private var deleteConfirmation = false
     
-    init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>) {
+    init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, hideFavoriteOption: Bool = false) {
         self.bookmark = bookmark
         self.namespace = namespace
         _showDetails = showDetails
         _title = State(initialValue: bookmark.wrappedTitle)
         _notes = State(initialValue: bookmark.wrappedNotes)
+        _isFavorited = State(initialValue: bookmark.isFavorited)
+        _hideFavoriteOption = State(initialValue: hideFavoriteOption)
     }
     
     var body: some View {
@@ -87,15 +92,17 @@ struct BookmarkDetails: View {
             }
             .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
             
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5)) {
-                Button {
-                    bookmark.isFavorited.toggle()
-                    try? moc.save()
-                } label: {
-                    Image(systemName: bookmark.isFavorited ? "heart.fill" : "heart")
-                        .foregroundColor(.pink)
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: hideFavoriteOption ? 4 : 5)) {
+                if !hideFavoriteOption {
+                    Button {
+                        isFavorited.toggle()
+                        try? moc.save()
+                    } label: {
+                        Image(systemName: isFavorited ? "heart.fill" : "heart")
+                            .foregroundColor(.pink)
+                    }
+                    .keyboardShortcut("F", modifiers: [.shift, .command])
                 }
-                .keyboardShortcut("F", modifiers: [.shift, .command])
                 
                 Button(action: openBookmark) {
                     Image(systemName: "safari")
@@ -171,6 +178,9 @@ struct BookmarkDetails: View {
             .keyboardShortcut(.cancelAction)
             .buttonStyle(.borderless)
         }
+        .onChange(of: isFavorited, perform: { favoriteStatus in
+            bookmark.isFavorited = favoriteStatus
+        })
         .task {
             await bookmark.cachedImage(saveTo: $cachedPreview)
         }

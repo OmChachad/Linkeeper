@@ -147,7 +147,7 @@ struct BookmarksView: View {
                         showDetails = false
                     }
                 
-                BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails)
+                BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, hideFavoriteOption: favorites == true)
             }
         }
         .navigationTitle(for: folder, folderTitle: $folderTitle, onlyFavorites: favorites ?? false)
