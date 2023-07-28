@@ -55,12 +55,7 @@ struct AddBookmarkView: View {
         }
     }
     
-    init(folderPreset: Folder? = nil) {
-        self.completionAction = { _ in}
-        _folder = State(initialValue: folderPreset)
-    }
-    
-    init(urlString: String, folderPreset: Folder? = nil, onComplete completionAction: @escaping (Bool) -> Void = {_ in }) {
+    init(urlString: String = "", folderPreset: Folder? = nil, onComplete completionAction: @escaping (Bool) -> Void = {_ in }) {
         _url = State(initialValue: urlString)
         _folder = State(initialValue: folderPreset)
         self.completionAction = completionAction
