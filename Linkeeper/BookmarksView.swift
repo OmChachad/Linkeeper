@@ -71,6 +71,7 @@ struct BookmarksView: View {
         _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "folder == %@", folder))
         
         self.folder = folder
+        self._folderTitle = State(initialValue: folder.wrappedTitle)
     }
     
     init(onlyFavorites: Bool = true) {
@@ -238,11 +239,6 @@ struct BookmarksView: View {
                 }
             }
         })
-        .onAppear {
-            if let folder = folder {
-                self.folderTitle = folder.wrappedTitle
-            }
-        }
         .animation(.spring(), value: filteredBookmarks)
         .animation(.spring(), value: showDetails)
         .animation(.easeInOut.speed(0.5), value: editState)
