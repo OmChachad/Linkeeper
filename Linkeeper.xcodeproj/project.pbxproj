@@ -32,6 +32,9 @@
 		C281D9B62A2512F900535807 /* FavoriteToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B52A2512F900535807 /* FavoriteToggle.swift */; };
 		C281D9B82A25277A00535807 /* DeleteFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B72A25277A00535807 /* DeleteFolder.swift */; };
 		C281D9BA2A2534E100535807 /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B92A2534E100535807 /* AddFolder.swift */; };
+		C28616822A73DD0D00ABA9FF /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28616812A73DD0D00ABA9FF /* AlertView.swift */; };
+		C28616832A73DD0D00ABA9FF /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28616812A73DD0D00ABA9FF /* AlertView.swift */; };
+		C28616862A73DD2300ABA9FF /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = C28616852A73DD2300ABA9FF /* SimpleToast */; };
 		C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E66281900D70030B6DD /* AddBookmarkView.swift */; };
 		C28B6E6928190C120030B6DD /* ColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorOption.swift */; };
 		C28B6E6F28193AE20030B6DD /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6E28193AE20030B6DD /* AddFolderView.swift */; };
@@ -144,6 +147,7 @@
 		C281D9B52A2512F900535807 /* FavoriteToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteToggle.swift; sourceTree = "<group>"; };
 		C281D9B72A25277A00535807 /* DeleteFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFolder.swift; sourceTree = "<group>"; };
 		C281D9B92A2534E100535807 /* AddFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolder.swift; sourceTree = "<group>"; };
+		C28616812A73DD0D00ABA9FF /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		C28B6E66281900D70030B6DD /* AddBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookmarkView.swift; sourceTree = "<group>"; };
 		C28B6E6828190C120030B6DD /* ColorOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorOption.swift; sourceTree = "<group>"; };
 		C28B6E6E28193AE20030B6DD /* AddFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderView.swift; sourceTree = "<group>"; };
@@ -201,6 +205,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C28616862A73DD2300ABA9FF /* SimpleToast in Frameworks */,
 				C29B00F72A5B38E40081FEBC /* CloudKit.framework in Frameworks */,
 				C24DF575283E62C4003C9692 /* Shimmer in Frameworks */,
 				C2C8EE962A4D853A00CCD36F /* SwiftSoup in Frameworks */,
@@ -299,6 +304,7 @@
 				C25316012A2D0398004F1491 /* FolderItemView.swift */,
 				C29B00F32A59E67D0081FEBC /* PinnedItemView.swift */,
 				C25316032A2D03D2004F1491 /* ListItem.swift */,
+				C28616812A73DD0D00ABA9FF /* AlertView.swift */,
 				C29B00EE2A58862A0081FEBC /* ShareButton.swift */,
 				C23BDA462840C70E003DD30D /* CacheManager.swift */,
 				C290506C2A12B67900817C48 /* Flashcard.swift */,
@@ -482,6 +488,7 @@
 			packageProductDependencies = (
 				C24DF574283E62C4003C9692 /* Shimmer */,
 				C2C8EE952A4D853A00CCD36F /* SwiftSoup */,
+				C28616852A73DD2300ABA9FF /* SimpleToast */,
 			);
 			productName = Marked;
 			productReference = C2C8DC3A28171D93000F4AEB /* Linkeeper.app */;
@@ -517,6 +524,7 @@
 			packageReferences = (
 				C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				C2C8EE942A4D853A00CCD36F /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				C28616842A73DD2300ABA9FF /* XCRemoteSwiftPackageReference "SimpleToast" */,
 			);
 			productRefGroup = C2C8DC3B28171D93000F4AEB /* Products */;
 			projectDirPath = "";
@@ -560,6 +568,7 @@
 				C2A14A472A6024C4003A5308 /* DropItem.swift in Sources */,
 				C2A14A402A602498003A5308 /* Folder+CoreDataProperties.swift in Sources */,
 				C2A14A492A602512003A5308 /* Metadata Fetcher.swift in Sources */,
+				C28616832A73DD0D00ABA9FF /* AlertView.swift in Sources */,
 				C2A14A4A2A60251B003A5308 /* ColorOption.swift in Sources */,
 				C2A14A3E2A602498003A5308 /* BookmarksManager.swift in Sources */,
 				C2A14A3F2A602498003A5308 /* StoreURL Extension.swift in Sources */,
@@ -610,6 +619,7 @@
 				C281D9732A23E8B300535807 /* FoldersManager.swift in Sources */,
 				C29B00F42A59E67D0081FEBC /* PinnedItemView.swift in Sources */,
 				C2C8EE902A4C354700CCD36F /* TipJar.swift in Sources */,
+				C28616822A73DD0D00ABA9FF /* AlertView.swift in Sources */,
 				C25316042A2D03D2004F1491 /* ListItem.swift in Sources */,
 				C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */,
 				C2C8EE922A4C8BB300CCD36F /* ChangeIconsView.swift in Sources */,
@@ -947,6 +957,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		C28616842A73DD2300ABA9FF /* XCRemoteSwiftPackageReference "SimpleToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sanzaru/SimpleToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.2;
+			};
+		};
 		C2C8EE942A4D853A00CCD36F /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup";
@@ -962,6 +980,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
+		};
+		C28616852A73DD2300ABA9FF /* SimpleToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C28616842A73DD2300ABA9FF /* XCRemoteSwiftPackageReference "SimpleToast" */;
+			productName = SimpleToast;
 		};
 		C2C8EE952A4D853A00CCD36F /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import SimpleToast
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
@@ -21,6 +22,10 @@ struct ContentView: View {
     @State var mode: EditMode = .inactive
     @State private var showingNewBookmarkView = false
     @State private var showingNewFolderView = false
+    
+    @State private var addedBookmark = false
+    @State private var addedFolder = false
+    private let toastOptions = SimpleToastOptions(alignment: .bottom, hideAfter: 1.5, backdrop: .clear, animation: .spring(), modifierType: .slide, dismissOnTap: true)
     
     @State private var currentFolder: Folder?
     
@@ -148,10 +153,26 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showingSettings, content: Settings.init)
         .sheet(isPresented: $showingNewBookmarkView) {
-            AddBookmarkView(folderPreset: currentFolder)
+            AddBookmarkView(folderPreset: currentFolder, onComplete: { didAddBookmark in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    addedBookmark = didAddBookmark
+                }
+            })
         }
-        .sheet(isPresented: $showingNewFolderView, content: AddFolderView.init)
+        .sheet(isPresented: $showingNewFolderView) {
+            AddFolderView { didAddFolder in
+                addedFolder = didAddFolder
+            }
+        }
         .animation(.default, value: pinnedFolders)
+        .simpleToast(isPresented: $addedBookmark, options: toastOptions, content: {
+            AlertView(icon: "bookmark.fill", title: "Added Bookmark")
+                .padding(.bottom, 50)
+        })
+        .simpleToast(isPresented: $addedFolder, options: toastOptions, content: {
+            AlertView(icon: "folder.fill", title: "Added Folder")
+                .padding(.bottom, 50)
+        })
     }
     
     var pinnedFolders: [Folder] {
