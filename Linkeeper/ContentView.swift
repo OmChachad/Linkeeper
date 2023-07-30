@@ -165,6 +165,7 @@ struct ContentView: View {
             }
         }
         .animation(.default, value: pinnedFolders)
+        .animation(.default, value: folders.count)
         .simpleToast(isPresented: $addedBookmark, options: toastOptions, content: {
             AlertView(icon: "bookmark.fill", title: "Added Bookmark")
                 .padding(.bottom, 50)
