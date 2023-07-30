@@ -25,7 +25,6 @@ struct AddBookmarkView: View {
     @FocusState var isNotesFieldActive: Bool
     
     @State private var addingNewFolder = false
-    @State private var showDonePopUp = false
     
     @AppStorage("removeTrackingParameters") var removeTrackingParameters = false
     
@@ -174,7 +173,7 @@ struct AddBookmarkView: View {
     }
     
     func fetchTitle(url: String) {
-        if let url = URL(string: url)?.sanitise {//?.sanitise, url.absoluteString.isValidURL {
+        if let url = URL(string: url)?.sanitise {
             Task {
                 isLoading = true
                 if let metadata = try await startFetchingMetadata(for: url, fetchSubresources: false, timeout: 10) {
@@ -203,6 +202,7 @@ struct AddBookmarkView: View {
                 if title.isEmpty {
                     askForTitle = true
                 }
+                
                 isLoading = false
             }
         }
@@ -251,7 +251,6 @@ struct AddBookmarkView: View {
         
         dismiss()
         completionAction(true)
-        showDonePopUp = true
     }
     
     func folderPickerItem(for folder: Folder) -> some View {
