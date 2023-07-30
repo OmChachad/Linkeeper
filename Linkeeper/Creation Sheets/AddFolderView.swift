@@ -147,15 +147,7 @@ struct AddFolderView: View {
     }
     
     func addFolder() {
-        let newFolder = Folder(context: moc)
-        newFolder.id = UUID()
-        newFolder.title = self.title
-        newFolder.accentColor = self.accentColor.rawValue
-        newFolder.symbol = self.chosenSymbol
-        newFolder.index = Int16((folders.last?.index ?? 0) + 1)
-        if moc.hasChanges {
-            try? moc.save()
-        }
+        FoldersManager.shared.addFolder(title: title, accentColor: accentColor.rawValue, chosenSymbol: chosenSymbol)
         
         completionAction(true)
         dismiss()
