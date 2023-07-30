@@ -156,7 +156,6 @@ struct AddBookmarkView: View {
         .sheet(isPresented: $addingNewFolder) {
             AddFolderView()
         }
-        // Alert for "Added New Bookmark" to be added later down the line
         .onChange(of: url) { newURL in
             askForTitle = false
             title = ""
