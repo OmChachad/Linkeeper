@@ -26,15 +26,15 @@ class BookmarksManager {
     }
     
     func addDroppedURL(_ url: URL, to folder: Folder? = nil) -> Bookmark? {
-        let bookmark = try? addBookmark(title: "Loading...", url: url.absoluteString, host: url.host ?? "Unknown Host", notes: "", folder: folder)
+        let bookmark = addBookmark(title: "Loading...", url: url.absoluteString, host: url.host ?? "Unknown Host", notes: "", folder: folder)
         
         Task {
             if let metadata = try await startFetchingMetadata(for: url, fetchSubresources: false, timeout: 10) {
                 DispatchQueue.main.async {
                     if let URLTitle = metadata.title {
-                        bookmark?.title = URLTitle
+                        bookmark.title = URLTitle
                     } else {
-                        bookmark?.title = "Could not fetch title..."
+                        bookmark.title = "Could not fetch title..."
                     }
                     self.saveContext()
                 }
@@ -46,7 +46,7 @@ class BookmarksManager {
         return bookmark
     }
 
-    func addBookmark(id: UUID? = UUID(), title: String, url: String, host: String, notes: String, folder: Folder?) throws -> Bookmark {
+    func addBookmark(id: UUID? = UUID(), title: String, url: String, host: String, notes: String, folder: Folder?) -> Bookmark {
         let urlString: String = {
             if UserDefaults.standard.bool(forKey: "removeTrackingParameters") == true && !url.contains("youtube.com/watch") {
                      return url.components(separatedBy: "?").first ?? url
@@ -67,7 +67,7 @@ class BookmarksManager {
         return bookmark
     }
 
-    func findBookmark(withId id: UUID) throws -> Bookmark {
+    func findBookmark(withId id: UUID) -> Bookmark {
         let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
         request.fetchLimit = 1
         request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
@@ -82,14 +82,10 @@ class BookmarksManager {
         }
     }
 
-    func deleteBookmark(withId id: UUID) throws {
-        do {
-            let matchingBookmark = try Self.shared.findBookmark(withId: id)
-            context.delete(matchingBookmark)
-            saveContext()
-        } catch let error {
-            print("Couldn't delete bookmark with ID: \(id.uuidString): \(error.localizedDescription)")
-        }
+    func deleteBookmark(withId id: UUID) {
+        let matchingBookmark = findBookmark(withId: id)
+        context.delete(matchingBookmark)
+        saveContext()
     }
 
     func saveContext() {

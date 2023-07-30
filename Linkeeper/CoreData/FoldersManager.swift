@@ -24,7 +24,7 @@ class FoldersManager {
         }
     }
 
-    func addFolder(title: String, accentColor: String, chosenSymbol: String) throws -> Folder {
+    func addFolder(title: String, accentColor: String, chosenSymbol: String) -> Folder {
 
         let newFolder = Folder(context: context)
         newFolder.id = UUID()
@@ -37,7 +37,7 @@ class FoldersManager {
         return newFolder
     }
 
-    func findFolder(withId id: UUID) throws -> Folder {
+    func findFolder(withId id: UUID) -> Folder {
         let request: NSFetchRequest<Folder> = Folder.fetchRequest()
         request.fetchLimit = 1
         request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
@@ -68,16 +68,12 @@ class FoldersManager {
 //        }
 //    }
 //
-    func deleteFolder(withId id: UUID) throws {
-        do {
-            let matchingBookmark = try Self.shared.findFolder(withId: id)
-            context.delete(matchingBookmark)
-            saveContext()
-        } catch let error {
-            print("Couldn't delete folder with ID: \(id.uuidString): \(error.localizedDescription)")
-        }
+    func deleteFolder(withId id: UUID) {
+        let matchingBookmark = findFolder(withId: id)
+        context.delete(matchingBookmark)
+        saveContext()
     }
-//
+
     func saveContext() {
         do {
             if context.hasChanges {
