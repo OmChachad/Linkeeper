@@ -238,16 +238,8 @@ struct AddBookmarkView: View {
         if removeTrackingParameters && !sanitisedURL.contains("youtube.com/watch") {
             sanitisedURL = sanitisedURL.components(separatedBy: "?").first ?? sanitisedURL
         }
-        let bookmark = Bookmark(context: moc)
-        bookmark.id = UUID()
-        bookmark.title = title
-        bookmark.date = Date.now
-        bookmark.host = host
-        bookmark.notes = notes
-        bookmark.url = sanitisedURL
-        bookmark.folder = folder
         
-        try? moc.save()
+        BookmarksManager.shared.addBookmark(title: title, url: sanitisedURL, host: host, notes: notes, folder: folder)
         
         dismiss()
         completionAction(true)
