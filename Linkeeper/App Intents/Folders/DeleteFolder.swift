@@ -46,14 +46,14 @@ struct DeleteFolder: AppIntent {
             
             for bookmark in folder.bookmarks {
                 if keepBookmarks {
-                    try BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = nil
+                    BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = nil
                 } else {
-                    try BookmarksManager.shared.deleteBookmark(withId: bookmark.id)
+                    BookmarksManager.shared.deleteBookmark(withId: bookmark.id)
                 }
             }
             
-            try FoldersManager.shared.deleteFolder(withId: folder.id)
-            try FoldersManager.shared.saveContext()
+            FoldersManager.shared.deleteFolder(withId: folder.id)
+            FoldersManager.shared.saveContext()
             
             let messageSuffix = folder.bookmarks.count == 0 ? "" : ", \(keepBookmarks ? "keeping" : "alongside") \(folder.bookmarks.count) \(folder.bookmarks.count == 1 ? "Bookmark" : "Bookmarks")"
             return .result(value: "Deleted Folder\(messageSuffix)")

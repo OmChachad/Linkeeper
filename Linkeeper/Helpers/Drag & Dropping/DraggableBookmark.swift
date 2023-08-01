@@ -18,7 +18,7 @@ struct DraggableBookmark: Codable {
     let isFavorited: Bool
     
     var bookmark: Bookmark? {
-        try? BookmarksManager.shared.findBookmark(withId: self.id)
+        BookmarksManager.shared.findBookmark(withId: self.id)
     }
 }
 

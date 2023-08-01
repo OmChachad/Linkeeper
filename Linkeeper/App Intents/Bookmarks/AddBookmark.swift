@@ -45,41 +45,37 @@ If disabled, you can add a title yourself.
     }
     
     func perform() async throws -> some ReturnsValue<BookmarkEntity> {
-        do {
-            let title: String = await {
-                if autoTitle {
-                    let metadataProvider = LPMetadataProvider()
-                    metadataProvider.shouldFetchSubresources = false
-                    metadataProvider.timeout = 15
-                    
+        let title: String = await {
+            if autoTitle {
+                let metadataProvider = LPMetadataProvider()
+                metadataProvider.shouldFetchSubresources = false
+                metadataProvider.timeout = 15
+                
+                do {
+                    return try await metadataProvider.startFetchingMetadata(for: url).title ?? url.host ?? "Unknown Title"
+                } catch {
                     do {
-                        return try await metadataProvider.startFetchingMetadata(for: url).title ?? url.host ?? "Unknown Title"
+                        return try await $bookmarkTitle.requestValue("Failed to fetch title for \(url.host ?? "Bookmark"), please provide a title yourself.")
                     } catch {
-                        do {
-                            return try await $bookmarkTitle.requestValue("Failed to fetch title for \(url.host ?? "Bookmark"), please provide a title yourself.")
-                        } catch {
-                            return url.host ?? "Unknown Title"
-                        }
-                    }
-                } else {
-                    if let title = self.bookmarkTitle, !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        return title
-                    } else {
-                        do {
-                            return try await $bookmarkTitle.requestValue("Missing Title: Please provide a valid bookmark title.")
-                        } catch {
-                            return url.host ?? "Unknown Title"
-                        }
+                        return url.host ?? "Unknown Title"
                     }
                 }
-            }().trimmingCharacters(in: .whitespacesAndNewlines)
-            
-            let bookmark = try BookmarksManager.shared.addBookmark(id: nil, title: title, url: url.sanitise.absoluteString, host: url.host ?? url.absoluteString, notes: notes ?? "", folder: nil)
-            let entity = BookmarkEntity(id: bookmark.id!, title: bookmark.wrappedTitle, url: bookmark.wrappedURL.absoluteString, host: bookmark.wrappedHost, notes: bookmark.wrappedNotes, isFavorited: false, dateAdded: bookmark.wrappedDate)
-                return .result(value: entity)
-        } catch let error {
-            throw CustomError.message(error.localizedDescription)
-        }
+            } else {
+                if let title = self.bookmarkTitle, !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    return title
+                } else {
+                    do {
+                        return try await $bookmarkTitle.requestValue("Missing Title: Please provide a valid bookmark title.")
+                    } catch {
+                        return url.host ?? "Unknown Title"
+                    }
+                }
+            }
+        }().trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        let bookmark = BookmarksManager.shared.addBookmark(id: nil, title: title, url: url.sanitise.absoluteString, host: url.host ?? url.absoluteString, notes: notes ?? "", folder: nil)
+        let entity = BookmarkEntity(id: bookmark.id!, title: bookmark.wrappedTitle, url: bookmark.wrappedURL.absoluteString, host: bookmark.wrappedHost, notes: bookmark.wrappedNotes, isFavorited: false, dateAdded: bookmark.wrappedDate)
+        return .result(value: entity)
     }
     
 }

@@ -31,13 +31,9 @@ struct AddFolder: AppIntent {
     }
     
     func perform() async throws -> some ReturnsValue<FolderEntity>{
-        do {
-            let folder = try FoldersManager.shared.addFolder(title: folderTitle, accentColor: color, chosenSymbol: icon)
-            let entity = FolderEntity(id: folder.id!, title: folder.wrappedTitle, bookmarks: Set<BookmarkEntity>(), index: Int(folder.index), symbol: folder.wrappedSymbol, color: folder.accentColor ?? "gray")
-            return .result(value: entity)
-        } catch {
-            throw error
-        }
+        let folder = FoldersManager.shared.addFolder(title: folderTitle, accentColor: color, chosenSymbol: icon)
+        let entity = FolderEntity(id: folder.id!, title: folder.wrappedTitle, bookmarks: Set<BookmarkEntity>(), index: Int(folder.index), symbol: folder.wrappedSymbol, color: folder.accentColor ?? "gray")
+        return .result(value: entity)
     }
 }
 

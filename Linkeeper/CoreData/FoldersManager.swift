@@ -42,32 +42,12 @@ class FoldersManager {
         request.fetchLimit = 1
         request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
 
-        do {
-            guard let foundFolder = try context.fetch(request).first else {
-                fatalError("Could not fetch")
-            }
-            return foundFolder
-        } catch {
-            fatalError("Could not fetch")
+        guard let foundFolder = try? context.fetch(request).first else {
+            fatalError("Could not find bookmark with ID")
         }
+        return foundFolder
     }
-//
-//    // Mark a book as read or unread
-//    func markBook(withId id: UUID, as status: BookStatus) throws {
-//        do {
-//            let matchingBook = try Self.shared.findBook(withId: id)
-//            switch status {
-//                case .read:
-//                    matchingBook.isRead = true
-//                case .unread:
-//                    matchingBook.isRead = false
-//            }
-//            try saveContext()
-//        } catch let error {
-//            throw error
-//        }
-//    }
-//
+
     func deleteFolder(withId id: UUID) {
         let matchingBookmark = findFolder(withId: id)
         context.delete(matchingBookmark)
@@ -75,12 +55,8 @@ class FoldersManager {
     }
 
     func saveContext() {
-        do {
-            if context.hasChanges {
-                try context.save()
-            }
-        } catch let error {
-            print("Couldn't save CoreData context: \(error.localizedDescription)")
+        if context.hasChanges {
+            try? context.save()
         }
     }
     

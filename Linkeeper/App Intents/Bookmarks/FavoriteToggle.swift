@@ -34,18 +34,14 @@ struct FavoriteToggle: AppIntent {
     }
     
     func perform() async throws -> some IntentResult {
-        do {
-            if toggleTask == .toggle {
-                try BookmarksManager.shared.findBookmark(withId: bookmark.id).isFavorited.toggle()
-            } else {
-                try BookmarksManager.shared.findBookmark(withId: bookmark.id).isFavorited = (OnOrOff == .yes ? true : false)
-            }
-            try BookmarksManager.shared.saveContext()
-
-            return .result(value: "\(toggleTask == .toggle ? (!bookmark.isFavorited ? "Added to" : "Removed from") : (OnOrOff == .yes ? "Added to" : "Removed from")) Favorites")
-        } catch let error {
-            throw error
+        if toggleTask == .toggle {
+            BookmarksManager.shared.findBookmark(withId: bookmark.id).isFavorited.toggle()
+        } else {
+            BookmarksManager.shared.findBookmark(withId: bookmark.id).isFavorited = (OnOrOff == .yes ? true : false)
         }
+        BookmarksManager.shared.saveContext()
+        
+        return .result(value: "\(toggleTask == .toggle ? (!bookmark.isFavorited ? "Added to" : "Removed from") : (OnOrOff == .yes ? "Added to" : "Removed from")) Favorites")
     }
 }
 

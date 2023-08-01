@@ -44,11 +44,11 @@ struct MoveBookmark: AppIntent {
             
             if !removeFromGroup {
                 if let folderEntity = folder {
-                    let folder = try FoldersManager.shared.findFolder(withId: folderEntity.id)
-                    try BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = folder
+                    let folder = FoldersManager.shared.findFolder(withId: folderEntity.id)
+                    BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = folder
                 } else {
                     try await requestConfirmation(result: .result(dialog: "You have not provided a folder, proceeding will remove the given bookmarks from any folder."))
-                    try BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = nil
+                    BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = nil
                 }
             }
             try BookmarksManager.shared.context.save()

@@ -80,11 +80,8 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
     // For example a user may have chosen a Bookmark from a list when tapping on a parameter that accepts Bookmarks. The ID of that Bookmark is now hardcoded into the Shortcut. When the shortcut is run, the ID will be matched against the database in Bookmark
     func entities(for identifiers: [UUID]) async throws -> [BookmarkEntity] {
         return identifiers.compactMap { identifier in
-                if let match = try? BookmarksManager.shared.findBookmark(withId: identifier) {
-                    return BookmarkEntity(id: match.id!, title: match.wrappedTitle, url: match.wrappedURL.absoluteString, host: match.wrappedHost, notes: match.wrappedNotes, isFavorited: match.isFavorited, dateAdded: match.wrappedDate)
-                } else {
-                    return nil
-                }
+            let match = BookmarksManager.shared.findBookmark(withId: identifier)
+            return BookmarkEntity(id: match.id!, title: match.wrappedTitle, url: match.wrappedURL.absoluteString, host: match.wrappedHost, notes: match.wrappedNotes, isFavorited: match.isFavorited, dateAdded: match.wrappedDate)
         }
     }
     

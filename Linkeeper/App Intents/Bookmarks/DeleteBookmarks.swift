@@ -41,7 +41,7 @@ struct DeleteBookmark: AppIntent {
             }
             
             
-            try BookmarksManager.shared.deleteBookmark(withId: bookmark.id)
+            BookmarksManager.shared.deleteBookmark(withId: bookmark.id)
             return .result(value: "Deleted Bookmark")
         } catch let error {
             throw error

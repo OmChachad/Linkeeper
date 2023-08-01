@@ -72,14 +72,10 @@ class BookmarksManager {
         request.fetchLimit = 1
         request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
 
-        do {
-            guard let foundBook = try context.fetch(request).first else {
-                fatalError("Could not fetch CoreData")
-            }
-            return foundBook
-        } catch {
-            fatalError("Could not fetch CoreData")
+        guard let foundBook = try? context.fetch(request).first else {
+            fatalError("Could not find Bookmark with given ID")
         }
+        return foundBook
     }
 
     func deleteBookmark(withId id: UUID) {
@@ -89,12 +85,8 @@ class BookmarksManager {
     }
 
     func saveContext() {
-        do {
-            if context.hasChanges {
-                try context.save()
-            }
-        } catch let error {
-            print("Couldn't save CoreData context: \(error.localizedDescription)")
+        if context.hasChanges {
+            try? context.save()
         }
     }
     
