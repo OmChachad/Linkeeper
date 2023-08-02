@@ -262,6 +262,25 @@ struct BookmarksView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .contentShape(Rectangle())
+        .dropDestination { bookmark, url in
+            if favorites == true {
+                if let bookmark {
+                    bookmark.isFavorited = true
+                } else {
+                    let bookmark = BookmarksManager.shared.addDroppedURL(url)
+                    bookmark?.isFavorited = true
+                }
+            } else {
+                if let bookmark {
+                    bookmark.folder = folder
+                } else {
+                    BookmarksManager.shared.addDroppedURL(url, to: folder)
+                }
+            }
+            try? moc.save()
+        }
     }
     
     func noBookmarksInSection() -> some View {
