@@ -343,12 +343,21 @@ Sort By
         }
         .contentShape(Rectangle())
         .dropDestination { bookmark, url in
-            if let bookmark {
-                bookmark.folder = folder
-                try? moc.save()
+            if favorites == true {
+                if let bookmark {
+                    bookmark.isFavorited = true
+                } else {
+                    let bookmark = BookmarksManager.shared.addDroppedURL(url)
+                    bookmark?.isFavorited = true
+                }
             } else {
-                BookmarksManager.shared.addDroppedURL(url, to: folder)
+                if let bookmark {
+                    bookmark.folder = folder
+                } else {
+                    BookmarksManager.shared.addDroppedURL(url, to: folder)
+                }
             }
+            try? moc.save()
         }
     }
     
