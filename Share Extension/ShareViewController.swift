@@ -7,15 +7,10 @@
 
 import SwiftUI
 import UIKit
-
-import SwiftUI
-import UIKit
 import UniformTypeIdentifiers
 
 
 class ShareViewController: UIViewController {
-    @IBOutlet var container: UIView!
-    
     // in ShareViewController
     override func viewDidLoad() {
         super.viewDidLoad()
