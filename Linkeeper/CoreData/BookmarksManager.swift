@@ -77,7 +77,11 @@ class BookmarksManager {
         }
         return foundBook
     }
-
+    
+    func deleteBookmark(_ bookmark: Bookmark) {
+        deleteBookmark(withId: bookmark.id ?? UUID())
+    }
+    
     func deleteBookmark(withId id: UUID) {
         let matchingBookmark = findBookmark(withId: id)
         context.delete(matchingBookmark)
