@@ -186,7 +186,7 @@ struct BookmarksView: View {
                     .confirmationDialog("Are you sure you want to delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
                         Button("Delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)", role: .destructive) {
                             selectedBookmarks.forEach { bookmark in
-                                moc.delete(bookmark)
+                                BookmarksManager.shared.deleteBookmark(bookmark)
                             }
                             try? moc.save()
                             selectedBookmarks.removeAll()

@@ -125,7 +125,7 @@ struct BookmarkDetails: View {
                         .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
                             Button("Delete Bookmark", role: .destructive) {
                                 showDetails.toggle()
-                                moc.delete(bookmark)
+                                BookmarksManager.shared.deleteBookmark(bookmark)
                                 try? moc.save()
                             }
                         } message: {
