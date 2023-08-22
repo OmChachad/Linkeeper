@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C21B92972A94A8F4001237DD /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
 		C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EA2A31BD6700401721 /* YouTube.swift */; };
 		C234F6ED2A31BD7100401721 /* Twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EC2A31BD7100401721 /* Twitter.swift */; };
 		C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */; };
@@ -574,6 +575,7 @@
 				C2A14A3F2A602498003A5308 /* StoreURL Extension.swift in Sources */,
 				C2A14A482A6024D4003A5308 /* URL.swift in Sources */,
 				C2A14A3D2A602498003A5308 /* FoldersManager.swift in Sources */,
+				C21B92972A94A8F4001237DD /* CacheManager.swift in Sources */,
 				C2A14A4D2A602551003A5308 /* AddFolderView.swift in Sources */,
 				C2A14A422A602498003A5308 /* Bookmark+CoreDataClass.swift in Sources */,
 				C2A14A412A602498003A5308 /* Folder+CoreDataClass.swift in Sources */,
