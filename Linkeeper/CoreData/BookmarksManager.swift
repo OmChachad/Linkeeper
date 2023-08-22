@@ -81,6 +81,9 @@ class BookmarksManager {
     func deleteBookmark(_ bookmark: Bookmark) {
         context.delete(bookmark)
         
+        let cacheManager = CacheManager.instance
+        cacheManager.remove(for: bookmark)
+        
         saveContext()
     }
     
