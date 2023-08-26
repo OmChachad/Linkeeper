@@ -151,6 +151,7 @@ struct AddBookmarkView: View {
                 }
             }
             .navigationBarTitle(title.isEmpty ? "New Bookmark" : title)
+            .navigationViewStyle(.stack)
         }
         .sheet(isPresented: $addingNewFolder) {
             AddFolderView()
