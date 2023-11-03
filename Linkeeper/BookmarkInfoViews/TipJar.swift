@@ -129,8 +129,10 @@ struct TipItem: View {
                 ProgressView()
             } else {
                 Button(product.displayPrice) {
+                    isPurchasing = true
                     Task {
                         try? await storeKit.purchase(product)
+                        isPurchasing = false
                     }
                 }
                 .buttonStyle(.borderedProminent)
