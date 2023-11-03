@@ -67,6 +67,12 @@ struct TipJar: View {
                 }
             }
             
+            Button("Restore Purchases") {
+                Task {
+                    try? await AppStore.sync()
+                }
+            }
+            
             Section {
                 Button {
                     openURL(URL(string:"https://apps.apple.com/app/id6449708232?mt=8&action=write-review")!)
