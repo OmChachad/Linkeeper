@@ -73,6 +73,7 @@ struct ContentView: View {
                                 .contextMenu {
                                     Button {
                                         folder.isPinned.toggle()
+                                        folder.index = (folders.last?.index ?? 0) + 1
                                         try? moc.save()
                                     } label: {
                                         Label("Unpin", systemImage: "pin.slash")
@@ -119,8 +120,21 @@ struct ContentView: View {
                 }
                 
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    EditButton()
+                    #if targetEnvironment(macCatalyst)
+                        Button(mode == .active ? "Done" : "Edit") {
+                            withAnimation {
+                                if mode == .active {
+                                    mode = .inactive
+                                } else {
+                                    mode = .active
+                                }
+                            }
+                        }
                         .borderlessMacCatalystButton()
+                    #else
+                        EditButton()
+                            .borderlessMacCatalystButton()
+                    #endif
                 }
                 
                 ToolbarItemGroup(placement: .bottomBar) {
@@ -166,6 +180,12 @@ struct ContentView: View {
         }
         .animation(.default, value: pinnedFolders)
         .animation(.default, value: folders.count)
+        .onChange(of: mode, perform: { _ in
+            reOrderIndexes()
+        })
+        .onChange(of: pinnedFolders, perform: { _ in
+            reOrderIndexes()
+        })
         .simpleToast(isPresented: $addedBookmark, options: toastOptions, content: {
             AlertView(icon: "bookmark.fill", title: "Added Bookmark")
                 .padding(.bottom, 50)
@@ -196,43 +216,48 @@ struct ContentView: View {
     
     private func moveItem(at sets:IndexSet,destination:Int) {
         // Source: https://github.com/recoding-io/swiftui-videos/blob/main/Core_Data_Order_List/Shared/ContentView.swift
-        var itemToMove = sets.first!
-        var destination = destination
         
-        pinnedFolders.forEach { folder in
-            if folders.firstIndex(of: folder)! <= itemToMove {
-                itemToMove += 1
-            }
-            
-            if folders.firstIndex(of: folder)! <= destination {
-                destination += 1
-            }
-        }
-        
+        let itemToMove = sets.first!
+        let destination = destination
+
         if itemToMove < destination{
             var startIndex = itemToMove + 1
             let endIndex = destination - 1
-            var startOrder = folders[itemToMove].index
+            var startOrder = folders.filter({!$0.isPinned})[itemToMove].index
             while startIndex <= endIndex{
-                folders[startIndex].index = startOrder
+                folders.filter({!$0.isPinned})[startIndex].index = startOrder
                 startOrder = startOrder + 1
                 startIndex = startIndex + 1
             }
-            folders[itemToMove].index = startOrder
+            folders.filter({!$0.isPinned})[itemToMove].index = startOrder
         } else if destination < itemToMove{
             var startIndex = destination
             let endIndex = itemToMove - 1
-            var startOrder = folders[destination].index + 1
-            let newOrder = folders[destination].index
+            var startOrder = folders.filter({!$0.isPinned})[destination].index + 1
+            let newOrder = folders.filter({!$0.isPinned})[destination].index
             while startIndex <= endIndex{
-                folders[startIndex].index = startOrder
+                folders.filter({!$0.isPinned})[startIndex].index = startOrder
                 startOrder = startOrder + 1
                 startIndex = startIndex + 1
             }
-            folders[itemToMove].index = newOrder
+            folders.filter({!$0.isPinned})[itemToMove].index = newOrder
         }
         
         try? moc.save()
+    }
+    
+    private func reOrderIndexes() {
+        let pinnedFolders = pinnedFolders.sorted { $0.index < $1.index }
+        pinnedFolders.enumerated().forEach { (index, folder) in
+            folder.index = Int16(index)
+        }
+        
+        let folders = folders.filter { !$0.isPinned }.sorted { $0.index < $1.index }
+        folders.enumerated().forEach { (index, folder) in
+            folder.index = Int16(index)
+        }
+        try? moc.save()
+        print("REORDERED")
     }
 }
 

@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 
 struct FolderItemView: View {
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     @Environment(\.managedObjectContext) var moc
     @ObservedObject var bookmarksInFolder = bookmarksCountFetcher()
     var folder: Folder
@@ -98,11 +99,7 @@ struct FolderItemView: View {
                     folder.isPinned.toggle()
                     try? moc.save()
                 } label: {
-                    if folder.isPinned {
-                        Label("Unpin", systemImage: "pin.slash")
-                    } else {
-                        Label("Pin", systemImage: "pin.fill")
-                    }
+                    Label("Pin", systemImage: "pin.fill")
                 }
                 .tint(.yellow)
             }

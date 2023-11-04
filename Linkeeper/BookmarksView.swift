@@ -64,6 +64,13 @@ struct BookmarksView: View {
         }
     }
     
+    var orderedFolders: [Folder] {
+        let pinnedFolders = folders.filter{$0.isPinned}.sorted(by: {$0.index < $1.index})
+        let otherFolders = folders.filter{!$0.isPinned}.sorted(by: {$0.index < $1.index})
+        let orderedFolders = pinnedFolders + otherFolders
+        return orderedFolders
+    }
+    
     
     init() {}
     
@@ -100,7 +107,7 @@ struct BookmarksView: View {
                                         .padding([.top, .leading, .trailing], 15)
                                 }
                                 
-                                ForEach(folders, id: \.self) { folder in
+                                ForEach(orderedFolders, id: \.self) { folder in
                                     let folderHasBookmarks = !folder.bookmarksArray.isEmpty
                                     let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
                                     if showGroup {
