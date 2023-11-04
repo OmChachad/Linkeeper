@@ -278,7 +278,6 @@ Click **Add Folder** to get started.
             folder.index = Int16(index)
         }
         try? moc.save()
-        print("REORDERED")
     }
 }
 
