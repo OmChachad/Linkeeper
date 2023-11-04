@@ -89,22 +89,43 @@ struct ContentView: View {
                 }
                 .background(isMacCatalyst ? .clear : Color(uiColor: .systemGroupedBackground))
                 
-                List {
-                    Section(header: Text("My Folders")) {
-                        ForEach(folders.filter { !$0.isPinned } ) { folder in
-                            NavigationLink(tag: folder, selection: $currentFolder) {
-                                BookmarksView(folder: folder)
-                            } label: {
-                                FolderItemView(folder: folder)
+                if !folders.filter({!$0.isPinned }).isEmpty {
+                    List {
+                        Section(header: Text("My Folders")) {
+                            ForEach(folders.filter { !$0.isPinned } ) { folder in
+                                NavigationLink(tag: folder, selection: $currentFolder) {
+                                    BookmarksView(folder: folder)
+                                } label: {
+                                    FolderItemView(folder: folder)
+                                }
+                                .dropDestination { bookmark, url in
+                                    addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
+                                }
                             }
-                            .dropDestination { bookmark, url in
-                                addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
-                            }
+                            .onMove(perform: moveItem)
+                            .onDelete(perform: delete)
                         }
-                        .onMove(perform: moveItem)
-                        .onDelete(perform: delete)
+                        .headerProminence(.increased)
                     }
-                    .headerProminence(.increased)
+                } else {
+                    Group {
+                        if folders.isEmpty {
+                            VStack(spacing: 20) {
+                                Image(systemName: "folder.fill")
+                                    .font(.system(size: 50))
+                                Text("""
+You don't have any folders.
+Click **Add Folder** to get started.
+""")
+                                .multilineTextAlignment(.center)
+                            }
+                        } else {
+                            VStack {}
+                        }
+                    }
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    .background(isMacCatalyst ? .clear : Color(uiColor: .systemGroupedBackground))
                 }
             }
             .sideBarForMac()
