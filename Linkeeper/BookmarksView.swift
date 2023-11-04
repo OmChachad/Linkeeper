@@ -101,7 +101,8 @@ struct BookmarksView: View {
                         }
                         
                         if groupByFolders && folder == nil {
-                            LazyVStack(pinnedViews: [.sectionHeaders]) {
+                            //LazyVStack(pinnedViews: [.sectionHeaders]) {
+                            VStack {
                                 if !ungroupedBookmarks.isEmpty {
                                     BookmarksGrid(for: ungroupedBookmarks)
                                         .padding([.top, .leading, .trailing], 15)
