@@ -57,11 +57,15 @@ struct BookmarksView: View {
     }
     
     var minimumItemWidth: CGFloat {
+        #if os(visionOS)
+         return 165
+        #else
         if UIScreen.main.bounds.width == 320 {
             return 145
         } else {
             return 165
         }
+        #endif
     }
     
     var orderedFolders: [Folder] {

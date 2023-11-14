@@ -50,6 +50,9 @@ struct PinnedItemView<Content: View>: View {
     }
     
     var backgroundColor: Color {
+        #if os(visionOS)
+        return Color.clear
+        #else
         if isMacCatalystOriPad {
             if isActive {
                 return tint
@@ -59,6 +62,7 @@ struct PinnedItemView<Content: View>: View {
         } else {
             return Color(uiColor: .secondarySystemGroupedBackground)
         }
+        #endif
     }
     
     var titleColor: Color {
@@ -71,6 +75,33 @@ struct PinnedItemView<Content: View>: View {
     
     var body: some View {
         NavigationLink(destination: destination, isActive: $isActive) {
+            #if os(visionOS)
+            VStack(alignment: .leading) {
+                HStack {
+                    Image(systemName: symbolName)
+                        .imageScale(.medium)
+                        .padding(7.5)
+                        .frame(width: 35, height: 35)
+                        .foregroundColor(isActive ? tint : .white)
+                        .background(isActive ? .white : tint, in: Circle())
+                    
+                    Spacer()
+                    
+                    Text(String(count))
+                        .font(.system(.title, design: .rounded).bold())
+                        .foregroundColor(.primary)
+                }
+                
+                Text(title)
+                    .fontWeight(.semibold)
+                    .foregroundColor(isActive ? .primary : .secondary)
+                    .lineLimit(1)
+            }
+            .padding(15)
+            .background(isActive ? tint : .clear)
+            .background(.ultraThinMaterial.opacity(0.75))
+            .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+            #else
             VStack(alignment: .leading) {
                 HStack {
                     icon()
@@ -90,8 +121,9 @@ struct PinnedItemView<Content: View>: View {
             .padding(10)
             .background(backgroundColor)
             .cornerRadius(10, style: .continuous)
+            #endif
         }
-        .onAppear {print(isMacCatalystOriPad) }
+        .buttonBorderShape(.roundedRectangle(radius: 25))
     }
     
     func icon() -> some View {

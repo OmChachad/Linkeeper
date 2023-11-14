@@ -101,6 +101,9 @@ struct TipJar: View {
 
 struct TipItem: View {
     @EnvironmentObject var storeKit: Store
+    #if os(visionOS)
+    @Environment(\.purchase) var purchase
+    #endif
     var product: Product
     
     @State private var isPurchasing = false
@@ -131,7 +134,12 @@ struct TipItem: View {
                 Button(product.displayPrice) {
                     isPurchasing = true
                     Task {
+                        #if !os(visionOS)
                         try? await storeKit.purchase(product)
+                        #else
+                        try? await purchase(product)
+                        await storeKit.updateCustomerProductStatus()
+                        #endif
                         isPurchasing = false
                     }
                 }

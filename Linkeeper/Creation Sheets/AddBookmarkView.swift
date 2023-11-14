@@ -120,6 +120,7 @@ struct AddBookmarkView: View {
                         .focused($isNotesFieldActive)
                         .frame(height: 150)
                         .toolbar {
+                            #if !os(visionOS)
                             ToolbarItemGroup(placement: .keyboard) {
                                 Spacer()
                                 
@@ -127,6 +128,7 @@ struct AddBookmarkView: View {
                                     isNotesFieldActive = false
                                 }.allowsHitTesting(isNotesFieldActive)
                             }
+                            #endif
                         }
                 }
             }

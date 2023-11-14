@@ -93,7 +93,8 @@ class Store: ObservableObject {
             print("Failed product request from the App Store server: \(error)")
         }
     }
-
+    
+    @available(visionOS, introduced: 1.0, unavailable)
     func purchase(_ product: Product) async throws -> Transaction? {
         //Begin purchasing the `Product` the user selects.
         let result = try await product.purchase()

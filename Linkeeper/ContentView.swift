@@ -163,18 +163,30 @@ Click **Add Folder** to get started.
                         Button {
                             showingNewBookmarkView = true
                         } label: {
-                            Label("New Bookmark", systemImage: "plus.circle.fill")
+                            Label("\(!isVisionOS ? "New " : "")Bookmark", systemImage: "plus.circle.fill")
                                 .labelStyle(.titleAndIcon)
                                 .font(.headline)
                         }
                         .keyboardShortcut("n", modifiers: .command)
+                        .buttonStyle(.bordered)
                         
                         Spacer()
                         
+                        #if os(visionOS)
+                        Button {
+                            showingNewFolderView = true
+                        } label: {
+                            Image(systemName: "folder.badge.plus")
+                        }
+                        .keyboardShortcut("n", modifiers: [.shift, .command])
+                        .buttonStyle(.bordered)
+
+                        #else
                         Button("Add Folder") {
                             showingNewFolderView = true
                         }
                         .keyboardShortcut("n", modifiers: [.shift, .command])
+                        #endif
                     }
                     .borderlessMacCatalystButton()
                 }

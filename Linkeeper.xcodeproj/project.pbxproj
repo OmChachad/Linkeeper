@@ -36,6 +36,7 @@
 		C28616822A73DD0D00ABA9FF /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28616812A73DD0D00ABA9FF /* AlertView.swift */; };
 		C28616832A73DD0D00ABA9FF /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28616812A73DD0D00ABA9FF /* AlertView.swift */; };
 		C28616862A73DD2300ABA9FF /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = C28616852A73DD2300ABA9FF /* SimpleToast */; };
+		C28A2C7E2B033FAD0027A70F /* isVisionOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28A2C7D2B033FAD0027A70F /* isVisionOS.swift */; };
 		C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E66281900D70030B6DD /* AddBookmarkView.swift */; };
 		C28B6E6928190C120030B6DD /* ColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorOption.swift */; };
 		C28B6E6F28193AE20030B6DD /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6E28193AE20030B6DD /* AddFolderView.swift */; };
@@ -149,6 +150,7 @@
 		C281D9B72A25277A00535807 /* DeleteFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFolder.swift; sourceTree = "<group>"; };
 		C281D9B92A2534E100535807 /* AddFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolder.swift; sourceTree = "<group>"; };
 		C28616812A73DD0D00ABA9FF /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		C28A2C7D2B033FAD0027A70F /* isVisionOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = isVisionOS.swift; sourceTree = "<group>"; };
 		C28B6E66281900D70030B6DD /* AddBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookmarkView.swift; sourceTree = "<group>"; };
 		C28B6E6828190C120030B6DD /* ColorOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorOption.swift; sourceTree = "<group>"; };
 		C28B6E6E28193AE20030B6DD /* AddFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderView.swift; sourceTree = "<group>"; };
@@ -291,6 +293,14 @@
 			path = "App Intents";
 			sourceTree = "<group>";
 		};
+		C28A2C7F2B033FBD0027A70F /* Global Variables */ = {
+			isa = PBXGroup;
+			children = (
+				C28A2C7D2B033FAD0027A70F /* isVisionOS.swift */,
+			);
+			path = "Global Variables";
+			sourceTree = "<group>";
+		};
 		C29050692A12B4FF00817C48 /* Modification */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,6 +319,7 @@
 				C29B00EE2A58862A0081FEBC /* ShareButton.swift */,
 				C23BDA462840C70E003DD30D /* CacheManager.swift */,
 				C290506C2A12B67900817C48 /* Flashcard.swift */,
+				C28A2C7F2B033FBD0027A70F /* Global Variables */,
 				C2C8EE9E2A4DF86800CCD36F /* Drag & Dropping */,
 				C29B00F22A588B260081FEBC /* Functions */,
 				C2E3899A2A5497760085D801 /* Enums */,
@@ -637,6 +648,7 @@
 				C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */,
 				C281D9B22A24EDEC00535807 /* DeleteBookmarks.swift in Sources */,
 				C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */,
+				C28A2C7E2B033FAD0027A70F /* isVisionOS.swift in Sources */,
 				C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */,
 				C2E3899C2A54978E0085D801 /* SymbolOption.swift in Sources */,
 				C281D9B42A2501FE00535807 /* MoveBookmarks.swift in Sources */,
@@ -688,8 +700,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper.AddBookmarkSheet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -718,8 +732,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper.AddBookmarkSheet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -869,7 +885,7 @@
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -908,7 +924,7 @@
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;

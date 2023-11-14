@@ -106,7 +106,7 @@ struct Settings: View {
                 }
                 .listRowInsets(adaptedInsets)
             
-                if storeKit.userHasTipped && !isMacCatalyst {
+                if storeKit.userHasTipped && !isMacCatalyst && !isVisionOS {
                     Section {
                         NavigationLink(destination: ChangeIconsView()) {
                             Label("Change App Icon", systemImage: "square.fill")
