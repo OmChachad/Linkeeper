@@ -79,7 +79,8 @@ struct BookmarkItem: View {
             .padding(.horizontal, 15)
             .padding(.vertical, 10)
         }
-        .background(Color(UIColor.systemGray5))
+        .background(isVisionOS ? .clear : Color(UIColor.systemGray5))
+        .background(isVisionOS ? .thickMaterial : .regular)
         .aspectRatio(3/4, contentMode: .fill)
         .cornerRadius(15, style: .continuous)
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
