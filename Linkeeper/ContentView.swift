@@ -160,10 +160,11 @@ Click **Add Folder** to get started.
                 
                 ToolbarItemGroup(placement: .bottomBar) {
                     HStack {
+                        #if os(visionOS)
                         Button {
                             showingNewBookmarkView = true
                         } label: {
-                            Label("\(!isVisionOS ? "New " : "")Bookmark", systemImage: "plus.circle.fill")
+                            Label("Bookmark", systemImage: "plus.circle.fill")
                                 .labelStyle(.titleAndIcon)
                                 .font(.headline)
                         }
@@ -172,7 +173,6 @@ Click **Add Folder** to get started.
                         
                         Spacer()
                         
-                        #if os(visionOS)
                         Button {
                             showingNewFolderView = true
                         } label: {
@@ -182,6 +182,17 @@ Click **Add Folder** to get started.
                         .buttonStyle(.bordered)
 
                         #else
+                        Button {
+                            showingNewBookmarkView = true
+                        } label: {
+                            Label("New Bookmark", systemImage: "plus.circle.fill")
+                                .labelStyle(.titleAndIcon)
+                                .font(.headline)
+                        }
+                        .keyboardShortcut("n", modifiers: .command)
+                        
+                        Spacer()
+                        
                         Button("Add Folder") {
                             showingNewFolderView = true
                         }
