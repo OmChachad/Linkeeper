@@ -174,9 +174,10 @@ struct BookmarkDetails: View {
                     .background(.thickMaterial, in: Circle())
                     .background(.black.opacity(0.5), in: Circle())
             }
+            .buttonBorderShape(.circle)
+            .buttonStyle(.borderless)
             .padding(7.5)
             .keyboardShortcut(.cancelAction)
-            .buttonStyle(.borderless)
         }
         .onChange(of: isFavorited, perform: { favoriteStatus in
             bookmark.isFavorited = favoriteStatus
