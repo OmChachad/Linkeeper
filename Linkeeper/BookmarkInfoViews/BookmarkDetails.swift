@@ -174,7 +174,7 @@ struct BookmarkDetails: View {
                     .background(.thickMaterial, in: Circle())
                     .background(.black.opacity(0.5), in: Circle())
             }
-            .buttonBorderShape(.circle)
+            .buttonBorderShape(.roundedRectangle)
             .buttonStyle(.borderless)
             .padding(7.5)
             .keyboardShortcut(.cancelAction)
