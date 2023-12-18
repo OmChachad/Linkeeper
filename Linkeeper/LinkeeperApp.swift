@@ -19,6 +19,11 @@ struct LinkeeperApp: App {
                 .sheet(isPresented: $showIntroduction, onDismiss: {
                     showIntroduction = false
                 }, content: IntroductionView.init)
+                .task {
+                    if #available(iOS 16.0, *) {
+                        LinkeeperShortcuts.updateAppShortcutParameters()
+                    }
+                }
         }
     }
 }
