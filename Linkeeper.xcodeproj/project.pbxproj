@@ -23,7 +23,6 @@
 		C25316022A2D0398004F1491 /* FolderItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25316012A2D0398004F1491 /* FolderItemView.swift */; };
 		C25316042A2D03D2004F1491 /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25316032A2D03D2004F1491 /* ListItem.swift */; };
 		C2550E64282705F900ADA0BF /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2550E63282705F900ADA0BF /* BookmarksView.swift */; };
-		C27BB9CA2B32FF5D00ACA0EA /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
 		C27BB9CB2B32FF6100ACA0EA /* DeleteBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */; };
 		C27BB9CC2B32FF6100ACA0EA /* AddBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9742A24B81E00535807 /* AddBookmark.swift */; };
 		C27BB9CD2B32FF6100ACA0EA /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
@@ -612,7 +611,6 @@
 				C2A14A432A60249B003A5308 /* Linkeeper.xcdatamodeld in Sources */,
 				C2A14A4E2A602558003A5308 /* SymbolOption.swift in Sources */,
 				C2A14A462A6024C4003A5308 /* DropExtension.swift in Sources */,
-				C27BB9CA2B32FF5D00ACA0EA /* AppShortcuts Provider.swift in Sources */,
 				C27BB9CC2B32FF6100ACA0EA /* AddBookmark.swift in Sources */,
 				C2A14A452A6024C4003A5308 /* DragExtension.swift in Sources */,
 				C2A14A3C2A602498003A5308 /* DataController.swift in Sources */,
