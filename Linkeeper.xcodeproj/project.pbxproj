@@ -23,6 +23,15 @@
 		C25316022A2D0398004F1491 /* FolderItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25316012A2D0398004F1491 /* FolderItemView.swift */; };
 		C25316042A2D03D2004F1491 /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25316032A2D03D2004F1491 /* ListItem.swift */; };
 		C2550E64282705F900ADA0BF /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2550E63282705F900ADA0BF /* BookmarksView.swift */; };
+		C27BB9CA2B32FF5D00ACA0EA /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
+		C27BB9CB2B32FF6100ACA0EA /* DeleteBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */; };
+		C27BB9CC2B32FF6100ACA0EA /* AddBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9742A24B81E00535807 /* AddBookmark.swift */; };
+		C27BB9CD2B32FF6100ACA0EA /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
+		C27BB9CE2B32FF6100ACA0EA /* MoveBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B32A2501FE00535807 /* MoveBookmarks.swift */; };
+		C27BB9CF2B32FF6100ACA0EA /* FavoriteToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B52A2512F900535807 /* FavoriteToggle.swift */; };
+		C27BB9D02B32FF6500ACA0EA /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B92A2534E100535807 /* AddFolder.swift */; };
+		C27BB9D12B32FF6500ACA0EA /* FolderEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9702A23E32D00535807 /* FolderEntity.swift */; };
+		C27BB9D22B32FF6500ACA0EA /* DeleteFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B72A25277A00535807 /* DeleteFolder.swift */; };
 		C281D96D2A23D28200535807 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
 		C281D96F2A23D4FF00535807 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96E2A23D4FF00535807 /* BookmarksManager.swift */; };
 		C281D9712A23E32D00535807 /* FolderEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9702A23E32D00535807 /* FolderEntity.swift */; };
@@ -577,25 +586,34 @@
 			files = (
 				C2A14A4C2A602549003A5308 /* String.swift in Sources */,
 				C2A14A2E2A601C24003A5308 /* ShareViewController.swift in Sources */,
+				C27BB9CB2B32FF6100ACA0EA /* DeleteBookmarks.swift in Sources */,
 				C2A14A472A6024C4003A5308 /* DropItem.swift in Sources */,
+				C27BB9CE2B32FF6100ACA0EA /* MoveBookmarks.swift in Sources */,
 				C2A14A402A602498003A5308 /* Folder+CoreDataProperties.swift in Sources */,
 				C2A14A492A602512003A5308 /* Metadata Fetcher.swift in Sources */,
+				C27BB9CD2B32FF6100ACA0EA /* BookmarkEntity.swift in Sources */,
 				C28616832A73DD0D00ABA9FF /* AlertView.swift in Sources */,
 				C2A14A4A2A60251B003A5308 /* ColorOption.swift in Sources */,
+				C27BB9D22B32FF6500ACA0EA /* DeleteFolder.swift in Sources */,
 				C2A14A3E2A602498003A5308 /* BookmarksManager.swift in Sources */,
 				C2A14A3F2A602498003A5308 /* StoreURL Extension.swift in Sources */,
 				C2A14A482A6024D4003A5308 /* URL.swift in Sources */,
 				C2A14A3D2A602498003A5308 /* FoldersManager.swift in Sources */,
 				C21B92972A94A8F4001237DD /* CacheManager.swift in Sources */,
+				C27BB9D02B32FF6500ACA0EA /* AddFolder.swift in Sources */,
 				C2A14A4D2A602551003A5308 /* AddFolderView.swift in Sources */,
 				C2A14A422A602498003A5308 /* Bookmark+CoreDataClass.swift in Sources */,
+				C27BB9CF2B32FF6100ACA0EA /* FavoriteToggle.swift in Sources */,
 				C2A14A412A602498003A5308 /* Folder+CoreDataClass.swift in Sources */,
+				C27BB9D12B32FF6500ACA0EA /* FolderEntity.swift in Sources */,
 				C2A14A442A6024C4003A5308 /* DraggableBookmark.swift in Sources */,
 				C2A14A502A602566003A5308 /* TextEditor.swift in Sources */,
 				C2A14A4B2A60253A003A5308 /* AddBookmarkView.swift in Sources */,
 				C2A14A432A60249B003A5308 /* Linkeeper.xcdatamodeld in Sources */,
 				C2A14A4E2A602558003A5308 /* SymbolOption.swift in Sources */,
 				C2A14A462A6024C4003A5308 /* DropExtension.swift in Sources */,
+				C27BB9CA2B32FF5D00ACA0EA /* AppShortcuts Provider.swift in Sources */,
+				C27BB9CC2B32FF6100ACA0EA /* AddBookmark.swift in Sources */,
 				C2A14A452A6024C4003A5308 /* DragExtension.swift in Sources */,
 				C2A14A3C2A602498003A5308 /* DataController.swift in Sources */,
 				C2A14A4F2A602561003A5308 /* View.swift in Sources */,

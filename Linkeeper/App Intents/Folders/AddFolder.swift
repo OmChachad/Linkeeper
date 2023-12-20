@@ -23,6 +23,14 @@ struct AddFolder: AppIntent {
     @Parameter(title: "Color", requestValueDialog: "Choose a color for your folder", optionsProvider: ColorOptionsProvider())
     var color: String
     
+    init(folderTitle: String, icon: String, color: String) {
+        self.folderTitle = folderTitle
+        self.icon = icon
+        self.color = color
+    }
+    
+    init() {}
+    
     static var parameterSummary: some ParameterSummary {
         Summary("Add Folder \(\.$folderTitle)") {
             \.$icon

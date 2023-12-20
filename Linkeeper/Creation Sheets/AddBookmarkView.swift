@@ -242,7 +242,16 @@ struct AddBookmarkView: View {
             sanitisedURL = sanitisedURL.components(separatedBy: "?").first ?? sanitisedURL
         }
         
-        BookmarksManager.shared.addBookmark(title: title, url: sanitisedURL, host: host, notes: notes, folder: folder)
+        if #available(iOS 16.0, *) {
+            Task {
+                let bookmark = try! await AddBookmark(bookmarkTitle: title, url: URL(string: sanitisedURL)!, notes: notes).perform()
+                if let bookmark = bookmark.value {
+                    BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = folder
+                }
+            }
+        } else {
+            BookmarksManager.shared.addBookmark(title: title, url: sanitisedURL, host: host, notes: notes, folder: folder)
+        }
         
         dismiss()
         completionAction(true)

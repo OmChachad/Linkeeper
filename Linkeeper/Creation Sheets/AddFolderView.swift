@@ -147,7 +147,13 @@ struct AddFolderView: View {
     }
     
     func addFolder() {
-        FoldersManager.shared.addFolder(title: title, accentColor: accentColor.rawValue, chosenSymbol: chosenSymbol)
+        if #available(iOS 16.0, *) {
+            Task {
+                try! await AddFolder(folderTitle: title, icon: chosenSymbol, color: accentColor.rawValue).perform()
+            }
+        } else {
+            FoldersManager.shared.addFolder(title: title, accentColor: accentColor.rawValue, chosenSymbol: chosenSymbol)
+        }
         
         completionAction(true)
         dismiss()

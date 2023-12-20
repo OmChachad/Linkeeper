@@ -29,6 +29,15 @@ If disabled, you can add a title yourself.
     @Parameter(title: "Notes", description: "The title for the bookmark.", inputOptions: String.IntentInputOptions(capitalizationType: .sentences), requestValueDialog: "Add notes to your Bookmark")
     var notes: String?
     
+    init(autoTitle: Bool = false, bookmarkTitle: String? = nil, url: URL, notes: String? = nil) {
+        self.autoTitle = autoTitle
+        self.bookmarkTitle = bookmarkTitle
+        self.url = url
+        self.notes = notes
+    }
+    
+    init() {}
+    
     static var parameterSummary: some ParameterSummary {
         When(\AddBookmark.$autoTitle, .equalTo, true, {
             Summary("Add Bookmark for \(\.$url)") {
