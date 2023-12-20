@@ -230,6 +230,16 @@ Click **Add Folder** to get started.
         .onChange(of: pinnedFolders, perform: { _ in
             reOrderIndexes()
         })
+        .onChange(of: allBookmarks.count) { _ in
+            if #available(iOS 16.0, *) {
+                LinkeeperShortcuts.updateAppShortcutParameters()
+            }
+        }
+        .onChange(of: folders.count) { _ in
+            if #available(iOS 16.0, *) {
+                LinkeeperShortcuts.updateAppShortcutParameters()
+            }
+        }
         .simpleToast(isPresented: $addedBookmark, options: toastOptions, content: {
             AlertView(icon: "bookmark.fill", title: "Added Bookmark")
                 .padding(.bottom, 50)
