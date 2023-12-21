@@ -37,7 +37,7 @@ struct ContentView: View {
         #endif
     }
     
-    var spacing: CGFloat { isMacCatalyst ? 10 : 15 }
+    var spacing: CGFloat { (isMacCatalyst || isVisionOS) ? 10 : 15 }
     
     var body: some View {
         NavigationView  {
