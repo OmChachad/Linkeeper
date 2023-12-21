@@ -50,11 +50,20 @@ struct BookmarkEntity: Identifiable, Hashable, Equatable, AppEntity {
     }
     
     var displayRepresentation: DisplayRepresentation {
-        return DisplayRepresentation(
-            title: "\(title)",
-            subtitle: "\(url)",
-            image: .init(systemName: "link")
-        )
+        let cachedPreview = CacheManager.instance.get(id: id)
+        if let imageData = cachedPreview?.imageData {
+            return DisplayRepresentation(
+                title: "\(title)",
+                subtitle: "\(url)",
+                image: .init(data: imageData)
+            )
+        } else {
+            return DisplayRepresentation(
+                title: "\(title)",
+                subtitle: "\(url)",
+                image: .init(systemName: "link")
+            )
+        }
     }
 }
 
