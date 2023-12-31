@@ -72,6 +72,7 @@ struct AddFolderView: View {
                                 Circle()
                                     .foregroundColor(colorKey.color)
                                     .frame(width: 30)
+                                    .hoverEffect(.lift)
                                     .padding(4)
                                     .overlay(Circle().stroke(Color.blue, lineWidth: colorKey == accentColor ? 2.5 : 0.0))
                                     .padding(2)
@@ -99,6 +100,7 @@ struct AddFolderView: View {
                                     }
                                     .frame(width: 40, height: 40)
                                     .contentShape(RoundedRectangle(cornerRadius: 10))
+                                    .hoverEffect(.highlight)
                                     .onTapGesture {
                                         chosenSymbol = symbol
                                     }

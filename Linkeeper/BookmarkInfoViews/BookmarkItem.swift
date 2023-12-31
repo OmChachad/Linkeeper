@@ -84,6 +84,7 @@ struct BookmarkItem: View {
         .aspectRatio(3/4, contentMode: .fill)
         .cornerRadius(15, style: .continuous)
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
+        .hoverEffect(.lift)
         .contextMenu { menuItems() }
         .onTapGesture {
             if editMode?.wrappedValue == .active {

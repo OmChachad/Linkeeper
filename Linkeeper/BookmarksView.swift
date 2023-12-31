@@ -135,7 +135,7 @@ struct BookmarksView: View {
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.vertical, 5)
                                             .padding(.horizontal, 15)
-                                            .background(Color(uiColor: .systemBackground).opacity(0.95))
+                                            //.background(Color(uiColor: .systemBackground).opacity(0.95))
                                         }
                                     }
                                 }

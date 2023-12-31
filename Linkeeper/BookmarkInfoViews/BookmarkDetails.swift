@@ -93,47 +93,53 @@ struct BookmarkDetails: View {
             .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: hideFavoriteOption ? 4 : 5)) {
-                if !hideFavoriteOption {
-                    Button {
-                        isFavorited.toggle()
-                        try? moc.save()
-                    } label: {
-                        Image(systemName: isFavorited ? "heart.fill" : "heart")
-                            .foregroundColor(.pink)
-                    }
-                    .keyboardShortcut("F", modifiers: [.shift, .command])
-                }
-                
-                Button(action: openBookmark) {
-                    Image(systemName: "safari")
-                }
-                
-                ShareButton(url: bookmark.wrappedURL) {
-                    Image(systemName: "square.and.arrow.up")
-                }
-                
-                Button {
-                    editing.toggle()
-                } label: {
-                    Image(systemName: "pencil")
-                }
-                
-                Button(role: .destructive) {
-                    deleteConfirmation = true
-                } label: {
-                    Image(systemName: "trash")
-                        .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-                            Button("Delete Bookmark", role: .destructive) {
-                                showDetails.toggle()
-                                BookmarksManager.shared.deleteBookmark(bookmark)
-                                try? moc.save()
-                            }
-                        } message: {
-                            Text("It will be deleted from all your iCloud devices.")
+                Group {
+                    if !hideFavoriteOption {
+                        Button {
+                            isFavorited.toggle()
+                            try? moc.save()
+                        } label: {
+                            Image(systemName: isFavorited ? "heart.fill" : "heart")
+                                .foregroundColor(.pink)
                         }
+                        .keyboardShortcut("F", modifiers: [.shift, .command])
+                        
+                    }
+                    
+                    Button(action: openBookmark) {
+                        Image(systemName: "safari")
+                    }
+                    
+                    ShareButton(url: bookmark.wrappedURL) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    
+                    Button {
+                        editing.toggle()
+                    } label: {
+                        Image(systemName: "pencil")
+                    }
+                    
+                    Button(role: .destructive) {
+                        deleteConfirmation = true
+                    } label: {
+                        Image(systemName: "trash")
+                            .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+                                Button("Delete Bookmark", role: .destructive) {
+                                    showDetails.toggle()
+                                    BookmarksManager.shared.deleteBookmark(bookmark)
+                                    try? moc.save()
+                                }
+                            } message: {
+                                Text("It will be deleted from all your iCloud devices.")
+                            }
+                    }
                 }
-            }   .font(.title2)
-                .padding(10)
+                .padding(7.5)
+                .hoverEffect(.highlight)
+            }
+            .font(.title2)
+                .padding(2.5)
                 .background(Color(.systemGray4))
                 .buttonStyle(.borderless)
             
@@ -176,6 +182,7 @@ struct BookmarkDetails: View {
             }
             .buttonBorderShape(.roundedRectangle)
             .buttonStyle(.borderless)
+            .hoverEffect(.lift)
             .padding(7.5)
             .keyboardShortcut(.cancelAction)
         }
