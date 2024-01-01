@@ -8,9 +8,11 @@
 import SwiftUI
 import CoreData
 import SimpleToast
+import WidgetKit
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.openURL) var openURL
     
     // CoreData FetchRequests
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
@@ -234,10 +236,16 @@ Click **Add Folder** to get started.
             if #available(iOS 16.0, *) {
                 LinkeeperShortcuts.updateAppShortcutParameters()
             }
+            if #available(iOS 17.0, *) {
+                WidgetCenter.shared.reloadAllTimelines()
+            }
         }
         .onChange(of: folders.count) { _ in
             if #available(iOS 16.0, *) {
                 LinkeeperShortcuts.updateAppShortcutParameters()
+            }
+            if #available(iOS 17.0, *) {
+                WidgetCenter.shared.reloadAllTimelines()
             }
         }
         .simpleToast(isPresented: $addedBookmark, options: toastOptions, content: {
@@ -248,6 +256,24 @@ Click **Add Folder** to get started.
             AlertView(icon: "folder.fill", title: "Added Folder")
                 .padding(.bottom, 50)
         })
+        .onOpenURL { url in
+            
+            if url.absoluteString.contains("openURL") {
+                if let bookmarkID = UUID(uuidString: url.lastPathComponent) {
+                    let bookmark = BookmarksManager.shared.findBookmark(withId: bookmarkID)
+                    openURL(bookmark.wrappedURL)
+                }
+            } else if url.absoluteString.contains("openFolder") {
+                if let folderID = UUID(uuidString: url.lastPathComponent) {
+                    let folder = FoldersManager.shared.findFolder(withId: folderID)
+                    currentFolder = folder
+                }
+            }
+            
+            if #available(iOS 17.0, *) {
+                WidgetCenter.shared.reloadAllTimelines()
+            }
+        }
     }
     
     var pinnedFolders: [Folder] {

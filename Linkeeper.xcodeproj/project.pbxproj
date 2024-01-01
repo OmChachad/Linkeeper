@@ -7,6 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C2052BDD2B34688500185D29 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2052BDC2B34688500185D29 /* WidgetKit.framework */; };
+		C2052BDF2B34688500185D29 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2052BDE2B34688500185D29 /* SwiftUI.framework */; };
+		C2052BE22B34688500185D29 /* BookmarksWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052BE12B34688500185D29 /* BookmarksWidgetBundle.swift */; };
+		C2052BE42B34688500185D29 /* WidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052BE32B34688500185D29 /* WidgetProvider.swift */; };
+		C2052BE62B34688500185D29 /* ConfigurationAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052BE52B34688500185D29 /* ConfigurationAppIntent.swift */; };
+		C2052BE82B34688700185D29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2052BE72B34688700185D29 /* Assets.xcassets */; };
+		C2052BEC2B34688700185D29 /* BookmarksWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C2052BDB2B34688500185D29 /* BookmarksWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C2052BFC2B34697600185D29 /* Bookmark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF578283E7185003C9692 /* Bookmark+CoreDataClass.swift */; };
+		C2052BFD2B34697600185D29 /* Bookmark+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */; };
+		C2052BFE2B34697600185D29 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96E2A23D4FF00535807 /* BookmarksManager.swift */; };
+		C2052BFF2B34697600185D29 /* FoldersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9722A23E8B300535807 /* FoldersManager.swift */; };
+		C2052C002B34697600185D29 /* StoreURL Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A14A252A5DD21E003A5308 /* StoreURL Extension.swift */; };
+		C2052C012B34697600185D29 /* Folder+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57A283E7185003C9692 /* Folder+CoreDataClass.swift */; };
+		C2052C022B34697600185D29 /* Folder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57B283E7185003C9692 /* Folder+CoreDataProperties.swift */; };
+		C2052C032B34697600185D29 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF576283E65D2003C9692 /* DataController.swift */; };
+		C2052C042B34697900185D29 /* Linkeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */; };
+		C2052C052B34698100185D29 /* ColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorOption.swift */; };
+		C2052C062B34699600185D29 /* DraggableBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EE9F2A4DF89800CCD36F /* DraggableBookmark.swift */; };
+		C2052C072B34699C00185D29 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050742A12B7E300817C48 /* URL.swift */; };
+		C2052C082B3469A400185D29 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
+		C2052C092B3469B300185D29 /* Metadata Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F02A588B1D0081FEBC /* Metadata Fetcher.swift */; };
 		C21B92972A94A8F4001237DD /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
 		C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EA2A31BD6700401721 /* YouTube.swift */; };
 		C234F6ED2A31BD7100401721 /* Twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EC2A31BD7100401721 /* Twitter.swift */; };
@@ -48,6 +69,21 @@
 		C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E66281900D70030B6DD /* AddBookmarkView.swift */; };
 		C28B6E6928190C120030B6DD /* ColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorOption.swift */; };
 		C28B6E6F28193AE20030B6DD /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6E28193AE20030B6DD /* AddFolderView.swift */; };
+		C28D187E2B41A20B0033C979 /* AddBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9742A24B81E00535807 /* AddBookmark.swift */; };
+		C28D187F2B41A20B0033C979 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
+		C28D18802B41A20B0033C979 /* DeleteBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */; };
+		C28D18812B41A20B0033C979 /* FavoriteToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B52A2512F900535807 /* FavoriteToggle.swift */; };
+		C28D18822B41A20B0033C979 /* MoveBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B32A2501FE00535807 /* MoveBookmarks.swift */; };
+		C28D18852B41A2100033C979 /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B92A2534E100535807 /* AddFolder.swift */; };
+		C28D18862B41A2100033C979 /* DeleteFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B72A25277A00535807 /* DeleteFolder.swift */; };
+		C28D18872B41A2100033C979 /* FolderEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9702A23E32D00535807 /* FolderEntity.swift */; };
+		C28D18882B41A21D0033C979 /* SymbolOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3899B2A54978E0085D801 /* SymbolOption.swift */; };
+		C28D188A2B425FAE0033C979 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29641092A56E9A000693284 /* Bookmark.swift */; };
+		C28D188D2B42A5150033C979 /* BookmarksWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D188B2B42A4F70033C979 /* BookmarksWidgetView.swift */; };
+		C28D188F2B42A59E0033C979 /* BookmarksEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D188E2B42A59E0033C979 /* BookmarksEntry.swift */; };
+		C28D18912B43008B0033C979 /* BookmarkItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D18902B43008B0033C979 /* BookmarkItemView.swift */; };
+		C28D18932B43193F0033C979 /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D18922B43193F0033C979 /* SmallWidgetView.swift */; };
+		C28D18972B4319E50033C979 /* MediumOrLargeWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D18962B4319E50033C979 /* MediumOrLargeWidgetView.swift */; };
 		C29050682A125EF100817C48 /* MoveBookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050672A125EF100817C48 /* MoveBookmarksView.swift */; };
 		C290506D2A12B67900817C48 /* Flashcard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506C2A12B67900817C48 /* Flashcard.swift */; };
 		C290506F2A12B77100817C48 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506E2A12B77100817C48 /* View.swift */; };
@@ -109,6 +145,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C2052BEA2B34688700185D29 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2C8DC3228171D93000F4AEB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C2052BDA2B34688500185D29;
+			remoteInfo = BookmarksWidgetExtension;
+		};
 		C2A14A332A601C24003A5308 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2C8DC3228171D93000F4AEB /* Project object */;
@@ -125,6 +168,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				C2052BEC2B34688700185D29 /* BookmarksWidgetExtension.appex in Embed Foundation Extensions */,
 				C2A14A352A601C24003A5308 /* Share Extension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -133,6 +177,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C2052BDB2B34688500185D29 /* BookmarksWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BookmarksWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2052BDC2B34688500185D29 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		C2052BDE2B34688500185D29 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		C2052BE12B34688500185D29 /* BookmarksWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksWidgetBundle.swift; sourceTree = "<group>"; };
+		C2052BE32B34688500185D29 /* WidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetProvider.swift; sourceTree = "<group>"; };
+		C2052BE52B34688500185D29 /* ConfigurationAppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationAppIntent.swift; sourceTree = "<group>"; };
+		C2052BE72B34688700185D29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C2052BE92B34688700185D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2052BED2B34688700185D29 /* BookmarksWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookmarksWidgetExtension.entitlements; sourceTree = "<group>"; };
 		C234F6EA2A31BD6700401721 /* YouTube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTube.swift; sourceTree = "<group>"; };
 		C234F6EC2A31BD7100401721 /* Twitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twitter.swift; sourceTree = "<group>"; };
 		C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDetails.swift; sourceTree = "<group>"; };
@@ -162,6 +215,11 @@
 		C28B6E66281900D70030B6DD /* AddBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookmarkView.swift; sourceTree = "<group>"; };
 		C28B6E6828190C120030B6DD /* ColorOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorOption.swift; sourceTree = "<group>"; };
 		C28B6E6E28193AE20030B6DD /* AddFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderView.swift; sourceTree = "<group>"; };
+		C28D188B2B42A4F70033C979 /* BookmarksWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksWidgetView.swift; sourceTree = "<group>"; };
+		C28D188E2B42A59E0033C979 /* BookmarksEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksEntry.swift; sourceTree = "<group>"; };
+		C28D18902B43008B0033C979 /* BookmarkItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkItemView.swift; sourceTree = "<group>"; };
+		C28D18922B43193F0033C979 /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
+		C28D18962B4319E50033C979 /* MediumOrLargeWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumOrLargeWidgetView.swift; sourceTree = "<group>"; };
 		C29050672A125EF100817C48 /* MoveBookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveBookmarksView.swift; sourceTree = "<group>"; };
 		C290506C2A12B67900817C48 /* Flashcard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flashcard.swift; sourceTree = "<group>"; };
 		C290506E2A12B77100817C48 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -205,6 +263,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C2052BD82B34688500185D29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2052BDF2B34688500185D29 /* SwiftUI.framework in Frameworks */,
+				C2052BDD2B34688500185D29 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C2A14A282A601C23003A5308 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -226,6 +293,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C2052BE02B34688500185D29 /* BookmarksWidget */ = {
+			isa = PBXGroup;
+			children = (
+				C2052BE12B34688500185D29 /* BookmarksWidgetBundle.swift */,
+				C2052BE52B34688500185D29 /* ConfigurationAppIntent.swift */,
+				C28D188E2B42A59E0033C979 /* BookmarksEntry.swift */,
+				C2052BE32B34688500185D29 /* WidgetProvider.swift */,
+				C28D188B2B42A4F70033C979 /* BookmarksWidgetView.swift */,
+				C28D18922B43193F0033C979 /* SmallWidgetView.swift */,
+				C28D18962B4319E50033C979 /* MediumOrLargeWidgetView.swift */,
+				C28D18902B43008B0033C979 /* BookmarkItemView.swift */,
+				C2052BE72B34688700185D29 /* Assets.xcassets */,
+				C2052BE92B34688700185D29 /* Info.plist */,
+			);
+			path = BookmarksWidget;
+			sourceTree = "<group>";
+		};
 		C234F6E92A31BD4D00401721 /* Shapes */ = {
 			isa = PBXGroup;
 			children = (
@@ -363,6 +447,8 @@
 			isa = PBXGroup;
 			children = (
 				C29B00F62A5B38E40081FEBC /* CloudKit.framework */,
+				C2052BDC2B34688500185D29 /* WidgetKit.framework */,
+				C2052BDE2B34688500185D29 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -380,8 +466,10 @@
 		C2C8DC3128171D93000F4AEB = {
 			isa = PBXGroup;
 			children = (
+				C2052BED2B34688700185D29 /* BookmarksWidgetExtension.entitlements */,
 				C2C8DC3C28171D93000F4AEB /* Linkeeper */,
 				C2A14A2C2A601C24003A5308 /* Share Extension */,
+				C2052BE02B34688500185D29 /* BookmarksWidget */,
 				C2C8DC3B28171D93000F4AEB /* Products */,
 				C29B00F52A5B38E40081FEBC /* Frameworks */,
 			);
@@ -392,6 +480,7 @@
 			children = (
 				C2C8DC3A28171D93000F4AEB /* Linkeeper.app */,
 				C2A14A2B2A601C23003A5308 /* Share Extension.appex */,
+				C2052BDB2B34688500185D29 /* BookmarksWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -473,6 +562,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C2052BDA2B34688500185D29 /* BookmarksWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2052BEE2B34688700185D29 /* Build configuration list for PBXNativeTarget "BookmarksWidgetExtension" */;
+			buildPhases = (
+				C2052BD72B34688500185D29 /* Sources */,
+				C2052BD82B34688500185D29 /* Frameworks */,
+				C2052BD92B34688500185D29 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BookmarksWidgetExtension;
+			productName = BookmarksWidgetExtension;
+			productReference = C2052BDB2B34688500185D29 /* BookmarksWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C2A14A2A2A601C23003A5308 /* Share Extension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C2A14A372A601C24003A5308 /* Build configuration list for PBXNativeTarget "Share Extension" */;
@@ -503,6 +609,7 @@
 			);
 			dependencies = (
 				C2A14A342A601C24003A5308 /* PBXTargetDependency */,
+				C2052BEB2B34688700185D29 /* PBXTargetDependency */,
 			);
 			name = Linkeeper;
 			packageProductDependencies = (
@@ -521,9 +628,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1510;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
+					C2052BDA2B34688500185D29 = {
+						CreatedOnToolsVersion = 15.1;
+					};
 					C2A14A2A2A601C23003A5308 = {
 						CreatedOnToolsVersion = 14.3;
 					};
@@ -552,11 +662,20 @@
 			targets = (
 				C2C8DC3928171D93000F4AEB /* Linkeeper */,
 				C2A14A2A2A601C23003A5308 /* Share Extension */,
+				C2052BDA2B34688500185D29 /* BookmarksWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C2052BD92B34688500185D29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2052BE82B34688700185D29 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C2A14A292A601C23003A5308 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -579,6 +698,45 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C2052BD72B34688500185D29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2052C002B34697600185D29 /* StoreURL Extension.swift in Sources */,
+				C28D188D2B42A5150033C979 /* BookmarksWidgetView.swift in Sources */,
+				C2052C062B34699600185D29 /* DraggableBookmark.swift in Sources */,
+				C2052C042B34697900185D29 /* Linkeeper.xcdatamodeld in Sources */,
+				C28D18972B4319E50033C979 /* MediumOrLargeWidgetView.swift in Sources */,
+				C2052C022B34697600185D29 /* Folder+CoreDataProperties.swift in Sources */,
+				C28D18872B41A2100033C979 /* FolderEntity.swift in Sources */,
+				C2052BFF2B34697600185D29 /* FoldersManager.swift in Sources */,
+				C2052BE22B34688500185D29 /* BookmarksWidgetBundle.swift in Sources */,
+				C28D187F2B41A20B0033C979 /* BookmarkEntity.swift in Sources */,
+				C2052C072B34699C00185D29 /* URL.swift in Sources */,
+				C2052BE42B34688500185D29 /* WidgetProvider.swift in Sources */,
+				C2052C082B3469A400185D29 /* CacheManager.swift in Sources */,
+				C2052C052B34698100185D29 /* ColorOption.swift in Sources */,
+				C2052BE62B34688500185D29 /* ConfigurationAppIntent.swift in Sources */,
+				C2052BFE2B34697600185D29 /* BookmarksManager.swift in Sources */,
+				C2052C012B34697600185D29 /* Folder+CoreDataClass.swift in Sources */,
+				C28D18852B41A2100033C979 /* AddFolder.swift in Sources */,
+				C28D18882B41A21D0033C979 /* SymbolOption.swift in Sources */,
+				C2052C092B3469B300185D29 /* Metadata Fetcher.swift in Sources */,
+				C28D187E2B41A20B0033C979 /* AddBookmark.swift in Sources */,
+				C28D188F2B42A59E0033C979 /* BookmarksEntry.swift in Sources */,
+				C2052BFD2B34697600185D29 /* Bookmark+CoreDataProperties.swift in Sources */,
+				C2052C032B34697600185D29 /* DataController.swift in Sources */,
+				C28D18812B41A20B0033C979 /* FavoriteToggle.swift in Sources */,
+				C28D18862B41A2100033C979 /* DeleteFolder.swift in Sources */,
+				C2052BFC2B34697600185D29 /* Bookmark+CoreDataClass.swift in Sources */,
+				C28D18822B41A20B0033C979 /* MoveBookmarks.swift in Sources */,
+				C28D18912B43008B0033C979 /* BookmarkItemView.swift in Sources */,
+				C28D18932B43193F0033C979 /* SmallWidgetView.swift in Sources */,
+				C28D18802B41A20B0033C979 /* DeleteBookmarks.swift in Sources */,
+				C28D188A2B425FAE0033C979 /* Bookmark.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C2A14A272A601C23003A5308 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -685,6 +843,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C2052BEB2B34688700185D29 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C2052BDA2B34688500185D29 /* BookmarksWidgetExtension */;
+			targetProxy = C2052BEA2B34688700185D29 /* PBXContainerItemProxy */;
+		};
 		C2A14A342A601C24003A5308 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			platformFilter = ios;
@@ -694,6 +857,77 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		C2052BEF2B34688700185D29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = BookmarksWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BookmarksWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BookmarksWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper.BookmarksWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C2052BF02B34688700185D29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = BookmarksWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BookmarksWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BookmarksWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper.BookmarksWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		C2A14A382A601C24003A5308 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -953,6 +1187,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C2052BEE2B34688700185D29 /* Build configuration list for PBXNativeTarget "BookmarksWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2052BEF2B34688700185D29 /* Debug */,
+				C2052BF02B34688700185D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C2A14A372A601C24003A5308 /* Build configuration list for PBXNativeTarget "Share Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
