@@ -90,16 +90,14 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
     func entities(for identifiers: [UUID]) async throws -> [BookmarkEntity] {
         return identifiers.compactMap { identifier in
             let match = BookmarksManager.shared.findBookmark(withId: identifier)
-            return BookmarkEntity(id: match.id!, title: match.wrappedTitle, url: match.wrappedURL.absoluteString, host: match.wrappedHost, notes: match.wrappedNotes, isFavorited: match.isFavorited, dateAdded: match.wrappedDate)
+            return match.toEntity()
         }
     }
     
     // Returns all Bookmarks in the Linkeeper database. This is what populates the list when you tap on a parameter that accepts a Bookmark
     func suggestedEntities() async throws -> [BookmarkEntity] {
         let allBookmarks = BookmarksManager.shared.getAllBookmarks()
-        return allBookmarks.map {
-            BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-        }
+        return allBookmarks.toEntity()
     }
     
     // Find Bookmarks matching the given query.
@@ -111,9 +109,7 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
             return $0.doesMatch(query)
         }
 
-        return matchingBookmarks.map {
-            BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-        }
+        return matchingBookmarks.toEntity()
     }
          
     static var properties = EntityQueryProperties<BookmarkEntity, NSPredicate> {
@@ -180,9 +176,20 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
             return NSSortDescriptor(key: keys[$0.by] ?? "date", ascending: $0.order == .ascending)
         })
         let matchingBookmarks = try context.fetch(request)
-        return matchingBookmarks.map {
-            BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-        }
+        return matchingBookmarks.toEntity()
     }
 }
 
+@available(iOS 16.0, *)
+extension Bookmark {
+    func toEntity() -> BookmarkEntity {
+        BookmarkEntity(id: self.id!, title: self.wrappedTitle, url: self.wrappedURL.absoluteString, host: self.wrappedHost, notes: self.wrappedNotes, isFavorited: self.isFavorited, dateAdded: self.wrappedDate)
+    }
+}
+
+@available(iOS 16.0, *)
+extension [Bookmark] {
+    func toEntity() -> [BookmarkEntity] {
+        self.map { $0.toEntity() }
+    }
+}

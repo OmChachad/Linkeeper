@@ -83,8 +83,7 @@ If disabled, you can add a title yourself.
         }().trimmingCharacters(in: .whitespacesAndNewlines)
         
         let bookmark = BookmarksManager.shared.addBookmark(id: nil, title: title, url: url.sanitise.absoluteString, host: url.host ?? url.absoluteString, notes: notes ?? "", folder: nil)
-        let entity = BookmarkEntity(id: bookmark.id!, title: bookmark.wrappedTitle, url: bookmark.wrappedURL.absoluteString, host: bookmark.wrappedHost, notes: bookmark.wrappedNotes, isFavorited: false, dateAdded: bookmark.wrappedDate)
-        return .result(value: entity)
+        return .result(value: bookmark.toEntity())
     }
     
 }

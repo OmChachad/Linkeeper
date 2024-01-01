@@ -82,9 +82,7 @@ struct IntentsFolderQuery: EntityPropertyQuery {
         return identifiers.compactMap { identifier in
             if FoldersManager.shared.doesExist(withId: identifier) {
                 let match = FoldersManager.shared.findFolder(withId: identifier)
-                return FolderEntity(id: match.id!, title: match.wrappedTitle, bookmarks: Set<BookmarkEntity>(match.bookmarksArray.map({
-                    BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-                })), index: Int(match.index), symbol: match.wrappedSymbol, color: match.accentColor ?? "gray")
+                return match.toEntity()
             } else {
                 return nil
             }
@@ -94,11 +92,7 @@ struct IntentsFolderQuery: EntityPropertyQuery {
     // Returns all Folders in the Linkeeper database. This is what populates the list when you tap on a parameter that accepts a Folder
     func suggestedEntities() async throws -> [FolderEntity] {
         let allFolders = FoldersManager.shared.getAllFolders()
-        return allFolders.map {
-            FolderEntity(id: $0.id!, title: $0.wrappedTitle, bookmarks: Set<BookmarkEntity>($0.bookmarksArray.map({
-                BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-            })), index: Int($0.index), symbol: $0.wrappedSymbol, color: $0.accentColor ?? "gray")
-        }
+        return allFolders.toEntity()
     }
     
     // Find Folders matching the given query.
@@ -110,11 +104,7 @@ struct IntentsFolderQuery: EntityPropertyQuery {
             return $0.wrappedTitle.localizedCaseInsensitiveContains(query)
         }
 
-        return matchingFolders.map {
-            FolderEntity(id: $0.id!, title: $0.wrappedTitle, bookmarks: Set<BookmarkEntity>($0.bookmarksArray.map({
-                BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-            })), index: Int($0.index), symbol: $0.wrappedSymbol, color: $0.accentColor ?? "gray")
-        }
+        return matchingFolders.toEntity()
     }
          
     static var properties = EntityQueryProperties<FolderEntity, NSPredicate> {
@@ -155,11 +145,20 @@ struct IntentsFolderQuery: EntityPropertyQuery {
             return NSSortDescriptor(key: keys[$0.by] ?? "index", ascending: $0.order == .ascending)
         })
         let matchingFolders = try context.fetch(request)
-        return matchingFolders.map {
-            FolderEntity(id: $0.id!, title: $0.wrappedTitle, bookmarks: Set<BookmarkEntity>($0.bookmarksArray.map({
-                BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-            })), index: Int($0.index), symbol: $0.wrappedSymbol, color: $0.accentColor ?? "red")
-        }
+        return matchingFolders.toEntity()
     }
 }
 
+@available(iOS 16.0, *)
+extension Folder {
+    func toEntity() -> FolderEntity {
+        FolderEntity(id: self.id!, title: self.wrappedTitle, bookmarks: Set<BookmarkEntity>(self.bookmarksArray.toEntity()), index: Int(self.index), symbol: self.wrappedSymbol, color: self.accentColor ?? "red")
+    }
+}
+
+@available(iOS 16.0, *)
+extension [Folder] {
+    func toEntity() -> [FolderEntity] {
+        self.map { $0.toEntity() }
+    }
+}

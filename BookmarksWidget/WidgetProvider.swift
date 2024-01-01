@@ -14,21 +14,15 @@ struct Provider: AppIntentTimelineProvider {
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> BookmarksEntry {
-        BookmarksEntry(date: Date(), bookmarks: BookmarksManager.shared.getAllBookmarks().map {
-            BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-        }, configuration: configuration)
+        BookmarksEntry(date: Date(), bookmarks: BookmarksManager.shared.getAllBookmarks().toEntity(), configuration: configuration)
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<BookmarksEntry> {
         var config = configuration
         
         let bookmarks = configuration.folder.flatMap { folder in
-            FoldersManager.shared.doesExist(withId: folder.id) ? folder.bookmarks.sorted(by: { $0.dateAdded > $1.dateAdded }) : BookmarksManager.shared.getAllBookmarks().map {
-                BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-            }
-        } ?? BookmarksManager.shared.getAllBookmarks().map {
-            BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
-        }
+            FoldersManager.shared.doesExist(withId: folder.id) ? folder.bookmarks.sorted(by: { $0.dateAdded > $1.dateAdded }) : BookmarksManager.shared.getAllBookmarks().toEntity()
+        } ?? BookmarksManager.shared.getAllBookmarks().toEntity()
 
         if let folder = config.folder {
             if !FoldersManager.shared.doesExist(withId: folder.id) {
