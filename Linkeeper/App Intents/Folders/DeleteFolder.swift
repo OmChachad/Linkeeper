@@ -54,7 +54,6 @@ struct DeleteFolder: AppIntent {
             }
             
             FoldersManager.shared.deleteFolder(withId: folder.id)
-            FoldersManager.shared.saveContext()
             WidgetCenter.shared.reloadAllTimelines()
             
             let messageSuffix = folder.bookmarks.count == 0 ? "" : ", \(keepBookmarks ? "keeping" : "alongside") \(folder.bookmarks.count) \(folder.bookmarks.count == 1 ? "Bookmark" : "Bookmarks")"
