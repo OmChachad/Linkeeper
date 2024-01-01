@@ -247,6 +247,7 @@ struct AddBookmarkView: View {
                 let bookmark = try! await AddBookmark(bookmarkTitle: title, url: URL(string: sanitisedURL)!, notes: notes).perform()
                 if let bookmark = bookmark.value {
                     BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = folder
+                    try? moc.save()
                 }
             }
         } else {
