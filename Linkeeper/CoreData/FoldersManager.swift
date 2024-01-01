@@ -45,7 +45,20 @@ class FoldersManager {
         guard let foundFolder = try? context.fetch(request).first else {
             fatalError("Could not find bookmark with ID")
         }
+        
         return foundFolder
+    }
+    
+    func doesExist(withId id: UUID) -> Bool {
+        let request: NSFetchRequest<Folder> = Folder.fetchRequest()
+        request.fetchLimit = 1
+        request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+        
+        guard (try? context.fetch(request).first) != nil else {
+            return false
+        }
+        
+        return true
     }
 
     func deleteFolder(withId id: UUID) {

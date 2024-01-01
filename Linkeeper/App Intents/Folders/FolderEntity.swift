@@ -80,10 +80,14 @@ struct IntentsFolderQuery: EntityPropertyQuery {
     // For example a user may have chosen a Folder from a list when tapping on a parameter that accepts Folders. The ID of that Folder is now hardcoded into the Shortcut. When the shortcut is run, the ID will be matched against the database in Linkeeper
     func entities(for identifiers: [UUID]) async throws -> [FolderEntity] {
         return identifiers.compactMap { identifier in
-            let match = FoldersManager.shared.findFolder(withId: identifier)
+            if FoldersManager.shared.doesExist(withId: identifier) {
+                let match = FoldersManager.shared.findFolder(withId: identifier)
                 return FolderEntity(id: match.id!, title: match.wrappedTitle, bookmarks: Set<BookmarkEntity>(match.bookmarksArray.map({
                     BookmarkEntity(id: $0.id!, title: $0.wrappedTitle, url: $0.wrappedURL.absoluteString, host: $0.wrappedHost, notes: $0.wrappedNotes, isFavorited: $0.isFavorited, dateAdded: $0.wrappedDate)
                 })), index: Int(match.index), symbol: match.wrappedSymbol, color: match.accentColor ?? "gray")
+            } else {
+                return nil
+            }
         }
     }
     
