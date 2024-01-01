@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import WidgetKit
 
 struct MoveBookmarksView: View {
     @Environment(\.managedObjectContext) var moc
@@ -107,6 +108,7 @@ struct MoveBookmarksView: View {
                         }
                         try? moc.save()
                         completion()
+                        WidgetCenter.shared.reloadAllTimelines()
                         //toBeMoved.removeAll()
                         dismiss()
                     }
@@ -119,10 +121,6 @@ struct MoveBookmarksView: View {
                     }
                 }
             }
-//            .onAppear {
-//                selectedFolder = toBeMoved.first?.folder
-//                try? moc.save()
-//            }
             .sheet(isPresented: $creatingFolder) {
                 AddFolderView()
             }

@@ -7,6 +7,7 @@
 
 import AppIntents
 import LinkPresentation
+import WidgetKit
 
 @available(iOS 16.0, *)
 struct AddBookmark: AppIntent {
@@ -83,6 +84,7 @@ If disabled, you can add a title yourself.
         }().trimmingCharacters(in: .whitespacesAndNewlines)
         
         let bookmark = BookmarksManager.shared.addBookmark(id: nil, title: title, url: url.sanitise.absoluteString, host: url.host ?? url.absoluteString, notes: notes ?? "", folder: nil)
+        WidgetCenter.shared.reloadAllTimelines()
         return .result(value: bookmark.toEntity())
     }
     

@@ -7,6 +7,7 @@
 
 import Foundation
 import AppIntents
+import WidgetKit
 
 @available(iOS 16.0, *)
 struct DeleteBookmark: AppIntent {
@@ -40,8 +41,9 @@ struct DeleteBookmark: AppIntent {
                 try await requestConfirmation(result: .result(dialog: "Are you sure you want to delete the bookmark titled \"\(bookmark.title)\""))
             }
             
-            
             BookmarksManager.shared.deleteBookmark(withId: bookmark.id)
+            WidgetCenter.shared.reloadAllTimelines()
+            
             return .result(value: "Deleted Bookmark")
         } catch let error {
             throw error
