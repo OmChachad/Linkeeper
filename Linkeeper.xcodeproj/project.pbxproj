@@ -85,6 +85,7 @@
 		C28D18932B43193F0033C979 /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D18922B43193F0033C979 /* SmallWidgetView.swift */; };
 		C28D18972B4319E50033C979 /* MediumOrLargeWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D18962B4319E50033C979 /* MediumOrLargeWidgetView.swift */; };
 		C28D189A2B43F8450033C979 /* ExportImportHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D18992B43F8450033C979 /* ExportImportHandler.swift */; };
+		C28D189D2B4425930033C979 /* Pow in Frameworks */ = {isa = PBXBuildFile; productRef = C28D189C2B4425930033C979 /* Pow */; };
 		C29050682A125EF100817C48 /* MoveBookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050672A125EF100817C48 /* MoveBookmarksView.swift */; };
 		C290506D2A12B67900817C48 /* Flashcard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506C2A12B67900817C48 /* Flashcard.swift */; };
 		C290506F2A12B77100817C48 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506E2A12B77100817C48 /* View.swift */; };
@@ -285,6 +286,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C28D189D2B4425930033C979 /* Pow in Frameworks */,
 				C28616862A73DD2300ABA9FF /* SimpleToast in Frameworks */,
 				C29B00F72A5B38E40081FEBC /* CloudKit.framework in Frameworks */,
 				C24DF575283E62C4003C9692 /* Shimmer in Frameworks */,
@@ -627,6 +629,7 @@
 				C24DF574283E62C4003C9692 /* Shimmer */,
 				C2C8EE952A4D853A00CCD36F /* SwiftSoup */,
 				C28616852A73DD2300ABA9FF /* SimpleToast */,
+				C28D189C2B4425930033C979 /* Pow */,
 			);
 			productName = Marked;
 			productReference = C2C8DC3A28171D93000F4AEB /* Linkeeper.app */;
@@ -666,6 +669,7 @@
 				C24DF573283E62C4003C9692 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				C2C8EE942A4D853A00CCD36F /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				C28616842A73DD2300ABA9FF /* XCRemoteSwiftPackageReference "SimpleToast" */,
+				C28D189B2B4425930033C979 /* XCRemoteSwiftPackageReference "Pow" */,
 			);
 			productRefGroup = C2C8DC3B28171D93000F4AEB /* Products */;
 			projectDirPath = "";
@@ -1254,6 +1258,14 @@
 				minimumVersion = 0.7.2;
 			};
 		};
+		C28D189B2B4425930033C979 /* XCRemoteSwiftPackageReference "Pow" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/EmergeTools/Pow";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.3;
+			};
+		};
 		C2C8EE942A4D853A00CCD36F /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup";
@@ -1274,6 +1286,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C28616842A73DD2300ABA9FF /* XCRemoteSwiftPackageReference "SimpleToast" */;
 			productName = SimpleToast;
+		};
+		C28D189C2B4425930033C979 /* Pow */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C28D189B2B4425930033C979 /* XCRemoteSwiftPackageReference "Pow" */;
+			productName = Pow;
 		};
 		C2C8EE952A4D853A00CCD36F /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;

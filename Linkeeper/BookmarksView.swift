@@ -251,7 +251,7 @@ struct BookmarksView: View {
                 }
             }
         })
-        .animation(.spring(), value: filteredBookmarks)
+        .animation(.spring().speed(0.75), value: filteredBookmarks)
         .animation(.spring(), value: showDetails)
         .animation(.easeInOut.speed(0.5), value: editState)
     }

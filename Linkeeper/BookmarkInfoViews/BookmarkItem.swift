@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LinkPresentation
+import Pow
 
 struct BookmarkItem: View {
     @Environment(\.managedObjectContext) var moc
@@ -131,6 +132,9 @@ struct BookmarkItem: View {
         .animation(.default, value: selectedBookmarks)
         .animation(.default, value: bookmark.wrappedTitle)
         .animation(.default, value: cachedPreview?.previewState)
+        .if(toBeDeletedBookmark != nil) { view in
+            view.transition(.movingParts.poof)
+        }
     }
     
     func menuItems() -> some View {
