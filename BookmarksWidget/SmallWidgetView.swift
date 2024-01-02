@@ -44,7 +44,7 @@ struct SmallWidgetView: View {
                         if let firstChar: Character = bookmark.title.first {
                             Color(uiColor: .systemGray2)
                                 .overlay(
-                                    Text(String(firstChar))
+                                    Text(String(firstChar).capitalized)
                                         .font(.largeTitle.weight(.medium))
                                         .foregroundColor(.white)
                                 )
