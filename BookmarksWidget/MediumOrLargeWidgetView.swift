@@ -31,6 +31,7 @@ struct MediumOrLargeWidgetView: View {
             Group {
                 if let folder = entry.configuration.folder {
                     Label(folder.title, systemImage: folder.symbol)
+                        .lineLimit(1)
                         .foregroundColor(Color(uiColor: UIColor(ColorOption(rawValue: folder.color)?.color ?? .gray)))
                 } else {
                     Label("All Bookmarks", systemImage: "bookmark.fill")
