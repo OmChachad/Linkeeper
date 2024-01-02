@@ -44,6 +44,7 @@ struct BookmarkItem: View {
                     cachedPreview!.image!
                         .resizable()
                         .aspectRatio(contentMode: .fill)
+                        .drawingGroup()
                 case .firstLetter:
                     if let firstChar: Character = bookmark.wrappedTitle.first {
                         Color(uiColor: .systemGray2)
