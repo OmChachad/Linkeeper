@@ -16,11 +16,6 @@ struct Settings: View {
     
     @ObservedObject var storeKit = Store.shared
     
-    @State private var isImportingFromSafari = false
-    @State private var showingImporter = false
-    @State private var isExporting = false
-    @State private var htmlContent = ""
-    
     var isMacCatalyst: Bool {
         #if targetEnvironment(macCatalyst)
             return true
@@ -113,16 +108,7 @@ struct Settings: View {
                         }
                     }
                     
-                    Section("Import/Export Bookmarks") {
-                        Button("Import from Safari") {
-                            isImportingFromSafari.toggle()
-                        }
-                        
-                        Button("Export All Bookmarks") {
-                            isExporting.toggle()
-                        }
-                    }
-                    
+                    ImportExportView()
                     
                     Section("Linkeeper") {
                         HStack {
@@ -152,32 +138,6 @@ struct Settings: View {
                     .keyboardShortcut(.cancelAction)
             }
         }
-        .fileExporter(isPresented: $isExporting, document: ExportImportHandler().exportContents, contentType: .plainText, defaultFilename: fileName) { result in
-            switch result {
-                case .success(let url):
-                    print("Saved to \(url)")
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-        }
-        .fileImporter(isPresented: $isImportingFromSafari, allowedContentTypes: [.html]) { result in
-            do {
-                let fileURL = try result.get()
-                self.htmlContent = try String(contentsOf: fileURL)
-                showingImporter.toggle()
-            } catch {
-                print("File import error: \(error.localizedDescription)")
-            }
-        }
-        .sheet(isPresented: $showingImporter) {
-            ImportView(htmlContents: htmlContent)
-        }
-        
-        
-    }
-    
-    var fileName: String {
-        return "Linkeeper Archive \(Date().formatted(date: .numeric, time: .standard).replacingOccurrences(of: "/", with: "-").replacingOccurrences(of: ":", with: ".")).md"
     }
     
     private func socialLink(url: String) -> some View {
