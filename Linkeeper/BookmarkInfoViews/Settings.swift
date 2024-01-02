@@ -36,121 +36,115 @@ struct Settings: View {
     var body: some View {
         NavigationView {
             Form {
-                Section("About") {
-                    VStack{
-                        Image("Om")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 60, height: 60)
-                            .clipShape(Circle())
-                            .shadow(radius: 2)
-                        
-                        VStack(alignment: .center) {
-                            Text("Hi, I'm Om Chachad! 👋🏻")
-                                .font(.title3.bold())
-                            Text("I'm the developer behind Linkeeper, thanks for checking out my app. I hope you are enjoying using it!")
-                                .frame(maxWidth: .infinity)
-                                .foregroundColor(.secondary)
-                            HStack {
-                                socialLink(url: "https://www.youtube.com/TheiTE")
-                                socialLink(url: "https://itecheverything.com")
-                                socialLink(url: "https://twitter.com/TheOriginaliTE")
+                Group {
+                    Section("About") {
+                        VStack{
+                            Image("Om")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                                .clipShape(Circle())
+                                .shadow(radius: 2)
+                            
+                            VStack(alignment: .center) {
+                                Text("Hi, I'm Om Chachad! 👋🏻")
+                                    .font(.title3.bold())
+                                Text("I'm the developer behind Linkeeper, thanks for checking out my app. I hope you are enjoying using it!")
+                                    .frame(maxWidth: .infinity)
+                                    .foregroundColor(.secondary)
+                                HStack {
+                                    socialLink(url: "https://www.youtube.com/TheiTE")
+                                    socialLink(url: "https://itecheverything.com")
+                                    socialLink(url: "https://twitter.com/TheOriginaliTE")
+                                }
                             }
+                            .multilineTextAlignment(.center)
                         }
-                        .multilineTextAlignment(.center)
-                    }
-                    .listRowInsets(adaptedInsets)
-                    
-                    NavigationLink {
-                        TipJar()
-                            .environmentObject(storeKit)
-                    } label: {
-                        HStack {
-                            Text("🤩")
-                                .font(.title)
-                            Text("""
+                        
+                        NavigationLink {
+                            TipJar()
+                                .environmentObject(storeKit)
+                        } label: {
+                            HStack {
+                                Text("🤩")
+                                    .font(.title)
+                                Text("""
                             **Enjoying the app?**
                             Please consider tipping!
                             """)
+                            }
                         }
                     }
-                    .listRowInsets(adaptedInsets)
-                }
-                
+                    
 #if targetEnvironment(macCatalyst)
-                Section {
-                    HStack {
-                        Image(systemName: "exclamationmark.triangle.fill")
-                            .imageScale(.large)
-                            .foregroundColor(.yellow)
-                        Text("**Known Issue:** To view toolbar items when inside a folder, you may need to hide the sidebar by clicking \(Image(systemName: "sidebar.leading")). This is a Mac Catalyst bug.")
-                        Spacer()
-                    }
-                    .padding(.vertical, 5)
-                }
-                .listRowInsets(adaptedInsets)
-#endif
-                
-                Section("Customisation") {
-                    Toggle("Enable Shadows around Bookmarks", isOn: $shadowsEnabled)
-                        .toggleStyle(.switch)
-                }
-                .listRowInsets(adaptedInsets)
-                
-                Section {
-                    Toggle("Remove tracking parameters from URLs (Beta)", isOn: $removeTrackingParameters)
-                        .toggleStyle(.switch)
-                } header: {
-                    Text("Advanced")
-                } footer: {
-                    Text("Removing tracking parameters enhances privacy by reducing online tracking by stripping parameters after **?** in an URL, but it may affect website personalization on some websites.")
-                }
-                .listRowInsets(adaptedInsets)
-            
-                if storeKit.userHasTipped && !isMacCatalyst && !isVisionOS {
                     Section {
-                        NavigationLink(destination: ChangeIconsView()) {
-                            Label("Change App Icon", systemImage: "square.fill")
+                        HStack {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .imageScale(.large)
+                                .foregroundColor(.yellow)
+                            Text("**Known Issue:** To view toolbar items when inside a folder, you may need to hide the sidebar by clicking \(Image(systemName: "sidebar.leading")). This is a Mac Catalyst bug.")
+                            Spacer()
                         }
+                        .padding(.vertical, 5)
+                    }
+#endif
+                    
+                    Section("Customisation") {
+                        Toggle("Enable Shadows around Bookmarks", isOn: $shadowsEnabled)
+                            .toggleStyle(.switch)
+                    }
+                    
+                    Section {
+                        Toggle("Remove tracking parameters from URLs (Beta)", isOn: $removeTrackingParameters)
+                            .toggleStyle(.switch)
                     } header: {
-                        Text("Tipping Perks")
+                        Text("Advanced")
+                    } footer: {
+                        Text("Removing tracking parameters enhances privacy by reducing online tracking by stripping parameters after **?** in an URL, but it may affect website personalization on some websites.")
                     }
-                }
-                
-                Section("Import/Export Bookmarks") {
-                    Button("Import from Safari") {
-                        isImportingFromSafari.toggle()
-                    }
-                    .listRowInsets(adaptedInsets)
                     
-                    Button("Export All Bookmarks") {
-                        isExporting.toggle()
-                    }
-                    .listRowInsets(adaptedInsets)
-                }
-                
-                
-                Section("Linkeeper") {
-                    HStack {
-                        Text("Get in touch")
-                        Spacer()
-                        Text("contact@starlightapps.org")
-                    }
-                    .listRowInsets(adaptedInsets)
-                    
-                    HStack {
-                        Button("Privacy Policy") {
-                            openURL(URL(string: "https://www.starlightapps.org/privacy-policy")!)
-                        }
-                        
-                        Spacer()
-                        
-                        Button("Our Website") {
-                            openURL(URL(string: "https://starlightapps.org")!)
+                    if storeKit.userHasTipped && !isMacCatalyst && !isVisionOS {
+                        Section {
+                            NavigationLink(destination: ChangeIconsView()) {
+                                Label("Change App Icon", systemImage: "square.fill")
+                            }
+                        } header: {
+                            Text("Tipping Perks")
                         }
                     }
-                    .listRowInsets(adaptedInsets)
+                    
+                    Section("Import/Export Bookmarks") {
+                        Button("Import from Safari") {
+                            isImportingFromSafari.toggle()
+                        }
+                        
+                        Button("Export All Bookmarks") {
+                            isExporting.toggle()
+                        }
+                    }
+                    
+                    
+                    Section("Linkeeper") {
+                        HStack {
+                            Text("Get in touch")
+                            Spacer()
+                            Text("contact@starlightapps.org")
+                        }
+                        
+                        HStack {
+                            Button("Privacy Policy") {
+                                openURL(URL(string: "https://www.starlightapps.org/privacy-policy")!)
+                            }
+                            
+                            Spacer()
+                            
+                            Button("Our Website") {
+                                openURL(URL(string: "https://starlightapps.org")!)
+                            }
+                        }
+                    }
                 }
+                .listRowInsets(adaptedInsets)
             }
             .navigationTitle("Settings")
             .toolbar {
