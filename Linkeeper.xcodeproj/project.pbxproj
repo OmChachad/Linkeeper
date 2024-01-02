@@ -84,6 +84,7 @@
 		C28D18912B43008B0033C979 /* BookmarkItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D18902B43008B0033C979 /* BookmarkItemView.swift */; };
 		C28D18932B43193F0033C979 /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D18922B43193F0033C979 /* SmallWidgetView.swift */; };
 		C28D18972B4319E50033C979 /* MediumOrLargeWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D18962B4319E50033C979 /* MediumOrLargeWidgetView.swift */; };
+		C28D189A2B43F8450033C979 /* ExportImportHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D18992B43F8450033C979 /* ExportImportHandler.swift */; };
 		C29050682A125EF100817C48 /* MoveBookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050672A125EF100817C48 /* MoveBookmarksView.swift */; };
 		C290506D2A12B67900817C48 /* Flashcard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506C2A12B67900817C48 /* Flashcard.swift */; };
 		C290506F2A12B77100817C48 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506E2A12B77100817C48 /* View.swift */; };
@@ -220,6 +221,7 @@
 		C28D18902B43008B0033C979 /* BookmarkItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkItemView.swift; sourceTree = "<group>"; };
 		C28D18922B43193F0033C979 /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
 		C28D18962B4319E50033C979 /* MediumOrLargeWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumOrLargeWidgetView.swift; sourceTree = "<group>"; };
+		C28D18992B43F8450033C979 /* ExportImportHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportImportHandler.swift; sourceTree = "<group>"; };
 		C29050672A125EF100817C48 /* MoveBookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveBookmarksView.swift; sourceTree = "<group>"; };
 		C290506C2A12B67900817C48 /* Flashcard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flashcard.swift; sourceTree = "<group>"; };
 		C290506E2A12B77100817C48 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -393,6 +395,15 @@
 			path = "Global Variables";
 			sourceTree = "<group>";
 		};
+		C28D18982B43F7D90033C979 /* Import & Export */ = {
+			isa = PBXGroup;
+			children = (
+				C2C8EE972A4D88BD00CCD36F /* ImportView.swift */,
+				C28D18992B43F8450033C979 /* ExportImportHandler.swift */,
+			);
+			path = "Import & Export";
+			sourceTree = "<group>";
+		};
 		C29050692A12B4FF00817C48 /* Modification */ = {
 			isa = PBXGroup;
 			children = (
@@ -553,7 +564,7 @@
 				C2E806E52A26111E00A41D0C /* Settings.swift */,
 				C2C8EE8F2A4C354700CCD36F /* TipJar.swift */,
 				C2C8EE912A4C8BB300CCD36F /* ChangeIconsView.swift */,
-				C2C8EE972A4D88BD00CCD36F /* ImportView.swift */,
+				C28D18982B43F7D90033C979 /* Import & Export */,
 			);
 			name = Settings;
 			path = BookmarkInfoViews;
@@ -823,6 +834,7 @@
 				C281D9B22A24EDEC00535807 /* DeleteBookmarks.swift in Sources */,
 				C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */,
 				C28A2C7E2B033FAD0027A70F /* isVisionOS.swift in Sources */,
+				C28D189A2B43F8450033C979 /* ExportImportHandler.swift in Sources */,
 				C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */,
 				C2E3899C2A54978E0085D801 /* SymbolOption.swift in Sources */,
 				C281D9B42A2501FE00535807 /* MoveBookmarks.swift in Sources */,
