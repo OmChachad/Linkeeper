@@ -8,6 +8,7 @@
 import SwiftUI
 import LinkPresentation
 import Pow
+import Shimmer
 
 struct BookmarkItem: View {
     @Environment(\.managedObjectContext) var moc
