@@ -27,6 +27,7 @@ struct LinkeeperApp: App {
                     if #available(iOS 17.0, *) {
                         WidgetCenter.shared.reloadAllTimelines()
                     }
+                    CacheManager.instance.clearOutOld()
                 }
         }
     }

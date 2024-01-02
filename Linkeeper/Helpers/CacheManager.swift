@@ -65,7 +65,21 @@ class CacheManager {
     }
     
     func getPath(for id: UUID) -> URL? {
-        FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent(id.uuidString)
+        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.starlightapps.linkeeper")?.appendingPathComponent(id.uuidString)
+    }
+    
+    /// This function clears out all the cached thumbnails from the cachesDirectory, since the new directory is now accessible by the entire app group to faciliate previews in widgets.
+    func clearOutOld() {
+        let hasCleared = UserDefaults.standard.bool(forKey: "hasClearedOldDirectory")
+        if !hasCleared {
+            let bookmarks = BookmarksManager.shared.getAllBookmarks()
+            bookmarks.forEach { bookmark in
+                if let oldPath = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent(bookmark.wrappedUUID), FileManager.default.fileExists(atPath: oldPath.path) {
+                    try? FileManager.default.removeItem(atPath: oldPath.absoluteString)
+                }
+            }
+            UserDefaults.standard.setValue(true, forKey: "hasClearedOldDirectory")
+        }
     }
 }
 
