@@ -7,7 +7,9 @@
 
 import Foundation
 import AppIntents
+#if canImport(WidgetKit)
 import WidgetKit
+#endif
 
 @available(iOS 16.0, *)
 struct DeleteFolder: AppIntent {
@@ -54,7 +56,11 @@ struct DeleteFolder: AppIntent {
             }
             
             FoldersManager.shared.deleteFolder(withId: folder.id)
-            WidgetCenter.shared.reloadAllTimelines()
+            if #available(iOS 17.0, *) {
+                #if canImport(WidgetKit)
+                WidgetCenter.shared.reloadAllTimelines()
+                #endif
+            }
             
             let messageSuffix = folder.bookmarks.count == 0 ? "" : ", \(keepBookmarks ? "keeping" : "alongside") \(folder.bookmarks.count) \(folder.bookmarks.count == 1 ? "Bookmark" : "Bookmarks")"
             return .result(value: "Deleted Folder\(messageSuffix)")

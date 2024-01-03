@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+#if canImport(WidgetKit)
 import WidgetKit
+#endif
 
 @main
 struct LinkeeperApp: App {
@@ -25,7 +27,9 @@ struct LinkeeperApp: App {
                         LinkeeperShortcuts.updateAppShortcutParameters()
                     }
                     if #available(iOS 17.0, *) {
+                        #if canImport(WidgetKit)
                         WidgetCenter.shared.reloadAllTimelines()
+                        #endif
                     }
                     CacheManager.instance.clearOutOld()
                 }

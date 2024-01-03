@@ -13,7 +13,7 @@
 		C2052BE42B34688500185D29 /* WidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052BE32B34688500185D29 /* WidgetProvider.swift */; };
 		C2052BE62B34688500185D29 /* ConfigurationAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2052BE52B34688500185D29 /* ConfigurationAppIntent.swift */; };
 		C2052BE82B34688700185D29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2052BE72B34688700185D29 /* Assets.xcassets */; };
-		C2052BEC2B34688700185D29 /* BookmarksWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C2052BDB2B34688500185D29 /* BookmarksWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C2052BEC2B34688700185D29 /* BookmarksWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C2052BDB2B34688500185D29 /* BookmarksWidgetExtension.appex */; platformFilters = (ios, maccatalyst, ); settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C2052BFC2B34697600185D29 /* Bookmark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF578283E7185003C9692 /* Bookmark+CoreDataClass.swift */; };
 		C2052BFD2B34697600185D29 /* Bookmark+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */; };
 		C2052BFE2B34697600185D29 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96E2A23D4FF00535807 /* BookmarksManager.swift */; };
@@ -861,6 +861,10 @@
 /* Begin PBXTargetDependency section */
 		C2052BEB2B34688700185D29 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilters = (
+				ios,
+				maccatalyst,
+			);
 			target = C2052BDA2B34688500185D29 /* BookmarksWidgetExtension */;
 			targetProxy = C2052BEA2B34688700185D29 /* PBXContainerItemProxy */;
 		};

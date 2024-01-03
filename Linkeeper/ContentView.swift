@@ -8,7 +8,9 @@
 import SwiftUI
 import CoreData
 import SimpleToast
+#if canImport(WidgetKit)
 import WidgetKit
+#endif
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
@@ -237,7 +239,9 @@ Click **Add Folder** to get started.
                 LinkeeperShortcuts.updateAppShortcutParameters()
             }
             if #available(iOS 17.0, *) {
+                #if canImport(WidgetKit)
                 WidgetCenter.shared.reloadAllTimelines()
+                #endif
             }
         }
         .onChange(of: folders.count) { _ in
@@ -245,7 +249,9 @@ Click **Add Folder** to get started.
                 LinkeeperShortcuts.updateAppShortcutParameters()
             }
             if #available(iOS 17.0, *) {
+                #if canImport(WidgetKit)
                 WidgetCenter.shared.reloadAllTimelines()
+                #endif
             }
         }
         .simpleToast(isPresented: $addedBookmark, options: toastOptions, content: {
@@ -271,7 +277,9 @@ Click **Add Folder** to get started.
             }
             
             if #available(iOS 17.0, *) {
+                #if canImport(WidgetKit)
                 WidgetCenter.shared.reloadAllTimelines()
+                #endif
             }
         }
     }

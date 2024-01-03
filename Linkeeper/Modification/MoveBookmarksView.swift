@@ -7,7 +7,9 @@
 
 import SwiftUI
 import CoreData
+#if canImport(WidgetKit)
 import WidgetKit
+#endif
 
 struct MoveBookmarksView: View {
     @Environment(\.managedObjectContext) var moc
@@ -108,7 +110,11 @@ struct MoveBookmarksView: View {
                         }
                         try? moc.save()
                         completion()
-                        WidgetCenter.shared.reloadAllTimelines()
+                        if #available(iOS 17.0, *) {
+                            #if canImport(WidgetKit)
+                            WidgetCenter.shared.reloadAllTimelines()
+                            #endif
+                        }
                         //toBeMoved.removeAll()
                         dismiss()
                     }
