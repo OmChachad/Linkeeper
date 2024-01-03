@@ -62,4 +62,29 @@ extension View {
             self
         }
     }
+    
+    func bottomOrnament<Content: View>(
+        visibility: Visibility = .automatic,
+        //attachmentAnchor: OrnamentAttachmentAnchor,
+        contentAlignment: Alignment = .center,
+        @ViewBuilder ornament: () -> Content
+    ) -> some View where Content : View {
+        #if os(visionOS)
+            self
+            .ornament(visibility: visibility, attachmentAnchor: .scene(.bottom), contentAlignment: contentAlignment, ornament: ornament)
+        #else
+            self
+        #endif
+    }
+    
+    func visionGlassBackgroundEffect<S>(
+        in shape: S
+    ) -> some View where S : InsettableShape {
+        #if os(visionOS)
+            self
+                .visionGlassBackgroundEffect(in: shape)
+        #else
+            self
+        #endif
+    }
 }
