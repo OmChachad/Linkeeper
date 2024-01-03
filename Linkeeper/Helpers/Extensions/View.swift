@@ -80,11 +80,13 @@ extension View {
     func visionGlassBackgroundEffect<S>(
         in shape: S
     ) -> some View where S : InsettableShape {
+        Group {
         #if os(visionOS)
             self
-                .visionGlassBackgroundEffect(in: shape)
+                .glassBackgroundEffect(in: shape)
         #else
             self
         #endif
+        }
     }
 }
