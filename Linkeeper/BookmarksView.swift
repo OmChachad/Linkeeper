@@ -186,45 +186,17 @@ struct BookmarksView: View {
             }
         }
         .overlay {
+            
+            #if !os(visionOS)
             if editState == .active {
-                HStack {
-                    Button(role: .destructive) {
-                        deleteConfirmation.toggle()
-                    } label: {
-                        Image(systemName: "trash")
-                            .imageScale(.large)
-                    }
-                    .tint(Color.red)
-                    .confirmationDialog("Are you sure you want to delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-                        Button("Delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)", role: .destructive) {
-                            selectedBookmarks.forEach { bookmark in
-                                BookmarksManager.shared.deleteBookmark(bookmark)
-                            }
-                            try? moc.save()
-                            selectedBookmarks.removeAll()
-                            editState = .inactive
-                        }
-                    } message: {
-                        Text("^[\(selectedBookmarks.count) Bookmark](inflect: true) will be deleted from all your iCloud devices.")
-                    }
-                    
-                    Spacer()
-                        .frame(width: 20)
-                    
-                    Button {
-                        movingBookmarks.toggle()
-                    } label: {
-                        Image(systemName: "folder")
-                            .imageScale(.large)
-                    }
-                }
-                .disabled(selectedBookmarks.isEmpty)
+                bottomEditToolbar()
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(.ultraThinMaterial)
                 .frame(maxHeight: .infinity, alignment: .bottom)
                 .transition(.move(edge: .bottom))
             }
+            #endif
         }
         .environment(\.editMode, $editState)
         .sheet(isPresented: $movingBookmarks) {
@@ -254,6 +226,45 @@ struct BookmarksView: View {
         .animation(.spring().speed(0.75), value: filteredBookmarks)
         .animation(.spring(), value: showDetails)
         .animation(.easeInOut.speed(0.5), value: editState)
+        .bottomOrnament(visibility: editState == .active ? .visible : .hidden) {
+            bottomEditToolbar()
+                .padding()
+                .visionGlassBackgroundEffect(in: Capsule())
+        }
+    }
+    
+    func bottomEditToolbar() -> some View {
+        HStack {
+            Button(role: .destructive) {
+                deleteConfirmation.toggle()
+            } label: {
+                Image(systemName: "trash")
+                    .imageScale(.large)
+            }
+            .confirmationDialog("Are you sure you want to delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+                Button("Delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)", role: .destructive) {
+                    selectedBookmarks.forEach { bookmark in
+                        BookmarksManager.shared.deleteBookmark(bookmark)
+                    }
+                    try? moc.save()
+                    selectedBookmarks.removeAll()
+                    editState = .inactive
+                }
+            } message: {
+                Text("^[\(selectedBookmarks.count) Bookmark](inflect: true) will be deleted from all your iCloud devices.")
+            }
+            
+            Spacer()
+                .frame(width: 20)
+            
+            Button {
+                movingBookmarks.toggle()
+            } label: {
+                Image(systemName: "folder")
+                    .imageScale(.large)
+            }
+        }
+        .disabled(selectedBookmarks.isEmpty)
     }
     
     func noBookmarksView() -> some View {
