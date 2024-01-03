@@ -8,6 +8,7 @@
 import SwiftUI
 import LinkPresentation
 import Shimmer
+import Pow
 
 struct BookmarkDetails: View {
     @Environment(\.managedObjectContext) var moc
@@ -99,11 +100,16 @@ struct BookmarkDetails: View {
                             isFavorited.toggle()
                             try? moc.save()
                         } label: {
-                            Image(systemName: isFavorited ? "heart.fill" : "heart")
-                                .foregroundColor(.pink)
+                            if isFavorited {
+                                Image(systemName: "heart.fill")
+                                    .foregroundColor(.pink)
+                                    .transition(.movingParts.pop(.pink))
+                            } else {
+                                Image(systemName: "heart")
+                                    .foregroundColor(.pink)
+                            }
                         }
                         .keyboardShortcut("F", modifiers: [.shift, .command])
-                        
                     }
                     
                     Button(action: openBookmark) {
