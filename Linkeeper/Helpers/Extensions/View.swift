@@ -77,6 +77,20 @@ extension View {
         #endif
     }
     
+    func trailingOrnament<Content: View>(
+        visibility: Visibility = .automatic,
+        //attachmentAnchor: OrnamentAttachmentAnchor,
+        contentAlignment: Alignment = .center,
+        @ViewBuilder ornament: () -> Content
+    ) -> some View where Content : View {
+        #if os(visionOS)
+            self
+            .ornament(visibility: visibility, attachmentAnchor: .scene(.trailing), contentAlignment: contentAlignment, ornament: ornament)
+        #else
+            self
+        #endif
+    }
+    
     func visionGlassBackgroundEffect<S>(
         in shape: S
     ) -> some View where S : InsettableShape {
