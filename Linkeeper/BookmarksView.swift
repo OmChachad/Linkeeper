@@ -152,7 +152,7 @@ struct BookmarksView: View {
             }
         }
         .overlay {
-            if showDetails {
+            if showDetails && !isVisionOS {
                 Color("primaryInverted").opacity(0.3)
                     .background(.thinMaterial)
                     .ignoresSafeArea()
@@ -230,6 +230,11 @@ struct BookmarksView: View {
             bottomEditToolbar()
                 .padding()
                 .visionGlassBackgroundEffect(in: Capsule())
+        }
+        .trailingOrnament(visibility: showDetails ? .visible : .hidden, contentAlignment: .leading) {
+            if showDetails {
+                BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, hideFavoriteOption: favorites == true)
+            }
         }
     }
     

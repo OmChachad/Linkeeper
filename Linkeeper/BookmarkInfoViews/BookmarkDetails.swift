@@ -32,6 +32,8 @@ struct BookmarkDetails: View {
     
     @State private var deleteConfirmation = false
     
+    @State private var animatedShow = false
+    
     init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, hideFavoriteOption: Bool = false) {
         self.bookmark = bookmark
         self.namespace = namespace
@@ -44,15 +46,120 @@ struct BookmarkDetails: View {
     
     var body: some View {
         VStack {
+            #if os(visionOS)
+            Flashcard(editing: $editing) {
+                frontVisionView()
+            } back: {
+                backVisionView()
+                    .frame(maxHeight: 400)
+            }
+            .opacity(animatedShow ? 1 : 0)
+            .transition(.movingParts.blur)
+            .animation(.easeInOut, value: animatedShow)
+            #else
             Flashcard(editing: $editing) {
                 frontView()
+                    .cornerRadius(20, style: .continuous)
             } back: {
                 backView()
                     .frame(maxHeight: 400)
+                    .cornerRadius(20, style: .continuous)
+            }
+            .shadow(color: .black.opacity(0.25), radius: 10)
+            #endif
+        }
+        .onChange(of: isFavorited) { favoriteStatus in
+            bookmark.isFavorited = favoriteStatus
+        }
+        .onChange(of: bookmark) { newValue in
+            newValue.cachedImage(saveTo: $cachedPreview)
+        }
+        .onChange(of: animatedShow) { newValue in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                showDetails = newValue
             }
         }
-        .shadow(color: .black.opacity(0.25), radius: 10)
-        .padding(10)
+        .task {
+            bookmark.cachedImage(saveTo: $cachedPreview)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                animatedShow = true
+            }
+        }
+    }
+    
+    func frontVisionView() -> some View {
+        VStack {
+            VStack(spacing: 0) {
+                thumbnail()
+                    .frame(maxWidth: .infinity)
+                    .background(.regularMaterial)
+                
+                
+                VStack(alignment: .leading, content: {
+                    Text(bookmark.wrappedTitle)
+                    Text(bookmark.wrappedHost)
+                        .foregroundStyle(.secondary)
+                })
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+            }
+            .visionGlassBackgroundEffect(in: RoundedRectangle(cornerRadius: 25, style: .continuous))
+            
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: hideFavoriteOption ? 4 : 5)) {
+                actionButtons()
+                    .padding(7.5)
+                    .hoverEffect(.highlight)
+            }
+            .font(.title2)
+            .visionGlassBackgroundEffect(in: Capsule())
+        }
+        .frame(width: 400)
+        .overlay(alignment: .topTrailing) {
+            Button {
+                animatedShow = false
+            } label: {
+                Image(systemName: "xmark")
+                    .imageScale(.large)
+            }
+            .contentShape(Circle())
+            .hoverEffect(.highlight)
+            .background(.ultraThinMaterial)
+            .visionGlassBackgroundEffect(in: Circle())
+            .padding(.top, 10)
+        }
+    }
+    
+    func backVisionView() -> some View {
+        VStack {
+            VStack {
+                TextField("Title", text: $title)
+                    .textFieldStyle(.roundedBorder)
+                
+                TextField("Notes", text: $notes)
+                    .textFieldStyle(.roundedBorder)
+            }
+            .padding()
+            .visionGlassBackgroundEffect(in: RoundedRectangle(cornerRadius: 25))
+            
+            HStack {
+                Button("Cancel") {
+                    editing.toggle()
+                }
+                .padding()
+
+                Button("Save") {
+                    bookmark.title = title
+                    bookmark.notes = notes
+                    if moc.hasChanges {
+                        try? moc.save()
+                    }
+                    editing.toggle()
+                }
+                .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                .padding()
+            }
+            .visionGlassBackgroundEffect(in: Capsule())
+        }
     }
     
     func frontView() -> some View {
@@ -101,23 +208,18 @@ struct BookmarkDetails: View {
                 showDetails = false
             } label: {
                 Image(systemName: "xmark")
-                    .font(.headline)
+                    .font(isVisionOS ? .title : .headline)
                     .foregroundColor(.secondary)
-                    .padding(5)
+                    .padding(isVisionOS ? 10 : 5)
                     .background(.thickMaterial, in: Circle())
                     .background(.black.opacity(0.5), in: Circle())
+                    .visionGlassBackgroundEffect(in: Circle())
             }
-            .contentShape(.hoverEffect, .circle)
+            .keyboardShortcut(.cancelAction)
             .buttonStyle(.borderless)
             .hoverEffect(.lift)
+            .contentShape(.hoverEffect, .circle)
             .padding(7.5)
-            .keyboardShortcut(.cancelAction)
-        }
-        .onChange(of: isFavorited, perform: { favoriteStatus in
-            bookmark.isFavorited = favoriteStatus
-        })
-        .task {
-            await bookmark.cachedImage(saveTo: $cachedPreview)
         }
     }
     

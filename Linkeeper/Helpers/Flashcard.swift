@@ -33,8 +33,7 @@ struct Flashcard<Front, Back>: View where Front: View, Back: View {
         }
         .frame(maxWidth: 500)
         .rotation3DEffect(.degrees(Double(contentRotation)), axis: (x: 0, y: 1, z: 0))
-        .cornerRadius(20, style: .continuous)
-        .padding()
+        .padding(10)
         .rotation3DEffect(.degrees(Double(flashcardRotation)), axis: (x: 0, y: 1, z: 0))
         .onChange(of: editing) { newValue in
             flipFlashcard()
