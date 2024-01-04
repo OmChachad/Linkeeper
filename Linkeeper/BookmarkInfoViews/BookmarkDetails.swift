@@ -107,7 +107,7 @@ struct BookmarkDetails: View {
                     .background(.thickMaterial, in: Circle())
                     .background(.black.opacity(0.5), in: Circle())
             }
-            .buttonBorderShape(.roundedRectangle)
+            .contentShape(.hoverEffect, .circle)
             .buttonStyle(.borderless)
             .hoverEffect(.lift)
             .padding(7.5)
