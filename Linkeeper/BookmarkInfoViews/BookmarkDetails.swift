@@ -57,97 +57,18 @@ struct BookmarkDetails: View {
     
     func frontView() -> some View {
         VStack(spacing: 0) {
-            VStack {
-                switch(cachedPreview?.previewState) {
-                case .thumbnail:
-                    cachedPreview?.image!
-                        .resizable()
-                        .scaledToFit()
-                case .icon:
-                    cachedPreview?.image!
-                        .resizable()
-                        .aspectRatio(1/1, contentMode: .fit)
-                        .cornerRadius(20, style: .continuous)
-                        .padding(15)
-                        .frame(maxWidth: .infinity, maxHeight: 175)
-                        .clipped()
-                case .firstLetter:
-                    Color(uiColor: .systemGray2)
-                        .aspectRatio(16/9, contentMode: .fit)
-                        .overlay(
-                            Group {
-                                if let firstChar: Character = bookmark.wrappedTitle.first {
-                                    Text(String(firstChar))
-                                        .font(.largeTitle.weight(.medium))
-                                        .foregroundColor(.white)
-                                        .scaleEffect(2)
-                                }
-                            }
-                        )
-                default:
-                    Rectangle()
-                        .foregroundColor(.secondary.opacity(0.5))
-                        .shimmering()
-                        .aspectRatio(16/9, contentMode: .fit)
-                }
-            }
-            .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
+            thumbnail()
+                .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: hideFavoriteOption ? 4 : 5)) {
-                Group {
-                    if !hideFavoriteOption {
-                        Button {
-                            isFavorited.toggle()
-                            try? moc.save()
-                        } label: {
-                            if isFavorited {
-                                Image(systemName: "heart.fill")
-                                    .foregroundColor(.pink)
-                                    .transition(.movingParts.pop(.pink))
-                            } else {
-                                Image(systemName: "heart")
-                                    .foregroundColor(.pink)
-                            }
-                        }
-                        .keyboardShortcut("F", modifiers: [.shift, .command])
-                    }
-                    
-                    Button(action: openBookmark) {
-                        Image(systemName: "safari")
-                    }
-                    
-                    ShareButton(url: bookmark.wrappedURL) {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    
-                    Button {
-                        editing.toggle()
-                    } label: {
-                        Image(systemName: "pencil")
-                    }
-                    
-                    Button(role: .destructive) {
-                        deleteConfirmation = true
-                    } label: {
-                        Image(systemName: "trash")
-                            .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-                                Button("Delete Bookmark", role: .destructive) {
-                                    showDetails.toggle()
-                                    BookmarksManager.shared.deleteBookmark(bookmark)
-                                    try? moc.save()
-                                }
-                            } message: {
-                                Text("It will be deleted from all your iCloud devices.")
-                            }
-                    }
-                }
-                .padding(7.5)
-                .hoverEffect(.highlight)
+                actionButtons()
+                    .padding(7.5)
+                    .hoverEffect(.highlight)
             }
             .font(.title2)
-                .padding(2.5)
-                .background(Color(.systemGray4))
-                .buttonStyle(.borderless)
+            .padding(2.5)
+            .background(Color(.systemGray4))
+            .buttonStyle(.borderless)
             
             AdaptiveScrollView(notes: bookmark.wrappedNotes) {
                 VStack(alignment: .leading, spacing: 0) {
@@ -233,6 +154,93 @@ struct BookmarkDetails: View {
                         .placeholder("Notes", contents: notes)
                         .frame(height: 150)
                 }
+            }
+        }
+    }
+    
+    func thumbnail() -> some View {
+        VStack {
+            switch(cachedPreview?.previewState) {
+            case .thumbnail:
+                cachedPreview?.image!
+                    .resizable()
+                    .scaledToFit()
+            case .icon:
+                cachedPreview?.image!
+                    .resizable()
+                    .aspectRatio(1/1, contentMode: .fit)
+                    .cornerRadius(20, style: .continuous)
+                    .padding(15)
+                    .frame(maxWidth: .infinity, maxHeight: 175)
+                    .clipped()
+            case .firstLetter:
+                Color(uiColor: .systemGray2)
+                    .aspectRatio(16/9, contentMode: .fit)
+                    .overlay(
+                        Group {
+                            if let firstChar: Character = bookmark.wrappedTitle.first {
+                                Text(String(firstChar))
+                                    .font(.largeTitle.weight(.medium))
+                                    .foregroundColor(.white)
+                                    .scaleEffect(2)
+                            }
+                        }
+                    )
+            default:
+                Rectangle()
+                    .foregroundColor(.secondary.opacity(0.5))
+                    .shimmering()
+                    .aspectRatio(16/9, contentMode: .fit)
+            }
+        }
+    }
+    
+    func actionButtons() -> some View {
+        Group {
+            if !hideFavoriteOption {
+                Button {
+                    isFavorited.toggle()
+                    try? moc.save()
+                } label: {
+                    if isFavorited {
+                        Image(systemName: "heart.fill")
+                            .foregroundColor(.pink)
+                            .transition(.movingParts.pop(.pink))
+                    } else {
+                        Image(systemName: "heart")
+                            .foregroundColor(.pink)
+                    }
+                }
+                .keyboardShortcut("F", modifiers: [.shift, .command])
+            }
+            
+            Button(action: openBookmark) {
+                Image(systemName: "safari")
+            }
+            
+            ShareButton(url: bookmark.wrappedURL) {
+                Image(systemName: "square.and.arrow.up")
+            }
+            
+            Button {
+                editing.toggle()
+            } label: {
+                Image(systemName: "pencil")
+            }
+            
+            Button(role: .destructive) {
+                deleteConfirmation = true
+            } label: {
+                Image(systemName: "trash")
+                    .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
+                        Button("Delete Bookmark", role: .destructive) {
+                            showDetails.toggle()
+                            BookmarksManager.shared.deleteBookmark(bookmark)
+                            try? moc.save()
+                        }
+                    } message: {
+                        Text("It will be deleted from all your iCloud devices.")
+                    }
             }
         }
     }
