@@ -47,6 +47,7 @@
 		C27AF0F92B47C03E00C4D9A4 /* reloadAllWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF0F82B47C03E00C4D9A4 /* reloadAllWidgets.swift */; };
 		C27AF0FA2B47C0F200C4D9A4 /* reloadAllWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF0F82B47C03E00C4D9A4 /* reloadAllWidgets.swift */; };
 		C27AF0FB2B47C0F800C4D9A4 /* reloadAllWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF0F82B47C03E00C4D9A4 /* reloadAllWidgets.swift */; };
+		C27AF1152B48091E00C4D9A4 /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF1142B48091E00C4D9A4 /* Bool.swift */; };
 		C27BB9CB2B32FF6100ACA0EA /* DeleteBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */; };
 		C27BB9CC2B32FF6100ACA0EA /* AddBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9742A24B81E00535807 /* AddBookmark.swift */; };
 		C27BB9CD2B32FF6100ACA0EA /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
@@ -206,6 +207,7 @@
 		C25316032A2D03D2004F1491 /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		C2550E63282705F900ADA0BF /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		C27AF0F82B47C03E00C4D9A4 /* reloadAllWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reloadAllWidgets.swift; sourceTree = "<group>"; };
+		C27AF1142B48091E00C4D9A4 /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		C281D96C2A23D28200535807 /* BookmarkEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEntity.swift; sourceTree = "<group>"; };
 		C281D96E2A23D4FF00535807 /* BookmarksManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksManager.swift; sourceTree = "<group>"; };
 		C281D9702A23E32D00535807 /* FolderEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderEntity.swift; sourceTree = "<group>"; };
@@ -449,6 +451,7 @@
 				C29050762A12B80300817C48 /* String.swift */,
 				C29050782A12B81300817C48 /* TextEditor.swift */,
 				C29641092A56E9A000693284 /* Bookmark.swift */,
+				C27AF1142B48091E00C4D9A4 /* Bool.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -822,6 +825,7 @@
 				C24DF57D283E7185003C9692 /* Bookmark+CoreDataProperties.swift in Sources */,
 				C28B6E6928190C120030B6DD /* ColorOption.swift in Sources */,
 				C2C8EEA02A4DF89800CCD36F /* DraggableBookmark.swift in Sources */,
+				C27AF1152B48091E00C4D9A4 /* Bool.swift in Sources */,
 				C24DF577283E65D2003C9692 /* DataController.swift in Sources */,
 				C281D9BA2A2534E100535807 /* AddFolder.swift in Sources */,
 				C28D18A12B443EAE0033C979 /* ImportExportView.swift in Sources */,
