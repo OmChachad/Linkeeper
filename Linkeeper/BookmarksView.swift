@@ -287,6 +287,14 @@ struct BookmarksView: View {
             .background(.regularMaterial)
             .cornerRadius(15, style: .continuous)
             .padding(.horizontal, 5)
+            .dropDestination { bookmark, url in
+                if let bookmark {
+                    bookmark.folder = folder
+                } else {
+                    BookmarksManager.shared.addDroppedURL(url, to: folder)
+                }
+                try? moc.save()
+            }
     }
     
     func toolbarItems() -> some View {
