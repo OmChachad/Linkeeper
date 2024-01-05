@@ -87,6 +87,7 @@ struct BookmarkDetails: View {
         }
     }
     
+    #if os(visionOS)
     func frontVisionView() -> some View {
         VStack {
             VStack(spacing: 0) {
@@ -103,7 +104,7 @@ struct BookmarkDetails: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
             }
-            .visionGlassBackgroundEffect(in: RoundedRectangle(cornerRadius: 25, style: .continuous))
+            .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 25, style: .continuous))
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: hideFavoriteOption ? 4 : 5)) {
                 actionButtons()
@@ -111,7 +112,7 @@ struct BookmarkDetails: View {
                     .hoverEffect(.highlight)
             }
             .font(.title2)
-            .visionGlassBackgroundEffect(in: Capsule())
+            .glassBackgroundEffect(in: Capsule())
         }
         .frame(width: 400)
         .overlay(alignment: .topTrailing) {
@@ -124,7 +125,7 @@ struct BookmarkDetails: View {
             .contentShape(Circle())
             .hoverEffect(.highlight)
             .background(.ultraThinMaterial)
-            .visionGlassBackgroundEffect(in: Circle())
+            .glassBackgroundEffect(in: Circle())
             .padding(.top, 10)
         }
     }
@@ -139,7 +140,7 @@ struct BookmarkDetails: View {
                     .textFieldStyle(.roundedBorder)
             }
             .padding()
-            .visionGlassBackgroundEffect(in: RoundedRectangle(cornerRadius: 25))
+            .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 25))
             
             HStack {
                 Button("Cancel") {
@@ -158,9 +159,10 @@ struct BookmarkDetails: View {
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .padding()
             }
-            .visionGlassBackgroundEffect(in: Capsule())
+            .glassBackgroundEffect(in: Capsule())
         }
     }
+    #endif
     
     func frontView() -> some View {
         VStack(spacing: 0) {
@@ -213,7 +215,9 @@ struct BookmarkDetails: View {
                     .padding(isVisionOS ? 10 : 5)
                     .background(.thickMaterial, in: Circle())
                     .background(.black.opacity(0.5), in: Circle())
-                    .visionGlassBackgroundEffect(in: Circle())
+                    #if os(visionOS)
+                    .glassBackgroundEffect(in: Circle())
+                    #endif
             }
             .keyboardShortcut(.cancelAction)
             .buttonStyle(.borderless)

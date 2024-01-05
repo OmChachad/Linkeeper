@@ -195,16 +195,18 @@ struct BookmarksView: View {
         .animation(.spring().speed(0.75), value: filteredBookmarks)
         .animation(.spring(), value: showDetails)
         .animation(.easeInOut.speed(0.5), value: editState)
-        .bottomOrnament(visibility: editState == .active ? .visible : .hidden) {
+        #if os(visionOS)
+        .ornament(visibility: editState == .active ? .visible : .hidden, attachmentAnchor: .scene(.bottom)) {
             bottomEditToolbar()
                 .padding()
-                .visionGlassBackgroundEffect(in: Capsule())
+                .glassBackgroundEffect(in: Capsule())
         }
-        .trailingOrnament(visibility: showDetails ? .visible : .hidden, contentAlignment: .leading) {
+        .ornament(visibility: editState == .active ? .visible : .hidden, attachmentAnchor: .scene(.trailing), contentAlignment: .leading) {
             if showDetails {
                 BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, hideFavoriteOption: favorites == true)
             }
         }
+        #endif
     }
     
     func bottomEditToolbar() -> some View {

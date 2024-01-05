@@ -63,47 +63,6 @@ extension View {
         }
     }
     
-    func bottomOrnament<Content: View>(
-        visibility: Visibility = .automatic,
-        //attachmentAnchor: OrnamentAttachmentAnchor,
-        contentAlignment: Alignment = .center,
-        @ViewBuilder ornament: () -> Content
-    ) -> some View where Content : View {
-        #if os(visionOS)
-            self
-            .ornament(visibility: visibility, attachmentAnchor: .scene(.bottom), contentAlignment: contentAlignment, ornament: ornament)
-        #else
-            self
-        #endif
-    }
-    
-    func trailingOrnament<Content: View>(
-        visibility: Visibility = .automatic,
-        //attachmentAnchor: OrnamentAttachmentAnchor,
-        contentAlignment: Alignment = .center,
-        @ViewBuilder ornament: () -> Content
-    ) -> some View where Content : View {
-        #if os(visionOS)
-            self
-            .ornament(visibility: visibility, attachmentAnchor: .scene(.trailing), contentAlignment: contentAlignment, ornament: ornament)
-        #else
-            self
-        #endif
-    }
-    
-    func visionGlassBackgroundEffect<S>(
-        in shape: S
-    ) -> some View where S : InsettableShape {
-        Group {
-        #if os(visionOS)
-            self
-                .glassBackgroundEffect(in: shape)
-        #else
-            self
-        #endif
-        }
-    }
-    
     func contentUnavailabilityView<Content: View>(for content: any Collection, @ViewBuilder unavailabilityView: () -> Content) -> some View {
         Group {
             if content.isEmpty {
