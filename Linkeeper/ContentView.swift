@@ -8,9 +8,6 @@
 import SwiftUI
 import CoreData
 import SimpleToast
-#if canImport(WidgetKit)
-import WidgetKit
-#endif
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
@@ -238,21 +235,13 @@ Click **Add Folder** to get started.
             if #available(iOS 16.0, *) {
                 LinkeeperShortcuts.updateAppShortcutParameters()
             }
-            if #available(iOS 17.0, *) {
-                #if canImport(WidgetKit)
-                WidgetCenter.shared.reloadAllTimelines()
-                #endif
-            }
+            reloadAllWidgets()
         }
         .onChange(of: folders.count) { _ in
             if #available(iOS 16.0, *) {
                 LinkeeperShortcuts.updateAppShortcutParameters()
             }
-            if #available(iOS 17.0, *) {
-                #if canImport(WidgetKit)
-                WidgetCenter.shared.reloadAllTimelines()
-                #endif
-            }
+            reloadAllWidgets()
         }
         .simpleToast(isPresented: $addedBookmark, options: toastOptions, content: {
             AlertView(icon: "bookmark.fill", title: "Added Bookmark")
@@ -276,11 +265,7 @@ Click **Add Folder** to get started.
                 }
             }
             
-            if #available(iOS 17.0, *) {
-                #if canImport(WidgetKit)
-                WidgetCenter.shared.reloadAllTimelines()
-                #endif
-            }
+            reloadAllWidgets()
         }
     }
     

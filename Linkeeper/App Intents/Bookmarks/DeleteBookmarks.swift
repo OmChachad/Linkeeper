@@ -7,9 +7,6 @@
 
 import Foundation
 import AppIntents
-#if canImport(WidgetKit)
-import WidgetKit
-#endif
 
 @available(iOS 16.0, *)
 struct DeleteBookmark: AppIntent {
@@ -44,11 +41,7 @@ struct DeleteBookmark: AppIntent {
             }
             
             BookmarksManager.shared.deleteBookmark(withId: bookmark.id)
-            if #available(iOS 17.0, *) {
-                #if canImport(WidgetKit)
-                WidgetCenter.shared.reloadAllTimelines()
-                #endif
-            }
+            reloadAllWidgets()
             
             return .result(value: "Deleted Bookmark")
         } catch let error {

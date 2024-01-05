@@ -26,11 +26,7 @@ struct LinkeeperApp: App {
                     if #available(iOS 16.0, *) {
                         LinkeeperShortcuts.updateAppShortcutParameters()
                     }
-                    if #available(iOS 17.0, *) {
-                        #if canImport(WidgetKit)
-                        WidgetCenter.shared.reloadAllTimelines()
-                        #endif
-                    }
+                    reloadAllWidgets()
                     CacheManager.instance.clearOutOld()
                 }
         }

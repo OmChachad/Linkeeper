@@ -7,9 +7,6 @@
 
 import Foundation
 import AppIntents
-#if canImport(WidgetKit)
-import WidgetKit
-#endif
 
 @available(iOS 16.0, *)
 struct MoveBookmark: AppIntent {
@@ -55,9 +52,7 @@ struct MoveBookmark: AppIntent {
                 }
             }
             try BookmarksManager.shared.context.save()
-            #if canImport(WidgetKit)
-            WidgetCenter.shared.reloadAllTimelines()
-            #endif
+            reloadAllWidgets()
             
             return .result(value: bookmark)
         

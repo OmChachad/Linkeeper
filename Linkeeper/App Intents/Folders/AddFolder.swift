@@ -8,9 +8,6 @@
 import Foundation
 import AppIntents
 import SwiftUI
-#if canImport(WidgetKit)
-import WidgetKit
-#endif
 
 @available(iOS 16.0, *)
 struct AddFolder: AppIntent {
@@ -43,11 +40,7 @@ struct AddFolder: AppIntent {
     
     func perform() async throws -> some ReturnsValue<FolderEntity>{
         let folder = FoldersManager.shared.addFolder(title: folderTitle, accentColor: color, chosenSymbol: icon)
-        if #available(iOS 17.0, *) {
-            #if canImport(WidgetKit)
-            WidgetCenter.shared.reloadAllTimelines()
-            #endif
-        }
+        reloadAllWidgets()
         return .result(value: folder.toEntity())
     }
 }
