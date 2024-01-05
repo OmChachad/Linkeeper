@@ -70,66 +70,57 @@ struct BookmarksView: View {
     }
     
     var body: some View {
-        Group {
-            if bookmarks.isEmpty {
-                noBookmarksView()
-            } else {
-                ScrollView {
-                    Group {
-                        if !searchText.isEmpty && filteredBookmarks.isEmpty {
-                            Text("No results found for **\"\(searchText)\"**")
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.center)
-                                .padding()
+        ScrollView {
+            Group {
+                if !searchText.isEmpty && filteredBookmarks.isEmpty {
+                    Text("No results found for **\"\(searchText)\"**")
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
+                
+                if groupByFolders && folder == nil {
+                    VStack {
+                        if !ungroupedBookmarks.isEmpty {
+                            BookmarksGrid(for: ungroupedBookmarks)
+                                .padding([.top, .leading, .trailing], 15)
                         }
                         
-                        if groupByFolders && folder == nil {
-                            //LazyVStack(pinnedViews: [.sectionHeaders]) {
-                            VStack {
-                                if !ungroupedBookmarks.isEmpty {
-                                    BookmarksGrid(for: ungroupedBookmarks)
-                                        .padding([.top, .leading, .trailing], 15)
-                                }
-                                
-                                ForEach(orderedFolders, id: \.self) { folder in
-                                    let folderHasBookmarks = !folder.bookmarksArray.isEmpty
-                                    let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
-                                    if showGroup {
-                                        Section {
-                                            Group {
-                                                if folderHasBookmarks {
-                                                    BookmarksGrid(for: filteredBookmarks(for: folder), folder: folder)
-                                                } else {
-                                                    noBookmarksInSection()
-                                                }
-                                            }
-                                            .padding(.horizontal, 15)
-                                        } header: {
-                                            HStack {
-                                                Label(folder.wrappedTitle, systemImage: folder.wrappedSymbol)
-                                                    .font(.headline)
-                                                    .imageScale(.large)
-                                                    .foregroundColor(folder.wrappedColor)
-                                            }
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding(.vertical, 5)
-                                            .padding(.horizontal, 15)
-                                            //.background(Color(uiColor: .systemBackground).opacity(0.95))
+                        ForEach(orderedFolders, id: \.self) { folder in
+                            let folderHasBookmarks = !folder.bookmarksArray.isEmpty
+                            let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
+                            if showGroup {
+                                Section {
+                                    Group {
+                                        if folderHasBookmarks {
+                                            BookmarksGrid(for: filteredBookmarks(for: folder), folder: folder)
+                                        } else {
+                                            noBookmarksInSection()
                                         }
                                     }
+                                    .padding(.horizontal, 15)
+                                } header: {
+                                    Label(folder.wrappedTitle, systemImage: folder.wrappedSymbol)
+                                        .font(.headline)
+                                        .imageScale(.large)
+                                        .foregroundColor(folder.wrappedColor)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(5)
+                                        .padding(.horizontal, 10)
                                 }
                             }
-                            .padding(.bottom, 15)
-                        } else {
-                            BookmarksGrid(for: filteredBookmarks, folder: folder)
-                                .padding(15)
                         }
                     }
-                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, 15)
+                } else {
+                    BookmarksGrid(for: filteredBookmarks, folder: folder)
+                        .padding(15)
                 }
-                .searchable(text: $searchText, prompt: "Find a bookmark...")
             }
+            .frame(maxWidth: .infinity)
         }
+        .searchable(text: $searchText, prompt: "Find a bookmark...")
+        .contentUnavailabilityView(for: bookmarks, unavailabilityView: noBookmarksView)
         .overlay {
             if showDetails && !isVisionOS {
                 Color("primaryInverted").opacity(0.3)
@@ -165,7 +156,6 @@ struct BookmarksView: View {
             }
         }
         .overlay {
-            
             #if !os(visionOS)
             if editState == .active {
                 bottomEditToolbar()

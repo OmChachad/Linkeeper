@@ -103,4 +103,14 @@ extension View {
         #endif
         }
     }
+    
+    func contentUnavailabilityView<Content: View>(for content: any Collection, @ViewBuilder unavailabilityView: () -> Content) -> some View {
+        Group {
+            if content.isEmpty {
+                unavailabilityView()
+            } else {
+                self
+            }
+        }
+    }
 }
