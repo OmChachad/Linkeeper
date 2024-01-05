@@ -69,12 +69,11 @@ struct BookmarksView: View {
     }
     
     var orderedFolders: [Folder] {
-        let pinnedFolders = folders.filter{$0.isPinned}.sorted(by: {$0.index < $1.index})
-        let otherFolders = folders.filter{!$0.isPinned}.sorted(by: {$0.index < $1.index})
-        let orderedFolders = pinnedFolders + otherFolders
-        return orderedFolders
+        return folders.sorted(using: [
+            KeyPathComparator(\.isPinned, order: .reverse),
+            KeyPathComparator(\.index, order: .forward)]
+        )
     }
-    
     
     init() {}
     
