@@ -33,7 +33,10 @@
 		C22268882B486F4D00D88123 /* BookmarksGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268872B486F4D00D88123 /* BookmarksGridView.swift */; };
 		C222688A2B486F5C00D88123 /* BookmarksTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268892B486F5C00D88123 /* BookmarksTableView.swift */; };
 		C222688C2B486F6500D88123 /* BookmarksListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C222688B2B486F6500D88123 /* BookmarksListView.swift */; };
-		C22268942B49C92F00D88123 /* BookmarkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268932B49C92F00D88123 /* BookmarkItem.swift */; };
+		C22268942B49C92F00D88123 /* BookmarkGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268932B49C92F00D88123 /* BookmarkGridItem.swift */; };
+		C22268962B49CA2900D88123 /* BookmarkTableNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268952B49CA2900D88123 /* BookmarkTableNameView.swift */; };
+		C22268982B49CA5600D88123 /* BookmarkListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268972B49CA5600D88123 /* BookmarkListItem.swift */; };
+		C222689A2B49CA9700D88123 /* BookmarkItemAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268992B49CA9700D88123 /* BookmarkItemAction.swift */; };
 		C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EA2A31BD6700401721 /* YouTube.swift */; };
 		C234F6ED2A31BD7100401721 /* Twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EC2A31BD7100401721 /* Twitter.swift */; };
 		C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */; };
@@ -202,7 +205,10 @@
 		C22268872B486F4D00D88123 /* BookmarksGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksGridView.swift; sourceTree = "<group>"; };
 		C22268892B486F5C00D88123 /* BookmarksTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksTableView.swift; sourceTree = "<group>"; };
 		C222688B2B486F6500D88123 /* BookmarksListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksListView.swift; sourceTree = "<group>"; };
-		C22268932B49C92F00D88123 /* BookmarkItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkItem.swift; sourceTree = "<group>"; };
+		C22268932B49C92F00D88123 /* BookmarkGridItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkGridItem.swift; sourceTree = "<group>"; };
+		C22268952B49CA2900D88123 /* BookmarkTableNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableNameView.swift; sourceTree = "<group>"; };
+		C22268972B49CA5600D88123 /* BookmarkListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListItem.swift; sourceTree = "<group>"; };
+		C22268992B49CA9700D88123 /* BookmarkItemAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkItemAction.swift; sourceTree = "<group>"; };
 		C234F6EA2A31BD6700401721 /* YouTube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTube.swift; sourceTree = "<group>"; };
 		C234F6EC2A31BD7100401721 /* Twitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twitter.swift; sourceTree = "<group>"; };
 		C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDetails.swift; sourceTree = "<group>"; };
@@ -332,6 +338,46 @@
 			path = BookmarksWidget;
 			sourceTree = "<group>";
 		};
+		C222689B2B49CAB400D88123 /* Grid View */ = {
+			isa = PBXGroup;
+			children = (
+				C22268872B486F4D00D88123 /* BookmarksGridView.swift */,
+				C22268932B49C92F00D88123 /* BookmarkGridItem.swift */,
+			);
+			path = "Grid View";
+			sourceTree = "<group>";
+		};
+		C222689C2B49CAC300D88123 /* Table View */ = {
+			isa = PBXGroup;
+			children = (
+				C22268892B486F5C00D88123 /* BookmarksTableView.swift */,
+				C22268952B49CA2900D88123 /* BookmarkTableNameView.swift */,
+			);
+			path = "Table View";
+			sourceTree = "<group>";
+		};
+		C222689D2B49CACF00D88123 /* List View */ = {
+			isa = PBXGroup;
+			children = (
+				C222688B2B486F6500D88123 /* BookmarksListView.swift */,
+				C22268972B49CA5600D88123 /* BookmarkListItem.swift */,
+			);
+			path = "List View";
+			sourceTree = "<group>";
+		};
+		C222689E2B49CAE000D88123 /* Bookmarks View */ = {
+			isa = PBXGroup;
+			children = (
+				C2550E63282705F900ADA0BF /* BookmarksView.swift */,
+				C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */,
+				C222689B2B49CAB400D88123 /* Grid View */,
+				C222689C2B49CAC300D88123 /* Table View */,
+				C222689D2B49CACF00D88123 /* List View */,
+				C22268992B49CA9700D88123 /* BookmarkItemAction.swift */,
+			);
+			path = "Bookmarks View";
+			sourceTree = "<group>";
+		};
 		C234F6E92A31BD4D00401721 /* Shapes */ = {
 			isa = PBXGroup;
 			children = (
@@ -355,15 +401,6 @@
 				C2A14A252A5DD21E003A5308 /* StoreURL Extension.swift */,
 			);
 			path = CoreData;
-			sourceTree = "<group>";
-		};
-		C252EAB02842B1B000E296F5 /* BookmarkInfoViews */ = {
-			isa = PBXGroup;
-			children = (
-				C22268932B49C92F00D88123 /* BookmarkItem.swift */,
-				C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */,
-			);
-			path = BookmarkInfoViews;
 			sourceTree = "<group>";
 		};
 		C2550E602827040000ADA0BF /* Creation Sheets */ = {
@@ -526,11 +563,7 @@
 				C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */,
 				C2E806E72A26194E00A41D0C /* IntroductionView.swift */,
 				C2C8DC3F28171D93000F4AEB /* ContentView.swift */,
-				C2550E63282705F900ADA0BF /* BookmarksView.swift */,
-				C22268872B486F4D00D88123 /* BookmarksGridView.swift */,
-				C22268892B486F5C00D88123 /* BookmarksTableView.swift */,
-				C222688B2B486F6500D88123 /* BookmarksListView.swift */,
-				C252EAB02842B1B000E296F5 /* BookmarkInfoViews */,
+				C222689E2B49CAE000D88123 /* Bookmarks View */,
 				C29050692A12B4FF00817C48 /* Modification */,
 				C2550E602827040000ADA0BF /* Creation Sheets */,
 				C2E806E42A26110D00A41D0C /* Settings */,
@@ -840,6 +873,7 @@
 				C29050792A12B81300817C48 /* TextEditor.swift in Sources */,
 				C29B00EF2A58862A0081FEBC /* ShareButton.swift in Sources */,
 				C29050752A12B7E300817C48 /* URL.swift in Sources */,
+				C22268982B49CA5600D88123 /* BookmarkListItem.swift in Sources */,
 				C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */,
 				C281D9712A23E32D00535807 /* FolderEntity.swift in Sources */,
 				C24DF57D283E7185003C9692 /* Bookmark+CoreDataProperties.swift in Sources */,
@@ -860,6 +894,7 @@
 				C2C8EE922A4C8BB300CCD36F /* ChangeIconsView.swift in Sources */,
 				C281D9B82A25277A00535807 /* DeleteFolder.swift in Sources */,
 				C29050682A125EF100817C48 /* MoveBookmarksView.swift in Sources */,
+				C22268962B49CA2900D88123 /* BookmarkTableNameView.swift in Sources */,
 				C281D9B62A2512F900535807 /* FavoriteToggle.swift in Sources */,
 				C234F6ED2A31BD7100401721 /* Twitter.swift in Sources */,
 				C25316022A2D0398004F1491 /* FolderItemView.swift in Sources */,
@@ -880,10 +915,11 @@
 				C2C8EEA82A4E7D2400CCD36F /* DropItem.swift in Sources */,
 				C29050732A12B7A500817C48 /* Shape.swift in Sources */,
 				C290506F2A12B77100817C48 /* View.swift in Sources */,
-				C22268942B49C92F00D88123 /* BookmarkItem.swift in Sources */,
+				C22268942B49C92F00D88123 /* BookmarkGridItem.swift in Sources */,
 				C27AF1172B4809B900C4D9A4 /* SortMethod.swift in Sources */,
 				C2C8EEA62A4DFC0600CCD36F /* DropExtension.swift in Sources */,
 				C2550E64282705F900ADA0BF /* BookmarksView.swift in Sources */,
+				C222689A2B49CA9700D88123 /* BookmarkItemAction.swift in Sources */,
 				C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */,
 				C281D96F2A23D4FF00535807 /* BookmarksManager.swift in Sources */,
 				C29050772A12B80300817C48 /* String.swift in Sources */,
