@@ -23,7 +23,7 @@ struct cachedPreview: Codable {
             return Image(uiImage: uiImage)
         }
         
-        return Image("ClassicIconImage")
+        return nil
     }
 }
 
