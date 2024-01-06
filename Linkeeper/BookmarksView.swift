@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import Pow
 
 struct BookmarksView: View {
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     // CoreData FetchRequests
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var bookmarks: FetchedResults<Bookmark>
@@ -24,7 +26,7 @@ struct BookmarksView: View {
     @State private var showDetails = false
     @State private var toBeEditedBookmark: Bookmark?
     
-    @State private var selectedBookmarks: Set<Bookmark> = []
+    @State private var selectedBookmarks: Set<Bookmark.ID> = []
     @State private var deleteConfirmation = false
     @State private var movingBookmarks = false
     
@@ -32,9 +34,18 @@ struct BookmarksView: View {
     @State var editState: EditMode = .inactive
     @State private var addingBookmark = false
     @State private var searchText = ""
+    
     @AppStorage("GroupAllByFolders") var groupByFolders: Bool = true
+    @AppStorage("ViewOption") private var viewOption: ViewOption = .grid
+    
     @AppStorage("SortMethod") private var sortMethod: SortMethod = .dateCreated
     @AppStorage("SortDirection") private var sortDirection: SortDirection = .descending
+    
+    @State private var sortOrder = [KeyPathComparator(\Bookmark.wrappedDate, order: .reverse)]
+    
+    var shouldDisallowTable: Bool {
+        return horizontalSizeClass == .compact || UIDevice.current.userInterfaceIdiom == .phone
+    }
     
     var minimumItemWidth: CGFloat {
         #if os(visionOS)
@@ -70,54 +81,26 @@ struct BookmarksView: View {
     }
     
     var body: some View {
-        ScrollView {
-            Group {
-                if !searchText.isEmpty && filteredBookmarks.isEmpty {
-                    Text("No results found for **\"\(searchText)\"**")
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                }
-                
-                if groupByFolders && folder == nil {
-                    VStack {
-                        if !ungroupedBookmarks.isEmpty {
-                            BookmarksGrid(for: ungroupedBookmarks)
-                                .padding([.top, .leading, .trailing], 15)
-                        }
-                        
-                        ForEach(orderedFolders, id: \.self) { folder in
-                            let folderHasBookmarks = !folder.bookmarksArray.isEmpty
-                            let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
-                            if showGroup {
-                                Section {
-                                    Group {
-                                        if folderHasBookmarks {
-                                            BookmarksGrid(for: filteredBookmarks(for: folder), folder: folder)
-                                        } else {
-                                            noBookmarksInSection()
-                                        }
-                                    }
-                                    .padding(.horizontal, 15)
-                                } header: {
-                                    Label(folder.wrappedTitle, systemImage: folder.wrappedSymbol)
-                                        .font(.headline)
-                                        .imageScale(.large)
-                                        .foregroundColor(folder.wrappedColor)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(5)
-                                        .padding(.horizontal, 10)
-                                }
-                            }
-                        }
+        Group {
+            if !searchText.isEmpty && filteredBookmarks.isEmpty {
+                Text("No results found for **\"\(searchText)\"**")
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding()
+            } else {
+                switch(viewOption) {
+                case .grid:
+                    BookmarksGridView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedFolders)
+                case .list:
+                    BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedFolders)
+                case .table:
+                    if #available(iOS 16.0, *), !shouldDisallowTable {
+                        BookmarksTableView(bookmarks: filteredBookmarks, selectedBookmarks: $selectedBookmarks, sortOrder: $sortOrder, toBeEditedBookmark: $toBeEditedBookmark, showDetails: $showDetails)
+                    } else {
+                        BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedFolders)
                     }
-                    .padding(.bottom, 15)
-                } else {
-                    BookmarksGrid(for: filteredBookmarks, folder: folder)
-                        .padding(15)
                 }
             }
-            .frame(maxWidth: .infinity)
         }
         .searchable(text: $searchText, prompt: "Find a bookmark...")
         .contentUnavailabilityView(for: bookmarks, unavailabilityView: noBookmarksView)
@@ -131,6 +114,9 @@ struct BookmarksView: View {
                     }
                 
                 BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, hideFavoriteOption: favorites == true)
+                    .if(viewOption != .grid) { view in
+                        view.transition(.movingParts.glare)
+                    }
             }
         }
         .navigationTitle(for: folder, folderTitle: $folderTitle, onlyFavorites: favorites ?? false)
@@ -144,6 +130,21 @@ struct BookmarksView: View {
                         Image(systemName: "ellipsis.circle")
                     }
                     .menuStyle(.borderlessButton)
+                    
+                    Picker("View Style", selection: $viewOption) {
+                        ForEach(ViewOption.allCases.filter { !(shouldDisallowTable && $0 == .table && viewOption != .table) }, id: \.self) { option in
+                            Label(option.title, systemImage: option.iconString)
+                                .labelStyle(.iconOnly)
+                                .tag(option)
+                        }
+                    }
+
+                    .if(shouldDisallowTable) { view in
+                        view.pickerStyle(.menu)
+                    }
+                    .if(!shouldDisallowTable) { view in
+                        view.pickerStyle(.segmented)
+                    }
                 } else {
                     #if !targetEnvironment(macCatalyst)
                     Button("Done") { editState = .inactive }
@@ -169,7 +170,7 @@ struct BookmarksView: View {
         }
         .environment(\.editMode, $editState)
         .sheet(isPresented: $movingBookmarks) {
-            MoveBookmarksView(toBeMoved: [Bookmark](selectedBookmarks)) {
+            MoveBookmarksView(toBeMoved: [Bookmark](selectedBookmarks.map{BookmarksManager.shared.findBookmark(withId: $0!)})) {
                 selectedBookmarks.removeAll()
                 editState = .inactive
             }
@@ -178,6 +179,9 @@ struct BookmarksView: View {
             AddBookmarkView(folderPreset: folder)
         }
         .onChange(of: editState) { _ in
+            selectedBookmarks.removeAll()
+        }
+        .onChange(of: viewOption) { _ in
             selectedBookmarks.removeAll()
         }
         .onChange(of: folderTitle, perform: { newTitle in
@@ -220,7 +224,7 @@ struct BookmarksView: View {
             .confirmationDialog("Are you sure you want to delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
                 Button("Delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)", role: .destructive) {
                     selectedBookmarks.forEach { bookmark in
-                        BookmarksManager.shared.deleteBookmark(bookmark)
+                        BookmarksManager.shared.deleteBookmark(withId: bookmark ?? UUID())
                     }
                     try? moc.save()
                     selectedBookmarks.removeAll()
@@ -282,23 +286,6 @@ struct BookmarksView: View {
         }
     }
     
-    func noBookmarksInSection() -> some View {
-        Text("No Bookmarks")
-            .foregroundColor(.secondary)
-            .frame(maxWidth: .infinity, minHeight: 80, idealHeight: 100, maxHeight: 100)
-            .background(.regularMaterial)
-            .cornerRadius(15, style: .continuous)
-            .padding(.horizontal, 5)
-            .dropDestination { bookmark, url in
-                if let bookmark {
-                    bookmark.folder = folder
-                } else {
-                    BookmarksManager.shared.addDroppedURL(url, to: folder)
-                }
-                try? moc.save()
-            }
-    }
-    
     func toolbarItems() -> some View {
         Group {
             Button { editState = .active } label: { Label("Select", systemImage: "checkmark.circle") }
@@ -307,32 +294,33 @@ struct BookmarksView: View {
                 Toggle(isOn: $groupByFolders.animation(), label: { Label("Group by Folders", systemImage: "rectangle.grid.1x2") })
             }
             
-            Menu {
-                Picker("Sort By", selection: $sortMethod) {
-                    ForEach(SortMethod.allCases, id: \.self) { sortMethod in
-                        Text(sortMethod.rawValue)
-                            .tag(sortMethod)
+            if viewOption != .table {
+                Menu {
+                    Picker("Sort By", selection: $sortMethod) {
+                        ForEach(SortMethod.allCases, id: \.self) { sortMethod in
+                            Text(sortMethod.rawValue)
+                                .tag(sortMethod)
+                        }
                     }
-                }
-                
-                Picker("Sort Direction", selection: $sortDirection) {
-                    ForEach(SortDirection.allCases, id: \.self) { sortDirection in
-                        Text(sortDirection.label)
-                            .tag(sortDirection)
+                    
+                    Picker("Sort Direction", selection: $sortDirection) {
+                        ForEach(SortDirection.allCases, id: \.self) { sortDirection in
+                            Text(sortDirection.label)
+                                .tag(sortDirection)
+                        }
                     }
+                    
+                } label: {
+                    #if targetEnvironment(macCatalyst)
+                    Label("Sort By", systemImage: "arrow.up.arrow.down")
+                    #else
+                                        
+                    Label("""
+                    Sort By
+                    \(sortMethod.rawValue)
+                    """, systemImage: "arrow.up.arrow.down")
+                    #endif
                 }
-                
-            } label: {
-                #if targetEnvironment(macCatalyst)
-                
-                Label("Sort By", systemImage: "arrow.up.arrow.down")
-                #else
-                
-                Label("""
-Sort By
-\(sortMethod.rawValue)
-""", systemImage: "arrow.up.arrow.down")
-                #endif
             }
             
             Button { addingBookmark.toggle() } label: { Label("Add Bookmark", systemImage: "plus") }
@@ -341,36 +329,9 @@ Sort By
         .borderlessMacCatalystButton()
     }
     
-    func BookmarksGrid(for bookmarks: [Bookmark], folder: Folder? = nil) -> some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 15) {
-            ForEach(bookmarks, id: \.self) { bookmark in
-                BookmarkItem(bookmark: bookmark, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks)
-                    .padding(.horizontal, 5)
-            }
-        }
-        .contentShape(Rectangle())
-        .dropDestination { bookmark, url in
-            if favorites == true {
-                if let bookmark {
-                    bookmark.isFavorited = true
-                } else {
-                    let bookmark = BookmarksManager.shared.addDroppedURL(url)
-                    bookmark?.isFavorited = true
-                }
-            } else {
-                if let bookmark {
-                    bookmark.folder = folder
-                } else {
-                    BookmarksManager.shared.addDroppedURL(url, to: folder)
-                }
-            }
-            try? moc.save()
-        }
-    }
-    
     var sortedBookmarks: [Bookmark] {
         let ascend = sortDirection == .ascending
-
+        
         switch(sortMethod) {
         case .dateCreated:
             return bookmarks.sorted(by: { ascend ? $0.wrappedDate < $1.wrappedDate : $0.wrappedDate > $1.wrappedDate })
@@ -379,32 +340,13 @@ Sort By
         }
     }
     
-    var ungroupedBookmarks: [Bookmark] {
-        let ungroupedBookmarks = sortedBookmarks.filter{$0.folder == nil}
-        
-        if searchText.isEmpty {
-            return ungroupedBookmarks
-        } else {
-            return ungroupedBookmarks.filter { $0.doesMatch(searchText) }
-        }
-    }
-    
     var filteredBookmarks: [Bookmark] {
-            if searchText.isEmpty {
-                return [Bookmark](sortedBookmarks)
-            } else {
-                return sortedBookmarks.filter{ $0.doesMatch(searchText) }
-            }
-        }
-    
-    func filteredBookmarks(for folder: Folder) -> [Bookmark] {
         if searchText.isEmpty {
-            return sortedBookmarks.filter{ $0.folder == folder }
+            return [Bookmark](sortedBookmarks)
         } else {
-            return bookmarks.filter { $0.doesMatch(searchText, folder: folder) }
+            return sortedBookmarks.filter{ $0.doesMatch(searchText) }
         }
     }
-    
 }
 
 struct BookmarksView_Previews: PreviewProvider {

@@ -1,5 +1,5 @@
 //
-//  BookmarkView.swift
+//  BookmarkGridItem.swift
 //  Marked
 //
 //  Created by Om Chachad on 11/05/22.
@@ -10,7 +10,7 @@ import LinkPresentation
 import Pow
 import Shimmer
 
-struct BookmarkItem: View {
+struct BookmarkGridItem: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.openURL) var openURL
     
@@ -28,12 +28,12 @@ struct BookmarkItem: View {
     @State private var cachedPreview: cachedPreview?
     
     @Environment(\.editMode) var editMode
-    @Binding var selectedBookmarks: Set<Bookmark>
+    @Binding var selectedBookmarks: Set<Bookmark.ID>
     
     @State private var movingBookmark = false
     
     var isSelected: Bool {
-        selectedBookmarks.contains(bookmark)
+        selectedBookmarks.contains(bookmark.id ?? UUID())
     }
     
     var body: some View {
@@ -95,9 +95,9 @@ struct BookmarkItem: View {
         .onTapGesture {
             if editMode?.wrappedValue == .active {
                 if isSelected {
-                    selectedBookmarks.remove(bookmark)
+                    selectedBookmarks.remove(bookmark.id ?? UUID())
                 } else {
-                    selectedBookmarks.insert(bookmark)
+                    selectedBookmarks.insert(bookmark.id ?? UUID())
                 }
             } else {
                 openBookmark()

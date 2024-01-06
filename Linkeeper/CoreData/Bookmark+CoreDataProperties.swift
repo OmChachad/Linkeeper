@@ -48,6 +48,10 @@ extension Bookmark {
         String(describing: id?.uuidString)
     }
     
+    public var wrappedFolderName: String {
+        self.folder?.wrappedTitle ?? "None"
+    }
+    
     var draggable: DraggableBookmark {
         return DraggableBookmark(id: id ?? UUID(), title: wrappedTitle, url: wrappedURL, notes: wrappedNotes, dateAdded: wrappedDate, isFavorited: isFavorited)
     }
