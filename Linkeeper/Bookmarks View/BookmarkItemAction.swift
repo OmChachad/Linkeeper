@@ -136,7 +136,7 @@ struct BookmarkItemAction: ViewModifier {
                 bookmark.isFavorited = newValue
                 try? moc.save()
             }
-            .animation(.default, value: cachedPreview?.image)
+            .animation(.default, value: cachedPreview?.previewState)
             .task {
                 bookmark.cachedImage(saveTo: $cachedPreview)
                 isFavorited = bookmark.isFavorited
