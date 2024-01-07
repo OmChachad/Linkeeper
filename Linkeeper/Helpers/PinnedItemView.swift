@@ -109,6 +109,7 @@ struct PinnedItemView<Content: View>: View {
                     Spacer()
                     
                     Text(String(count))
+                        .lineLimit(1)
                         .font(.system(.title, design: .rounded).bold())
                         .foregroundColor(isMacCatalystOriPad && isActive ? .white : .primary)
                 }
