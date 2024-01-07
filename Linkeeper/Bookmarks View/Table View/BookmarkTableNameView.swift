@@ -24,6 +24,7 @@ struct TableNameView: View {
                         .scaledToFit()
                 } else if let firstChar = bookmark.wrappedTitle.first {
                     Text(String(firstChar))
+                        .foregroundStyle(.white)
                         .font(.title)
                         .frame(width: 44, height: 44)
                         .background(.tertiary)
