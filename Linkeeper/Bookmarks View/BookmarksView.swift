@@ -290,11 +290,11 @@ struct BookmarksView: View {
         Group {
             Button { editState = .active } label: { Label("Select", systemImage: "checkmark.circle") }
             
-            if folder == nil {
-                Toggle(isOn: $groupByFolders.animation(), label: { Label("Group by Folders", systemImage: "rectangle.grid.1x2") })
-            }
-            
-            if viewOption != .table {
+            if viewOption != .table || shouldDisallowTable {
+                if folder == nil {
+                    Toggle(isOn: $groupByFolders.animation(), label: { Label("Group by Folders", systemImage: "rectangle.grid.1x2") })
+                }
+                
                 Menu {
                     Picker("Sort By", selection: $sortMethod) {
                         ForEach(SortMethod.allCases, id: \.self) { sortMethod in
