@@ -34,6 +34,7 @@ struct TableNameView: View {
             .frame(width: 44, height: 44)
             .clipped()
             .cornerRadius(8, style: .continuous)
+            .shadow(radius: 1)
             .padding(.vertical, 5)
             .padding(.trailing, 10)
             
