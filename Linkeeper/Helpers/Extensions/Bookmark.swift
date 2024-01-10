@@ -10,7 +10,13 @@ import SwiftUI
 
 extension Bookmark {
     func copyURL() {
+        #if os(macOS)
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.writeObjects([self.wrappedURL as NSPasteboardWriting])
+        #else
         UIPasteboard.general.url = self.wrappedURL
+        #endif
     }
     
     @MainActor

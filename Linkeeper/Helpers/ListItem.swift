@@ -40,6 +40,9 @@ struct ListItem: View {
             } icon: {
                 icon()
             }
+            #if os(macOS)
+            .padding(.leading, 5)
+            #endif
             
             Spacer()
             
@@ -51,7 +54,7 @@ struct ListItem: View {
     
     func icon() -> some View {
         Group {
-            #if targetEnvironment(macCatalyst)
+            #if os(macOS)
                 Image(systemName: systemName)
                     .imageScale(.medium)
                     .padding(5)

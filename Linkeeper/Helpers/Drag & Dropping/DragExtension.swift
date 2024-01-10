@@ -11,7 +11,7 @@ import SwiftUI
 extension View {
     func draggable(_ bookmark: Bookmark) -> some View {
         Group {
-            if #available(iOS 16.0, *) {
+            if #available(iOS 16.0, macOS 13.0, *) {
                 self
                     .draggable(bookmark.draggable)
             } else {

@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+#if !os(macOS)
+@available(iOS 15.0, *)
 struct ChangeIconsView: View {
     let icons = ["ClassicIcon", "DarkIcon"]
     let displayNames = [
@@ -75,3 +77,4 @@ struct ChangeIconsView_Previews: PreviewProvider {
         ChangeIconsView()
     }
 }
+#endif

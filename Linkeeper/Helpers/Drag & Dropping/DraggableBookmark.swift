@@ -22,7 +22,7 @@ struct DraggableBookmark: Codable {
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 extension DraggableBookmark: Transferable {
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .draggableBookmark)

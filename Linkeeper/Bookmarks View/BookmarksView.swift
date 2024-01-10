@@ -44,18 +44,26 @@ struct BookmarksView: View {
     @State private var sortOrder = [KeyPathComparator(\Bookmark.wrappedDate, order: .reverse)]
     
     var shouldDisallowTable: Bool {
+        #if os(macOS)
+        return false
+        #else
         return horizontalSizeClass == .compact || UIDevice.current.userInterfaceIdiom == .phone
+        #endif
     }
     
     var minimumItemWidth: CGFloat {
         #if os(visionOS)
          return 165
         #else
+        #if os(macOS)
+        return 165
+        #else
         if UIScreen.main.bounds.width == 320 {
             return 145
         } else {
             return 165
         }
+        #endif
         #endif
     }
     
@@ -94,7 +102,7 @@ struct BookmarksView: View {
                 case .list:
                     BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedFolders)
                 case .table:
-                    if #available(iOS 16.0, *), !shouldDisallowTable {
+                    if #available(iOS 16.0, macOS 13.0, *), !shouldDisallowTable {
                         BookmarksTableView(bookmarks: filteredBookmarks, selectedBookmarks: $selectedBookmarks, sortOrder: $sortOrder, toBeEditedBookmark: $toBeEditedBookmark, showDetails: $showDetails)
                     } else {
                         BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedFolders)
@@ -120,17 +128,11 @@ struct BookmarksView: View {
             }
         }
         .navigationTitle(for: folder, folderTitle: $folderTitle, onlyFavorites: favorites ?? false)
+        #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
         .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
                 if editState == .inactive {
-                    Menu {
-                        toolbarItems()
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                    }
-                    .menuStyle(.borderlessButton)
-                    
                     Picker("View Style", selection: $viewOption) {
                         ForEach(ViewOption.allCases.filter { !(shouldDisallowTable && $0 == .table && viewOption != .table) }, id: \.self) { option in
                             Label(option.title, systemImage: option.iconString)
@@ -145,20 +147,44 @@ struct BookmarksView: View {
                     .if(!shouldDisallowTable) { view in
                         view.pickerStyle(.segmented)
                     }
+                    
+                    if viewOption != .table || !isMac {
+                        Menu {
+                            toolbarItems()
+                        } label: {
+                            Image(systemName: "ellipsis.circle")
+                        }
+                        .menuStyle(.borderlessButton)
+                    }
+                    
+                    
                 } else {
-                    #if !targetEnvironment(macCatalyst)
                     Button("Done") { editState = .inactive }
-                    #endif
                 }
-                
-                #if targetEnvironment(macCatalyst)
-                EditButton()
-                #endif
-            }
         }
+        #if os(macOS)
+        .safeAreaInset(edge: .bottom, content: {
+            HStack {
+                Button {
+                    addingBookmark = true
+                } label: {
+                    Label("New Bookmark", systemImage: "plus.circle.fill")
+                        .labelStyle(.titleAndIcon)
+                        .font(.headline)
+                }
+                .keyboardShortcut("n", modifiers: .command)
+                
+                Spacer()
+            }
+            .foregroundColor(folder?.wrappedColor)
+            .padding()
+            .background(.thickMaterial)
+            .buttonStyle(.borderless)
+        })
+        #endif
         .overlay {
             #if !os(visionOS)
-            if editState == .active {
+            if editState == .active || selectedBookmarks.count > 1 {
                 bottomEditToolbar()
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -168,7 +194,11 @@ struct BookmarksView: View {
             }
             #endif
         }
+        #if os(macOS)
+        .environment(\.editMode, editState)
+        #else
         .environment(\.editMode, $editState)
+        #endif
         .sheet(isPresented: $movingBookmarks) {
             MoveBookmarksView(toBeMoved: [Bookmark](selectedBookmarks.map{BookmarksManager.shared.findBookmark(withId: $0!)})) {
                 selectedBookmarks.removeAll()
@@ -220,6 +250,9 @@ struct BookmarksView: View {
             } label: {
                 Image(systemName: "trash")
                     .imageScale(.large)
+                    #if os(macOS)
+                    .foregroundColor(selectedBookmarks.isEmpty ? nil : .red)
+                    #endif
             }
             .confirmationDialog("Are you sure you want to delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
                 Button("Delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)", role: .destructive) {
@@ -288,7 +321,10 @@ struct BookmarksView: View {
     
     func toolbarItems() -> some View {
         Group {
-            Button { editState = .active } label: { Label("Select", systemImage: "checkmark.circle") }
+            if !isMac || viewOption == .grid {
+                Button { editState = .active } label: { Label("Select", systemImage: "checkmark.circle") }
+            }
+            
             
             if viewOption != .table || shouldDisallowTable {
                 if folder == nil {
@@ -311,22 +347,18 @@ struct BookmarksView: View {
                     }
                     
                 } label: {
-                    #if targetEnvironment(macCatalyst)
-                    Label("Sort By", systemImage: "arrow.up.arrow.down")
-                    #else
-                                        
                     Label("""
                     Sort By
                     \(sortMethod.rawValue)
                     """, systemImage: "arrow.up.arrow.down")
-                    #endif
                 }
             }
             
+            #if !os(macOS)
             Button { addingBookmark.toggle() } label: { Label("Add Bookmark", systemImage: "plus") }
                 .keyboardShortcut("n", modifiers: .command)
+            #endif
         }
-        .borderlessMacCatalystButton()
     }
     
     var sortedBookmarks: [Bookmark] {

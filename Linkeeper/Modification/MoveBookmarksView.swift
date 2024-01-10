@@ -49,7 +49,11 @@ struct MoveBookmarksView: View {
                 .padding(10)
                 .background {
                     RoundedRectangle(cornerRadius: 15, style: .continuous)
+                    #if !os(macOS)
                         .foregroundColor(Color(UIColor.systemGray5))
+                    #else
+                        .foregroundColor(Color.gray)
+                    #endif
                 }
                 
                 Spacer()
@@ -93,6 +97,7 @@ struct MoveBookmarksView: View {
                 }
                 .listStyle(.plain)
             }
+            #if !os(macOS)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {
@@ -120,6 +125,7 @@ struct MoveBookmarksView: View {
                     }
                 }
             }
+            #endif
             .sheet(isPresented: $creatingFolder) {
                 AddFolderView()
             }

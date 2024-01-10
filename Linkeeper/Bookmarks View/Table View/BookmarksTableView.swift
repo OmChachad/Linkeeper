@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct BookmarksTableView: View {
     @Environment(\.openURL) var openURL
     var bookmarks: [Bookmark]
@@ -46,7 +46,7 @@ struct BookmarksTableView: View {
         } rows: {
             ForEach(bookmarks.sorted(using: sortOrder)) { bookmark in
                 Group {
-                    if #available(iOS 17.0, *) {
+                    if #available(iOS 17.0, macOS 14.0, *) {
                         TableRow(bookmark)
                             .draggable(bookmark.draggable)
                     } else {

@@ -8,7 +8,7 @@
 import Foundation
 import CoreTransferable
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 enum DropItem: Codable, Transferable {
     case none
     case bookmark(DraggableBookmark?)

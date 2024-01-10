@@ -42,7 +42,13 @@ struct SmallWidgetView: View {
                             .scaleEffect(1.1)
                     } else {
                         if let firstChar: Character = bookmark.title.first {
-                            Color(uiColor: .systemGray2)
+                            Group {
+                                #if os(macOS)
+                                Color(uiColor: .gray)
+                                #else
+                                Color(uiColor: .systemGray2)
+                                #endif
+                            }
                                 .overlay(
                                     Text(String(firstChar).capitalized)
                                         .font(.largeTitle.weight(.medium))

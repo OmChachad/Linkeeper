@@ -27,12 +27,20 @@ struct BookmarkItemAction: ViewModifier {
     
     @State var isFavorited = false
     
+    var isEditing: Bool {
+        #if os(macOS)
+        return self._editMode.wrappedValue == .active
+        #else
+        return self.editMode?.wrappedValue == .active
+        #endif
+    }
+    
     func body(content: Content) -> some View {
         content
             .draggable(bookmark)
             .contextMenu {
                 Group {
-                    if editMode?.wrappedValue != .active {
+                    if !isEditing {
                         if includeOpenBookmarkButton {
                             Button {
                                 openURL(bookmark.wrappedURL)
@@ -126,12 +134,6 @@ struct BookmarkItemAction: ViewModifier {
             .sheet(isPresented: $isMovingBookmark) {
                 MoveBookmarksView(toBeMoved: [bookmark]) {}
             }
-            .onLongPressGesture(minimumDuration: 0.3, perform: {
-                #if targetEnvironment(macCatalyst)
-                toBeEditedBookmark = bookmark
-                showDetails.toggle()
-                #endif
-            })
             .onChange(of: isFavorited) { newValue in
                 bookmark.isFavorited = newValue
                 try? moc.save()
@@ -144,7 +146,7 @@ struct BookmarkItemAction: ViewModifier {
     }
     
     func openBookmark() {
-        if editMode?.wrappedValue != .active {
+        if !isEditing {
             openURL(bookmark.wrappedURL)
             Task {
                 await bookmark.cachePreviewInto($cachedPreview)

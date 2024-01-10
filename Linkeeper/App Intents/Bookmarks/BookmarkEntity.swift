@@ -9,7 +9,7 @@ import Foundation
 import AppIntents
 import CoreData
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct BookmarkEntity: Identifiable, Hashable, Equatable, AppEntity {
   
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Bookmark")
@@ -67,7 +67,7 @@ struct BookmarkEntity: Identifiable, Hashable, Equatable, AppEntity {
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 extension BookmarkEntity {
     
     // Hashable conformance
@@ -82,7 +82,7 @@ extension BookmarkEntity {
     
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct IntentsBookmarkQuery: EntityPropertyQuery {
 
     // Find Bookmarks by ID
@@ -180,14 +180,14 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 extension Bookmark {
     func toEntity() -> BookmarkEntity {
         BookmarkEntity(id: self.id!, title: self.wrappedTitle, url: self.wrappedURL.absoluteString, host: self.wrappedHost, notes: self.wrappedNotes, isFavorited: self.isFavorited, dateAdded: self.wrappedDate)
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 extension [Bookmark] {
     func toEntity() -> [BookmarkEntity] {
         self.map { $0.toEntity() }

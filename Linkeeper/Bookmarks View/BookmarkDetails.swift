@@ -172,11 +172,14 @@ struct BookmarkDetails: View {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: hideFavoriteOption ? 4 : 5)) {
                 actionButtons()
                     .padding(7.5)
+                #if !os(macOS)
                     .hoverEffect(.highlight)
+                #endif
             }
             .font(.title2)
             .padding(2.5)
-            .background(Color(.systemGray4))
+            .background(.thickMaterial)
+            .background(Color("DetailsEditBarColor").opacity(0.2))
             .buttonStyle(.borderless)
             
             AdaptiveScrollView(notes: bookmark.wrappedNotes) {
@@ -221,8 +224,10 @@ struct BookmarkDetails: View {
             }
             .keyboardShortcut(.cancelAction)
             .buttonStyle(.borderless)
+            #if !os(macOS)
             .hoverEffect(.lift)
             .contentShape(.hoverEffect, .circle)
+            #endif
             .padding(7.5)
         }
     }
@@ -230,26 +235,56 @@ struct BookmarkDetails: View {
     func backView() -> some View {
         VStack(spacing: 0) {
             HStack {
-                Button("Cancel") {
+                Button {
                     editing.toggle()
+                } label: {
+                    Text("Cancel")
+                        .padding()
                 }
-                .padding()
+                
+                
                 Spacer()
-                Button("Save") {
+                
+                Button {
                     bookmark.title = title
                     bookmark.notes = notes
                     if moc.hasChanges {
                         try? moc.save()
                     }
                     editing.toggle()
+                } label: {
+                    Text("Save")
+                        .padding()
                 }
+                //.tint(!title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .accentColor : nil)
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                .padding()
+                
+                .contentShape(Rectangle())
                 
             }
+            .tint(.accentColor)
             .buttonStyle(.borderless)
             .background(.thinMaterial)
             
+            #if os(macOS)
+            VStack(alignment: .leading) {
+                Section("**Title**") {
+                    TextField("Title", text: $title)
+                        .textFieldStyle(.roundedBorder)
+                }
+                
+                Section("**Notes**") {
+                    TextEditor(text: $notes)
+                        .background(.gray.opacity(0.2))
+                        .cornerRadius(7.5, style: .continuous)
+                        .labelsHidden()
+                        .frame(height: 150)
+                }
+            }
+            .padding()
+            .background(.thickMaterial)
+            .scrollContentBackground(visibility: .hidden)
+            #else
             Form {
                 Section("Title") {
                     TextField("Title", text: $title)
@@ -261,14 +296,18 @@ struct BookmarkDetails: View {
                         .frame(height: 150)
                 }
             }
+            #endif
         }
+        #if os(macOS)
+        .cornerRadius(20, style: .continuous)
+        #endif
     }
     
     func thumbnail() -> some View {
         VStack {
             switch(cachedPreview?.previewState) {
             case .thumbnail:
-                cachedPreview?.image!
+                cachedPreview?.image?
                     .resizable()
                     .scaledToFit()
             case .icon:
@@ -280,7 +319,13 @@ struct BookmarkDetails: View {
                     .frame(maxWidth: .infinity, maxHeight: 175)
                     .clipped()
             case .firstLetter:
-                Color(uiColor: .systemGray2)
+                Group {
+                #if os(macOS)
+                    Color(red: 174/255, green: 174/255, blue: 178/255)
+                    #else
+                    Color(uiColor: .systemGray2)
+                #endif
+                }
                     .aspectRatio(16/9, contentMode: .fit)
                     .overlay(
                         Group {
@@ -338,6 +383,7 @@ struct BookmarkDetails: View {
                 deleteConfirmation = true
             } label: {
                 Image(systemName: "trash")
+                    .foregroundColor(.red)
                     .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
                         Button("Delete Bookmark", role: .destructive) {
                             showDetails.toggle()
@@ -349,6 +395,7 @@ struct BookmarkDetails: View {
                     }
             }
         }
+        .tint(.accentColor)
     }
     
     func openBookmark() {
@@ -369,7 +416,7 @@ private struct AdaptiveScrollView<Content: View>: View {
             if notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 content()
             } else {
-                if #available(iOS 16.0, *) {
+                if #available(iOS 16.0, macOS 13.0, *) {
                     ViewThatFits {
                         content()
                         

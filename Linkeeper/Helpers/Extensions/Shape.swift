@@ -11,7 +11,7 @@ import SwiftUI
 extension Shape {
     func gradientify(with color: Color) -> some View {
         Group {
-            if #available(iOS 16.0, *) {
+            if #available(iOS 16.0, macOS 13.0, *) {
                 self
                     .fill(color.gradient)
             } else {

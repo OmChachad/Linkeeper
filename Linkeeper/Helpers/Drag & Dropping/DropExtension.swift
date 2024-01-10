@@ -11,7 +11,7 @@ import SwiftUI
 extension View {
     func dropDestination(onDrop dropAction: @escaping (Bookmark?, URL) -> Void) -> some View {
         Group {
-            if #available(iOS 16.0, *) {
+            if #available(iOS 16.0, macOS 13.0, *) {
                 self
                     .dropDestination(for: DropItem.self) { items, _ in
                         var successStatus = true

@@ -14,21 +14,14 @@ struct PinnedItemView<Content: View>: View {
     var tint: Color
     var count: Int
     
+    @State private var isActiveByDefault = false
     @State private var isActive = false
     
-    var isMacCatalystOriPad: Bool {
-        #if targetEnvironment(macCatalyst)
+    var isMacOriPad: Bool {
+        #if os(macOS)
             return true
         #else
             return UIDevice.current.userInterfaceIdiom == .pad
-        #endif
-    }
-    
-    var isMacCatalyst: Bool {
-        #if targetEnvironment(macCatalyst)
-            return true
-        #else
-            return false
         #endif
     }
     
@@ -46,19 +39,21 @@ struct PinnedItemView<Content: View>: View {
         self.symbolName = symbolName
         self.tint = tint
         self.count = count
-        _isActive = State(initialValue: isActiveByDefault)
+        _isActiveByDefault = State(initialValue: isActiveByDefault)
     }
     
     var backgroundColor: Color {
         #if os(visionOS)
         return Color.clear
+        #elseif os(macOS)
+        if isActive {
+            return tint
+        } else {
+            return Color(.systemGray).opacity(0.25)
+        }
         #else
-        if isMacCatalystOriPad {
-            if isActive {
-                return tint
-            } else {
-                return Color(uiColor: isMacCatalyst ? .systemGray : .secondarySystemGroupedBackground).opacity(isMacCatalyst ? 0.25 : 1)
-            }
+        if isMacOriPad && isActive {
+            return tint
         } else {
             return Color(uiColor: .secondarySystemGroupedBackground)
         }
@@ -66,8 +61,8 @@ struct PinnedItemView<Content: View>: View {
     }
     
     var titleColor: Color {
-        if isMacCatalystOriPad {
-            return isActive ? .white : .primary.opacity(isMacCatalyst ? 0.75 : 0.5)
+        if isMacOriPad {
+            return isActive ? .white : .primary.opacity(isMac ? 0.75 : 0.5)
         } else {
             return .secondary
         }
@@ -111,7 +106,7 @@ struct PinnedItemView<Content: View>: View {
                     Text(String(count))
                         .lineLimit(1)
                         .font(.system(.title, design: .rounded).bold())
-                        .foregroundColor(isMacCatalystOriPad && isActive ? .white : .primary)
+                        .foregroundColor(isMacOriPad && isActive ? .white : .primary)
                 }
                 
                 Text(title)
@@ -124,15 +119,22 @@ struct PinnedItemView<Content: View>: View {
             .cornerRadius(10, style: .continuous)
             #endif
         }
+        #if os(macOS)
+        .buttonBorderShape(.roundedRectangle)
+        #else
         .buttonBorderShape(.roundedRectangle(radius: 25))
+        #endif
+        .onAppear {
+            isActive = isActiveByDefault
+        }
     }
     
     func icon() -> some View {
         Image(systemName: symbolName)
             .imageScale(.medium)
-            .padding(isMacCatalyst ? 5 : 7.5)
-            .frame(width: isMacCatalyst ? 27.5 : 35, height: isMacCatalyst ? 27.5 : 35)
-            .foregroundColor(isMacCatalystOriPad && isActive ? tint : .white)
-            .background(isMacCatalystOriPad && isActive ? .white : tint, in: Circle())
+            .padding(isMac ? 5 : 7.5)
+            .frame(width: isMac ? 27.5 : 35, height: isMac ? 27.5 : 35)
+            .foregroundColor(isMacOriPad && isActive ? tint : .white)
+            .background(isMacOriPad && isActive ? .white : tint, in: Circle())
     }
 }

@@ -14,7 +14,7 @@ struct ShareButton<Content: View>: View {
     
     var body: some View {
         Group {
-            if #available(iOS 16.0, *) {
+            if #available(iOS 16.0, macOS 13.0, *) {
                 ShareLink(item: url) {
                     label()
                 }
@@ -29,6 +29,12 @@ struct ShareButton<Content: View>: View {
     }
     
     func share(url: URL) {
+        #if os(macOS)
+        if let contentView = NSApp.mainWindow?.contentView {
+                let sharingPicker = NSSharingServicePicker(items: [url])
+                sharingPicker.show(relativeTo: NSZeroRect, of: contentView, preferredEdge: .minY)
+            }
+        #else
         let activityView = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         
         let allScenes = UIApplication.shared.connectedScenes
@@ -37,5 +43,6 @@ struct ShareButton<Content: View>: View {
         if let windowScene = scene as? UIWindowScene {
             windowScene.keyWindow?.rootViewController?.present(activityView, animated: true, completion: nil)
         }
+        #endif
     }
 }

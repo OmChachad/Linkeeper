@@ -2,9 +2,9 @@
 //  BookmarksWidgetBundle.swift
 //  BookmarksWidget
 //
-//  Created by Om Chachad on 21/12/23.
+//  Created by Om Chachad on 07/01/24.
 //
-
+//
 import WidgetKit
 import SwiftUI
 

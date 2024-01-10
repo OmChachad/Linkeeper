@@ -38,118 +38,140 @@ struct AddFolderView: View {
     }
     
     var body: some View {
+        #if os(macOS)
+        FormContents()
+            .frame(maxWidth: 500, maxHeight: 550)
+        #else
         NavigationView {
-            Form {
-                Section {
-                    VStack {
-                        Image(systemName: chosenSymbol)
-                            .font(.largeTitle)
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(width: 75, height: 75)
-                            .background(accentColor.color, in: Circle())
-                            .shadow(color: accentColor.color, radius: 3)
-                            .padding()
-                            
-                            
-                        TextField("Title", text: $title)
-                            .font(.headline)
-                            .multilineTextAlignment(.center)
-                            .submitLabel(.done)
-                            .padding()
-                            .background(colorScheme == .dark ? Color(UIColor.systemGray3) : Color(UIColor.systemGray5))
-                            .cornerRadius(10, style: .continuous)
-                            .padding(.bottom)
-                    }
-                }
-                
-                
-                Section {
-                    HStack {
-                        Spacer()
-                        LazyHGrid(rows: Array(repeating: GridItem(.flexible()), count: 2), spacing: 10) {
-                            ForEach(ColorOption.allCases, id: \.self) { colorKey in
-                                Circle()
-                                    .foregroundColor(colorKey.color)
-                                    .frame(width: 30)
-                                    .hoverEffect(.lift)
-                                    .padding(4)
-                                    .overlay(Circle().stroke(Color.blue, lineWidth: colorKey == accentColor ? 2.5 : 0.0))
-                                    .padding(2)
-                                    .onTapGesture {
-                                            accentColor = colorKey
-                                    }
-                            }
-                        }
-                        .frame(height: 100)
-                        Spacer()
-                    }
-                }
-                
-                Section {
-                    VStack {
-                        ScrollView(.horizontal) {
-                            LazyHGrid(rows: rows) {
-                                ForEach(chosenSymbolCategory.symbolKeys, id: \.self) { symbol in
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .opacity(chosenSymbol == symbol ? 0.15 : 0)
-
-                                        Image(systemName: symbol)
-                                            .foregroundColor(.secondary)
-                                    }
-                                    .frame(width: 40, height: 40)
-                                    .contentShape(RoundedRectangle(cornerRadius: 10))
-                                    .hoverEffect(.highlight)
-                                    .onTapGesture {
-                                        chosenSymbol = symbol
-                                    }
-                                }
-                            }
-                            .frame(maxWidth: .infinity,  minHeight: 130, maxHeight: 130)
-                            .padding(.vertical, 5)
-                        }
-                        
-                        Picker("Choose", selection: $chosenSymbolCategory) {
-                            ForEach(SymbolCategory.allCases, id: \.self) {
-                                Text($0.rawValue)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.bottom)
-                    }
-                }
-                
-            }
-                .toolbar {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Group {
-                            if existingFolder == nil {
-                                Button("Add", action: addFolder)
-                            } else {
-                                Button("Save", action: saveChangesToFolder)
-                            }
-                        }
-                        .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                        .keyboardShortcut("s", modifiers: .command)
-                    }
-                    
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel") {
-                            completionAction(false)
-                            dismiss()
-                        }
-                        .keyboardShortcut(.cancelAction)
-                    }
-
-                }
+            FormContents()
                 .navigationViewStyle(.stack)
                 .navigationTitle(title.isEmpty ? (existingFolder == nil ? "New Folder" : "Edit Folder") : title)
+        }
+        #endif
+    }
+    
+    func FormContents() -> some View {
+        Form {
+            Section {
+                VStack {
+                    Image(systemName: chosenSymbol)
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(width: 75, height: 75)
+                        .background(accentColor.color, in: Circle())
+                        .shadow(color: accentColor.color, radius: 3)
+                        .padding()
+                        
+                    TextField("Title", text: $title)
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    #if !os(macOS)
+                        .submitLabel(.done)
+                        .background(colorScheme == .dark ? Color(UIColor.systemGray3) : Color(UIColor.systemGray5))
+                        .cornerRadius(10, style: .continuous)
+                        .padding(.bottom)
+                    #else
+                        .labelsHidden()
+                        .textFieldStyle(.roundedBorder)
+                    #endif
+                }
+            }
+            
+            
+            Section {
+                HStack {
+                    Spacer()
+                    LazyHGrid(rows: Array(repeating: GridItem(.flexible()), count: 2), spacing: 10) {
+                        ForEach(ColorOption.allCases, id: \.self) { colorKey in
+                            Circle()
+                                .foregroundColor(colorKey.color)
+                                .frame(width: 30)
+                            #if !os(macOS)
+                                .hoverEffect(.lift)
+                            #endif
+                                .padding(4)
+                                .overlay(Circle().stroke(Color.blue, lineWidth: colorKey == accentColor ? 2.5 : 0.0))
+                                .padding(2)
+                                .onTapGesture {
+                                        accentColor = colorKey
+                                }
+                        }
+                    }
+                    .frame(height: 100)
+                    Spacer()
+                }
+            }
+            
+            Section {
+                VStack {
+                    ScrollView(.horizontal) {
+                        LazyHGrid(rows: rows) {
+                            ForEach(chosenSymbolCategory.symbolKeys, id: \.self) { symbol in
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .opacity(chosenSymbol == symbol ? 0.15 : 0)
+
+                                    Image(systemName: symbol)
+                                        .foregroundColor(.secondary)
+                                }
+                                .frame(width: 40, height: 40)
+                                .contentShape(RoundedRectangle(cornerRadius: 10))
+                                #if !os(macOS)
+                                .hoverEffect(.highlight)
+                                #endif
+                                .onTapGesture {
+                                    chosenSymbol = symbol
+                                }
+                            }
+                        }
+                        .frame(maxWidth: .infinity,  minHeight: 130, maxHeight: 130)
+                        .padding(.vertical, 5)
+                    }
+                    
+                    Picker("Choose", selection: $chosenSymbolCategory) {
+                        ForEach(SymbolCategory.allCases, id: \.self) {
+                            Text($0.rawValue)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .padding(.bottom)
+                }
+            }
+            
+        }
+        .groupedFormStyle()
+        .toolbar(content: toolbarItems)
+    }
+    
+    func toolbarItems() -> some ToolbarContent {
+        Group {
+            ToolbarItem(placement: .confirmationAction) {
+                Group {
+                    if existingFolder == nil {
+                        Button("Add", action: addFolder)
+                    } else {
+                        Button("Save", action: saveChangesToFolder)
+                    }
+                }
+                .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                .keyboardShortcut("s", modifiers: .command)
+            }
+            
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Cancel") {
+                    completionAction(false)
+                    dismiss()
+                }
+                .keyboardShortcut(.cancelAction)
+            }
         }
     }
     
     func addFolder() {
-        if #available(iOS 16.0, *) {
+        if #available(iOS 16.0, macOS 13.0, *) {
             Task {
                 try! await AddFolder(folderTitle: title, icon: chosenSymbol, color: accentColor.rawValue).perform()
             }

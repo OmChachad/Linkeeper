@@ -29,18 +29,14 @@ struct AddBookmarkView: View {
     @AppStorage("removeTrackingParameters") var removeTrackingParameters = false
     
     var pasteboardContents: String? {
-        if !isMacCatalyst, #available(iOS 16.0, *) {
+        #if os(macOS)
+        return NSPasteboard.general.string(forType: .string) ?? NSPasteboard.general.string(forType: .URL)
+        #else
+        if #available(iOS 16.0, *) {
             return nil
         } else {
             return UIPasteboard.general.string
         }
-    }
-    
-    var isMacCatalyst: Bool {
-        #if targetEnvironment(macCatalyst)
-            return true
-        #else
-            return false
         #endif
     }
     
@@ -63,97 +59,16 @@ struct AddBookmarkView: View {
     var completionAction: (Bool) -> Void
     
     var body: some View {
-        NavigationView {
-            Form {
-                Section {
-                    HStack {
-                        TextField("URL", text: $url)
-                            .keyboardType(.URL)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                            .submitLabel(.done)
-                            .focused($isURLFieldActive)
-                        
-                        Divider()
-                        
-                        pasteButton()
-                    }
-                } footer: {
-                    if removeTrackingParameters {
-                        Text("You have remove tracking parameters enabled, this will remove any content after **?** in the URL.")
-                    }
-                }
-                
-                
-                if askForTitle {
-                    Section(footer: Text("The URL you entered does not have a title by itself, you will have to type your own")) {
-                        TextField("Title", text: $title)
-                            .autocapitalization(.none)
-                            .submitLabel(.done)
-                    }
-                }
-                
-                Section {
-                    Picker("Folder", selection: $folder.animation()) {
-                        Text("None").tag(nil as Folder?)
-                        
-                        ForEach(folders, id: \.self) { folder in
-                            folderPickerItem(for: folder)
-                                .tag(folder as Folder?)
-                        }
-                    }
-                    
-                    Button {
-                        addingNewFolder.toggle()
-                    } label: {
-                        Text("Create New Folder")
-                    }
-                } footer: {
-                    if folder == nil {
-                        Text("Selecting \"None\" will cause this bookmark to only appear in the All Bookmarks section of the app")
-                    }
-                }
-                
-                Section {
-                    TextEditor(text: $notes)
-                        .placeholder("Add notes (optional)", contents: notes)
-                        .focused($isNotesFieldActive)
-                        .frame(height: 150)
-                        .toolbar {
-                            #if !os(visionOS)
-                            ToolbarItemGroup(placement: .keyboard) {
-                                Spacer()
-                                
-                                Button(isNotesFieldActive == true ? "Done" : "") {
-                                    isNotesFieldActive = false
-                                }.allowsHitTesting(isNotesFieldActive)
-                            }
-                            #endif
-                        }
-                }
+        Group {
+            #if os(macOS)
+            FormContents()
+            #else
+            NavigationView {
+                FormContents()
+                    .navigationTitle(title.isEmpty ? "New Bookmark" : title)
+                    .navigationViewStyle(.stack)
             }
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    if isLoading {
-                        ProgressView()
-                            .opacity(0.7)
-                    } else {
-                        Button("Add", action: addBookmark)
-                            .disabled(!isValidURL || title.isEmpty)
-                            .keyboardShortcut("s", modifiers: .command)
-                    }
-                }
-                
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        dismiss()
-                        completionAction(false)
-                    }
-                    .keyboardShortcut(.cancelAction)
-                }
-            }
-            .navigationBarTitle(title.isEmpty ? "New Bookmark" : title)
-            .navigationViewStyle(.stack)
+            #endif
         }
         .sheet(isPresented: $addingNewFolder) {
             AddFolderView()
@@ -173,6 +88,117 @@ struct AddBookmarkView: View {
             }
         }
         .animation(.default, value: askForTitle)
+    }
+    
+    func FormContents() -> some View {
+        Form {
+            Section {
+                HStack {
+                    TextField("URL", text: $url)
+                    #if !os(macOS)
+                        .keyboardType(.URL)
+                        .autocapitalization(.none)
+                        .submitLabel(.done)
+                    #endif
+                        .disableAutocorrection(true)
+                        .focused($isURLFieldActive)
+                    
+                    Divider()
+                    
+                    pasteButton()
+                }
+            } footer: {
+                if removeTrackingParameters {
+                    Text("You have remove tracking parameters enabled, this will remove any content after **?** in the URL.")
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            
+            if askForTitle {
+                Section(footer: Text("The URL you entered does not have a title by itself, you will have to type your own").foregroundColor(.secondary)) {
+                    TextField("Title", text: $title)
+#if !os(macOS)
+                        .autocapitalization(.none)
+                        .submitLabel(.done)
+                    #endif
+                }
+            }
+            
+            Section {
+                Picker("Folder", selection: $folder.animation()) {
+                    Text("None").tag(nil as Folder?)
+                    
+                    ForEach(folders, id: \.self) { folder in
+                        folderPickerItem(for: folder)
+                            .tag(folder as Folder?)
+                    }
+                }
+                
+                Button {
+                    addingNewFolder.toggle()
+                } label: {
+                    Text("Create New Folder")
+                }
+                .buttonStyle(.borderless)
+                .tint(.accentColor)
+            } footer: {
+                if folder == nil {
+                    Text("Selecting \"None\" will cause this bookmark to only appear in the All Bookmarks section of the app")
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            Section("Notes (Optional)") {
+                TextEditor(text: $notes)
+                    #if !os(macOS)
+                    .placeholder("Add notes (optional)", contents: notes)
+                    #else
+                    .scrollContentBackground(visibility: .hidden)
+                    #endif
+                    .focused($isNotesFieldActive)
+                    .frame(height: 150)
+                    .toolbar {
+                        #if !os(visionOS)
+                        ToolbarItemGroup(placement: .keyboard) {
+                            Spacer()
+                            
+                            Button(isNotesFieldActive == true ? "Done" : "") {
+                                isNotesFieldActive = false
+                            }.allowsHitTesting(isNotesFieldActive)
+                        }
+                        #endif
+                    }
+            }
+            #if !os(macOS)
+            .labelsHidden()
+            #endif
+        }
+        .groupedFormStyle()
+        .toolbar(content: toolbarContents)
+    }
+    
+    func toolbarContents() -> some ToolbarContent {
+        Group {
+            ToolbarItem(placement: .confirmationAction) {
+                if isLoading {
+                    ProgressView()
+                        .opacity(0.7)
+                } else {
+                    Button("Add", action: addBookmark)
+                        .disabled(!isValidURL || title.isEmpty)
+                        .keyboardShortcut("s", modifiers: .command)
+                }
+            }
+            
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Cancel") {
+                    dismiss()
+                    completionAction(false)
+                }
+                .keyboardShortcut(.cancelAction)
+            }
+        }
     }
     
     func fetchTitle(url: String) {
@@ -213,15 +239,17 @@ struct AddBookmarkView: View {
     
     func pasteButton() -> some View {
         Group {
-            if !isMacCatalyst, #available(iOS 16.0, *) {
+            if #available(iOS 16.0, macOS 13.0, *) {
                 PasteButton(payloadType: URL.self) { content in
                     if let url = content.first {
                         self.url = url.absoluteString
                     }
                 }
                 .labelStyle(.iconOnly)
+                #if !os(macOS)
                 .buttonBorderShape(.capsule)
                 .offset(x: 5)
+                #endif
             } else {
                 Button {
                     self.url = pasteboardContents!
@@ -242,7 +270,7 @@ struct AddBookmarkView: View {
             sanitisedURL = sanitisedURL.components(separatedBy: "?").first ?? sanitisedURL
         }
         
-        if #available(iOS 16.0, *) {
+        if #available(iOS 16.0, macOS 13.0, *) {
             Task {
                 let bookmark = try! await AddBookmark(bookmarkTitle: title, url: URL(string: sanitisedURL)!, notes: notes).perform()
                 if let bookmark = bookmark.value {

@@ -20,6 +20,14 @@ struct BookmarkListItem: View {
     
     @State private var cachedPreview: cachedPreview?
     
+    var isEditing: Bool {
+        #if os(macOS)
+        return self._editMode.wrappedValue == .active
+        #else
+        return self.editMode?.wrappedValue == .active
+        #endif
+    }
+    
     var body: some View {
         HStack {
             Group {
@@ -56,7 +64,7 @@ struct BookmarkListItem: View {
     }
     
     func openBookmark() {
-        if editMode?.wrappedValue != .active {
+        if !isEditing {
             openURL(bookmark.wrappedURL)
             Task {
                 await bookmark.cachePreviewInto($cachedPreview)

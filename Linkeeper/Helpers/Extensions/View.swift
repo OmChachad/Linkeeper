@@ -11,13 +11,33 @@ import SwiftUI
 extension View {
     func navigationTitle(for folder: Folder?, folderTitle: Binding<String>, onlyFavorites: Bool) -> some View {
         Group {
-            if #available(iOS 16.0, *), folder != nil {
+            #if os(macOS)
+            self
+                .navigationTitle(folder?.wrappedTitle ?? (onlyFavorites == true ? "Favorites" : "All Bookmarks"))
+            #else
+            if #available(iOS 16.0, macOS 13.0, *), folder != nil {
                 self
                     .navigationTitle(folderTitle)
             } else {
                 self
                     .navigationTitle(folder?.wrappedTitle ?? (onlyFavorites == true ? "Favorites" : "All Bookmarks"))
             }
+            #endif
+        }
+    }
+    
+    func groupedFormStyle() -> some View {
+        Group {
+            #if os(macOS)
+            if #available(macOS 13.0, *) {
+                self
+                    .formStyle(.grouped)
+            } else {
+                self.padding()
+            }
+            #else
+            self
+            #endif
         }
     }
     
@@ -27,21 +47,12 @@ extension View {
     }
     
     func sideBarForMac() -> some View {
-        #if targetEnvironment(macCatalyst)
+        #if os(macOS)
             return self
             .listStyle(.sidebar)
         #else
             return self
             .listStyle(.insetGrouped)
-        #endif
-    }
-    
-    func borderlessMacCatalystButton() -> some View {
-        #if targetEnvironment(macCatalyst)
-            return self
-            .buttonStyle(.borderless)
-        #else
-            return self
         #endif
     }
     
@@ -70,6 +81,14 @@ extension View {
             } else {
                 self
             }
+        }
+    }
+    
+    func scrollContentBackground(visibility: Visibility) -> some View {
+        if #available(iOS 16.0, macOS 13.0, *) {
+            return self.scrollContentBackground(visibility)
+        } else {
+            return self
         }
     }
 }

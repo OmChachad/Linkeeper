@@ -13,18 +13,6 @@ struct TipJar: View {
     
     @EnvironmentObject var storeKit: Store
     
-    var isMacCatalyst: Bool {
-        #if targetEnvironment(macCatalyst)
-            return true
-        #else
-            return false
-        #endif
-    }
-    
-    var adaptedInsets: EdgeInsets? {
-        isMacCatalyst ? EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10) : nil
-    }
-    
     var body: some View {
         Form {
             Section {
@@ -44,11 +32,10 @@ struct TipJar: View {
                     VStack(spacing: 5) {
                         bulletLine("Appreciate the App", systemImage: "heart.fill", tint: .pink)
                         bulletLine("Support Indie Development", systemImage: "wrench.and.screwdriver.fill", tint: .blue)
-                        bulletLine("Unlock More App Icons\(isMacCatalyst ? " on iOS/iPadOS" : "")", systemImage: "square.stack.3d.down.right.fill", tint: .purple)
+                        bulletLine("Unlock More App Icons\(isMac ? " on iOS/iPadOS" : "")", systemImage: "square.stack.3d.down.right.fill", tint: .purple)
                     }
                 }
             }
-            .listRowInsets(adaptedInsets)
             
             if storeKit.tippableProducts.isEmpty {
                 ProgressView()
@@ -57,7 +44,6 @@ struct TipJar: View {
                     List(storeKit.tippableProducts) { product in
                         TipItem(product: product)
                             .environmentObject(storeKit)
-                            .listRowInsets(adaptedInsets)
                     }
                 } footer: {
                     Text("""
@@ -84,7 +70,10 @@ struct TipJar: View {
             }
         }
         .navigationTitle("Tip Jar")
+        #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .frame(minHeight: 500)
     }
     
     func bulletLine(_ textContent: String, systemImage: String, tint: Color) -> some View {

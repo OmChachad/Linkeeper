@@ -36,18 +36,26 @@ struct BookmarkGridItem: View {
         selectedBookmarks.contains(bookmark.id ?? UUID())
     }
     
+    var isEditing: Bool {
+        #if os(macOS)
+        return self._editMode.wrappedValue == .active
+        #else
+        return self.editMode?.wrappedValue == .active
+        #endif
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             VStack {
                 switch(cachedPreview?.previewState) {
                 case .thumbnail, .icon:
-                    cachedPreview!.image!
+                    cachedPreview!.image?
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .drawingGroup()
                 case .firstLetter:
                     if let firstChar: Character = bookmark.wrappedTitle.first {
-                        Color(uiColor: .systemGray2)
+                        Color(.gray)
                             .overlay(
                                 Text(String(firstChar))
                                     .font(.largeTitle.weight(.medium))
@@ -85,15 +93,21 @@ struct BookmarkGridItem: View {
         #if os(visionOS)
         .background(.thickMaterial)
         #else
+        #if os(macOS)
+        .background(Color("GridItemBackground"))
+        #else
         .background(Color(UIColor.systemGray5))
+        #endif
         #endif
         .aspectRatio(3/4, contentMode: .fill)
         .cornerRadius(15, style: .continuous)
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
+        #if !os(macOS)
         .hoverEffect(.lift)
+        #endif
         .contextMenu { menuItems() }
         .onTapGesture {
-            if editMode?.wrappedValue == .active {
+            if isEditing {
                 if isSelected {
                     selectedBookmarks.remove(bookmark.id ?? UUID())
                 } else {
@@ -105,7 +119,7 @@ struct BookmarkGridItem: View {
         }
         .contextMenu { menuItems() }
         .onLongPressGesture(minimumDuration: 0.1, perform: {
-            #if targetEnvironment(macCatalyst)
+            #if os(macOS)
                 toBeEditedBookmark = bookmark
                 showDetails.toggle()
             #endif
@@ -144,7 +158,7 @@ struct BookmarkGridItem: View {
     
     func menuItems() -> some View {
         Group {
-            if editMode?.wrappedValue != .active {
+            if !isEditing {
                 Button {
                     bookmark.isFavorited.toggle()
                     try? moc.save()

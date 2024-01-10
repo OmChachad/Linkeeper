@@ -10,7 +10,7 @@ import AppIntents
 import CoreData
 import SwiftUI
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct FolderEntity: Identifiable, Hashable, Equatable, AppEntity {
   
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Folder")
@@ -47,18 +47,22 @@ struct FolderEntity: Identifiable, Hashable, Equatable, AppEntity {
     }
     
     var displayRepresentation: DisplayRepresentation {
-        let image = UIImage(systemName: symbol)?.withTintColor(UIColor(ColorOption(rawValue: color)?.color ?? .gray))
+        #if os(macOS)
+        let image: Data? = NSImage(systemSymbolName: symbol, accessibilityDescription: nil)!.tinted(with: NSColor(ColorOption(rawValue: color)?.color ?? .gray)).tiffRepresentation
+        #else
+        let image: Data? = UIImage(systemName: symbol)?.withTintColor(UIColor(ColorOption(rawValue: color)?.color ?? .gray)).pngData()
+        #endif
         let inflectedBookmark = bookmarks.count == 1 ? "Bookmark" : "Bookmarks"
         
         return DisplayRepresentation(
             title: "\(title)",
             subtitle: "\(bookmarks.count) \(inflectedBookmark)",
-            image: .init(data: image?.pngData() ?? Data())
+            image: .init(data: image ?? Data())
         )
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 extension FolderEntity {
     
     // Hashable conformance
@@ -73,7 +77,7 @@ extension FolderEntity {
     
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct IntentsFolderQuery: EntityPropertyQuery {
 
     // Find Folders by ID
@@ -149,14 +153,14 @@ struct IntentsFolderQuery: EntityPropertyQuery {
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 extension Folder {
     func toEntity() -> FolderEntity {
         FolderEntity(id: self.id!, title: self.wrappedTitle, bookmarks: Set<BookmarkEntity>(self.bookmarksArray.toEntity()), index: Int(self.index), symbol: self.wrappedSymbol, color: self.accentColor ?? "red")
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 extension [Folder] {
     func toEntity() -> [FolderEntity] {
         self.map { $0.toEntity() }

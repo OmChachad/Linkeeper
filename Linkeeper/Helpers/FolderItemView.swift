@@ -20,6 +20,14 @@ struct FolderItemView: View {
     
     @State private var deleteConfirmation: Bool = false
     
+    var isEditing: Bool {
+        #if os(macOS)
+        return self._editMode.wrappedValue == .active
+        #else
+        return self.editMode?.wrappedValue == .active
+        #endif
+    }
+    
     var body: some View {
         ListItem(title: folder.wrappedTitle, systemName: folder.wrappedSymbol, color: folder.wrappedColor, subItemsCount: bookmarksInFolder.count(context: moc, folder: folder))
         .contextMenu {
@@ -85,7 +93,7 @@ struct FolderItemView: View {
             .tint(.red)
         }
         .swipeActions(edge: .trailing) {
-            if editMode?.wrappedValue == .inactive {
+            if !isEditing {
                 Button {
                     editingFolder = true
                 } label: {
@@ -94,7 +102,7 @@ struct FolderItemView: View {
             }
         }
         .swipeActions(edge: .leading) {
-            if editMode?.wrappedValue == .inactive {
+            if !isEditing {
                 Button {
                     folder.isPinned.toggle()
                     try? moc.save()

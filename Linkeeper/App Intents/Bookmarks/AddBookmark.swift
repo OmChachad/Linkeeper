@@ -8,7 +8,7 @@
 import AppIntents
 import LinkPresentation
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct AddBookmark: AppIntent {
     static var title: LocalizedStringResource = "Add Bookmark"
     
@@ -89,7 +89,7 @@ If disabled, you can add a title yourself.
     
 }
 
-@available(iOS 16, *)
+@available(iOS 16.0, macOS 13.0, *)
 enum CustomError: Swift.Error, CustomLocalizedStringResourceConvertible {
     case general
     case message(_ message: String)

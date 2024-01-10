@@ -8,7 +8,7 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct FavoriteToggle: AppIntent {
     
     // Title of the action in the Shortcuts app
@@ -62,7 +62,7 @@ struct FavoriteToggle: AppIntent {
 //    ]
 //}
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 enum ToggleOrSet: String, AppEnum {
     case set
     case toggle
@@ -77,7 +77,7 @@ enum ToggleOrSet: String, AppEnum {
     ]
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 enum YesOrNo: String, AppEnum {
     case yes
     case no

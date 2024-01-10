@@ -30,74 +30,213 @@ struct ContentView: View {
     
     @State private var currentFolder: Folder?
     
-    var isMacCatalyst: Bool {
-        #if targetEnvironment(macCatalyst)
-            return true
-        #else
-            return false
-        #endif
-    }
-    
-    var spacing: CGFloat { (isMacCatalyst || isVisionOS) ? 10 : 15 }
+    var spacing: CGFloat { (isMac || isVisionOS) ? 10 : 15 }
     
     var body: some View {
-        NavigationView  {
+        Group {
+                #if os(macOS)
+                if #available(macOS 13.0, *) {
+                    NavigationSplitView {
+                        sideBar
+                            .frame(minWidth: 250, idealWidth: 350)
+                    } detail: {
+                        Text("No folder is selected.")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                    }
+                } else {
+                    NavigationView  {
+                        sideBar
+                        
+                        Text("No folder is selected.")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                #else
+                NavigationView  {
+                    sideBar
+                    
+                    Text("No folder is selected.")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.secondary)
+                }
+                #endif
+        }
+        .sheet(isPresented: $showingSettings, content: SettingsView.init)
+        .sheet(isPresented: $showingNewBookmarkView) {
+            AddBookmarkView(folderPreset: currentFolder, onComplete: { didAddBookmark in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    addedBookmark = didAddBookmark
+                }
+            })
+        }
+        .sheet(isPresented: $showingNewFolderView) {
+            AddFolderView { didAddFolder in
+                addedFolder = didAddFolder
+            }
+        }
+        .animation(.default, value: pinnedFolders)
+        .animation(.default, value: folders.count)
+        .onChange(of: mode, perform: { _ in
+            reOrderIndexes()
+        })
+        .onChange(of: pinnedFolders, perform: { _ in
+            reOrderIndexes()
+        })
+        .onChange(of: allBookmarks.count) { _ in
+            if #available(iOS 16.0, macOS 13.0, *) {
+                LinkeeperShortcuts.updateAppShortcutParameters()
+            }
+            reloadAllWidgets()
+        }
+        .onChange(of: folders.count) { _ in
+            if #available(iOS 16.0, macOS 13.0, *) {
+                LinkeeperShortcuts.updateAppShortcutParameters()
+            }
+            reloadAllWidgets()
+        }
+        .simpleToast(isPresented: $addedBookmark, options: toastOptions, content: {
+            AlertView(icon: "bookmark.fill", title: "Added Bookmark")
+                .padding(.bottom, 50)
+        })
+        .simpleToast(isPresented: $addedFolder, options: toastOptions, content: {
+            AlertView(icon: "folder.fill", title: "Added Folder")
+                .padding(.bottom, 50)
+        })
+        .onOpenURL { url in
+            
+            if url.absoluteString.contains("openURL") {
+                if let bookmarkID = UUID(uuidString: url.lastPathComponent) {
+                    let bookmark = BookmarksManager.shared.findBookmark(withId: bookmarkID)
+                    openURL(bookmark.wrappedURL)
+                }
+            } else if url.absoluteString.contains("openFolder") {
+                if let folderID = UUID(uuidString: url.lastPathComponent) {
+                    let folder = FoldersManager.shared.findFolder(withId: folderID)
+                    currentFolder = folder
+                }
+            }
+            
+            reloadAllWidgets()
+        }
+    }
+    
+    var sideBar: some View {
+        Group {
             VStack(spacing: 0) {
-                VStack {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
-                        PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: isMacCatalyst)
-                            .buttonStyle(.plain)
-                            .dropDestination { bookmark, url in
-                                if let bookmark {
-                                    bookmark.folder = nil
-                                    try? moc.save()
-                                } else {
-                                    BookmarksManager.shared.addDroppedURL(url)
-                                }
-                            }
-                        
-                        
-                        PinnedItemView(destination: BookmarksView(onlyFavorites: true), title: "Favorites", symbolName: "heart.fill", tint: .pink, count:   favoriteBookmarks.count)
-                            .buttonStyle(.plain)
-                            .dropDestination { bookmark, url in
-                                if let bookmark {
-                                    bookmark.isFavorited = true
-                                } else {
-                                    let bookmark = BookmarksManager.shared.addDroppedURL(url)
-                                    bookmark?.isFavorited = true
-                                }
-                                try? moc.save()
-                            }
-                        
-                        ForEach(pinnedFolders) { folder in
-                            PinnedItemView(destination: BookmarksView(folder: folder), title: folder.wrappedTitle, symbolName: folder.wrappedSymbol, tint: folder.wrappedColor, count: folder.bookmarksArray.count)
-                                .contextMenu {
-                                    Button {
-                                        folder.isPinned.toggle()
-                                        folder.index = (folders.last?.index ?? 0) + 1
+                if #available(iOS 15.0, macOS 13.0, *) {
+                    VStack {
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
+                            PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: isMac)
+                                .buttonStyle(.plain)
+                                .dropDestination { bookmark, url in
+                                    if let bookmark {
+                                        bookmark.folder = nil
                                         try? moc.save()
-                                    } label: {
-                                        Label("Unpin", systemImage: "pin.slash")
+                                    } else {
+                                        BookmarksManager.shared.addDroppedURL(url)
                                     }
                                 }
+                            
+                            
+                            PinnedItemView(destination: BookmarksView(onlyFavorites: true), title: "Favorites", symbolName: "heart.fill", tint: .pink, count:   favoriteBookmarks.count)
+                                .buttonStyle(.plain)
                                 .dropDestination { bookmark, url in
-                                    addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
+                                    if let bookmark {
+                                        bookmark.isFavorited = true
+                                    } else {
+                                        let bookmark = BookmarksManager.shared.addDroppedURL(url)
+                                        bookmark?.isFavorited = true
+                                    }
+                                    try? moc.save()
                                 }
+                            
+                            ForEach(pinnedFolders) { folder in
+                                PinnedItemView(destination: BookmarksView(folder: folder), title: folder.wrappedTitle, symbolName: folder.wrappedSymbol, tint: folder.wrappedColor, count: folder.bookmarksArray.count)
+                                    .contextMenu {
+                                        Button {
+                                            folder.isPinned.toggle()
+                                            folder.index = (folders.last?.index ?? 0) + 1
+                                            try? moc.save()
+                                        } label: {
+                                            Label("Unpin", systemImage: "pin.slash")
+                                        }
+                                    }
+                                    .dropDestination { bookmark, url in
+                                        addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
+                                    }
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
+                        #if os(macOS)
+                        .padding(12.5)
+                        #else
+                        .padding(UIDevice.current.userInterfaceIdiom == .pad ? 15 : 20)
+                        #endif
                     }
-                    .padding(isMacCatalyst ? 12.5 : UIDevice.current.userInterfaceIdiom == .pad ? 15 : 20)
+                    #if os(macOS)
+                    .background(.clear)
+                    #else
+                    .background(Color(uiColor: .systemGroupedBackground))
+                    #endif
                 }
-                .background(isMacCatalyst ? .clear : Color(uiColor: .systemGroupedBackground))
                 
                 if !folders.filter({!$0.isPinned }).isEmpty {
                     List {
+                        if #available(macOS 13.0, *) {
+                            
+                        } else {
+                            Section {
+                                NavigationLink(destination: BookmarksView.init) {
+                                    ListItem(title: "All", systemName: "tray.fill", color: Color("AllBookmarksColor"), subItemsCount: allBookmarks.count)
+                                }
+                                
+                                NavigationLink(destination: BookmarksView.init(onlyFavorites: true)) {
+                                    ListItem(title: "Favorites", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
+                                }
+                                
+                                ForEach(folders.filter { $0.isPinned } ) { folder in
+                                    NavigationLink(tag: folder, selection: $currentFolder) {
+                                        BookmarksView(folder: folder)
+                                    } label: {
+                                        FolderItemView(folder: folder)
+                                    }
+                                    .contextMenu {
+                                        Button {
+                                            folder.isPinned.toggle()
+                                            folder.index = (folders.last?.index ?? 0) + 1
+                                            try? moc.save()
+                                        } label: {
+                                            Label("Unpin", systemImage: "pin.slash")
+                                        }
+                                    }
+                                    .dropDestination { bookmark, url in
+                                        addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
+                                    }
+                                }
+                            }
+                        }
+                        
                         Section(header: Text("My Folders")) {
                             ForEach(folders.filter { !$0.isPinned } ) { folder in
-                                NavigationLink(tag: folder, selection: $currentFolder) {
-                                    BookmarksView(folder: folder)
-                                } label: {
-                                    FolderItemView(folder: folder)
+                                Group {
+                                    #if os(macOS)
+                                    NavigationLink {
+                                        BookmarksView(folder: folder)
+                                    } label: {
+                                        FolderItemView(folder: folder)
+                                    }
+                                    #else
+                                    NavigationLink(tag: folder, selection: $currentFolder) {
+                                        BookmarksView(folder: folder)
+                                    } label: {
+                                        FolderItemView(folder: folder)
+                                    }
+                                    #endif
                                 }
                                 .dropDestination { bookmark, url in
                                     addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
@@ -126,11 +265,31 @@ Click **Add Folder** to get started.
                     }
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                    .background(isMacCatalyst ? .clear : Color(uiColor: .systemGroupedBackground))
+#if os(macOS)
+                    .background(.clear)
+#else
+                    .background(Color(uiColor: .systemGroupedBackground))
+#endif
                 }
             }
-            .sideBarForMac()
+            //.sideBarForMac()
+#if os(macOS)
+            .safeAreaInset(edge: .bottom, content: {
+                HStack {
+                    Spacer()
+                    
+                    Button("Add Folder") {
+                        showingNewFolderView = true
+                    }
+                    .keyboardShortcut("n", modifiers: [.shift, .command])
+                }
+                .padding([.horizontal, .bottom])
+                .padding(.top, 5)
+                .buttonStyle(.borderless)
+            })
+#endif
             .toolbar {
+#if !os(macOS)
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         showingSettings.toggle()
@@ -138,30 +297,14 @@ Click **Add Folder** to get started.
                         Image(systemName: "gear")
                     }
                     .keyboardShortcut(",", modifiers: .command)
-                    .borderlessMacCatalystButton()
                 }
-                
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    #if targetEnvironment(macCatalyst)
-                        Button(mode == .active ? "Done" : "Edit") {
-                            withAnimation {
-                                if mode == .active {
-                                    mode = .inactive
-                                } else {
-                                    mode = .active
-                                }
-                            }
-                        }
-                        .borderlessMacCatalystButton()
-                    #else
-                        EditButton()
-                            .borderlessMacCatalystButton()
-                    #endif
+                    EditButton()
                 }
                 
                 ToolbarItemGroup(placement: .bottomBar) {
                     HStack {
-                        #if os(visionOS)
+#if os(visionOS)
                         Button {
                             showingNewBookmarkView = true
                         } label: {
@@ -181,8 +324,8 @@ Click **Add Folder** to get started.
                         }
                         .keyboardShortcut("n", modifiers: [.shift, .command])
                         .buttonStyle(.bordered)
-
-                        #else
+                        
+#else
                         Button {
                             showingNewBookmarkView = true
                         } label: {
@@ -198,74 +341,11 @@ Click **Add Folder** to get started.
                             showingNewFolderView = true
                         }
                         .keyboardShortcut("n", modifiers: [.shift, .command])
-                        #endif
+#endif
                     }
-                    .borderlessMacCatalystButton()
                 }
+#endif
             }
-            .environment(\.editMode, $mode)
-            
-            Text("No folder is selected.")
-                .font(.title)
-                .fontWeight(.semibold)
-                .foregroundColor(.secondary)
-        }
-        .sheet(isPresented: $showingSettings, content: Settings.init)
-        .sheet(isPresented: $showingNewBookmarkView) {
-            AddBookmarkView(folderPreset: currentFolder, onComplete: { didAddBookmark in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    addedBookmark = didAddBookmark
-                }
-            })
-        }
-        .sheet(isPresented: $showingNewFolderView) {
-            AddFolderView { didAddFolder in
-                addedFolder = didAddFolder
-            }
-        }
-        .animation(.default, value: pinnedFolders)
-        .animation(.default, value: folders.count)
-        .onChange(of: mode, perform: { _ in
-            reOrderIndexes()
-        })
-        .onChange(of: pinnedFolders, perform: { _ in
-            reOrderIndexes()
-        })
-        .onChange(of: allBookmarks.count) { _ in
-            if #available(iOS 16.0, *) {
-                LinkeeperShortcuts.updateAppShortcutParameters()
-            }
-            reloadAllWidgets()
-        }
-        .onChange(of: folders.count) { _ in
-            if #available(iOS 16.0, *) {
-                LinkeeperShortcuts.updateAppShortcutParameters()
-            }
-            reloadAllWidgets()
-        }
-        .simpleToast(isPresented: $addedBookmark, options: toastOptions, content: {
-            AlertView(icon: "bookmark.fill", title: "Added Bookmark")
-                .padding(.bottom, 50)
-        })
-        .simpleToast(isPresented: $addedFolder, options: toastOptions, content: {
-            AlertView(icon: "folder.fill", title: "Added Folder")
-                .padding(.bottom, 50)
-        })
-        .onOpenURL { url in
-            
-            if url.absoluteString.contains("openURL") {
-                if let bookmarkID = UUID(uuidString: url.lastPathComponent) {
-                    let bookmark = BookmarksManager.shared.findBookmark(withId: bookmarkID)
-                    openURL(bookmark.wrappedURL)
-                }
-            } else if url.absoluteString.contains("openFolder") {
-                if let folderID = UUID(uuidString: url.lastPathComponent) {
-                    let folder = FoldersManager.shared.findFolder(withId: folderID)
-                    currentFolder = folder
-                }
-            }
-            
-            reloadAllWidgets()
         }
     }
     

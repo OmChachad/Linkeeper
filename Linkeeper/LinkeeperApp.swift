@@ -23,12 +23,19 @@ struct LinkeeperApp: App {
                     showIntroduction = false
                 }, content: IntroductionView.init)
                 .task {
-                    if #available(iOS 16.0, *) {
+                    if #available(iOS 16.0, macOS 13.0, *) {
                         LinkeeperShortcuts.updateAppShortcutParameters()
                     }
                     reloadAllWidgets()
                     CacheManager.instance.clearOutOld()
                 }
         }
+        
+        #if os(macOS)
+        Settings {
+            SettingsView()
+                .frame(idealWidth: 500)
+        }
+        #endif
     }
 }

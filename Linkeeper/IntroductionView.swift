@@ -11,7 +11,7 @@ struct IntroductionView: View {
     @Environment(\.dismiss) var dismiss
     
     var deviceOS: String {
-        #if targetEnvironment(macCatalyst)
+        #if os(macOS)
         return "macOS"
         #elseif os(visionOS)
         return "visionOS"
@@ -81,17 +81,21 @@ struct IntroductionView: View {
                     }
             }
             .buttonStyle(.borderless)
-            .buttonBorderShape(isVisionOS ? .capsule : .roundedRectangle(radius: 15))
+            #if os(visionOS)
+            .buttonBorderShape(.capsule)
+            #else
+            .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+            #endif
         }
         .padding(30)
         .interactiveDismissDisabled()
-        .frame(maxWidth: isVisionOS ? 800 : .infinity)
+        .frame(maxWidth: isVisionOS || isMac ? 800 : .infinity, minHeight: isVisionOS || isMac ? 450 : .infinity)
     }
 }
 
 private extension View {
     func expandedFont() -> some View {
-        if #available(iOS 16.0, *) {
+        if #available(iOS 16.0, macOS 13.0, *) {
             return self
                 .fontWidth(.expanded)
         } else {

@@ -16,8 +16,12 @@ extension TextEditor {
             if contents.isEmpty {
                 HStack {
                     Text(text)
+                    #if !os(macOS)
                         .foregroundColor(Color(UIColor.placeholderText))
-                        .allowsHitTesting(false)
+                    #else
+                        .foregroundColor(.secondary)
+                    #endif
+                    .allowsHitTesting(false)
                     Spacer()
                 }
             }

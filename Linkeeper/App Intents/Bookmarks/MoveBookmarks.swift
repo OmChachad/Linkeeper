@@ -8,7 +8,7 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct MoveBookmark: AppIntent {
     
     // Title of the action in the Shortcuts app

@@ -9,7 +9,7 @@ import Foundation
 import AppIntents
 import SwiftUI
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct AddFolder: AppIntent {
     static var title: LocalizedStringResource = "Add Folder"
     static var description: IntentDescription = IntentDescription("Create a new folder.", categoryName: "Create", searchKeywords: ["Group", "New", "Create", "Bookmark"])
@@ -45,11 +45,11 @@ struct AddFolder: AppIntent {
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct IconOptionsProvider: DynamicOptionsProvider {
     func results() async throws -> ItemCollection<String> {
         
-        if #available(iOS 16.4, *) {
+        if #available(iOS 16.4, macOS 13.3, *) {
             return ItemCollection {
                 ItemSection("Objects",  items:
                     SymbolCategory.objects.symbolKeys.map {
@@ -119,11 +119,22 @@ struct IconOptionsProvider: DynamicOptionsProvider {
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct ColorOptionsProvider: DynamicOptionsProvider {
     func results() async throws -> ItemCollection<String> {
         let colors = ColorOption.allCases
         return ItemCollection {
+            #if os(macOS)
+            ItemSection(items:
+                            colors.map {
+                IntentItem<String>.init(
+                    $0.rawValue,
+                    title: LocalizedStringResource(stringLiteral: $0.rawValue.capitalized),
+                    image: .init(data: NSImage(systemSymbolName: "circle.fill", accessibilityDescription: nil)!.tinted(with: NSColor($0.color)).tiffRepresentation!)
+                )
+            }
+            )
+            #else
             ItemSection(items:
                             colors.map {
                 IntentItem<String>.init(
@@ -133,6 +144,7 @@ struct ColorOptionsProvider: DynamicOptionsProvider {
                 )
             }
             )
+            #endif
         }
     }
 }
