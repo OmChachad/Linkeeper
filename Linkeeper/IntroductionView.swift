@@ -95,7 +95,7 @@ struct IntroductionView: View {
 
 private extension View {
     func expandedFont() -> some View {
-        if #available(iOS 16.0, macOS 13.0, *) {
+        if #available(iOS 16.0, macOS 13.0, visionOS 1.0, *) {
             return self
                 .fontWidth(.expanded)
         } else {
