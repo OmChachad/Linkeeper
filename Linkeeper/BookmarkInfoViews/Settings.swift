@@ -177,21 +177,14 @@ struct SettingsView: View {
     
     private func symbol(for url: URL) -> some View {
         Group {
-            if #available(iOS 16.0, macOS 13.0, *) {
-                switch url.host() {
-                case "www.youtube.com":
-                    YouTube()
-                        .foregroundColor(.red)
-                case "twitter.com":
-                    Twitter()
-                        .foregroundColor(Color(red: 0.0, green: 0.6745, blue: 0.9333))
-                default:
-                    Image(systemName: "globe")
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundColor(.blue)
-                }
-            } else {
+            switch url.host {
+            case "www.youtube.com":
+                YouTube()
+                    .foregroundColor(.red)
+            case "twitter.com":
+                Twitter()
+                    .foregroundColor(Color(red: 0.0, green: 0.6745, blue: 0.9333))
+            default:
                 Image(systemName: "globe")
                     .resizable()
                     .scaledToFit()
