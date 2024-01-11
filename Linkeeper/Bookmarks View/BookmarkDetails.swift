@@ -49,6 +49,7 @@ struct BookmarkDetails: View {
             #if os(visionOS)
             Flashcard(editing: $editing) {
                 frontVisionView()
+                    .frame(maxHeight: 575)
             } back: {
                 backVisionView()
                     .frame(maxHeight: 400)
@@ -90,19 +91,32 @@ struct BookmarkDetails: View {
     #if os(visionOS)
     func frontVisionView() -> some View {
         VStack {
-            VStack(spacing: 0) {
-                thumbnail()
-                    .frame(maxWidth: .infinity)
-                    .background(.regularMaterial)
-                
-                
-                VStack(alignment: .leading, content: {
-                    Text(bookmark.wrappedTitle)
-                    Text(bookmark.wrappedHost)
-                        .foregroundStyle(.secondary)
-                })
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
+                AdaptiveScrollView(notes: bookmark.wrappedNotes) {
+                    VStack(spacing: 0) {
+                        thumbnail()
+                            .frame(maxWidth: .infinity)
+                            .background(.regularMaterial)
+
+                    VStack(alignment: .leading, spacing: 0) {
+                        VStack(alignment: .leading, content: {
+                            Text(bookmark.wrappedTitle)
+                            Text(bookmark.wrappedHost)
+                                .foregroundStyle(.secondary)
+                        })
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        if !bookmark.wrappedNotes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            Spacer()
+                                .frame(height: 20)
+                            
+                            Text("NOTES")
+                                .foregroundColor(.secondary)
+                                .font(.headline)
+                            Text(bookmark.wrappedNotes)
+                        }
+                    }
+                    .padding()
+                }
             }
             .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 25, style: .continuous))
             
