@@ -52,7 +52,7 @@ struct BookmarkDetails: View {
                     .frame(maxHeight: 575)
             } back: {
                 backVisionView()
-                    .frame(maxHeight: 400)
+                    .frame(idealWidth: 400, maxHeight: 400)
             }
             .opacity(animatedShow ? 1 : 0)
             .transition(.movingParts.blur)
