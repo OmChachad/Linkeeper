@@ -108,7 +108,7 @@ struct BookmarkItemAction: ViewModifier {
                     toBeEditedBookmark = bookmark
                     showDetails = true
                 } label: {
-                    Label("Edit", systemImage: "info.circle")
+                    Label("Details", systemImage: "info.circle")
                 }
             }
             .swipeActions(edge: .leading) {
