@@ -357,6 +357,8 @@ struct BookmarksView: View {
             }
             
             #if !os(macOS)
+            Divider()
+            
             Button { addingBookmark.toggle() } label: { Label("Add Bookmark", systemImage: "plus") }
                 .keyboardShortcut("n", modifiers: .command)
             #endif
