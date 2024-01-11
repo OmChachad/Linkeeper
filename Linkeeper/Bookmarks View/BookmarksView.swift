@@ -132,6 +132,7 @@ struct BookmarksView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .toolbar {
+            HStack {
                 if editState == .inactive {
                     Picker("View Style", selection: $viewOption) {
                         ForEach(ViewOption.allCases.filter { !(shouldDisallowTable && $0 == .table && viewOption != .table) }, id: \.self) { option in
@@ -140,7 +141,7 @@ struct BookmarksView: View {
                                 .tag(option)
                         }
                     }
-
+                    
                     .if(shouldDisallowTable) { view in
                         view.pickerStyle(.menu)
                     }
@@ -161,6 +162,7 @@ struct BookmarksView: View {
                 } else {
                     Button("Done") { editState = .inactive }
                 }
+            }
         }
         #if os(macOS)
         .safeAreaInset(edge: .bottom, content: {
