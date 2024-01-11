@@ -42,7 +42,7 @@ struct BookmarksTableView: View {
                 Text(bookmark.wrappedDate, style: .date)
                     .tag(bookmark.wrappedDate)
             }
-            .width(max: 150)
+            .width(max: isVisionOS ? 200 : 150)
         } rows: {
             ForEach(bookmarks.sorted(using: sortOrder)) { bookmark in
                 Group {
