@@ -149,7 +149,7 @@ struct BookmarksView: View {
                         view.pickerStyle(.segmented)
                     }
                     
-                    if viewOption != .table || !isMac {
+                    if viewOption != .table || !isMac && !bookmarks.isEmpty {
                         Menu {
                             toolbarItems()
                         } label: {
