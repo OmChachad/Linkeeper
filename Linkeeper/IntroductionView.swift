@@ -89,7 +89,7 @@ struct IntroductionView: View {
         }
         .padding(30)
         .interactiveDismissDisabled()
-        .frame(maxWidth: isVisionOS || isMac ? 800 : .infinity, minHeight: isVisionOS || isMac ? 450 : .infinity)
+        .frame(idealWidth: isVisionOS || isMac ? 800 : .infinity, idealHeight: isVisionOS || isMac ? 450 : .infinity)
     }
 }
 
