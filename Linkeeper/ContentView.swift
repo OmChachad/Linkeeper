@@ -58,6 +58,7 @@ struct ContentView: View {
                 #else
                 NavigationView  {
                     sideBar
+                        .navigationBarTitleDisplayMode(.inline)
                     
                     Text("No folder is selected.")
                         .font(.title)
