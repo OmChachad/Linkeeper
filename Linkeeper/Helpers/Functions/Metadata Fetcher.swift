@@ -8,6 +8,7 @@
 import Foundation
 import LinkPresentation
 
+@MainActor
 func startFetchingMetadata(for url: URL, fetchSubresources: Bool, timeout: TimeInterval?) async throws -> LPLinkMetadata? {
     return try? await withCheckedThrowingContinuation { continuation in
         let metadataProvider = LPMetadataProvider()
