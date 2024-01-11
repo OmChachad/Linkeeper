@@ -237,7 +237,7 @@ struct BookmarksView: View {
                 .padding()
                 .glassBackgroundEffect(in: Capsule())
         }
-        .ornament(visibility: editState == .active ? .visible : .hidden, attachmentAnchor: .scene(.trailing), contentAlignment: .leading) {
+        .ornament(visibility: showDetails ? .visible : .hidden, attachmentAnchor: .scene(.trailing), contentAlignment: .leading) {
             if showDetails {
                 BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, hideFavoriteOption: favorites == true)
             }
