@@ -395,7 +395,9 @@ struct BookmarkDetails: View {
                     }
             }
         }
+        #if !os(visionOS)
         .tint(.accentColor)
+        #endif
     }
     
     func openBookmark() {
