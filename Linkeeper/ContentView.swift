@@ -347,6 +347,11 @@ Click **Add Folder** to get started.
 #endif
             }
         }
+        #if os(macOS)
+        .environment(\.editMode, mode)
+        #else
+        .environment(\.editMode, $mode)
+        #endif
     }
     
     var pinnedFolders: [Folder] {
