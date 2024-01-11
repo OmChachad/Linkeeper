@@ -96,12 +96,12 @@ struct BookmarkItemAction: ViewModifier {
                 }
             }
             .swipeActions(edge: .trailing) {
-                Button {
+                Button(role: .destructive) {
                     deleteConfirmation = true
                 } label: {
                     Label("Delete", systemImage: "trash")
-                        .tint(.red)
                 }
+                .tint(.red)
                 
                 
                 Button {
