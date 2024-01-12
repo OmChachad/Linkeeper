@@ -84,6 +84,34 @@
 		C28616822A73DD0D00ABA9FF /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28616812A73DD0D00ABA9FF /* AlertView.swift */; };
 		C28616832A73DD0D00ABA9FF /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28616812A73DD0D00ABA9FF /* AlertView.swift */; };
 		C28616862A73DD2300ABA9FF /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = C28616852A73DD2300ABA9FF /* SimpleToast */; };
+		C2891D6D2B51857900C44C37 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C2891D6C2B51857900C44C37 /* icon.icns */; };
+		C2891D6F2B51857900C44C37 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2891D6E2B51857900C44C37 /* ShareViewController.swift */; };
+		C2891D772B51857900C44C37 /* Share Extension Mac.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C2891D6A2B51857900C44C37 /* Share Extension Mac.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C2891D7B2B51866300C44C37 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96E2A23D4FF00535807 /* BookmarksManager.swift */; };
+		C2891D7C2B51866300C44C37 /* FoldersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9722A23E8B300535807 /* FoldersManager.swift */; };
+		C2891D7D2B51866300C44C37 /* Folder+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57A283E7185003C9692 /* Folder+CoreDataClass.swift */; };
+		C2891D7E2B51866300C44C37 /* Folder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57B283E7185003C9692 /* Folder+CoreDataProperties.swift */; };
+		C2891D7F2B51866300C44C37 /* Bookmark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF578283E7185003C9692 /* Bookmark+CoreDataClass.swift */; };
+		C2891D802B51866300C44C37 /* StoreURL Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A14A252A5DD21E003A5308 /* StoreURL Extension.swift */; };
+		C2891D812B51866300C44C37 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF576283E65D2003C9692 /* DataController.swift */; };
+		C2891D822B51866300C44C37 /* Bookmark+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */; };
+		C2891D832B51866C00C44C37 /* DraggableBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EE9F2A4DF89800CCD36F /* DraggableBookmark.swift */; };
+		C2891D842B51867400C44C37 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050742A12B7E300817C48 /* URL.swift */; };
+		C2891D852B51867A00C44C37 /* Metadata Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F02A588B1D0081FEBC /* Metadata Fetcher.swift */; };
+		C2891D862B51867F00C44C37 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
+		C2891D872B51868400C44C37 /* macOS Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268A12B4A7C1D00D88123 /* macOS Bridge.swift */; };
+		C2891D882B51868B00C44C37 /* ColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorOption.swift */; };
+		C2891D892B51869500C44C37 /* AddBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E66281900D70030B6DD /* AddBookmarkView.swift */; };
+		C2891D8A2B5186A700C44C37 /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6E28193AE20030B6DD /* AddFolderView.swift */; };
+		C2891D8B2B5186B000C44C37 /* SymbolOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3899B2A54978E0085D801 /* SymbolOption.swift */; };
+		C2891D8C2B5186BB00C44C37 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506E2A12B77100817C48 /* View.swift */; };
+		C2891D8D2B5186C600C44C37 /* AddBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9742A24B81E00535807 /* AddBookmark.swift */; };
+		C2891D8E2B51919400C44C37 /* reloadAllWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF0F82B47C03E00C4D9A4 /* reloadAllWidgets.swift */; };
+		C2891D8F2B5191D600C44C37 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
+		C2891D902B5191DB00C44C37 /* FolderEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9702A23E32D00535807 /* FolderEntity.swift */; };
+		C2891D912B5191FF00C44C37 /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B92A2534E100535807 /* AddFolder.swift */; };
+		C2891D922B5192A400C44C37 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050762A12B80300817C48 /* String.swift */; };
+		C2891D982B51941000C44C37 /* Linkeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */; };
 		C28A2C7E2B033FAD0027A70F /* isVisionOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28A2C7D2B033FAD0027A70F /* isVisionOS.swift */; };
 		C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E66281900D70030B6DD /* AddBookmarkView.swift */; };
 		C28B6E6928190C120030B6DD /* ColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorOption.swift */; };
@@ -176,6 +204,13 @@
 			remoteGlobalIDString = C2052BDA2B34688500185D29;
 			remoteInfo = BookmarksWidgetExtension;
 		};
+		C2891D752B51857900C44C37 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2C8DC3228171D93000F4AEB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C2891D692B51857900C44C37;
+			remoteInfo = "Share Extension Mac";
+		};
 		C2A14A332A601C24003A5308 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2C8DC3228171D93000F4AEB /* Project object */;
@@ -193,6 +228,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				C2052BEC2B34688700185D29 /* BookmarksWidgetExtension.appex in Embed Foundation Extensions */,
+				C2891D772B51857900C44C37 /* Share Extension Mac.appex in Embed Foundation Extensions */,
 				C2A14A352A601C24003A5308 /* Share Extension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -248,6 +284,12 @@
 		C281D9B72A25277A00535807 /* DeleteFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFolder.swift; sourceTree = "<group>"; };
 		C281D9B92A2534E100535807 /* AddFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolder.swift; sourceTree = "<group>"; };
 		C28616812A73DD0D00ABA9FF /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		C2891D6A2B51857900C44C37 /* Share Extension Mac.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share Extension Mac.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2891D6C2B51857900C44C37 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		C2891D6E2B51857900C44C37 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		C2891D732B51857900C44C37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2891D742B51857900C44C37 /* Share_Extension_Mac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_Extension_Mac.entitlements; sourceTree = "<group>"; };
+		C2891D932B51935D00C44C37 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		C28A2C7D2B033FAD0027A70F /* isVisionOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = isVisionOS.swift; sourceTree = "<group>"; };
 		C28B6E66281900D70030B6DD /* AddBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookmarkView.swift; sourceTree = "<group>"; };
 		C28B6E6828190C120030B6DD /* ColorOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorOption.swift; sourceTree = "<group>"; };
@@ -308,6 +350,13 @@
 			files = (
 				C2052BDF2B34688500185D29 /* SwiftUI.framework in Frameworks */,
 				C2052BDD2B34688500185D29 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2891D672B51857900C44C37 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +506,17 @@
 			path = "App Intents";
 			sourceTree = "<group>";
 		};
+		C2891D6B2B51857900C44C37 /* Share Extension Mac */ = {
+			isa = PBXGroup;
+			children = (
+				C2891D6C2B51857900C44C37 /* icon.icns */,
+				C2891D6E2B51857900C44C37 /* ShareViewController.swift */,
+				C2891D732B51857900C44C37 /* Info.plist */,
+				C2891D742B51857900C44C37 /* Share_Extension_Mac.entitlements */,
+			);
+			path = "Share Extension Mac";
+			sourceTree = "<group>";
+		};
 		C28A2C7F2B033FBD0027A70F /* Global */ = {
 			isa = PBXGroup;
 			children = (
@@ -531,6 +591,7 @@
 		C29B00F52A5B38E40081FEBC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2891D932B51935D00C44C37 /* CoreData.framework */,
 				C29B00F62A5B38E40081FEBC /* CloudKit.framework */,
 				C2052BDC2B34688500185D29 /* WidgetKit.framework */,
 				C2052BDE2B34688500185D29 /* SwiftUI.framework */,
@@ -553,6 +614,7 @@
 			children = (
 				C2C8DC3C28171D93000F4AEB /* Linkeeper */,
 				C2A14A2C2A601C24003A5308 /* Share Extension */,
+				C2891D6B2B51857900C44C37 /* Share Extension Mac */,
 				C2052BE02B34688500185D29 /* BookmarksWidget */,
 				C2C8DC3B28171D93000F4AEB /* Products */,
 				C29B00F52A5B38E40081FEBC /* Frameworks */,
@@ -565,6 +627,7 @@
 				C2C8DC3A28171D93000F4AEB /* Linkeeper.app */,
 				C2A14A2B2A601C23003A5308 /* Share Extension.appex */,
 				C2052BDB2B34688500185D29 /* BookmarksWidgetExtension.appex */,
+				C2891D6A2B51857900C44C37 /* Share Extension Mac.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -666,6 +729,23 @@
 			productReference = C2052BDB2B34688500185D29 /* BookmarksWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		C2891D692B51857900C44C37 /* Share Extension Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2891D782B51857900C44C37 /* Build configuration list for PBXNativeTarget "Share Extension Mac" */;
+			buildPhases = (
+				C2891D662B51857900C44C37 /* Sources */,
+				C2891D672B51857900C44C37 /* Frameworks */,
+				C2891D682B51857900C44C37 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Share Extension Mac";
+			productName = "Share Extension Mac";
+			productReference = C2891D6A2B51857900C44C37 /* Share Extension Mac.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C2A14A2A2A601C23003A5308 /* Share Extension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C2A14A372A601C24003A5308 /* Build configuration list for PBXNativeTarget "Share Extension" */;
@@ -697,6 +777,7 @@
 			dependencies = (
 				C2A14A342A601C24003A5308 /* PBXTargetDependency */,
 				C2052BEB2B34688700185D29 /* PBXTargetDependency */,
+				C2891D762B51857900C44C37 /* PBXTargetDependency */,
 			);
 			name = Linkeeper;
 			packageProductDependencies = (
@@ -721,6 +802,9 @@
 				TargetAttributes = {
 					C2052BDA2B34688500185D29 = {
 						CreatedOnToolsVersion = 15.1;
+					};
+					C2891D692B51857900C44C37 = {
+						CreatedOnToolsVersion = 15.2;
 					};
 					C2A14A2A2A601C23003A5308 = {
 						CreatedOnToolsVersion = 14.3;
@@ -752,6 +836,7 @@
 				C2C8DC3928171D93000F4AEB /* Linkeeper */,
 				C2A14A2A2A601C23003A5308 /* Share Extension */,
 				C2052BDA2B34688500185D29 /* BookmarksWidgetExtension */,
+				C2891D692B51857900C44C37 /* Share Extension Mac */,
 			);
 		};
 /* End PBXProject section */
@@ -762,6 +847,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2052BE82B34688700185D29 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2891D682B51857900C44C37 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2891D6D2B51857900C44C37 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -827,6 +920,39 @@
 				C28D18932B43193F0033C979 /* SmallWidgetView.swift in Sources */,
 				C28D18802B41A20B0033C979 /* DeleteBookmarks.swift in Sources */,
 				C28D188A2B425FAE0033C979 /* Bookmark.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2891D662B51857900C44C37 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2891D862B51867F00C44C37 /* CacheManager.swift in Sources */,
+				C2891D822B51866300C44C37 /* Bookmark+CoreDataProperties.swift in Sources */,
+				C2891D7C2B51866300C44C37 /* FoldersManager.swift in Sources */,
+				C2891D7D2B51866300C44C37 /* Folder+CoreDataClass.swift in Sources */,
+				C2891D842B51867400C44C37 /* URL.swift in Sources */,
+				C2891D6F2B51857900C44C37 /* ShareViewController.swift in Sources */,
+				C2891D8F2B5191D600C44C37 /* BookmarkEntity.swift in Sources */,
+				C2891D8C2B5186BB00C44C37 /* View.swift in Sources */,
+				C2891D802B51866300C44C37 /* StoreURL Extension.swift in Sources */,
+				C2891D982B51941000C44C37 /* Linkeeper.xcdatamodeld in Sources */,
+				C2891D7E2B51866300C44C37 /* Folder+CoreDataProperties.swift in Sources */,
+				C2891D8E2B51919400C44C37 /* reloadAllWidgets.swift in Sources */,
+				C2891D882B51868B00C44C37 /* ColorOption.swift in Sources */,
+				C2891D852B51867A00C44C37 /* Metadata Fetcher.swift in Sources */,
+				C2891D902B5191DB00C44C37 /* FolderEntity.swift in Sources */,
+				C2891D8B2B5186B000C44C37 /* SymbolOption.swift in Sources */,
+				C2891D912B5191FF00C44C37 /* AddFolder.swift in Sources */,
+				C2891D892B51869500C44C37 /* AddBookmarkView.swift in Sources */,
+				C2891D922B5192A400C44C37 /* String.swift in Sources */,
+				C2891D8A2B5186A700C44C37 /* AddFolderView.swift in Sources */,
+				C2891D812B51866300C44C37 /* DataController.swift in Sources */,
+				C2891D8D2B5186C600C44C37 /* AddBookmark.swift in Sources */,
+				C2891D832B51866C00C44C37 /* DraggableBookmark.swift in Sources */,
+				C2891D872B51868400C44C37 /* macOS Bridge.swift in Sources */,
+				C2891D7B2B51866300C44C37 /* BookmarksManager.swift in Sources */,
+				C2891D7F2B51866300C44C37 /* Bookmark+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -965,6 +1091,11 @@
 			target = C2052BDA2B34688500185D29 /* BookmarksWidgetExtension */;
 			targetProxy = C2052BEA2B34688700185D29 /* PBXContainerItemProxy */;
 		};
+		C2891D762B51857900C44C37 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C2891D692B51857900C44C37 /* Share Extension Mac */;
+			targetProxy = C2891D752B51857900C44C37 /* PBXContainerItemProxy */;
+		};
 		C2A14A342A601C24003A5308 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			platformFilters = (
@@ -1051,6 +1182,75 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C2891D792B51857900C44C37 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "Share Extension Mac/Share_Extension_Mac.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Share Extension Mac/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Add Bookmark to Linkeeper";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper.AddBookmarkSheetMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C2891D7A2B51857900C44C37 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "Share Extension Mac/Share_Extension_Mac.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Share Extension Mac/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Add Bookmark to Linkeeper";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper.AddBookmarkSheetMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1322,6 +1522,15 @@
 			buildConfigurations = (
 				C2052BEF2B34688700185D29 /* Debug */,
 				C2052BF02B34688700185D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2891D782B51857900C44C37 /* Build configuration list for PBXNativeTarget "Share Extension Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2891D792B51857900C44C37 /* Debug */,
+				C2891D7A2B51857900C44C37 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
