@@ -175,7 +175,28 @@ struct AddBookmarkView: View {
             #endif
         }
         .groupedFormStyle()
-        .toolbar(content: toolbarContents)
+        .safeAreaInset(edge: .bottom) {
+            HStack {
+                Spacer()
+                
+                Button("Cancel") {
+                    dismiss()
+                    completionAction(false)
+                }
+                .keyboardShortcut(.cancelAction)
+                
+                if isLoading {
+                    ProgressView()
+                        .opacity(0.7)
+                } else {
+                    Button("Add", action: addBookmark)
+                        .disabled(!isValidURL || title.isEmpty)
+                        .keyboardShortcut("s", modifiers: .command)
+                }
+            }
+            .padding()
+            .background(.ultraThinMaterial)
+        }
     }
     
     func toolbarContents() -> some ToolbarContent {
