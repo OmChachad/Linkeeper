@@ -26,38 +26,22 @@ class ShareViewController: UIViewController {
     }
     
     func onLoadURL(data: NSSecureCoding?, error: Error?) {
-        var urlString = ""
-        
-        #if targetEnvironment(macCatalyst)
-            let data = data as? Data
-            if let data, let absoluteString = String(data: data, encoding: .utf8) {
-                urlString = absoluteString
+        if let url = data as? URL {
+            DispatchQueue.main.async {
+                let dataController = DataController.shared
+                let managedObjectContext = dataController.persistentCloudKitContainer.viewContext
+                let swiftUIView = AddBookmarkView(urlString: url.absoluteString, onComplete: self.close)
+                    .environment(\.managedObjectContext, managedObjectContext)
+                    .navigationViewStyle(.stack)
+                
+                let hostingController = UIHostingController(rootView: swiftUIView)
+                self.addChild(hostingController)
+                self.view.addSubview(hostingController.view)
+                hostingController.view.frame = self.view.bounds
+                hostingController.didMove(toParent: self)
             }
-        #else
-            if let url = data as? URL {
-                urlString = url.absoluteString
-            }
-        #endif
-        
-        DispatchQueue.main.async {
-            let dataController = DataController.shared
-            let managedObjectContext = dataController.persistentCloudKitContainer.viewContext
-            let swiftUIView = AddBookmarkView(urlString: urlString, onComplete: self.close)
-                .environment(\.managedObjectContext, managedObjectContext)
-                .navigationViewStyle(.stack)
-            
-            let hostingController = UIHostingController(rootView: swiftUIView)
-            self.addChild(hostingController)
-            self.view.addSubview(hostingController.view)
-            
-            #if targetEnvironment(macCatalyst)
-            hostingController.view.layer.cornerRadius = 10
-            hostingController.view.layer.cornerCurve = .continuous
-            hostingController.view.layer.masksToBounds = true
-            #endif
-            hostingController.view.frame = self.view.bounds
-            hostingController.didMove(toParent: self)
-            
+        } else {
+            self.close(false)
         }
     }
     
