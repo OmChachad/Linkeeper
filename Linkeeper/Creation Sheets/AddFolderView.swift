@@ -19,7 +19,7 @@ struct AddFolderView: View {
     var existingFolder: Folder?
     
     @State private var title = ""
-    @State private var accentColor: ColorOption = .gray
+    @State private var folderIconColor: ColorOption = .gray
     @State private var chosenSymbol = "car.fill"
 
     @State private var chosenSymbolCategory: SymbolCategory = .objects
@@ -31,7 +31,7 @@ struct AddFolderView: View {
         self.existingFolder = folder
         if let folder {
             self._title = State(initialValue: folder.wrappedTitle)
-            self._accentColor = State(initialValue: ColorOption(rawValue: folder.accentColor ?? "gray")!)
+            self._folderIconColor = State(initialValue: ColorOption(rawValue: folder.accentColor ?? "gray")!)
             self._chosenSymbol = State(initialValue: folder.wrappedSymbol)
         }
         self.completionAction = completionAction
@@ -59,8 +59,8 @@ struct AddFolderView: View {
                         .foregroundColor(.white)
                         .padding()
                         .frame(width: 75, height: 75)
-                        .background(accentColor.color, in: Circle())
-                        .shadow(color: accentColor.color, radius: 3)
+                        .background(folderIconColor.color, in: Circle())
+                        .shadow(color: folderIconColor.color, radius: 3)
                         .padding()
                         
                     TextField("Title", text: $title)
@@ -92,10 +92,10 @@ struct AddFolderView: View {
                                 .hoverEffect(.lift)
                             #endif
                                 .padding(4)
-                                .overlay(Circle().stroke(Color.blue, lineWidth: colorKey == accentColor ? 2.5 : 0.0))
+                                .overlay(Circle().stroke(Color.accentColor, lineWidth: folderIconColor == colorKey ? 2.5 : 0.0))
                                 .padding(2)
                                 .onTapGesture {
-                                        accentColor = colorKey
+                                        folderIconColor = colorKey
                                 }
                         }
                     }
@@ -173,10 +173,10 @@ struct AddFolderView: View {
     func addFolder() {
         if #available(iOS 16.0, macOS 13.0, *) {
             Task {
-                try! await AddFolder(folderTitle: title, icon: chosenSymbol, color: accentColor.rawValue).perform()
+                try! await AddFolder(folderTitle: title, icon: chosenSymbol, color: folderIconColor.rawValue).perform()
             }
         } else {
-            FoldersManager.shared.addFolder(title: title, accentColor: accentColor.rawValue, chosenSymbol: chosenSymbol)
+            FoldersManager.shared.addFolder(title: title, accentColor: folderIconColor.rawValue, chosenSymbol: chosenSymbol)
         }
         
         completionAction(true)
@@ -185,7 +185,7 @@ struct AddFolderView: View {
     
     func saveChangesToFolder() {
         existingFolder!.title = self.title
-        existingFolder!.accentColor = self.accentColor.rawValue
+        existingFolder!.accentColor = self.folderIconColor.rawValue
         existingFolder!.symbol = self.chosenSymbol
         if moc.hasChanges {
             try? moc.save()
