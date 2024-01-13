@@ -27,116 +27,156 @@ struct MoveBookmarksView: View {
     @State private var selectedFolder: Folder? = nil
     
     var body: some View {
-        NavigationView {
-            VStack {
-                if selectedFolder != nil && selectedFolder != toBeMoved.first?.folder {
-                    Text("^[\(toBeMoved.count) Bookmark](inflect: true) will be moved to **\(selectedFolder!.wrappedTitle)**")
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 20)
-                } else if toBeMoved.first?.folder != selectedFolder && selectedFolder == nil {
-                    Text("^[\(toBeMoved.count) Bookmark](inflect: true) will be removed from any Folder, and will only be accessible from the **All** section.")
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 20)
-                } else {
-                    Spacer()
-                        .frame(height: 30)
-                }
-                
-                HStack {
-                    StackOfTwoIcons(bookmarks: [Bookmark](toBeMoved))
-                    Text("^[**\(toBeMoved.count) Bookmark**](inflect: true)")
-                }
-                .padding(10)
-                .background {
-                    RoundedRectangle(cornerRadius: 15, style: .continuous)
-                    #if !os(macOS)
-                        .foregroundColor(Color(UIColor.systemGray5))
-                    #else
-                        .fill(.regularMaterial)
-                    #endif
-                }
-                
-                Spacer()
-                    .frame(height: 20)
-                
-                List {
-                    Section("No Folder") {
+        Group {
+            #if os(macOS)
+            contents
+                .padding(.top)
+                .safeAreaInset(edge: .bottom) {
+                    HStack {
                         Button {
-                            selectedFolder = nil
+                            creatingFolder.toggle()
+                        } label: {
+                            Image(systemName: "folder.badge.plus")
+                        }
+                        
+                        Spacer()
+                        
+                        Button("Cancel", action: dismiss.callAsFunction)
+                        
+                        Button("**Move**") {
+                            toBeMoved.forEach { bookmark in
+                                bookmark.folder = selectedFolder
+                            }
+                            try? moc.save()
+                            completion()
+                            reloadAllWidgets()
+                            //toBeMoved.removeAll()
+                            dismiss()
+                        }
+                        .disabled(toBeMoved.first?.folder == selectedFolder)
+                    }
+                    .padding()
+                    .background(.regularMaterial)
+                }
+                .frame(minWidth: 500, minHeight: 500)
+            #else
+            NavigationView {
+                contents
+                    .toolbar {
+                        ToolbarItemGroup(placement: .confirmationAction) {
+                            Button {
+                                creatingFolder.toggle()
+                            } label: {
+                                Image(systemName: "folder.badge.plus")
+                            }
+                            
+                            Button("**Move**") {
+                                toBeMoved.forEach { bookmark in
+                                    bookmark.folder = selectedFolder
+                                }
+                                try? moc.save()
+                                completion()
+                                reloadAllWidgets()
+                                //toBeMoved.removeAll()
+                                dismiss()
+                            }
+                            .disabled(toBeMoved.first?.folder == selectedFolder)
+                        }
+                        
+                        ToolbarItemGroup(placement: .cancellationAction) {
+                            Button("Cancel", action: dismiss.callAsFunction)
+                        }
+                    }
+            }
+        #endif
+        }
+        .sheet(isPresented: $creatingFolder) {
+            AddFolderView()
+        }
+        .animation(.default, value: selectedFolder)
+    }
+    
+    var contents: some View {
+        VStack {
+            if selectedFolder != nil && selectedFolder != toBeMoved.first?.folder {
+                Text("^[\(toBeMoved.count) Bookmark](inflect: true) will be moved to **\(selectedFolder!.wrappedTitle)**")
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+            } else if toBeMoved.first?.folder != selectedFolder && selectedFolder == nil {
+                Text("^[\(toBeMoved.count) Bookmark](inflect: true) will be removed from any Folder, and will only be accessible from the **All** section.")
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+            } else {
+                Spacer()
+                    .frame(height: 30)
+            }
+            
+            HStack {
+                StackOfTwoIcons(bookmarks: [Bookmark](toBeMoved))
+                Text("^[**\(toBeMoved.count) Bookmark**](inflect: true)")
+            }
+            .padding(10)
+            .background {
+                RoundedRectangle(cornerRadius: 15, style: .continuous)
+                #if !os(macOS)
+                    .foregroundColor(Color(UIColor.systemGray5))
+                #else
+                    .fill(.regularMaterial)
+                #endif
+            }
+            
+            Spacer()
+                .frame(height: 20)
+            
+            List {
+                Section("No Folder") {
+                    Button {
+                        selectedFolder = nil
+                    } label: {
+                        Label {
+                            Text("No Folder")
+                                .foregroundColor(.primary)
+                        } icon: {
+                            Image(systemName: "xmark.circle")
+                                .font(.headline)
+                        }
+                        #if os(macOS)
+                        .padding(.vertical, 5)
+                        #endif
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .buttonStyle(.borderless)
+                    .listRowBackground(
+                        Color.secondary.opacity(selectedFolder == nil ? 0.5 : 0.0)
+                    )
+                }
+                
+                Section("Existing Folders") {
+                    ForEach(folders, id: \.self) { folder in
+                        Button {
+                            self.selectedFolder = folder
                         } label: {
                             Label {
-                                Text("No Folder")
+                                Text(folder.wrappedTitle)
                                     .foregroundColor(.primary)
                             } icon: {
-                                Image(systemName: "xmark.circle")
-                                    .font(.headline)
+                                Image(systemName: folder.wrappedSymbol)
+                                    .foregroundColor(folder.wrappedColor)
                             }
+                            #if os(macOS)
+                            .padding(.vertical, 5)
+                            #endif
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .buttonStyle(.borderless)
                         .listRowBackground(
-                            Color.secondary.opacity(selectedFolder == nil ? 0.5 : 0.0)
+                            Color.secondary.opacity(selectedFolder == folder ? 0.5 : 0.0)
                         )
                     }
-                    
-                    Section("Existing Folders") {
-                        ForEach(folders, id: \.self) { folder in
-                            Button {
-                                self.selectedFolder = folder
-                            } label: {
-                                Label {
-                                    Text(folder.wrappedTitle)
-                                        .foregroundColor(.primary)
-                                } icon: {
-                                    Image(systemName: folder.wrappedSymbol)
-                                        .foregroundColor(folder.wrappedColor)
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                            .buttonStyle(.borderless)
-                            .listRowBackground(
-                                Color.secondary.opacity(selectedFolder == folder ? 0.5 : 0.0)
-                            )
-                        }
-                    }
-                }
-                .listStyle(.plain)
-            }
-            #if !os(macOS)
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Button {
-                        creatingFolder.toggle()
-                    } label: {
-                        Image(systemName: "folder.badge.plus")
-                    }
-                    
-                    Button("**Move**") {
-                        toBeMoved.forEach { bookmark in
-                            bookmark.folder = selectedFolder
-                        }
-                        try? moc.save()
-                        completion()
-                        reloadAllWidgets()
-                        //toBeMoved.removeAll()
-                        dismiss()
-                    }
-                    .disabled(toBeMoved.first?.folder == selectedFolder)
-                }
-                
-                ToolbarItemGroup(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
                 }
             }
-            #endif
-            .sheet(isPresented: $creatingFolder) {
-                AddFolderView()
-            }
-            .animation(.default, value: selectedFolder)
+            .listStyle(.plain)
         }
-        
     }
 }
 
