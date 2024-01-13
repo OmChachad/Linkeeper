@@ -103,7 +103,7 @@ struct MoveBookmarksView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 20)
             } else if toBeMoved.first?.folder != selectedFolder && selectedFolder == nil {
-                Text("^[\(toBeMoved.count) Bookmark](inflect: true) will be removed from any Folder, and will only be accessible from the **All** section.")
+                Text("^[\(toBeMoved.count) Bookmark](inflect: true) will be moved to **All Bookmarks**")
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 20)
             } else {
@@ -129,15 +129,16 @@ struct MoveBookmarksView: View {
                 .frame(height: 20)
             
             List {
-                Section("No Folder") {
+                Section {
                     Button {
                         selectedFolder = nil
                     } label: {
                         Label {
-                            Text("No Folder")
+                            Text("All Bookmarks")
                                 .foregroundColor(.primary)
                         } icon: {
-                            Image(systemName: "xmark.circle")
+                            Image(systemName: "tray.fill")
+                                .foregroundColor(.secondary)
                                 .font(.headline)
                         }
                         #if os(macOS)
@@ -149,9 +150,7 @@ struct MoveBookmarksView: View {
                     .listRowBackground(
                         Color.secondary.opacity(selectedFolder == nil ? 0.5 : 0.0)
                     )
-                }
-                
-                Section("Existing Folders") {
+                    
                     ForEach(folders, id: \.self) { folder in
                         Button {
                             self.selectedFolder = folder
