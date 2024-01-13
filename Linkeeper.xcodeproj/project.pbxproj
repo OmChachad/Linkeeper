@@ -86,7 +86,7 @@
 		C28616862A73DD2300ABA9FF /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = C28616852A73DD2300ABA9FF /* SimpleToast */; };
 		C2891D6D2B51857900C44C37 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C2891D6C2B51857900C44C37 /* icon.icns */; };
 		C2891D6F2B51857900C44C37 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2891D6E2B51857900C44C37 /* ShareViewController.swift */; };
-		C2891D772B51857900C44C37 /* Share Extension Mac.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C2891D6A2B51857900C44C37 /* Share Extension Mac.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C2891D772B51857900C44C37 /* Share Extension Mac.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C2891D6A2B51857900C44C37 /* Share Extension Mac.appex */; platformFilters = (macos, ); settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C2891D7B2B51866300C44C37 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96E2A23D4FF00535807 /* BookmarksManager.swift */; };
 		C2891D7C2B51866300C44C37 /* FoldersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9722A23E8B300535807 /* FoldersManager.swift */; };
 		C2891D7D2B51866300C44C37 /* Folder+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57A283E7185003C9692 /* Folder+CoreDataClass.swift */; };
@@ -1093,6 +1093,9 @@
 		};
 		C2891D762B51857900C44C37 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilters = (
+				macos,
+			);
 			target = C2891D692B51857900C44C37 /* Share Extension Mac */;
 			targetProxy = C2891D752B51857900C44C37 /* PBXContainerItemProxy */;
 		};
