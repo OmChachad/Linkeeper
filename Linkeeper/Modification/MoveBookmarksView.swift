@@ -52,7 +52,7 @@ struct MoveBookmarksView: View {
                     #if !os(macOS)
                         .foregroundColor(Color(UIColor.systemGray5))
                     #else
-                        .foregroundColor(Color.gray)
+                        .fill(.regularMaterial)
                     #endif
                 }
                 
@@ -66,6 +66,7 @@ struct MoveBookmarksView: View {
                         } label: {
                             Label {
                                 Text("No Folder")
+                                    .foregroundColor(.primary)
                             } icon: {
                                 Image(systemName: "xmark.circle")
                                     .font(.headline)
