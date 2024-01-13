@@ -38,7 +38,7 @@ struct ContentView: View {
                 if #available(macOS 13.0, *) {
                     NavigationSplitView {
                         sideBar
-                            .frame(minWidth: 250, idealWidth: 350)
+                            .frame(minWidth: 300, idealWidth: 350)
                     } detail: {
                         Text("No folder is selected.")
                             .font(.title)
