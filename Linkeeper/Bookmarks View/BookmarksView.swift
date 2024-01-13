@@ -44,11 +44,15 @@ struct BookmarksView: View {
     @State private var sortOrder = [KeyPathComparator(\Bookmark.wrappedDate, order: .reverse)]
     
     var shouldDisallowTable: Bool {
+        if #available(iOS 16.0, macOS 13.0, *) {
         #if os(macOS)
-        return false
+            return false
         #else
-        return horizontalSizeClass == .compact || UIDevice.current.userInterfaceIdiom == .phone
+            return horizontalSizeClass == .compact || UIDevice.current.userInterfaceIdiom == .phone
         #endif
+        } else {
+            return false
+        }
     }
     
     var minimumItemWidth: CGFloat {
