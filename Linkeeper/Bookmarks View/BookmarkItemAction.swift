@@ -96,20 +96,19 @@ struct BookmarkItemAction: ViewModifier {
                 }
             }
             .swipeActions(edge: .trailing) {
-                Button(role: .destructive) {
-                    deleteConfirmation = true
-                } label: {
-                    Label("Delete", systemImage: "trash")
-                }
-                .tint(.red)
-                
-                
                 Button {
                     toBeEditedBookmark = bookmark
                     showDetails = true
                 } label: {
                     Label("Details", systemImage: "info.circle")
                 }
+                
+                Button(role: .destructive) {
+                    deleteConfirmation = true
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+                .tint(.red)
             }
             .swipeActions(edge: .leading) {
                 Button {
