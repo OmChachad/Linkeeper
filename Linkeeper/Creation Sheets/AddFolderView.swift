@@ -20,7 +20,7 @@ struct AddFolderView: View {
     
     @State private var title = ""
     @State private var folderIconColor: ColorOption = .gray
-    @State private var chosenSymbol = "car.fill"
+    @State private var chosenSymbol = "folder.fill"
 
     @State private var chosenSymbolCategory: SymbolCategory = .objects
     
