@@ -175,6 +175,7 @@ struct AddBookmarkView: View {
             #endif
         }
         .groupedFormStyle()
+        #if os(macOS)
         .safeAreaInset(edge: .bottom) {
             HStack {
                 Spacer()
@@ -197,6 +198,9 @@ struct AddBookmarkView: View {
             .padding()
             .background(.ultraThinMaterial)
         }
+        #else
+        .toolbar(content: toolbarContents)
+        #endif
     }
     
     func toolbarContents() -> some ToolbarContent {
