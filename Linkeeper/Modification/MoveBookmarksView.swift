@@ -71,7 +71,9 @@ struct MoveBookmarksView: View {
                                 Image(systemName: "xmark.circle")
                                     .font(.headline)
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
+                        .buttonStyle(.borderless)
                         .listRowBackground(
                             Color.secondary.opacity(selectedFolder == nil ? 0.5 : 0.0)
                         )
@@ -84,12 +86,14 @@ struct MoveBookmarksView: View {
                             } label: {
                                 Label {
                                     Text(folder.wrappedTitle)
+                                        .foregroundColor(.primary)
                                 } icon: {
                                     Image(systemName: folder.wrappedSymbol)
                                         .foregroundColor(folder.wrappedColor)
                                 }
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             }
-                            
+                            .buttonStyle(.borderless)
                             .listRowBackground(
                                 Color.secondary.opacity(selectedFolder == folder ? 0.5 : 0.0)
                             )
