@@ -129,7 +129,6 @@ struct ContentView: View {
     var sideBar: some View {
         Group {
             VStack(spacing: 0) {
-                if #available(iOS 15.0, macOS 13.0, *) {
                     VStack {
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
                             PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: isMac)
@@ -184,7 +183,7 @@ struct ContentView: View {
                     #else
                     .background(Color(uiColor: .systemGroupedBackground))
                     #endif
-                }
+                
                 
                 if !folders.filter({!$0.isPinned }).isEmpty {
                     List {
