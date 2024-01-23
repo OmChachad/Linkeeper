@@ -72,8 +72,9 @@ struct TipJar: View {
         .navigationTitle("Tip Jar")
         #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
+        #else
+        .frame(minHeight: 300)
         #endif
-        .frame(minHeight: 500)
     }
     
     func bulletLine(_ textContent: String, systemImage: String, tint: Color) -> some View {
