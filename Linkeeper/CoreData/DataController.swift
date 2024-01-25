@@ -80,7 +80,7 @@ class DataController: ObservableObject {
         deduplicate(type: Folder.self, idKeyPath: \.id)
     }
 
-    private func deduplicate<T: NSManagedObject>(type: T.Type, idKeyPath: KeyPath<T, UUID?>) {
+    private func deduplicate<T: NSManagedObject>(type: T.Type, idKeyPath: KeyPath<T, UUID>) {
         guard let entityName = T.entity().name else {
             return
         }
@@ -94,12 +94,11 @@ class DataController: ObservableObject {
             var objectsToDelete: [T] = []
 
             for object in objects {
-                if let id = object[keyPath: idKeyPath] {
-                    if uniqueIDs.contains(id) {
-                        objectsToDelete.append(object)
-                    } else {
-                        uniqueIDs.insert(id)
-                    }
+                let id = object[keyPath: idKeyPath]
+                if uniqueIDs.contains(id) {
+                    objectsToDelete.append(object)
+                } else {
+                    uniqueIDs.insert(id)
                 }
             }
 

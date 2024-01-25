@@ -33,7 +33,7 @@ struct BookmarkGridItem: View {
     @State private var movingBookmark = false
     
     var isSelected: Bool {
-        selectedBookmarks.contains(bookmark.id ?? UUID())
+        selectedBookmarks.contains(bookmark.id)
     }
     
     var isEditing: Bool {
@@ -109,9 +109,9 @@ struct BookmarkGridItem: View {
         .onTapGesture {
             if isEditing {
                 if isSelected {
-                    selectedBookmarks.remove(bookmark.id ?? UUID())
+                    selectedBookmarks.remove(bookmark.id)
                 } else {
-                    selectedBookmarks.insert(bookmark.id ?? UUID())
+                    selectedBookmarks.insert(bookmark.id)
                 }
             } else {
                 openBookmark()

@@ -46,7 +46,7 @@ class BookmarksManager {
         return bookmark
     }
 
-    func addBookmark(id: UUID? = UUID(), title: String, url: String, host: String, notes: String, folder: Folder?) -> Bookmark {
+    func addBookmark(id: UUID = UUID(), title: String, url: String, host: String, notes: String, folder: Folder?) -> Bookmark {
         let urlString: String = {
             if UserDefaults.standard.bool(forKey: "removeTrackingParameters") == true && !url.contains("youtube.com/watch") {
                      return url.components(separatedBy: "?").first ?? url
@@ -55,7 +55,7 @@ class BookmarksManager {
             }
         }()
         let bookmark = Bookmark(context: context)
-        bookmark.id = id ?? UUID()
+        bookmark.id = id
         bookmark.title = title
         bookmark.date = Date.now
         bookmark.host = host
