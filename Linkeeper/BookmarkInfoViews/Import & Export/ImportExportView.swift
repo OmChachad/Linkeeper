@@ -10,7 +10,7 @@ import SwiftUI
 struct ImportExportView: View {
     let importExportHandler = ImportExportHandler()
     
-    @State private var isImportingFromSafari = false
+    @State private var isImportingFromSafariOrChrome = false
     @State private var showingImporter = false
     @State private var isExporting = false
     @State private var htmlContent = ""
@@ -24,8 +24,8 @@ struct ImportExportView: View {
     
     var body: some View {
         Section("Import/Export Bookmarks") {
-            Button("Import from Safari") {
-                isImportingFromSafari.toggle()
+            Button("Import from Safari or Chrome") {
+                isImportingFromSafariOrChrome.toggle()
             }
             
             Button("Export All Bookmarks") {
@@ -40,7 +40,7 @@ struct ImportExportView: View {
                     print(error.localizedDescription)
                 }
         }
-        .fileImporter(isPresented: $isImportingFromSafari, allowedContentTypes: [.html]) { result in
+        .fileImporter(isPresented: $isImportingFromSafariOrChrome, allowedContentTypes: [.html]) { result in
             do {
                 let fileURL = try result.get()
                 self.htmlContent = try String(contentsOf: fileURL)
@@ -75,7 +75,7 @@ struct ImportExportView: View {
         }
         .alert("Failed to import bookmarks", isPresented: $showingError) {
             Button("Select another file...") {
-                isImportingFromSafari.toggle()
+                isImportingFromSafariOrChrome.toggle()
             }
             Button("Cancel", role: .cancel) {
                 showingError.toggle()
