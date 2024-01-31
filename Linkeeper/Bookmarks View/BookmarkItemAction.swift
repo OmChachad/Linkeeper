@@ -96,6 +96,7 @@ struct BookmarkItemAction: ViewModifier {
                 }
             }
             .swipeActions(edge: .trailing) {
+                #if os(macOS)
                 Button {
                     toBeEditedBookmark = bookmark
                     showDetails = true
@@ -109,6 +110,22 @@ struct BookmarkItemAction: ViewModifier {
                     Label("Delete", systemImage: "trash")
                 }
                 .tint(.red)
+                #else
+                Button(role: .destructive) {
+                    deleteConfirmation = true
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+                .tint(.red)
+                
+                Button {
+                    toBeEditedBookmark = bookmark
+                    showDetails = true
+                } label: {
+                    Label("Details", systemImage: "info.circle")
+                }
+                #endif
+                
             }
             .swipeActions(edge: .leading) {
                 Button {
