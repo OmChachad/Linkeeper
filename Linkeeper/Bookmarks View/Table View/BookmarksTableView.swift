@@ -26,7 +26,7 @@ struct BookmarksTableView: View {
     
     
     var body: some View {
-        Table(of: Bookmark.self, selection: $selectedBookmarks, sortOrder: $sortOrder) {
+        Table(of: Bookmark.self, selection: isMac ? .constant(selectedBookmarks) : $selectedBookmarks, sortOrder: $sortOrder) {
             TableColumn("Name", value: \.wrappedTitle) { bookmark in
                 TableNameView(bookmark: bookmark)
             }
