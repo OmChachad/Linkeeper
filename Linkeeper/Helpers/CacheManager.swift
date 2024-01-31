@@ -37,15 +37,15 @@ class CacheManager {
     private init() { }
     
     func add(preview: cachedPreview, for bookmark: Bookmark) {
-        add(preview: preview, id: bookmark.id)
+        add(preview: preview, id: bookmark.id ?? UUID())
     }
     
     func remove(for bookmark: Bookmark) {
-        remove(id: bookmark.id)
+        remove(id: bookmark.id ?? UUID())
     }
     
     func get(for bookmark: Bookmark) -> cachedPreview? {
-        get(id: bookmark.id)
+        get(id: bookmark.id ?? UUID())
     }
     
     func add(preview: cachedPreview, id: UUID) {

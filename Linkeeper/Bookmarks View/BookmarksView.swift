@@ -206,7 +206,7 @@ struct BookmarksView: View {
         .environment(\.editMode, $editState)
         #endif
         .sheet(isPresented: $movingBookmarks) {
-            MoveBookmarksView(toBeMoved: [Bookmark](selectedBookmarks.map{BookmarksManager.shared.findBookmark(withId: $0)})) {
+            MoveBookmarksView(toBeMoved: [Bookmark](selectedBookmarks.map{BookmarksManager.shared.findBookmark(withId: $0!)})) {
                 selectedBookmarks.removeAll()
                 editState = .inactive
             }
@@ -263,7 +263,7 @@ struct BookmarksView: View {
             .confirmationDialog("Are you sure you want to delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
                 Button("Delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)", role: .destructive) {
                     selectedBookmarks.forEach { bookmark in
-                        BookmarksManager.shared.deleteBookmark(withId: bookmark)
+                        BookmarksManager.shared.deleteBookmark(withId: bookmark ?? UUID())
                     }
                     try? moc.save()
                     selectedBookmarks.removeAll()

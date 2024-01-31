@@ -15,7 +15,7 @@ extension Bookmark {
         return NSFetchRequest<Bookmark>(entityName: "Bookmark")
     }
 
-    @NSManaged public var id: UUID
+    @NSManaged public var id: UUID?
     @NSManaged public var title: String?
     @NSManaged public var date: Date?
     @NSManaged public var notes: String?
@@ -45,7 +45,7 @@ extension Bookmark {
     }
     
     public var wrappedUUID: String {
-        String(describing: id.uuidString)
+        String(describing: id?.uuidString)
     }
     
     public var wrappedFolderName: String {
@@ -53,7 +53,7 @@ extension Bookmark {
     }
     
     var draggable: DraggableBookmark {
-        return DraggableBookmark(id: id, title: wrappedTitle, url: wrappedURL, notes: wrappedNotes, dateAdded: wrappedDate, isFavorited: isFavorited)
+        return DraggableBookmark(id: id ?? UUID(), title: wrappedTitle, url: wrappedURL, notes: wrappedNotes, dateAdded: wrappedDate, isFavorited: isFavorited)
     }
     
     func doesMatch(_ searchText: String) -> Bool {

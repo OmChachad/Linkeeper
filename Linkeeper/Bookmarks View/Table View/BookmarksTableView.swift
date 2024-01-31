@@ -14,7 +14,6 @@ struct BookmarksTableView: View {
     
     @Binding var selectedBookmarks: Set<Bookmark.ID>
     @Binding var sortOrder: [KeyPathComparator<Bookmark>]
-    @State private var s: Set<Bookmark.ID> = []
     
     @Binding var toBeEditedBookmark: Bookmark?
     @Binding var showDetails: Bool
@@ -27,16 +26,7 @@ struct BookmarksTableView: View {
     
     
     var body: some View {
-        Table(of: Bookmark.self, selection: Binding<Set<Bookmark.ID>>(get: {
-            return s
-        }, set: {
-            s = $0
-//            if selectedBookmarks.r {
-//                selectedBookmarks = $0
-//            }
-//            self.value = $0
-//            self.didModify()
-        }), sortOrder: $sortOrder) {
+        Table(of: Bookmark.self, selection: $selectedBookmarks, sortOrder: $sortOrder) {
             TableColumn("Name", value: \.wrappedTitle) { bookmark in
                 TableNameView(bookmark: bookmark)
             }

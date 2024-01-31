@@ -82,7 +82,7 @@ If disabled, you can add a title yourself.
             }
         }().trimmingCharacters(in: .whitespacesAndNewlines)
         
-        let bookmark = BookmarksManager.shared.addBookmark(title: title, url: url.sanitise.absoluteString, host: url.host ?? url.absoluteString, notes: notes ?? "", folder: nil)
+        let bookmark = BookmarksManager.shared.addBookmark(id: nil, title: title, url: url.sanitise.absoluteString, host: url.host ?? url.absoluteString, notes: notes ?? "", folder: nil)
         reloadAllWidgets()
         return .result(value: bookmark.toEntity())
     }

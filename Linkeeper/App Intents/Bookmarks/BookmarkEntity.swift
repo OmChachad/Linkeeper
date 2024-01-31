@@ -183,7 +183,7 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
 @available(iOS 16.0, macOS 13.0, *)
 extension Bookmark {
     func toEntity() -> BookmarkEntity {
-        BookmarkEntity(id: self.id, title: self.wrappedTitle, url: self.wrappedURL.absoluteString, host: self.wrappedHost, notes: self.wrappedNotes, isFavorited: self.isFavorited, dateAdded: self.wrappedDate)
+        BookmarkEntity(id: self.id!, title: self.wrappedTitle, url: self.wrappedURL.absoluteString, host: self.wrappedHost, notes: self.wrappedNotes, isFavorited: self.isFavorited, dateAdded: self.wrappedDate)
     }
 }
 

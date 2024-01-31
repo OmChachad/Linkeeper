@@ -156,7 +156,7 @@ struct IntentsFolderQuery: EntityPropertyQuery {
 @available(iOS 16.0, macOS 13.0, *)
 extension Folder {
     func toEntity() -> FolderEntity {
-        FolderEntity(id: self.id, title: self.wrappedTitle, bookmarks: Set<BookmarkEntity>(self.bookmarksArray.toEntity()), index: Int(self.index), symbol: self.wrappedSymbol, color: self.accentColor ?? "red")
+        FolderEntity(id: self.id!, title: self.wrappedTitle, bookmarks: Set<BookmarkEntity>(self.bookmarksArray.toEntity()), index: Int(self.index), symbol: self.wrappedSymbol, color: self.accentColor ?? "red")
     }
 }
 
