@@ -24,19 +24,21 @@ class DataController: ObservableObject {
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         persistentCloudKitContainer.persistentStoreDescriptions = [storeDescription]
     }
-
+    
     private func configureContainer() {
-        guard let description = persistentCloudKitContainer.persistentStoreDescriptions.first else {
+        guard let description = self.persistentCloudKitContainer.persistentStoreDescriptions.first else {
             fatalError("Failed to initialize persistent container")
         }
-
+        
         description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-        description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.org.starlightapps.Linkeeper")
-
-        persistentCloudKitContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        persistentCloudKitContainer.viewContext.automaticallyMergesChangesFromParent = true
-
-        persistentCloudKitContainer.loadPersistentStores(completionHandler: { _, error in
+        DispatchQueue.main.async {
+            description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.org.starlightapps.Linkeeper")
+        }
+        
+        self.persistentCloudKitContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        self.persistentCloudKitContainer.viewContext.automaticallyMergesChangesFromParent = true
+        
+        self.persistentCloudKitContainer.loadPersistentStores(completionHandler: { _, error in
             if let error = error {
                 fatalError("Core Data failed to load: \(error)")
             }
