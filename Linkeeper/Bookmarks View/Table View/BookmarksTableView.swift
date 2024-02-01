@@ -26,78 +26,58 @@ struct BookmarksTableView: View {
     
     
     var body: some View {
-        Table(of: Bookmark.self, selection: isMac ? .constant(selectedBookmarks) : $selectedBookmarks, sortOrder: $sortOrder) {
-            TableColumn("Name", value: \.wrappedTitle) { bookmark in
-                TableNameView(bookmark: bookmark)
-            }
-            .width(min: 200)
-            
-            TableColumn("Host", value: \.wrappedHost)
-                .width(max: 200)
-            
-            TableColumn("Folder", value: \.wrappedFolderName)
-                .width(max: 200)
-            
-            TableColumn("Date Added", value: \.wrappedDate) { bookmark in
-                Text(bookmark.wrappedDate, style: .date)
-                    .tag(bookmark.wrappedDate)
-            }
-            .width(max: isVisionOS ? 200 : 150)
-        } rows: {
-            ForEach(bookmarks.sorted(using: sortOrder)) { bookmark in
-                Group {
-                    if #available(iOS 17.0, macOS 14.0, *) {
+        Group {
+            if #available(iOS 17.0, macOS 14.0, *) {
+                Table(of: Bookmark.self, selection: isMac ? .constant(selectedBookmarks) : $selectedBookmarks, sortOrder: $sortOrder) {
+                    TableColumn("Name", value: \.wrappedTitle) { bookmark in
+                        TableNameView(bookmark: bookmark)
+                    }
+                    .width(min: 200)
+                    
+                    TableColumn("Host", value: \.wrappedHost)
+                        .width(max: 200)
+                    
+                    TableColumn("Folder", value: \.wrappedFolderName)
+                        .width(max: 200)
+                    
+                    TableColumn("Date Added", value: \.wrappedDate) { bookmark in
+                        Text(bookmark.wrappedDate, style: .date)
+                            .tag(bookmark.wrappedDate)
+                    }
+                    .width(max: isVisionOS ? 200 : 150)
+                } rows: {
+                    ForEach(bookmarks.sorted(using: sortOrder)) { bookmark in
                         TableRow(bookmark)
                             .draggable(bookmark.draggable)
-                    } else {
-                        TableRow(bookmark)
+                            .contextMenu {
+                                menuItems(bookmark: bookmark)
+                            }
                     }
                 }
-                .contextMenu {
-                    Group {
-                        Button {
-                            openURL(bookmark.wrappedURL)
-                        } label: {
-                            Label("Open in browser", systemImage: "safari")
-                        }
-                        
-                        Divider()
-                        
-                        Button {
-                            bookmark.isFavorited.toggle()
-                        } label: {
-                            if bookmark.isFavorited == false {
-                                Label("Add to favorites", systemImage: "heart")
-                            } else {
-                                Label("Remove from favorites", systemImage: "heart.slash")
+            } else {
+                Table(of: Bookmark.self, selection: isMac ? .constant(selectedBookmarks) : $selectedBookmarks, sortOrder: $sortOrder) {
+                    TableColumn("Name", value: \.wrappedTitle) { bookmark in
+                        TableNameView(bookmark: bookmark)
+                    }
+                    .width(min: 200)
+                    
+                    TableColumn("Host", value: \.wrappedHost)
+                        .width(max: 200)
+                    
+                    TableColumn("Folder", value: \.wrappedFolderName)
+                        .width(max: 200)
+                    
+                    TableColumn("Date Added", value: \.wrappedDate) { bookmark in
+                        Text(bookmark.wrappedDate, style: .date)
+                            .tag(bookmark.wrappedDate)
+                    }
+                    .width(max: isVisionOS ? 200 : 150)
+                } rows: {
+                    ForEach(bookmarks.sorted(using: sortOrder)) { bookmark in
+                        TableRow(bookmark)
+                            .contextMenu {
+                                menuItems(bookmark: bookmark)
                             }
-                        }
-                        
-                        Button {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                withAnimation {
-                                    toBeEditedBookmark = bookmark
-                                    showDetails = true
-                                }
-                            }
-                        } label: {
-                            Label("Show details", systemImage: "info.circle")
-                        }
-                        
-                        Button(action: bookmark.copyURL) {
-                            Label("Copy link", systemImage: "doc.on.doc")
-                        }
-                        
-                        ShareButton(url: bookmark.wrappedURL) {
-                            Label("Share", systemImage: "square.and.arrow.up")
-                        }
-                        
-                        Button(role: .destructive) {
-                            toBeDeletedBookmark = bookmark
-                            deleteConfirmation = true
-                        } label: {
-                            Label("Delete", systemImage: "trash")
-                        }
                     }
                 }
             }
@@ -108,6 +88,54 @@ struct BookmarksTableView: View {
             }
         } message: {
             Text("It will be deleted from all your iCloud devices.")
+        }
+    }
+    
+    func menuItems(bookmark: Bookmark) -> some View {
+        Group {
+            Button {
+                openURL(bookmark.wrappedURL)
+            } label: {
+                Label("Open in browser", systemImage: "safari")
+            }
+            
+            Divider()
+            
+            Button {
+                bookmark.isFavorited.toggle()
+            } label: {
+                if bookmark.isFavorited == false {
+                    Label("Add to favorites", systemImage: "heart")
+                } else {
+                    Label("Remove from favorites", systemImage: "heart.slash")
+                }
+            }
+            
+            Button {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    withAnimation {
+                        toBeEditedBookmark = bookmark
+                        showDetails = true
+                    }
+                }
+            } label: {
+                Label("Show details", systemImage: "info.circle")
+            }
+            
+            Button(action: bookmark.copyURL) {
+                Label("Copy link", systemImage: "doc.on.doc")
+            }
+            
+            ShareButton(url: bookmark.wrappedURL) {
+                Label("Share", systemImage: "square.and.arrow.up")
+            }
+            
+            Button(role: .destructive) {
+                toBeDeletedBookmark = bookmark
+                deleteConfirmation = true
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
         }
     }
 }
