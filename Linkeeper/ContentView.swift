@@ -11,6 +11,7 @@ import SimpleToast
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.openURL) var openURL
     
     // CoreData FetchRequests
@@ -28,9 +29,19 @@ struct ContentView: View {
     @State private var addedFolder = false
     private let toastOptions = SimpleToastOptions(alignment: .bottom, hideAfter: 1.5, backdrop: .clear, animation: .spring(), modifierType: .slide, dismissOnTap: true)
     
+    @State private var showingAllBookmarks = false
+    @State private var showingFavorites = false
     @State private var currentFolder: Folder?
     
     var spacing: CGFloat { (isMac || isVisionOS) ? 10 : 15 }
+    
+    var inSideBarMode: Bool {
+        #if os(macOS)
+            return true
+        #else
+            return horizontalSizeClass == .regular
+        #endif
+    }
     
     var body: some View {
         Group {
@@ -131,7 +142,7 @@ struct ContentView: View {
             VStack(spacing: 0) {
                     VStack {
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
-                            PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: isMac)
+                            PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: isMac, isActiveStatus: $showingAllBookmarks)
                                 .buttonStyle(.plain)
                                 .dropDestination { bookmark, url in
                                     if let bookmark {
@@ -143,7 +154,7 @@ struct ContentView: View {
                                 }
                             
                             
-                            PinnedItemView(destination: BookmarksView(onlyFavorites: true), title: "Favorites", symbolName: "heart.fill", tint: .pink, count:   favoriteBookmarks.count)
+                            PinnedItemView(destination: BookmarksView(onlyFavorites: true), title: "Favorites", symbolName: "heart.fill", tint: .pink, count:   favoriteBookmarks.count, isActiveStatus: $showingFavorites)
                                 .buttonStyle(.plain)
                                 .dropDestination { bookmark, url in
                                     if let bookmark {
@@ -326,14 +337,16 @@ Click **Add Folder** to get started.
                         .buttonStyle(.bordered)
                         
 #else
-                        Button {
-                            showingNewBookmarkView = true
-                        } label: {
-                            Label("New Bookmark", systemImage: "plus.circle.fill")
-                                .labelStyle(.titleAndIcon)
-                                .font(.headline)
+                        if !inSideBarMode || (currentFolder == nil && !showingAllBookmarks) {
+                            Button {
+                                showingNewBookmarkView = true
+                            } label: {
+                                Label("New Bookmark", systemImage: "plus.circle.fill")
+                                    .labelStyle(.titleAndIcon)
+                                    .font(.headline)
+                            }
+                            .keyboardShortcut("n", modifiers: .command)
                         }
-                        .keyboardShortcut("n", modifiers: .command)
                         
                         Spacer()
                         

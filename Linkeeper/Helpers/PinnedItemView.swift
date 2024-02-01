@@ -16,6 +16,7 @@ struct PinnedItemView<Content: View>: View {
     
     @State private var isActiveByDefault = false
     @State private var isActive = false
+    @Binding var isActiveStatus: Bool
     
     var isMacOriPad: Bool {
         #if os(macOS)
@@ -25,21 +26,23 @@ struct PinnedItemView<Content: View>: View {
         #endif
     }
     
-    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int) {
+    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveStatus: Binding<Bool> = .constant(true)) {
         self.destination = destination
         self.title = title
         self.symbolName = symbolName
         self.tint = tint
         self.count = count
+        self._isActiveStatus = isActiveStatus
     }
     
-    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveByDefault: Bool) {
+    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveByDefault: Bool, isActiveStatus: Binding<Bool> = .constant(true)) {
         self.destination = destination
         self.title = title
         self.symbolName = symbolName
         self.tint = tint
         self.count = count
         _isActiveByDefault = State(initialValue: isActiveByDefault)
+        self._isActiveStatus = isActiveStatus
     }
     
     var backgroundColor: Color {
@@ -126,6 +129,9 @@ struct PinnedItemView<Content: View>: View {
         #endif
         .onAppear {
             isActive = isActiveByDefault
+        }
+        .onChange(of: isActive) { new in
+            isActiveStatus = isActive
         }
     }
     

@@ -189,6 +189,28 @@ struct BookmarksView: View {
                 .buttonStyle(.borderless)
             }
         })
+        #elseif !os(visionOS)
+        .toolbar {
+            ToolbarItemGroup(placement: .bottomBar) {
+                if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true {
+                    HStack {
+                        Button {
+                            addingBookmark = true
+                        } label: {
+                            Label("New Bookmark", systemImage: "plus.circle.fill")
+                                .labelStyle(.titleAndIcon)
+                                .font(.headline)
+                        }
+                        .keyboardShortcut("n", modifiers: .command)
+                        
+                        Spacer()
+                    }
+                    .foregroundColor(folder?.wrappedColor)
+                    .padding(.vertical, 10)
+                    .buttonStyle(.borderless)
+                }
+            }
+        }
         #endif
         .overlay {
             #if !os(visionOS)
