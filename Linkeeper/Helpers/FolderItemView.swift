@@ -78,6 +78,15 @@ struct FolderItemView: View {
             Text("^[\(folder.countOfBookmarks) Bookmarks](inflect: true) will be deleted.")
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            #if os(macOS)
+            if !isEditing {
+                Button {
+                    editingFolder = true
+                } label: {
+                    Label("Edit", systemImage: "pencil")
+                }
+            }
+            
             Button {
                 if folder.bookmarksArray.count == 0 {
                     withAnimation {
@@ -91,8 +100,21 @@ struct FolderItemView: View {
                 Label("Delete", systemImage: "trash")
             }
             .tint(.red)
-        }
-        .swipeActions(edge: .trailing) {
+            #else
+            Button {
+                if folder.bookmarksArray.count == 0 {
+                    withAnimation {
+                        moc.delete(folder)
+                        try? moc.save()
+                    }
+                } else {
+                    deleteConfirmation = true
+                }
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+            .tint(.red)
+            
             if !isEditing {
                 Button {
                     editingFolder = true
@@ -100,6 +122,7 @@ struct FolderItemView: View {
                     Label("Edit", systemImage: "pencil")
                 }
             }
+            #endif
         }
         .swipeActions(edge: .leading) {
             if !isEditing {
