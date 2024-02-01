@@ -31,9 +31,18 @@ class DataController: ObservableObject {
         }
         
         description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-        DispatchQueue.main.async {
+        
+        #if os(macOS)
+        if #available(macOS 14.0, *) {
             description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.org.starlightapps.Linkeeper")
+        } else {
+            DispatchQueue.main.async {
+                description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.org.starlightapps.Linkeeper")
+            }
         }
+        #else
+        description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.org.starlightapps.Linkeeper")
+        #endif
         
         self.persistentCloudKitContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         self.persistentCloudKitContainer.viewContext.automaticallyMergesChangesFromParent = true
