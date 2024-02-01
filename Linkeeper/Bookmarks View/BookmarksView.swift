@@ -170,22 +170,24 @@ struct BookmarksView: View {
         }
         #if os(macOS)
         .safeAreaInset(edge: .bottom, content: {
-            HStack {
-                Button {
-                    addingBookmark = true
-                } label: {
-                    Label("New Bookmark", systemImage: "plus.circle.fill")
-                        .labelStyle(.titleAndIcon)
-                        .font(.headline)
+            if searchText.isEmpty && !filteredBookmarks.isEmpty {
+                HStack {
+                    Button {
+                        addingBookmark = true
+                    } label: {
+                        Label("New Bookmark", systemImage: "plus.circle.fill")
+                            .labelStyle(.titleAndIcon)
+                            .font(.headline)
+                    }
+                    .keyboardShortcut("n", modifiers: .command)
+                    
+                    Spacer()
                 }
-                .keyboardShortcut("n", modifiers: .command)
-                
-                Spacer()
+                .foregroundColor(folder?.wrappedColor)
+                .padding()
+                .background(.thickMaterial)
+                .buttonStyle(.borderless)
             }
-            .foregroundColor(folder?.wrappedColor)
-            .padding()
-            .background(.thickMaterial)
-            .buttonStyle(.borderless)
         })
         #endif
         .overlay {
