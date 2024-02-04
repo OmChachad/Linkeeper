@@ -192,7 +192,7 @@ struct BookmarksView: View {
         #elseif !os(visionOS)
         .toolbar {
             ToolbarItemGroup(placement: .bottomBar) {
-                if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true {
+                if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
                     HStack {
                         Button {
                             addingBookmark = true
