@@ -91,4 +91,17 @@ extension View {
             return self
         }
     }
+    
+    #if os(iOS)
+    func stackModeOniPhone() -> some View {
+        Group {
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                self
+                    .navigationViewStyle(.stack)
+            } else {
+                self
+            }
+        }
+    }
+    #endif
 }

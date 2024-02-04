@@ -76,6 +76,7 @@ struct ContentView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.secondary)
                 }
+                .stackModeOniPhone()
                 #endif
         }
         .sheet(isPresented: $showingSettings, content: SettingsView.init)

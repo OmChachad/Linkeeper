@@ -207,6 +207,7 @@ struct BookmarksView: View {
                     }
                     .foregroundColor(folder?.wrappedColor)
                     .padding(.vertical, 10)
+                    .padding(.leading, horizontalSizeClass == .regular ? 0 : 7.5)
                     .buttonStyle(.borderless)
                 }
             }
