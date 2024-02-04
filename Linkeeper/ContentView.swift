@@ -31,6 +31,7 @@ struct ContentView: View {
     
     @State private var showingAllBookmarks = false
     @State private var showingFavorites = false
+    @State private var showingPinnedFolder = false
     @State private var currentFolder: Folder?
     
     var spacing: CGFloat { (isMac || isVisionOS) ? 10 : 15 }
@@ -143,7 +144,7 @@ struct ContentView: View {
             VStack(spacing: 0) {
                     VStack {
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
-                            PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: isMac, isActiveStatus: $showingAllBookmarks)
+                            PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: inSideBarMode, isActiveStatus: $showingAllBookmarks)
                                 .buttonStyle(.plain)
                                 .dropDestination { bookmark, url in
                                     if let bookmark {
@@ -168,7 +169,7 @@ struct ContentView: View {
                                 }
                             
                             ForEach(pinnedFolders) { folder in
-                                PinnedItemView(destination: BookmarksView(folder: folder), title: folder.wrappedTitle, symbolName: folder.wrappedSymbol, tint: folder.wrappedColor, count: folder.bookmarksArray.count)
+                                PinnedItemView(destination: BookmarksView(folder: folder), title: folder.wrappedTitle, symbolName: folder.wrappedSymbol, tint: folder.wrappedColor, count: folder.bookmarksArray.count, isActiveStatus: $showingPinnedFolder)
                                     .contextMenu {
                                         Button {
                                             folder.isPinned.toggle()
@@ -338,7 +339,7 @@ Click **Add Folder** to get started.
                         .buttonStyle(.bordered)
                         
 #else
-                        if !inSideBarMode || (currentFolder == nil && !showingAllBookmarks) {
+                        if !inSideBarMode || showingFavorites {
                             Button {
                                 showingNewBookmarkView = true
                             } label: {
