@@ -170,7 +170,7 @@ struct BookmarksView: View {
         }
         #if os(macOS)
         .safeAreaInset(edge: .bottom, content: {
-            if searchText.isEmpty && !filteredBookmarks.isEmpty {
+            if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
                 HStack {
                     Button {
                         addingBookmark = true
