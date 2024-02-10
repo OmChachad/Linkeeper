@@ -6,12 +6,6 @@
 	<dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string></string>
-			</array>
-			<key>CFBundleIconName</key>
-			<string></string>
 			<key>NSAppIconActionTintColorName</key>
 			<string>ShortcutIconForeground</string>
 			<key>NSAppIconComplementingColorNames</key>
@@ -19,19 +13,6 @@
 				<string>ShortcutBackground1</string>
 				<string>ShortcutBackground2</string>
 			</array>
-			<key>UIPrerenderedIcon</key>
-			<false/>
-		</dict>
-		<key>UINewsstandIcon</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string></string>
-			</array>
-			<key>UINewsstandBindingEdge</key>
-			<string>UINewsstandBindingEdgeLeft</string>
-			<key>UINewsstandBindingType</key>
-			<string>UINewsstandBindingTypeMagazine</string>
 		</dict>
 	</dict>
 	<key>CFBundleURLTypes</key>
