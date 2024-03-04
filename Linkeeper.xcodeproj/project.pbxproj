@@ -28,6 +28,33 @@
 		C2052C072B34699C00185D29 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050742A12B7E300817C48 /* URL.swift */; };
 		C2052C082B3469A400185D29 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
 		C2052C092B3469B300185D29 /* Metadata Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F02A588B1D0081FEBC /* Metadata Fetcher.swift */; };
+		C2120C412B95A26E003FEDF2 /* Share Extension Vision.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C2120C3A2B95A26E003FEDF2 /* Share Extension Vision.appex */; platformFilters = (xros, ); settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C2120C472B95EEE8003FEDF2 /* AddBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E66281900D70030B6DD /* AddBookmarkView.swift */; };
+		C2120C482B95EEFF003FEDF2 /* Folder+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57A283E7185003C9692 /* Folder+CoreDataClass.swift */; };
+		C2120C4F2B95EF1C003FEDF2 /* Bookmark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF578283E7185003C9692 /* Bookmark+CoreDataClass.swift */; };
+		C2120C502B95EF1C003FEDF2 /* FoldersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9722A23E8B300535807 /* FoldersManager.swift */; };
+		C2120C512B95EF1C003FEDF2 /* StoreURL Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A14A252A5DD21E003A5308 /* StoreURL Extension.swift */; };
+		C2120C522B95EF1C003FEDF2 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF576283E65D2003C9692 /* DataController.swift */; };
+		C2120C532B95EF1C003FEDF2 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96E2A23D4FF00535807 /* BookmarksManager.swift */; };
+		C2120C542B95EF1C003FEDF2 /* Bookmark+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF579283E7185003C9692 /* Bookmark+CoreDataProperties.swift */; };
+		C2120C552B95EF1C003FEDF2 /* Folder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF57B283E7185003C9692 /* Folder+CoreDataProperties.swift */; };
+		C2120C562B95EF1F003FEDF2 /* Linkeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */; };
+		C2120C572B95EF28003FEDF2 /* DraggableBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EE9F2A4DF89800CCD36F /* DraggableBookmark.swift */; };
+		C2120C582B95EF35003FEDF2 /* ColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorOption.swift */; };
+		C2120C592B95EF47003FEDF2 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050742A12B7E300817C48 /* URL.swift */; };
+		C2120C5A2B95EF57003FEDF2 /* TextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050782A12B81300817C48 /* TextEditor.swift */; };
+		C2120C5B2B95EF63003FEDF2 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506E2A12B77100817C48 /* View.swift */; };
+		C2120C5C2B95EF6A003FEDF2 /* AddBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9742A24B81E00535807 /* AddBookmark.swift */; };
+		C2120C5D2B95EF72003FEDF2 /* Metadata Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F02A588B1D0081FEBC /* Metadata Fetcher.swift */; };
+		C2120C5E2B95EF83003FEDF2 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
+		C2120C5F2B95EF8D003FEDF2 /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6E28193AE20030B6DD /* AddFolderView.swift */; };
+		C2120C602B95EF94003FEDF2 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
+		C2120C612B95EFA1003FEDF2 /* SymbolOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3899B2A54978E0085D801 /* SymbolOption.swift */; };
+		C2120C622B95EFBA003FEDF2 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050762A12B80300817C48 /* String.swift */; };
+		C2120C632B95EFC7003FEDF2 /* reloadAllWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF0F82B47C03E00C4D9A4 /* reloadAllWidgets.swift */; };
+		C2120C642B95EFCE003FEDF2 /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B92A2534E100535807 /* AddFolder.swift */; };
+		C2120C652B95EFE1003FEDF2 /* FolderEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9702A23E32D00535807 /* FolderEntity.swift */; };
+		C2120C682B95FB6E003FEDF2 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2120C3C2B95A26E003FEDF2 /* ShareViewController.swift */; };
 		C21B92972A94A8F4001237DD /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
 		C22268862B48227700D88123 /* ViewOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268852B48227700D88123 /* ViewOption.swift */; };
 		C22268882B486F4D00D88123 /* BookmarksGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268872B486F4D00D88123 /* BookmarksGridView.swift */; };
@@ -204,6 +231,13 @@
 			remoteGlobalIDString = C2052BDA2B34688500185D29;
 			remoteInfo = BookmarksWidgetExtension;
 		};
+		C2120C3F2B95A26E003FEDF2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2C8DC3228171D93000F4AEB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C2120C392B95A26E003FEDF2;
+			remoteInfo = "Share Extension Vision";
+		};
 		C2891D752B51857900C44C37 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2C8DC3228171D93000F4AEB /* Project object */;
@@ -227,6 +261,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				C2120C412B95A26E003FEDF2 /* Share Extension Vision.appex in Embed Foundation Extensions */,
 				C2052BEC2B34688700185D29 /* BookmarksWidgetExtension.appex in Embed Foundation Extensions */,
 				C2891D772B51857900C44C37 /* Share Extension Mac.appex in Embed Foundation Extensions */,
 				C2A14A352A601C24003A5308 /* Share Extension.appex in Embed Foundation Extensions */,
@@ -246,6 +281,10 @@
 		C2052BE72B34688700185D29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2052BE92B34688700185D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2052BED2B34688700185D29 /* BookmarksWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookmarksWidgetExtension.entitlements; sourceTree = "<group>"; };
+		C2120C3A2B95A26E003FEDF2 /* Share Extension Vision.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share Extension Vision.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2120C3C2B95A26E003FEDF2 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		C2120C3E2B95A26E003FEDF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2120C662B95F541003FEDF2 /* Share Extension Vision.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Share Extension Vision.entitlements"; sourceTree = "<group>"; };
 		C22268852B48227700D88123 /* ViewOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewOption.swift; sourceTree = "<group>"; };
 		C22268872B486F4D00D88123 /* BookmarksGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksGridView.swift; sourceTree = "<group>"; };
 		C22268892B486F5C00D88123 /* BookmarksTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksTableView.swift; sourceTree = "<group>"; };
@@ -353,6 +392,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C2120C372B95A26E003FEDF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C2891D672B51857900C44C37 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -398,6 +444,16 @@
 				C2052BED2B34688700185D29 /* BookmarksWidgetExtension.entitlements */,
 			);
 			path = BookmarksWidget;
+			sourceTree = "<group>";
+		};
+		C2120C3B2B95A26E003FEDF2 /* Share Extension Vision */ = {
+			isa = PBXGroup;
+			children = (
+				C2120C662B95F541003FEDF2 /* Share Extension Vision.entitlements */,
+				C2120C3C2B95A26E003FEDF2 /* ShareViewController.swift */,
+				C2120C3E2B95A26E003FEDF2 /* Info.plist */,
+			);
+			path = "Share Extension Vision";
 			sourceTree = "<group>";
 		};
 		C222689B2B49CAB400D88123 /* Grid View */ = {
@@ -614,6 +670,7 @@
 			children = (
 				C2C8DC3C28171D93000F4AEB /* Linkeeper */,
 				C2A14A2C2A601C24003A5308 /* Share Extension */,
+				C2120C3B2B95A26E003FEDF2 /* Share Extension Vision */,
 				C2891D6B2B51857900C44C37 /* Share Extension Mac */,
 				C2052BE02B34688500185D29 /* BookmarksWidget */,
 				C2C8DC3B28171D93000F4AEB /* Products */,
@@ -628,6 +685,7 @@
 				C2A14A2B2A601C23003A5308 /* Share Extension.appex */,
 				C2052BDB2B34688500185D29 /* BookmarksWidgetExtension.appex */,
 				C2891D6A2B51857900C44C37 /* Share Extension Mac.appex */,
+				C2120C3A2B95A26E003FEDF2 /* Share Extension Vision.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -729,6 +787,23 @@
 			productReference = C2052BDB2B34688500185D29 /* BookmarksWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		C2120C392B95A26E003FEDF2 /* Share Extension Vision */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2120C442B95A26E003FEDF2 /* Build configuration list for PBXNativeTarget "Share Extension Vision" */;
+			buildPhases = (
+				C2120C362B95A26E003FEDF2 /* Sources */,
+				C2120C372B95A26E003FEDF2 /* Frameworks */,
+				C2120C382B95A26E003FEDF2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Share Extension Vision";
+			productName = "Share Extension Vision";
+			productReference = C2120C3A2B95A26E003FEDF2 /* Share Extension Vision.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C2891D692B51857900C44C37 /* Share Extension Mac */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C2891D782B51857900C44C37 /* Build configuration list for PBXNativeTarget "Share Extension Mac" */;
@@ -778,6 +853,7 @@
 				C2A14A342A601C24003A5308 /* PBXTargetDependency */,
 				C2052BEB2B34688700185D29 /* PBXTargetDependency */,
 				C2891D762B51857900C44C37 /* PBXTargetDependency */,
+				C2120C402B95A26E003FEDF2 /* PBXTargetDependency */,
 			);
 			name = Linkeeper;
 			packageProductDependencies = (
@@ -802,6 +878,9 @@
 				TargetAttributes = {
 					C2052BDA2B34688500185D29 = {
 						CreatedOnToolsVersion = 15.1;
+					};
+					C2120C392B95A26E003FEDF2 = {
+						CreatedOnToolsVersion = 15.2;
 					};
 					C2891D692B51857900C44C37 = {
 						CreatedOnToolsVersion = 15.2;
@@ -837,6 +916,7 @@
 				C2A14A2A2A601C23003A5308 /* Share Extension */,
 				C2052BDA2B34688500185D29 /* BookmarksWidgetExtension */,
 				C2891D692B51857900C44C37 /* Share Extension Mac */,
+				C2120C392B95A26E003FEDF2 /* Share Extension Vision */,
 			);
 		};
 /* End PBXProject section */
@@ -847,6 +927,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2052BE82B34688700185D29 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2120C382B95A26E003FEDF2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -920,6 +1007,39 @@
 				C28D18932B43193F0033C979 /* SmallWidgetView.swift in Sources */,
 				C28D18802B41A20B0033C979 /* DeleteBookmarks.swift in Sources */,
 				C28D188A2B425FAE0033C979 /* Bookmark.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2120C362B95A26E003FEDF2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2120C632B95EFC7003FEDF2 /* reloadAllWidgets.swift in Sources */,
+				C2120C5E2B95EF83003FEDF2 /* BookmarkEntity.swift in Sources */,
+				C2120C5B2B95EF63003FEDF2 /* View.swift in Sources */,
+				C2120C622B95EFBA003FEDF2 /* String.swift in Sources */,
+				C2120C652B95EFE1003FEDF2 /* FolderEntity.swift in Sources */,
+				C2120C542B95EF1C003FEDF2 /* Bookmark+CoreDataProperties.swift in Sources */,
+				C2120C522B95EF1C003FEDF2 /* DataController.swift in Sources */,
+				C2120C612B95EFA1003FEDF2 /* SymbolOption.swift in Sources */,
+				C2120C502B95EF1C003FEDF2 /* FoldersManager.swift in Sources */,
+				C2120C592B95EF47003FEDF2 /* URL.swift in Sources */,
+				C2120C552B95EF1C003FEDF2 /* Folder+CoreDataProperties.swift in Sources */,
+				C2120C472B95EEE8003FEDF2 /* AddBookmarkView.swift in Sources */,
+				C2120C5D2B95EF72003FEDF2 /* Metadata Fetcher.swift in Sources */,
+				C2120C642B95EFCE003FEDF2 /* AddFolder.swift in Sources */,
+				C2120C572B95EF28003FEDF2 /* DraggableBookmark.swift in Sources */,
+				C2120C5F2B95EF8D003FEDF2 /* AddFolderView.swift in Sources */,
+				C2120C5C2B95EF6A003FEDF2 /* AddBookmark.swift in Sources */,
+				C2120C5A2B95EF57003FEDF2 /* TextEditor.swift in Sources */,
+				C2120C602B95EF94003FEDF2 /* CacheManager.swift in Sources */,
+				C2120C512B95EF1C003FEDF2 /* StoreURL Extension.swift in Sources */,
+				C2120C562B95EF1F003FEDF2 /* Linkeeper.xcdatamodeld in Sources */,
+				C2120C582B95EF35003FEDF2 /* ColorOption.swift in Sources */,
+				C2120C4F2B95EF1C003FEDF2 /* Bookmark+CoreDataClass.swift in Sources */,
+				C2120C682B95FB6E003FEDF2 /* ShareViewController.swift in Sources */,
+				C2120C532B95EF1C003FEDF2 /* BookmarksManager.swift in Sources */,
+				C2120C482B95EEFF003FEDF2 /* Folder+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1091,6 +1211,14 @@
 			target = C2052BDA2B34688500185D29 /* BookmarksWidgetExtension */;
 			targetProxy = C2052BEA2B34688700185D29 /* PBXContainerItemProxy */;
 		};
+		C2120C402B95A26E003FEDF2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilters = (
+				xros,
+			);
+			target = C2120C392B95A26E003FEDF2 /* Share Extension Vision */;
+			targetProxy = C2120C3F2B95A26E003FEDF2 /* PBXContainerItemProxy */;
+		};
 		C2891D762B51857900C44C37 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			platformFilters = (
@@ -1189,6 +1317,71 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C2120C422B95A26E003FEDF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "Share Extension Vision/Share Extension Vision.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Share Extension Vision/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Share Extension Vision";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.starlightapps.Linkeeper.Share-Extension-Vision";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+			};
+			name = Debug;
+		};
+		C2120C432B95A26E003FEDF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "Share Extension Vision/Share Extension Vision.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Share Extension Vision/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Share Extension Vision";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.starlightapps.Linkeeper.Share-Extension-Vision";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Release;
 		};
@@ -1531,6 +1724,15 @@
 			buildConfigurations = (
 				C2052BEF2B34688700185D29 /* Debug */,
 				C2052BF02B34688700185D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2120C442B95A26E003FEDF2 /* Build configuration list for PBXNativeTarget "Share Extension Vision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2120C422B95A26E003FEDF2 /* Debug */,
+				C2120C432B95A26E003FEDF2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
