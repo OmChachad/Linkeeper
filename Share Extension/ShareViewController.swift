@@ -37,7 +37,13 @@ class ShareViewController: UIViewController {
                 let hostingController = UIHostingController(rootView: swiftUIView)
                 self.addChild(hostingController)
                 self.view.addSubview(hostingController.view)
-                hostingController.view.frame = self.view.bounds
+                
+                hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+                hostingController.view.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+                hostingController.view.bottomAnchor.constraint (equalTo: self.view.bottomAnchor).isActive = true
+                hostingController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+                hostingController.view.rightAnchor.constraint (equalTo: self.view.rightAnchor).isActive = true
+
                 hostingController.didMove(toParent: self)
             }
         } else {
