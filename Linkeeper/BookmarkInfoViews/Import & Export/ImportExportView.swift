@@ -23,7 +23,7 @@ struct ImportExportView: View {
     @State private var showingError = false
     
     var body: some View {
-        Section("Import/Export Bookmarks") {
+        Section {
             Button("Import from Safari or Chrome") {
                 isImportingFromSafariOrChrome.toggle()
             }
@@ -31,6 +31,13 @@ struct ImportExportView: View {
             Button("Export All Bookmarks") {
                 isExporting.toggle()
             }
+        } header: {
+            Text("Import/Export Bookmarks")
+        } footer: {
+            Text("To import bookmarks, first export them as an HTML file from Safari or Chrome. Then, select the exported file from Linkeeper.")
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .fileExporter(isPresented: $isExporting, document: ImportExportHandler().exportContents, contentType: .plainText, defaultFilename: fileName) { result in
             switch result {
