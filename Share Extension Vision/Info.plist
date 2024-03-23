@@ -9,9 +9,9 @@
 			<key>NSExtensionActivationRule</key>
 			<dict>
 				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
-				<string>1</string>
+				<integer>1</integer>
 				<key>NSExtensionActivationSupportsWebPageWithMaxCount</key>
-				<string>1</string>
+				<integer>1</integer>
 				<key>NSExtensionActivationSupportsText</key>
 				<true/>
 			</dict>
