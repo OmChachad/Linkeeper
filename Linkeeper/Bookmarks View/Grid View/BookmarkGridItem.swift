@@ -94,7 +94,7 @@ struct BookmarkGridItem: View {
         .background(.thickMaterial)
         #else
         #if os(macOS)
-        .background(Color("GridItemBackground"))
+        .background(Color("GridItemBackground").opacity(0.35))
         #else
         .background(Color(UIColor.systemGray5))
         #endif
