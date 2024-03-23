@@ -118,7 +118,7 @@ struct BookmarkGridItem: View {
             }
         }
         .contextMenu { menuItems() }
-        .onLongPressGesture(minimumDuration: 0.1, perform: {
+        .onLongPressGesture(minimumDuration: 0.5, perform: {
             #if os(macOS)
                 toBeEditedBookmark = bookmark
                 showDetails.toggle()
