@@ -61,7 +61,14 @@ struct AddBookmarkView: View {
     var body: some View {
         Group {
             #if os(macOS)
-            FormContents()
+            VStack {
+                Text(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "New Bookmark" : title)
+                    .bold()
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .background(.ultraThinMaterial)
+                FormContents()
+            }
             #else
             NavigationView {
                 FormContents()
