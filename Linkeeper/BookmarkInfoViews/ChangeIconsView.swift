@@ -30,7 +30,11 @@ struct ChangeIconsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 65, height: 65)
+                            #if os(visionOS)
+                            .clipShape(.circle)
+                            #else
                             .cornerRadius(13, style: .continuous)
+                            #endif
                             .padding([.trailing, .top, .bottom], 5)
                         
                         Text(displayNames[icon]!)

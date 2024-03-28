@@ -120,17 +120,15 @@ struct SettingsView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 
-                #if !os(macOS)
-                if storeKit.userHasTipped && !isVisionOS {
+                if storeKit.userHasTipped && UIApplication.shared.supportsAlternateIcons {
                     Section {
                         NavigationLink(destination: ChangeIconsView()) {
-                            Label("Change App Icon", systemImage: "square.fill")
+                            Label("Change App Icon", systemImage: isVisionOS ? "circle.fill" : "square.fill")
                         }
                     } header: {
                         Text("Tipping Perks")
                     }
                 }
-                #endif
                 
                 ImportExportView()
                     .buttonStyle(.borderless)
