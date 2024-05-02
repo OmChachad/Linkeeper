@@ -16,7 +16,7 @@ struct AddBookmarkView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     
     @State private var url = ""
-    @State private var host = ""
+    //@State private var host = ""
     @State private var title = ""
     @State private var notes = ""
     @State private var folder: Folder?
@@ -82,8 +82,6 @@ struct AddBookmarkView: View {
             AddFolderView()
         }
         .onChange(of: url) { newURL in
-            host = ""
-            
             if autoFetchTitles {
                 askForTitle = false
                 title = ""
@@ -264,6 +262,7 @@ struct AddBookmarkView: View {
         if let url = URL(string: url)?.sanitise {
             Task {
                 isLoading = true
+                
                 if let metadata = try await startFetchingMetadata(for: url, fetchSubresources: false, timeout: 10) {
                     if let URLTitle = metadata.title {
                         if title.isEmpty {
@@ -272,18 +271,6 @@ struct AddBookmarkView: View {
                         }
                     } else {
                         askForTitle = true
-                    }
-                    
-                    if let URLHost = url.host ?? metadata.originalURL?.host ?? metadata.url?.host{
-                        self.host = URLHost
-                    } else {
-                        self.host = url.absoluteString
-                    }
-                } else {
-                    if let URLHost = url.host {
-                        self.host = URLHost
-                    } else {
-                        self.host = url.absoluteString
                     }
                 }
                 
@@ -338,7 +325,7 @@ struct AddBookmarkView: View {
                 }
             }
         } else {
-            BookmarksManager.shared.addBookmark(title: title, url: sanitisedURL, host: host, notes: notes, folder: folder)
+            BookmarksManager.shared.addBookmark(title: title, url: sanitisedURL, host: URL(string: url)!.host ?? url, notes: notes, folder: folder)
         }
         
         dismiss()
