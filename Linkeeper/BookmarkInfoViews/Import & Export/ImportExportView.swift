@@ -22,6 +22,8 @@ struct ImportExportView: View {
     @State private var showingSuccessAlert = false
     @State private var showingError = false
     
+    @State private var errorMessage = ""
+    
     var body: some View {
         Section {
             Button("Import from Safari or Chrome") {
@@ -50,6 +52,7 @@ struct ImportExportView: View {
         .fileImporter(isPresented: $isImportingFromSafariOrChrome, allowedContentTypes: [.html]) { result in
             do {
                 let fileURL = try result.get()
+                let startedAccessing = fileURL.startAccessingSecurityScopedResource()
                 self.htmlContent = try String(contentsOf: fileURL)
 
                 do {
@@ -59,10 +62,15 @@ struct ImportExportView: View {
                     self.failedImportCount = result.failedImportCount
                     showingSuccessAlert.toggle()
                 } catch {
-                    showingError.toggle()
+                    errorMessage = error.localizedDescription
+                    showingError = true
                 }
-                
+                if startedAccessing {
+                    fileURL.stopAccessingSecurityScopedResource()
+                }
             } catch {
+                errorMessage = error.localizedDescription
+                showingError = true
                 print("File import error: \(error.localizedDescription)")
             }
         }
@@ -88,7 +96,7 @@ struct ImportExportView: View {
                 showingError.toggle()
             }
         } message: {
-            Text("An unknown error ocurred when trying to import bookmarks. Please try again with another file.")
+            Text("\(errorMessage) Please try again with another file.")
         }
 
     }
