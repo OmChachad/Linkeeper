@@ -9,6 +9,7 @@ import SwiftUI
 import StoreKit
 
 struct TipJar: View {
+    @Environment(\.dismiss) var dismiss
     @Environment(\.openURL) var openURL
     
     @EnvironmentObject var storeKit: Store
@@ -73,7 +74,16 @@ struct TipJar: View {
         #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
         #else
-        .frame(minHeight: 300)
+        .frame(minWidth: 350, minHeight: 300)
+        .safeAreaInset(edge: .bottom, content: {
+            Button("Done") {
+                dismiss()
+            }
+            .buttonStyle(.bordered)
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .background(.ultraThinMaterial)
+        })
         #endif
     }
     
