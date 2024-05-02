@@ -308,6 +308,7 @@
 		C25316012A2D0398004F1491 /* FolderItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderItemView.swift; sourceTree = "<group>"; };
 		C25316032A2D03D2004F1491 /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		C2550E63282705F900ADA0BF /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
+		C26FA2602BE3D10E00D2F7EF /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C27AF0F82B47C03E00C4D9A4 /* reloadAllWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reloadAllWidgets.swift; sourceTree = "<group>"; };
 		C27AF1142B48091E00C4D9A4 /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		C27AF1162B4809B900C4D9A4 /* SortMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortMethod.swift; sourceTree = "<group>"; };
@@ -668,6 +669,7 @@
 		C2C8DC3128171D93000F4AEB = {
 			isa = PBXGroup;
 			children = (
+				C26FA2602BE3D10E00D2F7EF /* PrivacyInfo.xcprivacy */,
 				C2C8DC3C28171D93000F4AEB /* Linkeeper */,
 				C2A14A2C2A601C24003A5308 /* Share Extension */,
 				C2120C3B2B95A26E003FEDF2 /* Share Extension Vision */,
