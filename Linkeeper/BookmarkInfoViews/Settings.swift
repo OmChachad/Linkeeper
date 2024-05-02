@@ -13,6 +13,7 @@ struct SettingsView: View {
     
     @AppStorage("ShadowsEnabled") var shadowsEnabled = true
     @AppStorage("removeTrackingParameters") var removeTrackingParameters = false
+    @AppStorage("autoFetchTitles") var autoFetchTitles = true
     
     @ObservedObject var storeKit = Store.shared
     
@@ -106,6 +107,8 @@ struct SettingsView: View {
                 Section("Customisation") {
                     Toggle("Enable Shadows around Bookmarks", isOn: $shadowsEnabled)
                         .toggleStyle(.switch)
+                    Toggle("Automatically fetch titles", isOn: $autoFetchTitles)
+                        .toggleStyle(.switch)
                 }
                 
                 Section {
@@ -120,6 +123,7 @@ struct SettingsView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 
+                #if !os(macOS)
                 if storeKit.userHasTipped && UIApplication.shared.supportsAlternateIcons {
                     Section {
                         NavigationLink(destination: ChangeIconsView()) {
@@ -129,6 +133,7 @@ struct SettingsView: View {
                         Text("Tipping Perks")
                     }
                 }
+                #endif
                 
                 ImportExportView()
                     .buttonStyle(.borderless)

@@ -27,6 +27,7 @@ struct AddBookmarkView: View {
     @State private var addingNewFolder = false
     
     @AppStorage("removeTrackingParameters") var removeTrackingParameters = false
+    @AppStorage("autoFetchTitles") var autoFetchTitles = true
     
     var pasteboardContents: String? {
         #if os(macOS)
@@ -81,11 +82,14 @@ struct AddBookmarkView: View {
             AddFolderView()
         }
         .onChange(of: url) { newURL in
-            askForTitle = false
-            title = ""
             host = ""
             
-            fetchTitle(url: newURL)
+            if autoFetchTitles {
+                askForTitle = false
+                title = ""
+                
+                fetchTitle(url: newURL)
+            }
         }
         .onAppear {
             if !url.isEmpty {
@@ -121,17 +125,40 @@ struct AddBookmarkView: View {
                 }
             }
             
-            
-            if askForTitle {
-                Section(footer: Text("The URL you entered does not have a title by itself, you will have to type your own").foregroundColor(.secondary)) {
-                    TextField("Title", text: $title)
-#if !os(macOS)
-                        .autocapitalization(.none)
-                        .submitLabel(.done)
-                    #endif
+            Group {
+                if !autoFetchTitles {
+                    HStack {
+                        TextField("Title", text: $title)
+                        
+                        Divider()
+                        
+                        if isLoading {
+                            ProgressView()
+                        } else {
+                            Button {
+                                fetchTitle(url: url)
+                            } label: {
+                                Image(systemName: "arrow.clockwise")
+                                    .padding(.leading, 10)
+                            }
+                            .buttonStyle(.borderless)
+                            .disabled(!isValidURL)
+                            .padding(.trailing, 5)
+                            .accessibilityHint("Fetch title")
+                            .accentColor(.accentColor)
+                        }
+                    }
+                } else if askForTitle {
+                    Section(footer: Text("The URL you entered does not have a title by itself, you will have to type your own").foregroundColor(.secondary)) {
+                        TextField("Title", text: $title)
+                    }
                 }
             }
             
+            #if !os(macOS)
+            .autocapitalization(.none)
+            .submitLabel(.done)
+            #endif
             Section {
                 Picker("Folder", selection: $folder.animation()) {
                     Text("None").tag(nil as Folder?)
@@ -193,7 +220,7 @@ struct AddBookmarkView: View {
                 }
                 .keyboardShortcut(.cancelAction)
                 
-                if isLoading {
+                if isLoading && autoFetchTitles {
                     ProgressView()
                         .opacity(0.7)
                 } else {
