@@ -102,6 +102,7 @@ struct BookmarkGridItem: View {
         #endif
         .aspectRatio(3/4, contentMode: .fill)
         .cornerRadius(15, style: .continuous)
+        .contentShape(.hoverEffect, .rect(cornerRadius: 15))
         .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         #if !os(macOS)
         .hoverEffect(.lift)
