@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 #if canImport(WidgetKit)
 import WidgetKit
 #endif
@@ -14,6 +15,10 @@ import WidgetKit
 struct LinkeeperApp: App {
     @StateObject private var dataController = DataController.shared
     @AppStorage("showIntroduction") var showIntroduction = true
+    
+    @ObservedObject var storeKit = Store.shared
+    @AppStorage("tipPromptCompleted") var tipPromptCompleted = false
+    @State private var showTipPrompt = false
     
     var body: some Scene {
         WindowGroup {
@@ -28,6 +33,17 @@ struct LinkeeperApp: App {
                     }
                     reloadAllWidgets()
                     CacheManager.instance.clearOutOld()
+                    try? await Task.sleep(for: .seconds(2))
+                    if !tipPromptCompleted && !storeKit.userHasTipped && (try! dataController.persistentCloudKitContainer.viewContext.count(for: NSFetchRequest(entityName: "Bookmark"))) > 20{
+                        showTipPrompt = true
+                    }
+                }
+                .sheet(isPresented: $showTipPrompt, onDismiss: {
+                    tipPromptCompleted = true
+                }) {
+                    TipRequestView()
+                        .frame(minHeight: 400)
+                        .environmentObject(storeKit)
                 }
         }
         

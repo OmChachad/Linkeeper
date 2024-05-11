@@ -144,6 +144,10 @@ struct TipItem: View {
                     }
                 }
                 .buttonStyle(.borderedProminent)
+                #if os(visionOS)
+                .background(.blue)
+                .clipShape(.capsule)
+                #endif
             }
         }
     }
