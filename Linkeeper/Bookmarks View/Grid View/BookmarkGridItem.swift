@@ -91,7 +91,8 @@ struct BookmarkGridItem: View {
             .padding(.vertical, 10)
         }
         #if os(visionOS)
-        .background(.thickMaterial)
+        .background(Color.black.opacity(0.4))
+        .drawingGroup()
         #else
         #if os(macOS)
         .background(Color("GridItemBackground").opacity(0.35))
