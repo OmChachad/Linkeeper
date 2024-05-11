@@ -151,6 +151,9 @@ struct TipItem: View {
 
 struct TipJar_Previews: PreviewProvider {
     static var previews: some View {
-        TipJar()
+        NavigationView {
+            TipJar()
+                .environmentObject(Store.shared)
+        }
     }
 }
