@@ -26,12 +26,22 @@ struct TipRequestView: View {
                 dismiss()
             } label: {
                 Image(systemName: "xmark")
+                    .font(.headline)
                     .imageScale(.large)
             }
-            .contentShape(Circle())
+            .tint(.secondary)
+            #if !os(macOS)
             .hoverEffect(.highlight)
-            .background(.ultraThinMaterial)
+            #endif
+            #if os(visionOS)
             .glassBackgroundEffect(in: Circle())
+            #else
+            .buttonStyle(.borderless)
+            .padding(5)
+            .background(.thickMaterial)
+            .contentShape(Circle())
+            .clipShape(.circle)
+            #endif
             .frame(maxWidth: .infinity, alignment: .trailing)
             
             Text("Looks like you are enjoying Linkeeper! 👀")
