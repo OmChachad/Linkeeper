@@ -100,7 +100,7 @@ For any inquiries or feedback, please open an issue on GitHub or contact us at c
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Creative Commons Zero v1.0 Universal License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
