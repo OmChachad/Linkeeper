@@ -27,7 +27,7 @@ To build the project locally:
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/iTechEverything/linkeeper.git
+    git clone https://github.com/OmChachad/linkeeper.git
     ```
 2. **Navigate to the project directory:**
     ```bash
