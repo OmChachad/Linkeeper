@@ -24,7 +24,6 @@ struct BookmarkGridItem: View {
     @State private var deleteConfirmation: Bool = false
     @State private var toBeDeletedBookmark: Bookmark?
     
-    //@Binding var detailViewImage: cachedPreview?
     @State private var cachedPreview: cachedPreview?
     
     @Environment(\.editMode) var editMode
