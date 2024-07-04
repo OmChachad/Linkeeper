@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 extension View {
-    func dropDestination(onDrop dropAction: @escaping (Bookmark?, URL) -> Void) -> some View {
+    func dropDestination(isTargeted: Binding<Bool> = .constant(true), onDrop dropAction: @escaping (Bookmark?, URL) -> Void) -> some View {
         Group {
             if #available(iOS 16.0, macOS 13.0, *) {
                 self
@@ -30,10 +30,12 @@ extension View {
                             }
                         }
                         return successStatus
+                    } isTargeted: { targetStatus in
+                        isTargeted.wrappedValue = targetStatus
                     }
             } else {
                 self
-                    .onDrop(of: ["public.url"], isTargeted: nil) { providers in
+                    .onDrop(of: ["public.url"], isTargeted: isTargeted) { providers in
                         var successStatus = true
                         
                         providers.forEach { provider in
