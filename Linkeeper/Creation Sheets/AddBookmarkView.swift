@@ -152,11 +152,11 @@ struct AddBookmarkView: View {
                     }
                 }
             }
-            
             #if !os(macOS)
             .autocapitalization(.none)
             .submitLabel(.done)
             #endif
+            
             Section {
                 Picker("Folder", selection: $folder.animation()) {
                     Text("None").tag(nil as Folder?)
