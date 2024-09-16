@@ -146,9 +146,8 @@ struct ContentView: View {
             VStack(spacing: 0) {
                     VStack {
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
-                            PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: inSideBarMode, isActiveStatus: $showingAllBookmarks)
-                                .buttonStyle(.plain)
-                                .dropDestination { bookmark, url in
+                            PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: inSideBarMode, isActiveStatus: $showingAllBookmarks) { bookmark, url in
+                                withAnimation {
                                     if let bookmark {
                                         bookmark.folder = nil
                                         try? moc.save()
@@ -156,11 +155,12 @@ struct ContentView: View {
                                         BookmarksManager.shared.addDroppedURL(url)
                                     }
                                 }
+                            }
+                            .buttonStyle(.plain)
                             
                             
-                            PinnedItemView(destination: BookmarksView(onlyFavorites: true), title: "Favorites", symbolName: "heart.fill", tint: .pink, count:   favoriteBookmarks.count, isActiveStatus: $showingFavorites)
-                                .buttonStyle(.plain)
-                                .dropDestination { bookmark, url in
+                            PinnedItemView(destination: BookmarksView(onlyFavorites: true), title: "Favorites", symbolName: "heart.fill", tint: .pink, count:   favoriteBookmarks.count, isActiveStatus: $showingFavorites) { bookmark, url in
+                                withAnimation {
                                     if let bookmark {
                                         bookmark.isFavorited = true
                                     } else {
@@ -169,21 +169,24 @@ struct ContentView: View {
                                     }
                                     try? moc.save()
                                 }
+                            }
+                            .buttonStyle(.plain)
                             
                             ForEach(pinnedFolders) { folder in
-                                PinnedItemView(destination: BookmarksView(folder: folder), title: folder.wrappedTitle, symbolName: folder.wrappedSymbol, tint: folder.wrappedColor, count: folder.bookmarksArray.count, isActiveStatus: $showingPinnedFolder)
-                                    .contextMenu {
-                                        Button {
-                                            folder.isPinned.toggle()
-                                            folder.index = (folders.last?.index ?? 0) + 1
-                                            try? moc.save()
-                                        } label: {
-                                            Label("Unpin", systemImage: "pin.slash")
-                                        }
-                                    }
-                                    .dropDestination { bookmark, url in
+                                PinnedItemView(destination: BookmarksView(folder: folder), title: folder.wrappedTitle, symbolName: folder.wrappedSymbol, tint: folder.wrappedColor, count: folder.countOfBookmarks, isActiveStatus: $showingPinnedFolder) { bookmark, url in
+                                    withAnimation {
                                         addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
                                     }
+                                }
+                                .contextMenu {
+                                    Button {
+                                        folder.isPinned.toggle()
+                                        folder.index = (folders.last?.index ?? 0) + 1
+                                        try? moc.save()
+                                    } label: {
+                                        Label("Unpin", systemImage: "pin.slash")
+                                    }
+                                }
                             }
                             .buttonStyle(.plain)
                         }
@@ -229,9 +232,6 @@ struct ContentView: View {
                                             Label("Unpin", systemImage: "pin.slash")
                                         }
                                     }
-                                    .dropDestination { bookmark, url in
-                                        addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
-                                    }
                                 }
                             }
                         }
@@ -252,9 +252,6 @@ struct ContentView: View {
                                         FolderItemView(folder: folder)
                                     }
                                     #endif
-                                }
-                                .dropDestination { bookmark, url in
-                                    addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
                                 }
                             }
                             .onMove(perform: moveItem)

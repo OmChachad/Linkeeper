@@ -27,7 +27,7 @@ To build the project locally:
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/iTechEverything/linkeeper.git
+    git clone https://github.com/OmChachad/linkeeper.git
     ```
 2. **Navigate to the project directory:**
     ```bash
@@ -100,7 +100,7 @@ For any inquiries or feedback, please open an issue on GitHub or contact us at c
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Creative Commons Zero v1.0 Universal License - see the [LICENSE](LICENSE) file for details.
 
 ---
 

@@ -28,6 +28,8 @@ struct FolderItemView: View {
         #endif
     }
     
+    @State private var isTargeted = false
+    
     var body: some View {
         ListItem(title: folder.wrappedTitle, systemName: folder.wrappedSymbol, color: folder.wrappedColor, subItemsCount: bookmarksInFolder.count(context: moc, folder: folder))
         .contextMenu {
@@ -137,6 +139,19 @@ struct FolderItemView: View {
         }
         .sheet(isPresented: $editingFolder) {
             AddFolderView(existingFolder: folder)
+        }
+        .dropDestination(isTargeted: $isTargeted) { bookmark, url in
+            addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
+        }
+        .opacity(isTargeted ? 0.1 : 1)
+    }
+
+    func addDroppedBookmarkToFolder(bookmark: Bookmark?, url: URL, folder: Folder) {
+        if let bookmark {
+            bookmark.folder = folder
+            try? moc.save()
+        } else {
+            BookmarksManager.shared.addDroppedURL(url, to: folder)
         }
     }
     

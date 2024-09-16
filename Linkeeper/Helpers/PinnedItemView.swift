@@ -18,6 +18,8 @@ struct PinnedItemView<Content: View>: View {
     @State private var isActive = false
     @Binding var isActiveStatus: Bool
     
+    @State private var isTargeted = false
+    
     var isMacOriPad: Bool {
         #if os(macOS)
             return true
@@ -26,16 +28,19 @@ struct PinnedItemView<Content: View>: View {
         #endif
     }
     
-    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveStatus: Binding<Bool> = .constant(true)) {
+    var dropAction: (Bookmark?, URL) -> Void
+    
+    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveStatus: Binding<Bool> = .constant(true), onDrop dropAction: @escaping (Bookmark?, URL) -> Void = { _, _ in } ) {
         self.destination = destination
         self.title = title
         self.symbolName = symbolName
         self.tint = tint
         self.count = count
         self._isActiveStatus = isActiveStatus
+        self.dropAction = dropAction
     }
     
-    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveByDefault: Bool, isActiveStatus: Binding<Bool> = .constant(true)) {
+    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveByDefault: Bool, isActiveStatus: Binding<Bool> = .constant(true), onDrop dropAction: @escaping (Bookmark?, URL) -> Void = { _, _ in } ) {
         self.destination = destination
         self.title = title
         self.symbolName = symbolName
@@ -43,6 +48,7 @@ struct PinnedItemView<Content: View>: View {
         self.count = count
         _isActiveByDefault = State(initialValue: isActiveByDefault)
         self._isActiveStatus = isActiveStatus
+        self.dropAction = dropAction
     }
     
     var backgroundColor: Color {
@@ -122,6 +128,7 @@ struct PinnedItemView<Content: View>: View {
             .cornerRadius(10, style: .continuous)
             #endif
         }
+        .opacity(isTargeted ? 0.2 : 1)
         #if os(macOS)
         .buttonBorderShape(.roundedRectangle)
         #else
@@ -133,6 +140,7 @@ struct PinnedItemView<Content: View>: View {
         .onChange(of: isActive) { new in
             isActiveStatus = isActive
         }
+        .dropDestination(isTargeted: $isTargeted, onDrop: dropAction)
     }
     
     func icon() -> some View {
