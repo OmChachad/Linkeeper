@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+/// Custom Flip Transition Effect: https://www.youtube.com/watch?v=hwmDFxvUCRY
 struct Flashcard<Front, Back>: View where Front: View, Back: View {
     var front: () -> Front
     var back: () -> Back
@@ -24,33 +24,39 @@ struct Flashcard<Front, Back>: View where Front: View, Back: View {
     }
 
     var body: some View {
-        Group {
-            if flipped {
+        ZStack {
+            if editing {
                 back()
+                    .transition(.reverseFlip)
             } else {
                 front()
+                    .transition(.flip)
             }
         }
+        .animation(.bouncy, value: editing)
         .frame(maxWidth: 500)
-        .rotation3DEffect(.degrees(Double(contentRotation)), axis: (x: 0, y: 1, z: 0))
         .padding(10)
-        .rotation3DEffect(.degrees(Double(flashcardRotation)), axis: (x: 0, y: 1, z: 0))
-        .onChange(of: editing) { newValue in
-            flipFlashcard()
-        }
     }
+}
 
-    func flipFlashcard() {
-        let animationDuration = 0.5
-        withAnimation(Animation.linear(duration: animationDuration/2)) {
-            flashcardRotation += 90
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + animationDuration/2) {
-            flipped.toggle()
-            contentRotation += 180
-            withAnimation(Animation.linear(duration: animationDuration/2)) {
-                flashcardRotation += 90
-            }
-        }
+struct FlipTransition: ViewModifier, Animatable {
+    var progress: CGFloat = 0
+    var animatableData: CGFloat {
+        get { progress }
+        set { progress = newValue }
     }
+    func body(content: Content) -> some View {
+        content
+            .opacity(progress < 0 ? (-progress < 0.5 ? 1 : 0) : (progress < 0.5 ? 1 : 0))
+            .rotation3DEffect(.init(degrees: progress * 180), axis: (x: 0.0, y: 1.0, z: 0.0))
+    }
+    
+}
+
+extension AnyTransition {
+    static let flip: AnyTransition = modifier(
+        active: FlipTransition (progress: -1), identity: FlipTransition()
+    )
+    static let reverseFlip: AnyTransition = modifier(
+        active: FlipTransition (progress: 1), identity: FlipTransition())
 }
