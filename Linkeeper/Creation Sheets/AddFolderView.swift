@@ -17,6 +17,7 @@ struct AddFolderView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     
     var existingFolder: Folder?
+    var parentFolder: Folder?
     
     @State private var title = ""
     @State private var folderIconColor: ColorOption = .gray
@@ -29,12 +30,24 @@ struct AddFolderView: View {
     
     init(existingFolder folder: Folder? = nil, onComplete completionAction: @escaping (Bool) -> Void = {_ in }) {
         self.existingFolder = folder
+        self.parentFolder = nil
         if let folder {
             self._title = State(initialValue: folder.wrappedTitle)
             self._folderIconColor = State(initialValue: ColorOption(rawValue: folder.accentColor ?? "gray")!)
             self._chosenSymbol = State(initialValue: folder.wrappedSymbol)
         }
         self.completionAction = completionAction
+    }
+    
+    init(parentFolder: Folder? = nil, onComplete completionAction: @escaping (Bool) -> Void = {_ in }) {
+        self.parentFolder = parentFolder
+        self.completionAction = completionAction
+    }
+    
+    init(onComplete completionAction: @escaping (Bool) -> Void = {_ in }) {
+        self.parentFolder = nil
+        self.completionAction = completionAction
+        self.existingFolder = nil
     }
     
     var body: some View {
@@ -52,6 +65,25 @@ struct AddFolderView: View {
     
     func FormContents() -> some View {
         Form {
+            if let parentFolder {
+                Section {
+                    HStack {
+                        Text("This folder will be created in")
+                        
+                        Spacer()
+                        
+                        Group {
+                            Image(systemName: parentFolder.wrappedSymbol)
+                            Text(parentFolder.wrappedTitle)
+                        }
+                        .foregroundColor(parentFolder.wrappedColor)
+                    }
+                }
+                #if !os(macOS)
+                .font(.system(size: 14))
+                #endif
+            }
+            
             Section {
                 VStack {
                     Image(systemName: chosenSymbol)
@@ -69,7 +101,11 @@ struct AddFolderView: View {
                         .padding()
                     #if !os(macOS)
                         .submitLabel(.done)
+                    #if os(visionOS)
+                        .background(.ultraThickMaterial)
+                    #else
                         .background(colorScheme == .dark ? Color(UIColor.systemGray3) : Color(UIColor.systemGray5))
+                    #endif
                         .cornerRadius(10, style: .continuous)
                         .padding(.bottom)
                     #else
@@ -173,10 +209,10 @@ struct AddFolderView: View {
     func addFolder() {
         if #available(iOS 16.0, macOS 13.0, *) {
             Task {
-                try! await AddFolder(folderTitle: title, icon: chosenSymbol, color: folderIconColor.rawValue).perform()
+                let folder = try! await AddFolder(folderTitle: title, icon: chosenSymbol, color: folderIconColor.rawValue, parentFolder: parentFolder?.toEntity()).perform().value
             }
         } else {
-            FoldersManager.shared.addFolder(title: title, accentColor: folderIconColor.rawValue, chosenSymbol: chosenSymbol)
+            let _ = FoldersManager.shared.addFolder(title: title, accentColor: folderIconColor.rawValue, chosenSymbol: chosenSymbol, parentFolder: parentFolder)
         }
         
         completionAction(true)
@@ -184,11 +220,14 @@ struct AddFolderView: View {
     }
     
     func saveChangesToFolder() {
-        existingFolder!.title = self.title
-        existingFolder!.accentColor = self.folderIconColor.rawValue
-        existingFolder!.symbol = self.chosenSymbol
-        if moc.hasChanges {
-            try? moc.save()
+        Task {
+            existingFolder!.title = self.title
+            existingFolder!.accentColor = self.folderIconColor.rawValue
+            existingFolder!.symbol = self.chosenSymbol
+            existingFolder!.parentFolder = self.parentFolder
+            if moc.hasChanges {
+                try? DataController.shared.persistentCloudKitContainer.viewContext.save()
+            }
         }
         dismiss()
     }

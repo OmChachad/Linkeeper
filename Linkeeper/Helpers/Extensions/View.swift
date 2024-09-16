@@ -84,6 +84,16 @@ extension View {
         }
     }
     
+    func contentUnavailabilityView<Content: View>(isUnavailable: Bool, @ViewBuilder unavailabilityView: () -> Content) -> some View {
+        Group {
+            if isUnavailable {
+                unavailabilityView()
+            } else {
+                self
+            }
+        }
+    }
+    
     func scrollContentBackground(visibility: Visibility) -> some View {
         if #available(iOS 16.0, macOS 13.0, *) {
             return self.scrollContentBackground(visibility)

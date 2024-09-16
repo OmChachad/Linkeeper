@@ -11,6 +11,7 @@ import CoreData
 struct BookmarksGridView: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.editMode) var editState
+    
     var bookmarks: any Collection<Bookmark>
     var searchText: String
     
@@ -25,8 +26,6 @@ struct BookmarksGridView: View {
     @Binding var selectedBookmarks: Set<Bookmark.ID>
     @Binding var deleteConfirmation: Bool
     @Binding var movingBookmarks: Bool
-    
-    
     
     @AppStorage("GroupAllByFolders") var groupByFolders: Bool = true
     
@@ -90,6 +89,14 @@ struct BookmarksGridView: View {
         }
     }
     
+    var isEditing: Bool {
+        #if os(macOS)
+        return self._editState.wrappedValue == .active
+        #else
+        return self.editState?.wrappedValue == .active
+        #endif
+    }
+    
     var body: some View {
         ScrollView {
             Group {
@@ -101,17 +108,15 @@ struct BookmarksGridView: View {
                         }
                         
                         ForEach(orderedFolders, id: \.self) { folder in
-                            let folderHasBookmarks = !folder.bookmarksArray.isEmpty
+                            //let folderHasBookmarks = !folder.bookmarksArray.isEmpty
                             let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
                             if showGroup {
                                 Section {
-                                    Group {
-                                        if folderHasBookmarks {
-                                            BookmarksGrid(for: filteredBookmarks(for: folder), folder: folder)
-                                        } else {
-                                            noBookmarksInSection()
-                                        }
+                                    VStack {
+                                        SubFoldersGrid(folder: folder)
+                                        BookmarksGrid(for: filteredBookmarks(for: folder), folder: folder)
                                     }
+                                    .contentUnavailabilityView(isUnavailable: (folder.childFoldersArray == nil) && folder.bookmarksArray.isEmpty, unavailabilityView: noBookmarksInSection)
                                     .padding(.horizontal, 15)
                                 } header: {
                                     Label(folder.wrappedTitle, systemImage: folder.wrappedSymbol)
@@ -127,11 +132,33 @@ struct BookmarksGridView: View {
                     }
                     .padding(.bottom, 15)
                 } else {
-                    BookmarksGrid(for: filteredBookmarks, folder: folder)
+                    VStack {
+                        SubFoldersGrid(folder: folder)
+                        BookmarksGrid(for: filteredBookmarks, folder: folder)
+                    }
                         .padding(15)
                 }
             }
             .frame(maxWidth: .infinity)
+        }
+    }
+    
+    func SubFoldersGrid(folder: Folder?) -> some View {
+        Group {
+            if let folder, let children = folder.childFoldersArray {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 20) {
+                    ForEach(children, id: \.self) { subFolder in
+                        FolderGridItem(folder: subFolder, namespace: namespace, isEditing: isEditing)
+                            .padding(.horizontal, 5)
+                    }
+                }
+                .contentShape(Rectangle())
+                
+                if !folder.bookmarksArray.isEmpty {
+                    Divider()
+                        .padding(.vertical, 10)
+                }
+            }
         }
     }
     

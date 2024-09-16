@@ -72,6 +72,12 @@
 		C22268A62B4A7DAF00D88123 /* EditState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C222689F2B4A7BFA00D88123 /* EditState.swift */; };
 		C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EA2A31BD6700401721 /* YouTube.swift */; };
 		C234F6ED2A31BD7100401721 /* Twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EC2A31BD7100401721 /* Twitter.swift */; };
+		C236AD762C4059E7000BE9FE /* FolderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C236AD752C4059E7000BE9FE /* FolderPickerView.swift */; };
+		C236AD772C4059FC000BE9FE /* FolderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C236AD752C4059E7000BE9FE /* FolderPickerView.swift */; };
+		C236AD782C4059FD000BE9FE /* FolderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C236AD752C4059E7000BE9FE /* FolderPickerView.swift */; };
+		C236AD792C4059FD000BE9FE /* FolderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C236AD752C4059E7000BE9FE /* FolderPickerView.swift */; };
+		C236AD7A2C405B30000BE9FE /* isMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C638CC2B4D810600E5B0B1 /* isMac.swift */; };
+		C236AD7B2C405B31000BE9FE /* isMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C638CC2B4D810600E5B0B1 /* isMac.swift */; };
 		C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */; };
 		C23BDA472840C70E003DD30D /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
 		C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */; };
@@ -139,6 +145,8 @@
 		C2891D912B5191FF00C44C37 /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B92A2534E100535807 /* AddFolder.swift */; };
 		C2891D922B5192A400C44C37 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050762A12B80300817C48 /* String.swift */; };
 		C2891D982B51941000C44C37 /* Linkeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */; };
+		C28962362C200C100051DE60 /* DraggableFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28962342C200C100051DE60 /* DraggableFolder.swift */; };
+		C28962372C200C100051DE60 /* FolderDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28962352C200C100051DE60 /* FolderDropItem.swift */; };
 		C28A2C7E2B033FAD0027A70F /* isVisionOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28A2C7D2B033FAD0027A70F /* isVisionOS.swift */; };
 		C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E66281900D70030B6DD /* AddBookmarkView.swift */; };
 		C28B6E6928190C120030B6DD /* ColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorOption.swift */; };
@@ -189,7 +197,7 @@
 		C2A14A442A6024C4003A5308 /* DraggableBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EE9F2A4DF89800CCD36F /* DraggableBookmark.swift */; };
 		C2A14A452A6024C4003A5308 /* DragExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA32A4DFB1C00CCD36F /* DragExtension.swift */; };
 		C2A14A462A6024C4003A5308 /* DropExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */; };
-		C2A14A472A6024C4003A5308 /* DropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* DropItem.swift */; };
+		C2A14A472A6024C4003A5308 /* BookmarkDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */; };
 		C2A14A482A6024D4003A5308 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050742A12B7E300817C48 /* URL.swift */; };
 		C2A14A492A602512003A5308 /* Metadata Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F02A588B1D0081FEBC /* Metadata Fetcher.swift */; };
 		C2A14A4A2A60251B003A5308 /* ColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorOption.swift */; };
@@ -213,7 +221,7 @@
 		C2C8EEA02A4DF89800CCD36F /* DraggableBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EE9F2A4DF89800CCD36F /* DraggableBookmark.swift */; };
 		C2C8EEA42A4DFB1C00CCD36F /* DragExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA32A4DFB1C00CCD36F /* DragExtension.swift */; };
 		C2C8EEA62A4DFC0600CCD36F /* DropExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */; };
-		C2C8EEA82A4E7D2400CCD36F /* DropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* DropItem.swift */; };
+		C2C8EEA82A4E7D2400CCD36F /* BookmarkDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */; };
 		C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */; };
 		C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */; };
 		C2E0CEE52A4C2C8200EA9473 /* Local Tips.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C2E0CEE42A4C2C8200EA9473 /* Local Tips.storekit */; };
@@ -222,6 +230,8 @@
 		C2E806E62A26111E00A41D0C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E52A26111E00A41D0C /* Settings.swift */; };
 		C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E72A26194E00A41D0C /* IntroductionView.swift */; };
 		C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
+		C2F042362C19EB6D002CE4AA /* FolderGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */; };
+		C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -298,6 +308,7 @@
 		C22268A12B4A7C1D00D88123 /* macOS Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "macOS Bridge.swift"; sourceTree = "<group>"; };
 		C234F6EA2A31BD6700401721 /* YouTube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTube.swift; sourceTree = "<group>"; };
 		C234F6EC2A31BD7100401721 /* Twitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twitter.swift; sourceTree = "<group>"; };
+		C236AD752C4059E7000BE9FE /* FolderPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPickerView.swift; sourceTree = "<group>"; };
 		C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDetails.swift; sourceTree = "<group>"; };
 		C23BDA462840C70E003DD30D /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		C23EC8ED283E5E71009D0670 /* Linkeeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Linkeeper.xcdatamodel; sourceTree = "<group>"; };
@@ -331,6 +342,8 @@
 		C2891D732B51857900C44C37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2891D742B51857900C44C37 /* Share_Extension_Mac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_Extension_Mac.entitlements; sourceTree = "<group>"; };
 		C2891D932B51935D00C44C37 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
+		C28962342C200C100051DE60 /* DraggableFolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraggableFolder.swift; sourceTree = "<group>"; };
+		C28962352C200C100051DE60 /* FolderDropItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderDropItem.swift; sourceTree = "<group>"; };
 		C28A2C7D2B033FAD0027A70F /* isVisionOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = isVisionOS.swift; sourceTree = "<group>"; };
 		C28B6E66281900D70030B6DD /* AddBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookmarkView.swift; sourceTree = "<group>"; };
 		C28B6E6828190C120030B6DD /* ColorOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorOption.swift; sourceTree = "<group>"; };
@@ -373,7 +386,7 @@
 		C2C8EE9F2A4DF89800CCD36F /* DraggableBookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableBookmark.swift; sourceTree = "<group>"; };
 		C2C8EEA32A4DFB1C00CCD36F /* DragExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragExtension.swift; sourceTree = "<group>"; };
 		C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropExtension.swift; sourceTree = "<group>"; };
-		C2C8EEA72A4E7D2400CCD36F /* DropItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropItem.swift; sourceTree = "<group>"; };
+		C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDropItem.swift; sourceTree = "<group>"; };
 		C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipRequestView.swift; sourceTree = "<group>"; };
 		C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
 		C2E0CEE32A4C2C6600EA9473 /* Synced Tips.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Synced Tips.storekit"; sourceTree = "<group>"; };
@@ -383,6 +396,8 @@
 		C2E806E72A26194E00A41D0C /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Linkeeper.entitlements; sourceTree = "<group>"; };
 		C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppShortcuts Provider.swift"; sourceTree = "<group>"; };
+		C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderGridItem.swift; sourceTree = "<group>"; };
+		C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderActionsModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -464,6 +479,7 @@
 			children = (
 				C22268872B486F4D00D88123 /* BookmarksGridView.swift */,
 				C22268932B49C92F00D88123 /* BookmarkGridItem.swift */,
+				C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */,
 			);
 			path = "Grid View";
 			sourceTree = "<group>";
@@ -607,6 +623,8 @@
 			isa = PBXGroup;
 			children = (
 				C25316012A2D0398004F1491 /* FolderItemView.swift */,
+				C236AD752C4059E7000BE9FE /* FolderPickerView.swift */,
+				C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */,
 				C29B00F32A59E67D0081FEBC /* PinnedItemView.swift */,
 				C25316032A2D03D2004F1491 /* ListItem.swift */,
 				C28616812A73DD0D00ABA9FF /* AlertView.swift */,
@@ -729,7 +747,9 @@
 			isa = PBXGroup;
 			children = (
 				C2C8EE9F2A4DF89800CCD36F /* DraggableBookmark.swift */,
-				C2C8EEA72A4E7D2400CCD36F /* DropItem.swift */,
+				C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */,
+				C28962342C200C100051DE60 /* DraggableFolder.swift */,
+				C28962352C200C100051DE60 /* FolderDropItem.swift */,
 				C2C8EEA32A4DFB1C00CCD36F /* DragExtension.swift */,
 				C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */,
 			);
@@ -1021,6 +1041,7 @@
 			files = (
 				C2120C632B95EFC7003FEDF2 /* reloadAllWidgets.swift in Sources */,
 				C2120C5E2B95EF83003FEDF2 /* BookmarkEntity.swift in Sources */,
+				C236AD782C4059FD000BE9FE /* FolderPickerView.swift in Sources */,
 				C2120C5B2B95EF63003FEDF2 /* View.swift in Sources */,
 				C2120C622B95EFBA003FEDF2 /* String.swift in Sources */,
 				C2120C652B95EFE1003FEDF2 /* FolderEntity.swift in Sources */,
@@ -1033,6 +1054,7 @@
 				C2120C472B95EEE8003FEDF2 /* AddBookmarkView.swift in Sources */,
 				C2120C5D2B95EF72003FEDF2 /* Metadata Fetcher.swift in Sources */,
 				C2120C642B95EFCE003FEDF2 /* AddFolder.swift in Sources */,
+				C236AD7B2C405B31000BE9FE /* isMac.swift in Sources */,
 				C2120C572B95EF28003FEDF2 /* DraggableBookmark.swift in Sources */,
 				C2120C5F2B95EF8D003FEDF2 /* AddFolderView.swift in Sources */,
 				C2120C5C2B95EF6A003FEDF2 /* AddBookmark.swift in Sources */,
@@ -1054,6 +1076,7 @@
 			files = (
 				C2891D862B51867F00C44C37 /* CacheManager.swift in Sources */,
 				C2891D822B51866300C44C37 /* Bookmark+CoreDataProperties.swift in Sources */,
+				C236AD792C4059FD000BE9FE /* FolderPickerView.swift in Sources */,
 				C2891D7C2B51866300C44C37 /* FoldersManager.swift in Sources */,
 				C2891D7D2B51866300C44C37 /* Folder+CoreDataClass.swift in Sources */,
 				C2891D842B51867400C44C37 /* URL.swift in Sources */,
@@ -1066,6 +1089,7 @@
 				C2891D8E2B51919400C44C37 /* reloadAllWidgets.swift in Sources */,
 				C2891D882B51868B00C44C37 /* ColorOption.swift in Sources */,
 				C2891D852B51867A00C44C37 /* Metadata Fetcher.swift in Sources */,
+				C236AD7A2C405B30000BE9FE /* isMac.swift in Sources */,
 				C2891D902B5191DB00C44C37 /* FolderEntity.swift in Sources */,
 				C2891D8B2B5186B000C44C37 /* SymbolOption.swift in Sources */,
 				C2891D912B5191FF00C44C37 /* AddFolder.swift in Sources */,
@@ -1088,7 +1112,7 @@
 				C2A14A4C2A602549003A5308 /* String.swift in Sources */,
 				C2A14A2E2A601C24003A5308 /* ShareViewController.swift in Sources */,
 				C27BB9CB2B32FF6100ACA0EA /* DeleteBookmarks.swift in Sources */,
-				C2A14A472A6024C4003A5308 /* DropItem.swift in Sources */,
+				C2A14A472A6024C4003A5308 /* BookmarkDropItem.swift in Sources */,
 				C27BB9CE2B32FF6100ACA0EA /* MoveBookmarks.swift in Sources */,
 				C22268A52B4A7DAF00D88123 /* EditState.swift in Sources */,
 				C2A14A402A602498003A5308 /* Folder+CoreDataProperties.swift in Sources */,
@@ -1105,6 +1129,7 @@
 				C21B92972A94A8F4001237DD /* CacheManager.swift in Sources */,
 				C27BB9D02B32FF6500ACA0EA /* AddFolder.swift in Sources */,
 				C2A14A4D2A602551003A5308 /* AddFolderView.swift in Sources */,
+				C236AD772C4059FC000BE9FE /* FolderPickerView.swift in Sources */,
 				C22268A32B4A7C6700D88123 /* macOS Bridge.swift in Sources */,
 				C2A14A422A602498003A5308 /* Bookmark+CoreDataClass.swift in Sources */,
 				C27BB9CF2B32FF6100ACA0EA /* FavoriteToggle.swift in Sources */,
@@ -1143,6 +1168,7 @@
 				C2C8EEA42A4DFB1C00CCD36F /* DragExtension.swift in Sources */,
 				C29050712A12B79800817C48 /* Color.swift in Sources */,
 				C2C8DC3E28171D93000F4AEB /* LinkeeperApp.swift in Sources */,
+				C28962362C200C100051DE60 /* DraggableFolder.swift in Sources */,
 				C29050792A12B81300817C48 /* TextEditor.swift in Sources */,
 				C29B00EF2A58862A0081FEBC /* ShareButton.swift in Sources */,
 				C29050752A12B7E300817C48 /* URL.swift in Sources */,
@@ -1162,8 +1188,10 @@
 				C2C638CD2B4D810600E5B0B1 /* isMac.swift in Sources */,
 				C2C8EE902A4C354700CCD36F /* TipJar.swift in Sources */,
 				C28616822A73DD0D00ABA9FF /* AlertView.swift in Sources */,
+				C2F042362C19EB6D002CE4AA /* FolderGridItem.swift in Sources */,
 				C25316042A2D03D2004F1491 /* ListItem.swift in Sources */,
 				C222688A2B486F5C00D88123 /* BookmarksTableView.swift in Sources */,
+				C236AD762C4059E7000BE9FE /* FolderPickerView.swift in Sources */,
 				C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */,
 				C2C8EE922A4C8BB300CCD36F /* ChangeIconsView.swift in Sources */,
 				C281D9B82A25277A00535807 /* DeleteFolder.swift in Sources */,
@@ -1184,11 +1212,12 @@
 				C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */,
 				C27AF1192B4809DA00C4D9A4 /* SortDirection.swift in Sources */,
 				C2E3899C2A54978E0085D801 /* SymbolOption.swift in Sources */,
+				C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */,
 				C281D9B42A2501FE00535807 /* MoveBookmarks.swift in Sources */,
 				C22268A22B4A7C1D00D88123 /* macOS Bridge.swift in Sources */,
 				C281D96D2A23D28200535807 /* BookmarkEntity.swift in Sources */,
 				C222688C2B486F6500D88123 /* BookmarksListView.swift in Sources */,
-				C2C8EEA82A4E7D2400CCD36F /* DropItem.swift in Sources */,
+				C2C8EEA82A4E7D2400CCD36F /* BookmarkDropItem.swift in Sources */,
 				C29050732A12B7A500817C48 /* Shape.swift in Sources */,
 				C290506F2A12B77100817C48 /* View.swift in Sources */,
 				C22268942B49C92F00D88123 /* BookmarkGridItem.swift in Sources */,
@@ -1201,6 +1230,7 @@
 				C29050772A12B80300817C48 /* String.swift in Sources */,
 				C28B6E6F28193AE20030B6DD /* AddFolderView.swift in Sources */,
 				C29B00F12A588B1D0081FEBC /* Metadata Fetcher.swift in Sources */,
+				C28962372C200C100051DE60 /* FolderDropItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

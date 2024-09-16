@@ -43,6 +43,8 @@ struct AddBookmarkView: View {
     
     @State private var askForTitle = false
     @State private var isLoading = false
+    @State private var showFolderPopover = false
+    
     var isValidURL: Bool {
         if URL(string: url)?.sanitise != nil {
             return true
@@ -158,19 +160,41 @@ struct AddBookmarkView: View {
             #endif
             
             Section {
-                Picker("Folder", selection: $folder.animation()) {
-                    Text("None").tag(nil as Folder?)
+                HStack {
+                    Text("Folder")
                     
-                    ForEach(folders, id: \.self) { folder in
-                        folderPickerItem(for: folder)
-                            .tag(folder as Folder?)
+                    Spacer()
+                    
+                    Button {
+                        showFolderPopover.toggle()
+                    } label: {
+                        HStack {
+                            Label(folder?.wrappedTitle ?? "None", systemImage: folder?.wrappedSymbol ?? "xmark.circle.fill")
+                            Image(systemName: "chevron.up.chevron.down")
+                        }
                     }
+                    .popover(isPresented: $showFolderPopover.animation()) {
+                        if #available(iOS 16.4, visionOS 1.0, macOS 13.3, *) {
+                            FolderPickerView(selectedFolder: $folder.animation())
+                                #if os(visionOS)
+                                .padding(.vertical)
+                                #endif
+                                .frame(idealWidth: 400, maxWidth: 400, minHeight: 200, idealHeight: 500, maxHeight: 600)
+                                .presentationCompactAdaptation(.popover)
+                                .presentationCornerRadius(20)
+                        } else {
+                            FolderPickerView(selectedFolder: $folder.animation())
+                                .padding(.vertical)
+                        }
+                    }
+                    .onChange(of: folder) { _ in
+                        showFolderPopover = false
+                    }
+                    .buttonStyle(.borderless)
                 }
                 
-                Button {
+                Button("Create New Folder") {
                     addingNewFolder.toggle()
-                } label: {
-                    Text("Create New Folder")
                 }
                 .buttonStyle(.borderless)
                 .tint(.accentColor)

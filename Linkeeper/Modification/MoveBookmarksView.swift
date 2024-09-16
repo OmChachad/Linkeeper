@@ -26,6 +26,10 @@ struct MoveBookmarksView: View {
     
     @State private var selectedFolder: Folder? = nil
     
+    var parentFolders: [Folder] {
+        folders.filter { $0.parentFolder == nil }
+    }
+    
     var body: some View {
         Group {
             #if os(macOS)
@@ -118,7 +122,7 @@ struct MoveBookmarksView: View {
             .padding(10)
             .background {
                 RoundedRectangle(cornerRadius: 15, style: .continuous)
-                #if !os(macOS)
+                #if os(iOS)
                     .foregroundColor(Color(UIColor.systemGray5))
                 #else
                     .fill(.regularMaterial)
@@ -128,53 +132,7 @@ struct MoveBookmarksView: View {
             Spacer()
                 .frame(height: 20)
             
-            List {
-                Section {
-                    Button {
-                        selectedFolder = nil
-                    } label: {
-                        Label {
-                            Text("All Bookmarks")
-                                .foregroundColor(.primary)
-                        } icon: {
-                            Image(systemName: "tray.fill")
-                                .foregroundColor(.secondary)
-                                .font(.headline)
-                        }
-                        #if os(macOS)
-                        .padding(.vertical, 5)
-                        #endif
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    .buttonStyle(.borderless)
-                    .listRowBackground(
-                        Color.secondary.opacity(selectedFolder == nil ? 0.5 : 0.0)
-                    )
-                    
-                    ForEach(folders, id: \.self) { folder in
-                        Button {
-                            self.selectedFolder = folder
-                        } label: {
-                            Label {
-                                Text(folder.wrappedTitle)
-                                    .foregroundColor(.primary)
-                            } icon: {
-                                Image(systemName: folder.wrappedSymbol)
-                                    .foregroundColor(folder.wrappedColor)
-                            }
-                            #if os(macOS)
-                            .padding(.vertical, 5)
-                            #endif
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        .buttonStyle(.borderless)
-                        .listRowBackground(
-                            Color.secondary.opacity(selectedFolder == folder ? 0.5 : 0.0)
-                        )
-                    }
-                }
-            }
-            .listStyle(.plain)
+            FolderPickerView(selectedFolder: $selectedFolder)
         }
     }
 }
@@ -239,7 +197,3 @@ struct StackOfTwoIcons: View {
         .offset(y: bookmarks.count > 1 ? 1 : 0)
     }
 }
-
-
-
-

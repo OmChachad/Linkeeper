@@ -13,7 +13,7 @@ extension View {
         Group {
             if #available(iOS 16.0, macOS 13.0, *) {
                 self
-                    .dropDestination(for: DropItem.self) { items, _ in
+                    .dropDestination(for: BookmarkDropItem.self) { items, _ in
                         var successStatus = true
                         
                         items.forEach { droppedItem in
