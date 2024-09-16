@@ -24,7 +24,6 @@ struct BookmarkGridItem: View {
     @State private var deleteConfirmation: Bool = false
     @State private var toBeDeletedBookmark: Bookmark?
     
-    //@Binding var detailViewImage: cachedPreview?
     @State private var cachedPreview: cachedPreview?
     
     @Environment(\.editMode) var editMode
@@ -70,7 +69,7 @@ struct BookmarkGridItem: View {
                 }
             }
             .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
-            .frame(minWidth: 140, idealWidth: 300, maxWidth: 300, minHeight: 140, idealHeight: 300, maxHeight: 300)
+            .frame(minWidth: 140, idealWidth: 300, maxWidth: 300, minHeight: 100, idealHeight: 300, maxHeight: 300)
             .clipped()
             .contentShape(Rectangle())
             
