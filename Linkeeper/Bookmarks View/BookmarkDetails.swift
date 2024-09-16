@@ -10,6 +10,7 @@ import LinkPresentation
 import Shimmer
 import Pow
 
+
 struct BookmarkDetails: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.openURL) var openURL
@@ -33,6 +34,9 @@ struct BookmarkDetails: View {
     @State private var deleteConfirmation = false
     
     @State private var animatedShow = false
+    
+    @State private var lastToggleTime: Date = Date.distantPast
+    let toggleThrottleDelay: TimeInterval = 1.5
     
     init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, hideFavoriteOption: Bool = false) {
         self.bookmark = bookmark
@@ -85,6 +89,15 @@ struct BookmarkDetails: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                 animatedShow = true
             }
+        }
+    }
+    
+    // Function to throttle the editing toggle
+    func throttleEditingToggle() {
+        let currentTime = Date()
+        if currentTime.timeIntervalSince(lastToggleTime) > toggleThrottleDelay {
+            editing.toggle()
+            lastToggleTime = currentTime
         }
     }
     
@@ -158,7 +171,7 @@ struct BookmarkDetails: View {
             
             HStack {
                 Button("Cancel") {
-                    editing.toggle()
+                    throttleToggleEditing()
                 }
                 .padding()
 
@@ -168,7 +181,7 @@ struct BookmarkDetails: View {
                     if moc.hasChanges {
                         try? moc.save()
                     }
-                    editing.toggle()
+                    throttleToggleEditing()
                 }
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .padding()
@@ -250,7 +263,7 @@ struct BookmarkDetails: View {
         VStack(spacing: 0) {
             HStack {
                 Button {
-                    editing.toggle()
+                    throttleEditingToggle()
                 } label: {
                     Text("Cancel")
                         .padding()
@@ -265,7 +278,7 @@ struct BookmarkDetails: View {
                     if moc.hasChanges {
                         try? moc.save()
                     }
-                    editing.toggle()
+                    throttleEditingToggle()
                 } label: {
                     Text("Save")
                         .padding()
@@ -388,7 +401,7 @@ struct BookmarkDetails: View {
             }
             
             Button {
-                editing.toggle()
+                throttleEditingToggle()
             } label: {
                 Image(systemName: "pencil")
             }
