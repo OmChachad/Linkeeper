@@ -72,6 +72,20 @@ struct BookmarkGridItem: View {
             .frame(minWidth: 140, idealWidth: 300, maxWidth: 300, minHeight: 100, idealHeight: 300, maxHeight: 300)
             .clipped()
             .contentShape(Rectangle())
+            .overlay(alignment: .topTrailing) {
+                if !bookmark.wrappedNotes.isEmpty {
+                    Image(systemName: "text.alignright")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                        .padding(10)
+                        .background {
+                            Rectangle()
+                                .fill(LinearGradient(colors: [.black, .clear], startPoint: .topTrailing , endPoint: .bottomLeading))
+                                .blur(radius: 10)
+                                .padding([.top, .trailing], -15)
+                        }
+                }
+            }
             
             
             VStack(alignment: .leading, spacing: 0) {
