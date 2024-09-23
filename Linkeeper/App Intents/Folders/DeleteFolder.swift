@@ -56,7 +56,7 @@ struct DeleteFolder: AppIntent {
             reloadAllWidgets()
             
             let messageSuffix = folder.bookmarks.count == 0 ? "" : ", \(keepBookmarks ? "keeping" : "alongside") \(folder.bookmarks.count) \(folder.bookmarks.count == 1 ? "Bookmark" : "Bookmarks")"
-            return .result(value: "Deleted Folder\(messageSuffix)")
+            return .result()
             
         } catch {
             throw error
