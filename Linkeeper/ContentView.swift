@@ -143,7 +143,8 @@ struct ContentView: View {
     
     var sideBar: some View {
         Group {
-            VStack(spacing: 0) {
+            GeometryReader { geo in
+                ScrollView {
                     VStack {
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
                             PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: inSideBarMode, isActiveStatus: $showingAllBookmarks) { bookmark, url in
@@ -201,90 +202,92 @@ struct ContentView: View {
                     #else
                     .background(Color(uiColor: .systemGroupedBackground))
                     #endif
-                
-                
-                if !folders.filter({!$0.isPinned }).isEmpty {
-                    List {
-                        if #available(macOS 13.0, *) {
-                            
-                        } else {
-                            Section {
-                                NavigationLink(destination: BookmarksView.init) {
-                                    ListItem(title: "All", systemName: "tray.fill", color: Color("AllBookmarksColor"), subItemsCount: allBookmarks.count)
-                                }
+                    
+                    
+                    if !folders.filter({!$0.isPinned }).isEmpty {
+                        List {
+                            if #available(macOS 13.0, *) {
                                 
-                                NavigationLink(destination: BookmarksView.init(onlyFavorites: true)) {
-                                    ListItem(title: "Favorites", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
-                                }
-                                
-                                ForEach(folders.filter { $0.isPinned } ) { folder in
-                                    NavigationLink(tag: folder, selection: $currentFolder) {
-                                        BookmarksView(folder: folder)
-                                    } label: {
-                                        FolderItemView(folder: folder)
+                            } else {
+                                Section {
+                                    NavigationLink(destination: BookmarksView.init) {
+                                        ListItem(title: "All", systemName: "tray.fill", color: Color("AllBookmarksColor"), subItemsCount: allBookmarks.count)
                                     }
-                                    .contextMenu {
-                                        Button {
-                                            folder.isPinned.toggle()
-                                            folder.index = (folders.last?.index ?? 0) + 1
-                                            try? moc.save()
+                                    
+                                    NavigationLink(destination: BookmarksView.init(onlyFavorites: true)) {
+                                        ListItem(title: "Favorites", systemName: "heart.fill", color: .pink, subItemsCount: favoriteBookmarks.count)
+                                    }
+                                    
+                                    ForEach(folders.filter { $0.isPinned } ) { folder in
+                                        NavigationLink(tag: folder, selection: $currentFolder) {
+                                            BookmarksView(folder: folder)
                                         } label: {
-                                            Label("Unpin", systemImage: "pin.slash")
+                                            FolderItemView(folder: folder)
+                                        }
+                                        .contextMenu {
+                                            Button {
+                                                folder.isPinned.toggle()
+                                                folder.index = (folders.last?.index ?? 0) + 1
+                                                try? moc.save()
+                                            } label: {
+                                                Label("Unpin", systemImage: "pin.slash")
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        
-                        Section(header: Text("My Folders")) {
-                            ForEach(folders.filter { !$0.isPinned } ) { folder in
-                                Group {
-                                    #if os(macOS)
-                                    NavigationLink {
-                                        BookmarksView(folder: folder)
-                                    } label: {
-                                        FolderItemView(folder: folder)
+                            
+                            Section(header: Text("My Folders")) {
+                                ForEach(folders.filter { !$0.isPinned } ) { folder in
+                                    Group {
+                                        #if os(macOS)
+                                        NavigationLink {
+                                            BookmarksView(folder: folder)
+                                        } label: {
+                                            FolderItemView(folder: folder)
+                                        }
+                                        #else
+                                        NavigationLink(tag: folder, selection: $currentFolder) {
+                                            BookmarksView(folder: folder)
+                                        } label: {
+                                            FolderItemView(folder: folder)
+                                        }
+                                        #endif
                                     }
-                                    #else
-                                    NavigationLink(tag: folder, selection: $currentFolder) {
-                                        BookmarksView(folder: folder)
-                                    } label: {
-                                        FolderItemView(folder: folder)
-                                    }
-                                    #endif
                                 }
+                                .onMove(perform: moveItem)
+                                .onDelete(perform: delete)
                             }
-                            .onMove(perform: moveItem)
-                            .onDelete(perform: delete)
+                            .headerProminence(.increased)
                         }
-                        .headerProminence(.increased)
-                    }
-                } else {
-                    Group {
-                        if folders.isEmpty {
-                            VStack(spacing: 20) {
-                                Image(systemName: "folder.fill")
-                                    .font(.system(size: 50))
-                                Text("""
+                        .listStyle(.sidebar)
+                        .frame(width: geo.size.width - 5, height: CGFloat(Double(folders.filter({!$0.isPinned }).count) * (isMac ? 50.5 : 80)), alignment: .top)
+                    } else {
+                        Group {
+                            if folders.isEmpty {
+                                VStack(spacing: 20) {
+                                    Image(systemName: "folder.fill")
+                                        .font(.system(size: 50))
+                                    Text("""
 You don't have any folders.
 Click **Add Folder** to get started.
 """)
-                                .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.center)
+                                }
+                            } else {
+                                VStack {}
                             }
-                        } else {
-                            VStack {}
-                        }
                     }
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-#if os(macOS)
+                    #if os(macOS)
                     .background(.clear)
-#else
+                    #else
                     .background(Color(uiColor: .systemGroupedBackground))
-#endif
+                    #endif
+                    }
                 }
             }
-            //.sideBarForMac()
 #if os(macOS)
             .safeAreaInset(edge: .bottom, content: {
                 HStack {
