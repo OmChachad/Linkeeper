@@ -28,6 +28,16 @@ struct FolderItemView: View {
         #endif
     }
     
+    var requiresAdditionalPadding: Bool {
+        #if os(iOS)
+        if #available(iOS 18.0, *) {
+            return UIDevice.current.userInterfaceIdiom == .pad
+        }
+        #endif
+        
+        return false
+    }
+    
     @State private var isTargeted = false
     
     var body: some View {
@@ -37,6 +47,8 @@ struct FolderItemView: View {
                 addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
             }
             .opacity(isTargeted ? 0.1 : 1)
+            .padding(.leading, requiresAdditionalPadding ? 5 : 0)
+            .frame(height: 40)
     }
 
     func addDroppedBookmarkToFolder(bookmark: Bookmark?, url: URL, folder: Folder) {
