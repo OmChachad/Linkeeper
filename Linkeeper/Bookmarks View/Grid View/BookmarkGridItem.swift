@@ -43,6 +43,20 @@ struct BookmarkGridItem: View {
         #endif
     }
     
+    init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, toBeEditedBookmark: Binding<Bookmark?>, selectedBookmarks: Binding<Set<Bookmark.ID>>) {
+        self.bookmark = bookmark
+        self.namespace = namespace
+        self._showDetails = showDetails
+        self._toBeEditedBookmark = toBeEditedBookmark
+        self._selectedBookmarks = selectedBookmarks
+        
+        #if !os(macOS)
+        let cacheManager = CacheManager.instance
+        
+        self._cachedPreview = State(initialValue: cacheManager.get(for: bookmark))
+        #endif
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             VStack {
@@ -161,7 +175,9 @@ struct BookmarkGridItem: View {
             MoveBookmarksView(toBeMoved: [bookmark]) {}
         }
         .task {
-            bookmark.cachedImage(saveTo: $cachedPreview)
+            if cachedPreview == nil {
+                bookmark.cachedImage(saveTo: $cachedPreview)
+            }
         }
         .animation(.default, value: selectedBookmarks)
         .animation(.default, value: bookmark.wrappedTitle)

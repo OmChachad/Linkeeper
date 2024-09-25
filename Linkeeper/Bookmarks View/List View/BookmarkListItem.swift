@@ -28,6 +28,18 @@ struct BookmarkListItem: View {
         #endif
     }
     
+    init(bookmark: Bookmark, showDetails: Binding<Bool>, toBeEditedBookmark: Binding<Bookmark?>) {
+        self.bookmark = bookmark
+        self._showDetails = showDetails
+        self._toBeEditedBookmark = toBeEditedBookmark
+        
+        #if !os(macOS)
+        let cacheManager = CacheManager.instance
+        
+        self._cachedPreview = State(initialValue: cacheManager.get(for: bookmark))
+        #endif
+    }
+    
     var body: some View {
         HStack {
             Group {

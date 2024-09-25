@@ -156,7 +156,9 @@ struct BookmarkItemAction: ViewModifier {
             }
             .animation(.default, value: cachedPreview?.previewState)
             .task {
-                bookmark.cachedImage(saveTo: $cachedPreview)
+                if cachedPreview == nil {
+                    bookmark.cachedImage(saveTo: $cachedPreview)
+                }
                 isFavorited = bookmark.isFavorited
             }
     }
