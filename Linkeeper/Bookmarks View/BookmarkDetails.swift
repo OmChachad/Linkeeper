@@ -171,7 +171,7 @@ struct BookmarkDetails: View {
             
             HStack {
                 Button("Cancel") {
-                    throttleToggleEditing()
+                    throttleEditingToggle()
                 }
                 .padding()
 
@@ -181,7 +181,7 @@ struct BookmarkDetails: View {
                     if moc.hasChanges {
                         try? moc.save()
                     }
-                    throttleToggleEditing()
+                    throttleEditingToggle()
                 }
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .padding()
