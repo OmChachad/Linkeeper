@@ -14,8 +14,6 @@ struct AddFolderView: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.keyboardShortcut) var keyboardShortcut
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
-    
     var existingFolder: Folder?
     var parentFolder: Folder?
     
