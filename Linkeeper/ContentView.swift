@@ -70,6 +70,8 @@ struct ContentView: View {
                 #else
                 NavigationView  {
                     sideBar
+                    
+                .background(Color(uiColor: .systemGroupedBackground))
                         .navigationBarTitleDisplayMode(.inline)
                     
                     Text("No folder is selected.")
@@ -143,8 +145,8 @@ struct ContentView: View {
     
     var sideBar: some View {
         Group {
-            GeometryReader { geo in
-                ScrollView {
+            ScrollView {
+                VStack(spacing: 0) {
                     VStack {
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
                             PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: inSideBarMode, isActiveStatus: $showingAllBookmarks) { bookmark, url in
@@ -197,11 +199,6 @@ struct ContentView: View {
                         .padding(UIDevice.current.userInterfaceIdiom == .pad ? 15 : 20)
                         #endif
                     }
-                    #if os(macOS)
-                    .background(.clear)
-                    #else
-                    .background(Color(uiColor: .systemGroupedBackground))
-                    #endif
                     
                     
                     if !folders.filter({!$0.isPinned }).isEmpty {
@@ -261,7 +258,7 @@ struct ContentView: View {
                             .headerProminence(.increased)
                         }
                         .listStyle(.sidebar)
-                        .frame(width: geo.size.width - 5, height: CGFloat(Double(folders.filter({!$0.isPinned }).count) * (isMac ? 50.5 : 80)), alignment: .top)
+                        .frame(height: CGFloat(Double(folders.filter({!$0.isPinned }).count) * (isMac ? 50.5 : 80) + (folders.filter({!$0.isPinned }).count > 4 ? 0 : 200)), alignment: .top)
                     } else {
                         Group {
                             if folders.isEmpty {
@@ -277,14 +274,14 @@ Click **Add Folder** to get started.
                             } else {
                                 VStack {}
                             }
-                    }
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                    #if os(macOS)
-                    .background(.clear)
-                    #else
-                    .background(Color(uiColor: .systemGroupedBackground))
-                    #endif
+                        }
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        #if os(macOS)
+                        .background(.clear)
+                        #else
+                        .background(Color(uiColor: .systemGroupedBackground))
+                        #endif
                     }
                 }
             }
