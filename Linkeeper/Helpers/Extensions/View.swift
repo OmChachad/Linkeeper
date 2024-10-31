@@ -114,4 +114,19 @@ extension View {
         }
     }
     #endif
+    
+    func forceHiddenScrollIndicators() -> some View {
+        Group {
+            #if os(macOS)
+            if #available(macOS 13.0, *) {
+                self
+                    .scrollIndicators(.never)
+            } else {
+                self
+            }
+            #else
+            self
+            #endif
+        }
+    }
 }

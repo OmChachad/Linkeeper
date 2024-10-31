@@ -285,6 +285,7 @@ Click **Add Folder** to get started.
                     }
                 }
             }
+            .forceHiddenScrollIndicators()
 #if os(macOS)
             .safeAreaInset(edge: .bottom, content: {
                 HStack {
