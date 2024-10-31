@@ -97,11 +97,32 @@ struct BookmarksListView: View {
                         }
                     }
                 } else {
-                    list(for: filteredBookmarks)
+                    SubFoldersList(folder: folder)
+                    Section("Bookmarks") {
+                        list(for: filteredBookmarks)
+                    }
                 }
             }
         }
     }
+    
+    func SubFoldersList(folder: Folder?) -> some View {
+        Group {
+            if let folder, let children = folder.childFoldersArray {
+                Section("Folders") {
+                    ForEach(children, id: \.self) { subFolder in
+                        NavigationLink(destination: BookmarksView(folder: subFolder)) {
+                            FolderItemView(folder: subFolder, style: .large)
+                                .padding([.vertical, .trailing], 5)
+                                .padding(.vertical, 5)
+                        }
+                    }
+                }
+                .contentShape(Rectangle())
+            }
+        }
+    }
+    
     
     func list(for bookmarks: [Bookmark]) -> some View {
         ForEach(bookmarks, id: \.self) { bookmark in

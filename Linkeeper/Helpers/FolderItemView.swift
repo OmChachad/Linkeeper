@@ -12,6 +12,7 @@ struct FolderItemView: View {
     @Environment(\.managedObjectContext) var moc
     @ObservedObject var bookmarksInFolder = bookmarksCountFetcher()
     var folder: Folder
+    var style: ListItem.Style = .sidebar
     
     @State private var editingFolder = false
     
@@ -40,7 +41,7 @@ struct FolderItemView: View {
     @State private var isTargeted = false
     
     var body: some View {
-        ListItem(title: folder.wrappedTitle, systemName: folder.wrappedSymbol, color: folder.wrappedColor, subItemsCount: folder.countOfBookmarks)
+        ListItem(title: folder.wrappedTitle, systemName: folder.wrappedSymbol, color: folder.wrappedColor, subItemsCount: folder.countOfBookmarks, style: style)
             .folderActions(folder: folder, isEditing: isEditing)
             .dropDestination(isTargeted: $isTargeted) { bookmark, url in
                 addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
