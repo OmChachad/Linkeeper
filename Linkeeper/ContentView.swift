@@ -286,7 +286,7 @@ Click **Add Folder** to get started.
                 }
             }
             .forceHiddenScrollIndicators()
-#if os(macOS)
+            #if os(macOS)
             .safeAreaInset(edge: .bottom, content: {
                 HStack {
                     Spacer()
@@ -300,9 +300,9 @@ Click **Add Folder** to get started.
                 .padding(.top, 5)
                 .buttonStyle(.borderless)
             })
-#endif
+            #endif
             .toolbar {
-#if !os(macOS)
+                #if !os(macOS)
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         showingSettings.toggle()
@@ -317,7 +317,7 @@ Click **Add Folder** to get started.
                 
                 ToolbarItemGroup(placement: .bottomBar) {
                     HStack {
-#if os(visionOS)
+                        #if os(visionOS)
                         Button {
                             showingNewBookmarkView = true
                         } label: {
@@ -338,7 +338,7 @@ Click **Add Folder** to get started.
                         .keyboardShortcut("n", modifiers: [.shift, .command])
                         .buttonStyle(.bordered)
                         
-#else
+                        #else
                         if !inSideBarMode || showingFavorites {
                             Button {
                                 showingNewBookmarkView = true
@@ -356,10 +356,10 @@ Click **Add Folder** to get started.
                             showingNewFolderView = true
                         }
                         .keyboardShortcut("n", modifiers: [.shift, .command])
-#endif
+                        #endif
                     }
                 }
-#endif
+                #endif
             }
         }
         #if os(macOS)
