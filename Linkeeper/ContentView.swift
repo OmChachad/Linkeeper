@@ -197,6 +197,7 @@ struct ContentView: View {
                         .padding(12.5)
                         #else
                         .padding(UIDevice.current.userInterfaceIdiom == .pad ? 15 : 20)
+                        .padding(.top, UIDevice.current.userInterfaceIdiom == .pad ? 0 : -20)
                         #endif
                     }
                     
@@ -300,21 +301,78 @@ Click **Add Folder** to get started.
                 .padding(.top, 5)
                 .buttonStyle(.borderless)
             })
+            #elseif os(iOS)
+            .safeAreaInset(edge: .top) {
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    HStack {
+                        Button {
+                            showingSettings.toggle()
+                        } label: {
+                            Image(systemName: "gear")
+                                .imageScale(.large)
+                        }
+                        .keyboardShortcut(",", modifiers: .command)
+                        
+                        Spacer()
+                        
+                        EditButton()
+                    }
+                    .padding()
+                    .background {
+                        VariableBlurView(maxBlurRadius: 20, direction: .blurredTopClearBottom, startOffset: 0)
+                            .ignoresSafeArea()
+                    }
+                }
+            }
+            .safeAreaInset(edge: .bottom, content: {
+                HStack {
+                    if !inSideBarMode || showingFavorites {
+                        Button {
+                            showingNewBookmarkView = true
+                        } label: {
+                            Label("New Bookmark", systemImage: "plus.circle.fill")
+                                .imageScale(.large)
+                                .labelStyle(.titleAndIcon)
+                                .font(.headline)
+                        }
+                        .keyboardShortcut("n", modifiers: .command)
+                    }
+                    
+                    Spacer()
+                    
+                    Button("Add Folder") {
+                        showingNewFolderView = true
+                    }
+                    .keyboardShortcut("n", modifiers: [.shift, .command])
+                }
+                .padding([.top, .horizontal])
+                .padding(.bottom, 10)
+                .background {
+                    VariableBlurView(maxBlurRadius: 20, direction: .blurredBottomClearTop, startOffset: 0)
+                        .ignoresSafeArea()
+                }
+                #warning("Must be tested on home button iPhone.")
+            })
             #endif
             .toolbar {
                 #if !os(macOS)
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        showingSettings.toggle()
-                    } label: {
-                        Image(systemName: "gear")
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        if UIDevice.current.userInterfaceIdiom != .phone {
+                            Button {
+                                showingSettings.toggle()
+                            } label: {
+                                Image(systemName: "gear")
+                            }
+                            .keyboardShortcut(",", modifiers: .command)
+                        }
                     }
-                    .keyboardShortcut(",", modifiers: .command)
-                }
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
                 
+                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                        if UIDevice.current.userInterfaceIdiom != .phone {
+                            EditButton()
+                        }
+                    }
+                #if !os(iOS)
                 ToolbarItemGroup(placement: .bottomBar) {
                     HStack {
                         #if os(visionOS)
@@ -359,6 +417,8 @@ Click **Add Folder** to get started.
                         #endif
                     }
                 }
+                #endif
+                
                 #endif
             }
         }

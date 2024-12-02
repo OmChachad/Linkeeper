@@ -194,7 +194,7 @@ struct BookmarksView: View {
                 }
             }
         }
-        #if os(macOS)
+        #if os(macOS) || os(iOS)
         .safeAreaInset(edge: .bottom, content: {
             if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
                 HStack {
@@ -202,6 +202,7 @@ struct BookmarksView: View {
                         addingBookmark = true
                     } label: {
                         Label("New Bookmark", systemImage: "plus.circle.fill")
+                            .imageScale(.large)
                             .labelStyle(.titleAndIcon)
                             .font(.headline)
                     }
@@ -210,34 +211,20 @@ struct BookmarksView: View {
                     Spacer()
                 }
                 .foregroundColor(folder?.wrappedColor)
+                .buttonStyle(.borderless)
+                #if os(macOS)
                 .padding()
                 .background(.thickMaterial)
-                .buttonStyle(.borderless)
+                #else
+                .padding([.top, .horizontal])
+                .padding(.bottom, 10)
+                .background {
+                    VariableBlurView(maxBlurRadius: 20, direction: .blurredBottomClearTop, startOffset: 0)
+                        .ignoresSafeArea()
+                }
+                #endif
             }
         })
-        #elseif !os(visionOS)
-        .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
-                if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
-                    HStack {
-                        Button {
-                            addingBookmark = true
-                        } label: {
-                            Label("New Bookmark", systemImage: "plus.circle.fill")
-                                .labelStyle(.titleAndIcon)
-                                .font(.headline)
-                        }
-                        .keyboardShortcut("n", modifiers: .command)
-                        
-                        Spacer()
-                    }
-                    .foregroundColor(folder?.wrappedColor)
-                    .padding(.vertical, 10)
-                    .padding(.leading, horizontalSizeClass == .regular ? 0 : 7.5)
-                    .buttonStyle(.borderless)
-                }
-            }
-        }
         #endif
         .overlay {
             #if !os(visionOS)

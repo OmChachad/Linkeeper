@@ -223,6 +223,7 @@
 		C2C8EEA62A4DFC0600CCD36F /* DropExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */; };
 		C2C8EEA82A4E7D2400CCD36F /* BookmarkDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */; };
 		C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */; };
+		C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC75782CFE1E940093E40B /* VariableBlurView.swift */; };
 		C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */; };
 		C2E0CEE52A4C2C8200EA9473 /* Local Tips.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C2E0CEE42A4C2C8200EA9473 /* Local Tips.storekit */; };
 		C2E0CEE62A4C2C8400EA9473 /* Synced Tips.storekit in Resources */ = {isa = PBXBuildFile; fileRef = C2E0CEE32A4C2C6600EA9473 /* Synced Tips.storekit */; };
@@ -388,6 +389,7 @@
 		C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropExtension.swift; sourceTree = "<group>"; };
 		C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDropItem.swift; sourceTree = "<group>"; };
 		C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipRequestView.swift; sourceTree = "<group>"; };
+		C2DC75782CFE1E940093E40B /* VariableBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableBlurView.swift; sourceTree = "<group>"; };
 		C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
 		C2E0CEE32A4C2C6600EA9473 /* Synced Tips.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Synced Tips.storekit"; sourceTree = "<group>"; };
 		C2E0CEE42A4C2C8200EA9473 /* Local Tips.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Local Tips.storekit"; sourceTree = "<group>"; };
@@ -627,6 +629,7 @@
 				C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */,
 				C29B00F32A59E67D0081FEBC /* PinnedItemView.swift */,
 				C25316032A2D03D2004F1491 /* ListItem.swift */,
+				C2DC75782CFE1E940093E40B /* VariableBlurView.swift */,
 				C28616812A73DD0D00ABA9FF /* AlertView.swift */,
 				C29B00EE2A58862A0081FEBC /* ShareButton.swift */,
 				C23BDA462840C70E003DD30D /* CacheManager.swift */,
@@ -1207,6 +1210,7 @@
 				C281D9B22A24EDEC00535807 /* DeleteBookmarks.swift in Sources */,
 				C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */,
 				C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */,
+				C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */,
 				C28A2C7E2B033FAD0027A70F /* isVisionOS.swift in Sources */,
 				C28D189A2B43F8450033C979 /* ImportExportHandler.swift in Sources */,
 				C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */,
