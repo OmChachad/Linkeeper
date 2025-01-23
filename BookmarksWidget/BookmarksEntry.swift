@@ -10,6 +10,6 @@ import WidgetKit
 
 struct BookmarksEntry: TimelineEntry {
     let date: Date
-    let bookmarks: [BookmarkEntity]
+    let bookmarks: [LinkeeperBookmarkEntity]
     let configuration: ConfigurationAppIntent
 }

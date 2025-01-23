@@ -23,7 +23,7 @@ struct FavoriteToggle: AppIntent {
     var OnOrOff: YesOrNo
     
     @Parameter(title: "Bookmark", description: "The bookmark of which the favorite status will change", requestValueDialog: IntentDialog("Choose a bookmark"))
-    var bookmark: BookmarkEntity
+    var bookmark: LinkeeperBookmarkEntity
     
     static var parameterSummary: some ParameterSummary {
         When(\FavoriteToggle.$toggleTask, .equalTo, .toggle, {
@@ -33,7 +33,7 @@ struct FavoriteToggle: AppIntent {
         })
     }
     
-    func perform() async throws -> some IntentResult & ReturnsValue<BookmarkEntity> {
+    func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> {
         if toggleTask == .toggle {
             bookmark.isFavorited.toggle()
             BookmarksManager.shared.findBookmark(withId: bookmark.id).isFavorited.toggle()

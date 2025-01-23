@@ -11,7 +11,7 @@ import WidgetKit
 
 struct BookmarkItemView: View {
     @Environment(\.widgetFamily) var family
-    var bookmark: BookmarkEntity
+    var bookmark: LinkeeperBookmarkEntity
     
     var body: some View {
         Link(destination: URL(string: "linkeeper://openURL/\(bookmark.id)")!) {

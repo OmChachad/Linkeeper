@@ -53,7 +53,7 @@ If disabled, you can add a title yourself.
         })
     }
     
-    func perform() async throws -> some ReturnsValue<BookmarkEntity> {
+    func perform() async throws -> some ReturnsValue<LinkeeperBookmarkEntity> {
         let title: String = await {
             if autoTitle {
                 let metadataProvider = LPMetadataProvider()

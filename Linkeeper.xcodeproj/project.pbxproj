@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -46,7 +46,7 @@
 		C2120C5B2B95EF63003FEDF2 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506E2A12B77100817C48 /* View.swift */; };
 		C2120C5C2B95EF6A003FEDF2 /* AddBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9742A24B81E00535807 /* AddBookmark.swift */; };
 		C2120C5D2B95EF72003FEDF2 /* Metadata Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29B00F02A588B1D0081FEBC /* Metadata Fetcher.swift */; };
-		C2120C5E2B95EF83003FEDF2 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
+		C2120C5E2B95EF83003FEDF2 /* LinkeeperBookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* LinkeeperBookmarkEntity.swift */; };
 		C2120C5F2B95EF8D003FEDF2 /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6E28193AE20030B6DD /* AddFolderView.swift */; };
 		C2120C602B95EF94003FEDF2 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
 		C2120C612B95EFA1003FEDF2 /* SymbolOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3899B2A54978E0085D801 /* SymbolOption.swift */; };
@@ -96,20 +96,20 @@
 		C27AF1152B48091E00C4D9A4 /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF1142B48091E00C4D9A4 /* Bool.swift */; };
 		C27AF1172B4809B900C4D9A4 /* SortMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF1162B4809B900C4D9A4 /* SortMethod.swift */; };
 		C27AF1192B4809DA00C4D9A4 /* SortDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF1182B4809DA00C4D9A4 /* SortDirection.swift */; };
-		C27BB9CB2B32FF6100ACA0EA /* DeleteBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */; };
+		C27BB9CB2B32FF6100ACA0EA /* DeleteBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B12A24EDEC00535807 /* DeleteBookmark.swift */; };
 		C27BB9CC2B32FF6100ACA0EA /* AddBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9742A24B81E00535807 /* AddBookmark.swift */; };
-		C27BB9CD2B32FF6100ACA0EA /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
+		C27BB9CD2B32FF6100ACA0EA /* LinkeeperBookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* LinkeeperBookmarkEntity.swift */; };
 		C27BB9CE2B32FF6100ACA0EA /* MoveBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B32A2501FE00535807 /* MoveBookmarks.swift */; };
 		C27BB9CF2B32FF6100ACA0EA /* FavoriteToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B52A2512F900535807 /* FavoriteToggle.swift */; };
 		C27BB9D02B32FF6500ACA0EA /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B92A2534E100535807 /* AddFolder.swift */; };
 		C27BB9D12B32FF6500ACA0EA /* FolderEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9702A23E32D00535807 /* FolderEntity.swift */; };
 		C27BB9D22B32FF6500ACA0EA /* DeleteFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B72A25277A00535807 /* DeleteFolder.swift */; };
-		C281D96D2A23D28200535807 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
+		C281D96D2A23D28200535807 /* LinkeeperBookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* LinkeeperBookmarkEntity.swift */; };
 		C281D96F2A23D4FF00535807 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96E2A23D4FF00535807 /* BookmarksManager.swift */; };
 		C281D9712A23E32D00535807 /* FolderEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9702A23E32D00535807 /* FolderEntity.swift */; };
 		C281D9732A23E8B300535807 /* FoldersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9722A23E8B300535807 /* FoldersManager.swift */; };
 		C281D9752A24B81E00535807 /* AddBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9742A24B81E00535807 /* AddBookmark.swift */; };
-		C281D9B22A24EDEC00535807 /* DeleteBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */; };
+		C281D9B22A24EDEC00535807 /* DeleteBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B12A24EDEC00535807 /* DeleteBookmark.swift */; };
 		C281D9B42A2501FE00535807 /* MoveBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B32A2501FE00535807 /* MoveBookmarks.swift */; };
 		C281D9B62A2512F900535807 /* FavoriteToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B52A2512F900535807 /* FavoriteToggle.swift */; };
 		C281D9B82A25277A00535807 /* DeleteFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B72A25277A00535807 /* DeleteFolder.swift */; };
@@ -140,7 +140,7 @@
 		C2891D8C2B5186BB00C44C37 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506E2A12B77100817C48 /* View.swift */; };
 		C2891D8D2B5186C600C44C37 /* AddBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9742A24B81E00535807 /* AddBookmark.swift */; };
 		C2891D8E2B51919400C44C37 /* reloadAllWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF0F82B47C03E00C4D9A4 /* reloadAllWidgets.swift */; };
-		C2891D8F2B5191D600C44C37 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
+		C2891D8F2B5191D600C44C37 /* LinkeeperBookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* LinkeeperBookmarkEntity.swift */; };
 		C2891D902B5191DB00C44C37 /* FolderEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9702A23E32D00535807 /* FolderEntity.swift */; };
 		C2891D912B5191FF00C44C37 /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B92A2534E100535807 /* AddFolder.swift */; };
 		C2891D922B5192A400C44C37 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050762A12B80300817C48 /* String.swift */; };
@@ -152,8 +152,8 @@
 		C28B6E6928190C120030B6DD /* ColorOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6828190C120030B6DD /* ColorOption.swift */; };
 		C28B6E6F28193AE20030B6DD /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28B6E6E28193AE20030B6DD /* AddFolderView.swift */; };
 		C28D187E2B41A20B0033C979 /* AddBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9742A24B81E00535807 /* AddBookmark.swift */; };
-		C28D187F2B41A20B0033C979 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* BookmarkEntity.swift */; };
-		C28D18802B41A20B0033C979 /* DeleteBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */; };
+		C28D187F2B41A20B0033C979 /* LinkeeperBookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D96C2A23D28200535807 /* LinkeeperBookmarkEntity.swift */; };
+		C28D18802B41A20B0033C979 /* DeleteBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B12A24EDEC00535807 /* DeleteBookmark.swift */; };
 		C28D18812B41A20B0033C979 /* FavoriteToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B52A2512F900535807 /* FavoriteToggle.swift */; };
 		C28D18822B41A20B0033C979 /* MoveBookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B32A2501FE00535807 /* MoveBookmarks.swift */; };
 		C28D18852B41A2100033C979 /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281D9B92A2534E100535807 /* AddFolder.swift */; };
@@ -326,12 +326,12 @@
 		C27AF1142B48091E00C4D9A4 /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		C27AF1162B4809B900C4D9A4 /* SortMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortMethod.swift; sourceTree = "<group>"; };
 		C27AF1182B4809DA00C4D9A4 /* SortDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDirection.swift; sourceTree = "<group>"; };
-		C281D96C2A23D28200535807 /* BookmarkEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEntity.swift; sourceTree = "<group>"; };
+		C281D96C2A23D28200535807 /* LinkeeperBookmarkEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeeperBookmarkEntity.swift; sourceTree = "<group>"; };
 		C281D96E2A23D4FF00535807 /* BookmarksManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksManager.swift; sourceTree = "<group>"; };
 		C281D9702A23E32D00535807 /* FolderEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderEntity.swift; sourceTree = "<group>"; };
 		C281D9722A23E8B300535807 /* FoldersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldersManager.swift; sourceTree = "<group>"; };
 		C281D9742A24B81E00535807 /* AddBookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookmark.swift; sourceTree = "<group>"; };
-		C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBookmarks.swift; sourceTree = "<group>"; };
+		C281D9B12A24EDEC00535807 /* DeleteBookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteBookmark.swift; sourceTree = "<group>"; };
 		C281D9B32A2501FE00535807 /* MoveBookmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveBookmarks.swift; sourceTree = "<group>"; };
 		C281D9B52A2512F900535807 /* FavoriteToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteToggle.swift; sourceTree = "<group>"; };
 		C281D9B72A25277A00535807 /* DeleteFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFolder.swift; sourceTree = "<group>"; };
@@ -401,6 +401,10 @@
 		C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderGridItem.swift; sourceTree = "<group>"; };
 		C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderActionsModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C2731D332D4289930046E098 /* Apple Intelligence Domains */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Apple Intelligence Domains"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C2052BD82B34688500185D29 /* Frameworks */ = {
@@ -554,9 +558,9 @@
 		C266E78C2A25D4A0009CBD96 /* Bookmarks */ = {
 			isa = PBXGroup;
 			children = (
-				C281D96C2A23D28200535807 /* BookmarkEntity.swift */,
+				C281D96C2A23D28200535807 /* LinkeeperBookmarkEntity.swift */,
 				C281D9742A24B81E00535807 /* AddBookmark.swift */,
-				C281D9B12A24EDEC00535807 /* DeleteBookmarks.swift */,
+				C281D9B12A24EDEC00535807 /* DeleteBookmark.swift */,
 				C281D9B32A2501FE00535807 /* MoveBookmarks.swift */,
 				C281D9B52A2512F900535807 /* FavoriteToggle.swift */,
 			);
@@ -576,6 +580,7 @@
 		C281D96B2A23C86D00535807 /* App Intents */ = {
 			isa = PBXGroup;
 			children = (
+				C2731D332D4289930046E098 /* Apple Intelligence Domains */,
 				C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */,
 				C266E78C2A25D4A0009CBD96 /* Bookmarks */,
 				C266E78D2A25D4C7009CBD96 /* Folders */,
@@ -883,6 +888,9 @@
 				C2891D762B51857900C44C37 /* PBXTargetDependency */,
 				C2120C402B95A26E003FEDF2 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				C2731D332D4289930046E098 /* Apple Intelligence Domains */,
+			);
 			name = Linkeeper;
 			packageProductDependencies = (
 				C24DF574283E62C4003C9692 /* Shimmer */,
@@ -1011,7 +1019,7 @@
 				C2052BFF2B34697600185D29 /* FoldersManager.swift in Sources */,
 				C2052BE22B34688500185D29 /* BookmarksWidgetBundle.swift in Sources */,
 				C27AF0FA2B47C0F200C4D9A4 /* reloadAllWidgets.swift in Sources */,
-				C28D187F2B41A20B0033C979 /* BookmarkEntity.swift in Sources */,
+				C28D187F2B41A20B0033C979 /* LinkeeperBookmarkEntity.swift in Sources */,
 				C2052C072B34699C00185D29 /* URL.swift in Sources */,
 				C2052BE42B34688500185D29 /* WidgetProvider.swift in Sources */,
 				C2C638CF2B4D810600E5B0B1 /* isMac.swift in Sources */,
@@ -1033,7 +1041,7 @@
 				C28D18822B41A20B0033C979 /* MoveBookmarks.swift in Sources */,
 				C28D18912B43008B0033C979 /* BookmarkItemView.swift in Sources */,
 				C28D18932B43193F0033C979 /* SmallWidgetView.swift in Sources */,
-				C28D18802B41A20B0033C979 /* DeleteBookmarks.swift in Sources */,
+				C28D18802B41A20B0033C979 /* DeleteBookmark.swift in Sources */,
 				C28D188A2B425FAE0033C979 /* Bookmark.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1043,7 +1051,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2120C632B95EFC7003FEDF2 /* reloadAllWidgets.swift in Sources */,
-				C2120C5E2B95EF83003FEDF2 /* BookmarkEntity.swift in Sources */,
+				C2120C5E2B95EF83003FEDF2 /* LinkeeperBookmarkEntity.swift in Sources */,
 				C236AD782C4059FD000BE9FE /* FolderPickerView.swift in Sources */,
 				C2120C5B2B95EF63003FEDF2 /* View.swift in Sources */,
 				C2120C622B95EFBA003FEDF2 /* String.swift in Sources */,
@@ -1084,7 +1092,7 @@
 				C2891D7D2B51866300C44C37 /* Folder+CoreDataClass.swift in Sources */,
 				C2891D842B51867400C44C37 /* URL.swift in Sources */,
 				C2891D6F2B51857900C44C37 /* ShareViewController.swift in Sources */,
-				C2891D8F2B5191D600C44C37 /* BookmarkEntity.swift in Sources */,
+				C2891D8F2B5191D600C44C37 /* LinkeeperBookmarkEntity.swift in Sources */,
 				C2891D8C2B5186BB00C44C37 /* View.swift in Sources */,
 				C2891D802B51866300C44C37 /* StoreURL Extension.swift in Sources */,
 				C2891D982B51941000C44C37 /* Linkeeper.xcdatamodeld in Sources */,
@@ -1114,13 +1122,13 @@
 			files = (
 				C2A14A4C2A602549003A5308 /* String.swift in Sources */,
 				C2A14A2E2A601C24003A5308 /* ShareViewController.swift in Sources */,
-				C27BB9CB2B32FF6100ACA0EA /* DeleteBookmarks.swift in Sources */,
+				C27BB9CB2B32FF6100ACA0EA /* DeleteBookmark.swift in Sources */,
 				C2A14A472A6024C4003A5308 /* BookmarkDropItem.swift in Sources */,
 				C27BB9CE2B32FF6100ACA0EA /* MoveBookmarks.swift in Sources */,
 				C22268A52B4A7DAF00D88123 /* EditState.swift in Sources */,
 				C2A14A402A602498003A5308 /* Folder+CoreDataProperties.swift in Sources */,
 				C2A14A492A602512003A5308 /* Metadata Fetcher.swift in Sources */,
-				C27BB9CD2B32FF6100ACA0EA /* BookmarkEntity.swift in Sources */,
+				C27BB9CD2B32FF6100ACA0EA /* LinkeeperBookmarkEntity.swift in Sources */,
 				C28616832A73DD0D00ABA9FF /* AlertView.swift in Sources */,
 				C2A14A4A2A60251B003A5308 /* ColorOption.swift in Sources */,
 				C27AF0FB2B47C0F800C4D9A4 /* reloadAllWidgets.swift in Sources */,
@@ -1207,7 +1215,7 @@
 				C23BDA472840C70E003DD30D /* CacheManager.swift in Sources */,
 				C24DF57E283E7185003C9692 /* Folder+CoreDataClass.swift in Sources */,
 				C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */,
-				C281D9B22A24EDEC00535807 /* DeleteBookmarks.swift in Sources */,
+				C281D9B22A24EDEC00535807 /* DeleteBookmark.swift in Sources */,
 				C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */,
 				C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */,
 				C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */,
@@ -1219,7 +1227,7 @@
 				C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */,
 				C281D9B42A2501FE00535807 /* MoveBookmarks.swift in Sources */,
 				C22268A22B4A7C1D00D88123 /* macOS Bridge.swift in Sources */,
-				C281D96D2A23D28200535807 /* BookmarkEntity.swift in Sources */,
+				C281D96D2A23D28200535807 /* LinkeeperBookmarkEntity.swift in Sources */,
 				C222688C2B486F6500D88123 /* BookmarksListView.swift in Sources */,
 				C2C8EEA82A4E7D2400CCD36F /* BookmarkDropItem.swift in Sources */,
 				C29050732A12B7A500817C48 /* Shape.swift in Sources */,

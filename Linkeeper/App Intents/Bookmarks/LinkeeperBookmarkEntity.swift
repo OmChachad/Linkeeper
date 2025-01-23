@@ -1,5 +1,5 @@
 //
-//  BookmarkEntity.swift
+//  LinkeeperBookmarkEntity.swift
 //  Linkeeper
 //
 //  Created by Om Chachad on 28/05/23.
@@ -10,7 +10,7 @@ import AppIntents
 import CoreData
 
 @available(iOS 16.0, macOS 13.0, *)
-struct BookmarkEntity: Identifiable, Hashable, Equatable, AppEntity {
+struct LinkeeperBookmarkEntity: Identifiable, Hashable, Equatable, AppEntity {
   
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Bookmark")
     typealias DefaultQueryType = IntentsBookmarkQuery
@@ -68,7 +68,7 @@ struct BookmarkEntity: Identifiable, Hashable, Equatable, AppEntity {
 }
 
 @available(iOS 16.0, macOS 13.0, *)
-extension BookmarkEntity {
+extension LinkeeperBookmarkEntity {
     
     // Hashable conformance
     func hash(into hasher: inout Hasher) {
@@ -76,7 +76,7 @@ extension BookmarkEntity {
     }
     
     // Equtable conformance
-    static func ==(lhs: BookmarkEntity, rhs: BookmarkEntity) -> Bool {
+    static func ==(lhs: LinkeeperBookmarkEntity, rhs: LinkeeperBookmarkEntity) -> Bool {
         return lhs.id == rhs.id
     }
     
@@ -87,7 +87,7 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
 
     // Find Bookmarks by ID
     // For example a user may have chosen a Bookmark from a list when tapping on a parameter that accepts Bookmarks. The ID of that Bookmark is now hardcoded into the Shortcut. When the shortcut is run, the ID will be matched against the database in Bookmark
-    func entities(for identifiers: [UUID]) async throws -> [BookmarkEntity] {
+    func entities(for identifiers: [UUID]) async throws -> [LinkeeperBookmarkEntity] {
         return identifiers.compactMap { identifier in
             let match = BookmarksManager.shared.findBookmark(withId: identifier)
             return match.toEntity()
@@ -95,13 +95,13 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
     }
     
     // Returns all Bookmarks in the Linkeeper database. This is what populates the list when you tap on a parameter that accepts a Bookmark
-    func suggestedEntities() async throws -> [BookmarkEntity] {
+    func suggestedEntities() async throws -> [LinkeeperBookmarkEntity] {
         let allBookmarks = BookmarksManager.shared.getAllBookmarks()
         return allBookmarks.toEntity()
     }
     
     // Find Bookmarks matching the given query.
-    func entities(matching query: String) async throws -> [BookmarkEntity] {
+    func entities(matching query: String) async throws -> [LinkeeperBookmarkEntity] {
         
         // Allows the user to filter the list of Bookmarks by title or author when tapping on a param that accepts a 'Bookmark'
         let allBookmarks = BookmarksManager.shared.getAllBookmarks()
@@ -112,50 +112,50 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
         return matchingBookmarks.toEntity()
     }
          
-    static var properties = EntityQueryProperties<BookmarkEntity, NSPredicate> {
-        Property(\BookmarkEntity.$title) {
+    static var properties = EntityQueryProperties<LinkeeperBookmarkEntity, NSPredicate> {
+        Property(\LinkeeperBookmarkEntity.$title) {
             EqualToComparator { NSPredicate(format: "title = %@", $0) }
             ContainsComparator { NSPredicate(format: "title CONTAINS %@", $0) }
 
         }
-        Property(\BookmarkEntity.$url) {
+        Property(\LinkeeperBookmarkEntity.$url) {
             EqualToComparator { NSPredicate(format: "url = %@", $0) }
             ContainsComparator { NSPredicate(format: "url CONTAINS %@", $0) }
         }
-        Property(\BookmarkEntity.$notes) {
+        Property(\LinkeeperBookmarkEntity.$notes) {
             EqualToComparator { NSPredicate(format: "notes = %@", $0) }
             ContainsComparator { NSPredicate(format: "notes CONTAINS %@", $0) }
             
         }
-        Property(\BookmarkEntity.$host) {
+        Property(\LinkeeperBookmarkEntity.$host) {
             EqualToComparator { NSPredicate(format: "host = %@", $0) }
             ContainsComparator { NSPredicate(format: "host CONTAINS %@", $0) }
         }
-        Property(\BookmarkEntity.$isFavorited) {
+        Property(\LinkeeperBookmarkEntity.$isFavorited) {
             EqualToComparator { NSPredicate(format: "isFavorited == %@", NSNumber(value: $0)) }
         }
         
-        Property(\BookmarkEntity.$dateAdded) {
+        Property(\LinkeeperBookmarkEntity.$dateAdded) {
             LessThanComparator { NSPredicate(format: "date < %@", $0 as NSDate) }
             GreaterThanComparator { NSPredicate(format: "date > %@", $0 as NSDate) }
         }
     }
     
     static var sortingOptions = SortingOptions {
-        SortableBy(\BookmarkEntity.$title)
-        SortableBy(\BookmarkEntity.$url)
-        SortableBy(\BookmarkEntity.$notes)
-        SortableBy(\BookmarkEntity.$host)
-        SortableBy(\BookmarkEntity.$isFavorited)
-        SortableBy(\BookmarkEntity.$dateAdded)
+        SortableBy(\LinkeeperBookmarkEntity.$title)
+        SortableBy(\LinkeeperBookmarkEntity.$url)
+        SortableBy(\LinkeeperBookmarkEntity.$notes)
+        SortableBy(\LinkeeperBookmarkEntity.$host)
+        SortableBy(\LinkeeperBookmarkEntity.$isFavorited)
+        SortableBy(\LinkeeperBookmarkEntity.$dateAdded)
     }
     
     func entities(
         matching comparators: [NSPredicate],
         mode: ComparatorMode,
-        sortedBy: [Sort<BookmarkEntity>],
+        sortedBy: [Sort<LinkeeperBookmarkEntity>],
         limit: Int?
-    ) async throws -> [BookmarkEntity] {
+    ) async throws -> [LinkeeperBookmarkEntity] {
         print("Fetching Bookmarks")
         let context = DataController.shared.persistentCloudKitContainer.viewContext
         let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
@@ -165,12 +165,12 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
         request.sortDescriptors = sortedBy.isEmpty ? [NSSortDescriptor(key: "date", ascending: true)] : sortedBy.map({
             let keys =
             [
-                \BookmarkEntity.$title : "title",
-                 \BookmarkEntity.$url : "url",
-                 \BookmarkEntity.$dateAdded : "date",
-                 \BookmarkEntity.$notes : "notes",
-                 \BookmarkEntity.$host : "host",
-                 \BookmarkEntity.$isFavorited : "isFavorited"
+                \LinkeeperBookmarkEntity.$title : "title",
+                 \LinkeeperBookmarkEntity.$url : "url",
+                 \LinkeeperBookmarkEntity.$dateAdded : "date",
+                 \LinkeeperBookmarkEntity.$notes : "notes",
+                 \LinkeeperBookmarkEntity.$host : "host",
+                 \LinkeeperBookmarkEntity.$isFavorited : "isFavorited"
             ]
             
             return NSSortDescriptor(key: keys[$0.by] ?? "date", ascending: $0.order == .ascending)
@@ -182,14 +182,14 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
 
 @available(iOS 16.0, macOS 13.0, *)
 extension Bookmark {
-    func toEntity() -> BookmarkEntity {
-        BookmarkEntity(id: self.id!, title: self.wrappedTitle, url: self.wrappedURL.absoluteString, host: self.wrappedHost, notes: self.wrappedNotes, isFavorited: self.isFavorited, dateAdded: self.wrappedDate)
+    func toEntity() -> LinkeeperBookmarkEntity {
+        LinkeeperBookmarkEntity(id: self.id!, title: self.wrappedTitle, url: self.wrappedURL.absoluteString, host: self.wrappedHost, notes: self.wrappedNotes, isFavorited: self.isFavorited, dateAdded: self.wrappedDate)
     }
 }
 
 @available(iOS 16.0, macOS 13.0, *)
 extension [Bookmark] {
-    func toEntity() -> [BookmarkEntity] {
+    func toEntity() -> [LinkeeperBookmarkEntity] {
         self.map { $0.toEntity() }
     }
 }
