@@ -12,6 +12,7 @@ import CoreData
 struct FolderActionsModifier: ViewModifier {
     @Environment(\.managedObjectContext) var moc
     @State private var editingFolder: Bool = false
+    @State private var movingFolder: Bool = false
     @State private var deleteConfirmation: Bool = false
     @ObservedObject var folder: Folder
     var isEditing: Bool
@@ -22,6 +23,8 @@ struct FolderActionsModifier: ViewModifier {
                 editButton()
                 
                 pinButton()
+                
+                moveButton()
                 
                 deleteButton()
             }
@@ -65,6 +68,10 @@ struct FolderActionsModifier: ViewModifier {
                 AddFolderView(existingFolder: folder)
                     .environment(\.managedObjectContext, DataController.shared.persistentCloudKitContainer.viewContext)
             }
+            .sheet(isPresented: $movingFolder) {
+                MoveFolderView(folder: folder) {}
+                    .environment(\.managedObjectContext, DataController.shared.persistentCloudKitContainer.viewContext)
+            }
     }
     
     var inflectedBookmarksAndFoldersCount: String {
@@ -93,6 +100,14 @@ struct FolderActionsModifier: ViewModifier {
     
     func edit() {
         editingFolder.toggle()
+    }
+    
+    func moveButton() -> some View {
+        Button {
+            movingFolder.toggle()
+        } label: {
+            Label("Move", systemImage: "plus.rectangle.on.folder")
+        }
     }
     
     func deleteButton() -> some View {

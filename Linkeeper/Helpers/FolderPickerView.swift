@@ -11,6 +11,11 @@ struct FolderPickerView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)], predicate: NSPredicate(format: "parentFolder == nil")) var parentFolders: FetchedResults<Folder>
     @Binding var selectedFolder: Folder?
     
+    var type: PickerType
+    enum PickerType {
+        case simplePicker, moveBookmarks, moveFolder(excluding: Folder? = nil)
+    }
+    
     var body: some View {
         List {
             Section("Folders") {
@@ -25,7 +30,14 @@ struct FolderPickerView: View {
                 .accessibilityHidden(true)
                 
                 OutlineGroup([Folder](parentFolders), id: \.self, children: \.childFoldersArray) { folder in
-                    FolderButton(for: folder)
+                    switch type {
+                    case .moveFolder(excluding: let excludedFolder):
+                        if folder != excludedFolder {
+                            FolderButton(for: folder)
+                        }
+                    case .moveBookmarks, .simplePicker:
+                        FolderButton(for: folder)
+                    }
                 }
             }
         }

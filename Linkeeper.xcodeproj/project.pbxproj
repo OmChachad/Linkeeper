@@ -70,6 +70,7 @@
 		C22268A42B4A7C6700D88123 /* macOS Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268A12B4A7C1D00D88123 /* macOS Bridge.swift */; };
 		C22268A52B4A7DAF00D88123 /* EditState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C222689F2B4A7BFA00D88123 /* EditState.swift */; };
 		C22268A62B4A7DAF00D88123 /* EditState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C222689F2B4A7BFA00D88123 /* EditState.swift */; };
+		C22645FB2D42BDAD00DA8873 /* MoveFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22645FA2D42BDAD00DA8873 /* MoveFolderView.swift */; };
 		C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EA2A31BD6700401721 /* YouTube.swift */; };
 		C234F6ED2A31BD7100401721 /* Twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EC2A31BD7100401721 /* Twitter.swift */; };
 		C236AD762C4059E7000BE9FE /* FolderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C236AD752C4059E7000BE9FE /* FolderPickerView.swift */; };
@@ -307,6 +308,7 @@
 		C22268992B49CA9700D88123 /* BookmarkItemAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkItemAction.swift; sourceTree = "<group>"; };
 		C222689F2B4A7BFA00D88123 /* EditState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditState.swift; sourceTree = "<group>"; };
 		C22268A12B4A7C1D00D88123 /* macOS Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "macOS Bridge.swift"; sourceTree = "<group>"; };
+		C22645FA2D42BDAD00DA8873 /* MoveFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveFolderView.swift; sourceTree = "<group>"; };
 		C234F6EA2A31BD6700401721 /* YouTube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTube.swift; sourceTree = "<group>"; };
 		C234F6EC2A31BD7100401721 /* Twitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twitter.swift; sourceTree = "<group>"; };
 		C236AD752C4059E7000BE9FE /* FolderPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPickerView.swift; sourceTree = "<group>"; };
@@ -622,6 +624,7 @@
 			isa = PBXGroup;
 			children = (
 				C29050672A125EF100817C48 /* MoveBookmarksView.swift */,
+				C22645FA2D42BDAD00DA8873 /* MoveFolderView.swift */,
 			);
 			path = Modification;
 			sourceTree = "<group>";
@@ -1235,6 +1238,7 @@
 				C22268942B49C92F00D88123 /* BookmarkGridItem.swift in Sources */,
 				C27AF1172B4809B900C4D9A4 /* SortMethod.swift in Sources */,
 				C2C8EEA62A4DFC0600CCD36F /* DropExtension.swift in Sources */,
+				C22645FB2D42BDAD00DA8873 /* MoveFolderView.swift in Sources */,
 				C2550E64282705F900ADA0BF /* BookmarksView.swift in Sources */,
 				C222689A2B49CA9700D88123 /* BookmarkItemAction.swift in Sources */,
 				C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */,

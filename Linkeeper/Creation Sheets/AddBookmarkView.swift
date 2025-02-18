@@ -175,7 +175,7 @@ struct AddBookmarkView: View {
                     }
                     .popover(isPresented: $showFolderPopover.animation()) {
                         if #available(iOS 16.4, visionOS 1.0, macOS 13.3, *) {
-                            FolderPickerView(selectedFolder: $folder.animation())
+                            FolderPickerView(selectedFolder: $folder.animation(), type: .simplePicker)
                                 #if os(visionOS)
                                 .padding(.vertical)
                                 #endif
@@ -183,7 +183,7 @@ struct AddBookmarkView: View {
                                 .presentationCompactAdaptation(.popover)
                                 .presentationCornerRadius(20)
                         } else {
-                            FolderPickerView(selectedFolder: $folder.animation())
+                            FolderPickerView(selectedFolder: $folder.animation(), type: .simplePicker)
                                 .padding(.vertical)
                         }
                     }

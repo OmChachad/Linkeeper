@@ -132,7 +132,7 @@ struct MoveBookmarksView: View {
             Spacer()
                 .frame(height: 20)
             
-            FolderPickerView(selectedFolder: $selectedFolder)
+            FolderPickerView(selectedFolder: $selectedFolder, type: .moveBookmarks)
         }
     }
 }
