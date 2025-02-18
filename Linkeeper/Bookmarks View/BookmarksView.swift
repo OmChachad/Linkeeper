@@ -367,13 +367,27 @@ struct BookmarksView: View {
     func toolbarItems() -> some View {
         Group {
             if !isMac || viewOption == .grid {
-                Button { editState = .active } label: { Label("Select", systemImage: "checkmark.circle") }
+                Button { editState = .active } label: {
+                    if #available(iOS 15.0, macOS 12.0, *) {
+                        Text("Select")
+                        Image(systemName: "checkmark.circle")
+                    } else {
+                        Label("Select", systemImage: "checkmark.circle")
+                    }
+                }
             }
             
             
             if viewOption != .table || shouldDisallowTable {
                 if folder == nil {
-                    Toggle(isOn: $groupByFolders.animation(), label: { Label("Group by Folders", systemImage: "rectangle.grid.1x2") })
+                    Toggle(isOn: $groupByFolders.animation(), label: {
+                        if #available(iOS 16.0, macOS 13.0, *) {
+                            Text("Group by Folders")
+                            Image(systemName: "rectangle.grid.1x2")
+                        } else {
+                            Label("Group by Folders", systemImage: "rectangle.grid.1x2")
+                        }
+                    })
                 }
                 
                 Menu {
@@ -392,10 +406,16 @@ struct BookmarksView: View {
                     }
                     
                 } label: {
-                    Label("""
+                    if #available(iOS 16.0, macOS 13.0, *) {
+                        Text("Sort By")
+                        Text(sortMethod.rawValue)
+                        Image(systemName: "arrow.up.arrow.down")
+                    } else {
+                        Label("""
                     Sort By
                     \(sortMethod.rawValue)
                     """, systemImage: "arrow.up.arrow.down")
+                    }
                 }
             }
             
