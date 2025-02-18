@@ -11,7 +11,7 @@ import SwiftUI
 struct BookmarksTableView: View {
     @Environment(\.openURL) var openURL
     var bookmarks: [Bookmark]
-    
+    var folder: Folder?
     @Binding var selectedBookmarks: Set<Bookmark.ID>
     @Binding var sortOrder: [KeyPathComparator<Bookmark>]
     
@@ -24,9 +24,29 @@ struct BookmarksTableView: View {
     @State private var toBeDeletedBookmark: Bookmark?
     @State private var deleteConfirmation = false
     
+    @State private var folderSortOrder: [KeyPathComparator<Folder>] = [KeyPathComparator(\Folder.wrappedTitle, order: .reverse)]
+    
+    @Namespace var nm
     
     var body: some View {
-        Group {
+        VStack(spacing: 0) {
+            Group {
+                if let folder, let children = folder.childFoldersArray {
+                    ScrollView(.horizontal) {
+                        LazyHStack(spacing: 15) {
+                            ForEach(children, id: \.self) { subFolder in
+                                FolderGridItem(folder: subFolder, namespace: nm, isEditing: false)
+                                    .frame(minWidth: 150, maxWidth: 300)
+                            }
+                            .contentShape(Rectangle())
+                            .padding(.vertical)
+                        }
+                        .padding(.horizontal)
+                    }
+                    .frame(height: 100)
+                }
+            }
+            
             if #available(iOS 17.0, macOS 14.0, *) {
                 Table(of: Bookmark.self, selection: isMac ? .constant(selectedBookmarks) : $selectedBookmarks, sortOrder: $sortOrder) {
                     TableColumn("Name", value: \.wrappedTitle) { bookmark in

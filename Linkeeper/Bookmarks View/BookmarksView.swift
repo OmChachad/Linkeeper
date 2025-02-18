@@ -117,13 +117,13 @@ struct BookmarksView: View {
                     BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
                 case .table:
                     if #available(iOS 16.0, macOS 13.0, *), !shouldDisallowTable {
-                        BookmarksTableView(bookmarks: filteredBookmarks, selectedBookmarks: $selectedBookmarks, sortOrder: $sortOrder, toBeEditedBookmark: $toBeEditedBookmark, showDetails: $showDetails)
+                        BookmarksTableView(bookmarks: filteredBookmarks, folder: folder, selectedBookmarks: $selectedBookmarks, sortOrder: $sortOrder, toBeEditedBookmark: $toBeEditedBookmark, showDetails: $showDetails)
                     } else {
                         BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
                     }
                 }
             }
-            //        }
+        
         }
         .searchable(text: $searchText, prompt: "Find a bookmark...")
         .contentUnavailabilityView(isUnavailable: groupByFolders ? (bookmarks.isEmpty && subFolders.isEmpty) : bookmarks.isEmpty, unavailabilityView: noBookmarksView)
