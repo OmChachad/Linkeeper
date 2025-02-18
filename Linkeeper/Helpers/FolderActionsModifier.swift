@@ -40,25 +40,25 @@ struct FolderActionsModifier: ViewModifier {
                 Text("\(inflectedBookmarksAndFoldersCount) inside this folder will be deleted from all your iCloud devices.")
             }
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                #if os(macOS)
-                if !isEditing {
-                    editButton()
+                if #available(iOS 15.0, macOS 15.0, *) {
+                    Button(action: confirmDeletion) {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    .tint(.red)
+                    
+                    if !isEditing {
+                        editButton()
+                    }
+                } else {
+                    if !isEditing {
+                        editButton()
+                    }
+                    
+                    Button(action: confirmDeletion) {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    .tint(.red)
                 }
-                
-                Button(action: confirmDeletion) {
-                    Label("Delete", systemImage: "trash")
-                }
-                .tint(.red)
-                #else
-                Button(action: confirmDeletion) {
-                    Label("Delete", systemImage: "trash")
-                }
-                .tint(.red)
-                
-                if !isEditing {
-                    editButton()
-                }
-                #endif
             }
             .swipeActions(edge: .leading) {
                 pinButton()

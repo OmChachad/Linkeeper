@@ -96,35 +96,35 @@ struct BookmarkItemAction: ViewModifier {
                 }
             }
             .swipeActions(edge: .trailing) {
-                #if os(macOS)
-                Button {
-                    toBeEditedBookmark = bookmark
-                    showDetails = true
-                } label: {
-                    Label("Details", systemImage: "info.circle")
+                if #available(iOS 15.0, macOS 15.0, *) {
+                    Button(role: .destructive) {
+                        deleteConfirmation = true
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    .tint(.red)
+                    
+                    Button {
+                        toBeEditedBookmark = bookmark
+                        showDetails = true
+                    } label: {
+                        Label("Details", systemImage: "info.circle")
+                    }
+                } else {
+                    Button {
+                        toBeEditedBookmark = bookmark
+                        showDetails = true
+                    } label: {
+                        Label("Details", systemImage: "info.circle")
+                    }
+                    
+                    Button(role: .destructive) {
+                        deleteConfirmation = true
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    .tint(.red)
                 }
-                
-                Button(role: .destructive) {
-                    deleteConfirmation = true
-                } label: {
-                    Label("Delete", systemImage: "trash")
-                }
-                .tint(.red)
-                #else
-                Button(role: .destructive) {
-                    deleteConfirmation = true
-                } label: {
-                    Label("Delete", systemImage: "trash")
-                }
-                .tint(.red)
-                
-                Button {
-                    toBeEditedBookmark = bookmark
-                    showDetails = true
-                } label: {
-                    Label("Details", systemImage: "info.circle")
-                }
-                #endif
                 
             }
             .swipeActions(edge: .leading) {
