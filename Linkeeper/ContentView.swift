@@ -143,8 +143,10 @@ struct ContentView: View {
         }
     }
     
+    @State private var sideBarListHeight: CGFloat = 0.0
+    
     var sideBar: some View {
-        Group {
+        GeometryReader { geo in
             ScrollView {
                 VStack(spacing: 0) {
                     VStack {
@@ -259,7 +261,9 @@ struct ContentView: View {
                             .headerProminence(.increased)
                         }
                         .listStyle(.sidebar)
-                        .frame(height: CGFloat(Double(folders.filter({!$0.isPinned }).count) * (isMac ? 50.5 : 80) + (folders.filter({!$0.isPinned }).count > 4 ? 0 : 200)), alignment: .top)
+                        .frame(height: sideBarListHeight, alignment: .top)
+                        .onChange(of: folders.count) { _ in updateListHeight() }
+                        .onAppear(perform: updateListHeight)
                     } else {
                         Group {
                             if folders.isEmpty {
@@ -436,6 +440,11 @@ Click **Add Folder** to get started.
     private func delete(at offset: IndexSet) {
         offset.map { folders[$0] }.forEach(moc.delete)
         try? moc.save()
+    }
+    
+    func updateListHeight() {
+        #warning("Test on fresh install before shipping.")
+        self.sideBarListHeight = CGFloat(Double(folders.filter({!$0.isPinned }).count) * (isMac ? 50.5 : 80) + (folders.filter({!$0.isPinned }).count > 4 ? 0 : 200))
     }
     
     func addDroppedBookmarkToFolder(bookmark: Bookmark?, url: URL, folder: Folder) {
