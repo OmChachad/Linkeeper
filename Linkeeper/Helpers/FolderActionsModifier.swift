@@ -93,9 +93,8 @@ struct FolderActionsModifier: ViewModifier {
 
     
     func editButton() -> some View {
-        Button(action: edit) {
-            Label("Edit", systemImage: "pencil")
-        }
+        Button("Edit", systemImage: "pencil", action: edit)
+            .labelStyle(.titleAndIcon)
     }
     
     func edit() {
@@ -103,17 +102,15 @@ struct FolderActionsModifier: ViewModifier {
     }
     
     func moveButton() -> some View {
-        Button {
+        Button("Move", systemImage: "plus.rectangle.on.folder") {
             movingFolder.toggle()
-        } label: {
-            Label("Move", systemImage: "plus.rectangle.on.folder")
         }
+        .labelStyle(.titleAndIcon)
     }
     
     func deleteButton() -> some View {
-        Button(role: .destructive, action: confirmDeletion) {
-            Label("Delete", systemImage: "trash")
-        }
+        Button("Delete", systemImage: "trash", role: .destructive, action: confirmDeletion)
+        .labelStyle(.titleAndIcon)
     }
     
     func confirmDeletion() {
@@ -138,12 +135,11 @@ struct FolderActionsModifier: ViewModifier {
     func pinButton() -> some View {
         Group {
             if folder.parentFolder == nil {
-                Button {
+                Button("Pin", systemImage: "pin") {
                     folder.isPinned.toggle()
                     try? moc.save()
-                } label: {
-                    Label("Pin", systemImage: "pin")
                 }
+                .labelStyle(.titleAndIcon)
             }
         }
     }

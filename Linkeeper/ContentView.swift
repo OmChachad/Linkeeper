@@ -184,13 +184,12 @@ struct ContentView: View {
                                     }
                                 }
                                 .contextMenu {
-                                    Button {
+                                    Button("Unpin", systemImage: "pin.slash") {
                                         folder.isPinned.toggle()
                                         folder.index = (folders.last?.index ?? 0) + 1
                                         try? moc.save()
-                                    } label: {
-                                        Label("Unpin", systemImage: "pin.slash")
                                     }
+                                    .labelStyle(.titleAndIcon)
                                 }
                             }
                             .buttonStyle(.plain)
@@ -225,13 +224,12 @@ struct ContentView: View {
                                             FolderItemView(folder: folder)
                                         }
                                         .contextMenu {
-                                            Button {
+                                            Button("Unpin", systemImage: "pin.slash") {
                                                 folder.isPinned.toggle()
                                                 folder.index = (folders.last?.index ?? 0) + 1
                                                 try? moc.save()
-                                            } label: {
-                                                Label("Unpin", systemImage: "pin.slash")
                                             }
+                                            .labelStyle(.titleAndIcon)
                                         }
                                     }
                                 }

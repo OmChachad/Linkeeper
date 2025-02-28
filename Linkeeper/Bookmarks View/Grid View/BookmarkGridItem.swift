@@ -195,43 +195,40 @@ struct BookmarkGridItem: View {
                     try? moc.save()
                 } label: {
                     if bookmark.isFavorited == false {
-                        Label("Add to favorites", systemImage: "heart")
+                        ModernLabel("Add to favorites", systemImage: "heart")
                     } else {
-                        Label("Remove from favorites", systemImage: "heart.slash")
+                        ModernLabel("Remove from favorites", systemImage: "heart.slash")
                     }
                 }
                 
-                Button {
+                Button("Show details", systemImage: "info.circle") {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         withAnimation {
                             toBeEditedBookmark = bookmark
                             showDetails = true
                         }
                     }
-                } label: {
-                    Label("Show details", systemImage: "info.circle")
                 }
+                .labelStyle(.titleAndIcon)
                 
-                Button(action: bookmark.copyURL) {
-                    Label("Copy link", systemImage: "doc.on.doc")
-                }
+                Button("Copy link", systemImage: "doc.on.doc", action: bookmark.copyURL)
+                .labelStyle(.titleAndIcon)
                 
                 ShareButton(url: bookmark.wrappedURL) {
                     Label("Share", systemImage: "square.and.arrow.up")
+                        .labelStyle(.titleAndIcon)
                 }
                 
-                Button {
+                Button("Move", systemImage: "folder") {
                     movingBookmark.toggle()
-                } label: {
-                    Label("Move", systemImage: "folder")
                 }
+                .labelStyle(.titleAndIcon)
                 
-                Button(role: .destructive) {
+                Button("Delete", systemImage: "trash", role: .destructive) {
                     toBeDeletedBookmark = bookmark
                     deleteConfirmation = true
-                } label: {
-                    Label("Delete", systemImage: "trash")
                 }
+                .labelStyle(.titleAndIcon)
             }
         }
     }

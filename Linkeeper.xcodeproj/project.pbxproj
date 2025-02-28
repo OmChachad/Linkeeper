@@ -208,6 +208,7 @@
 		C2A14A4E2A602558003A5308 /* SymbolOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3899B2A54978E0085D801 /* SymbolOption.swift */; };
 		C2A14A4F2A602561003A5308 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C290506E2A12B77100817C48 /* View.swift */; };
 		C2A14A502A602566003A5308 /* TextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050782A12B81300817C48 /* TextEditor.swift */; };
+		C2A840F32D64F1B400A1FCA0 /* ModernLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A840F22D64F1B400A1FCA0 /* ModernLabel.swift */; };
 		C2C638CD2B4D810600E5B0B1 /* isMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C638CC2B4D810600E5B0B1 /* isMac.swift */; };
 		C2C638CE2B4D810600E5B0B1 /* isMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C638CC2B4D810600E5B0B1 /* isMac.swift */; };
 		C2C638CF2B4D810600E5B0B1 /* isMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C638CC2B4D810600E5B0B1 /* isMac.swift */; };
@@ -377,6 +378,7 @@
 		C2A14A2D2A601C24003A5308 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		C2A14A322A601C24003A5308 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2A14A362A601C24003A5308 /* ShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareExtension.entitlements; sourceTree = "<group>"; };
+		C2A840F22D64F1B400A1FCA0 /* ModernLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernLabel.swift; sourceTree = "<group>"; };
 		C2C638CC2B4D810600E5B0B1 /* isMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = isMac.swift; sourceTree = "<group>"; };
 		C2C8DC3A28171D93000F4AEB /* Linkeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linkeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeeperApp.swift; sourceTree = "<group>"; };
@@ -633,6 +635,7 @@
 			isa = PBXGroup;
 			children = (
 				C25316012A2D0398004F1491 /* FolderItemView.swift */,
+				C2A840F22D64F1B400A1FCA0 /* ModernLabel.swift */,
 				C236AD752C4059E7000BE9FE /* FolderPickerView.swift */,
 				C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */,
 				C29B00F32A59E67D0081FEBC /* PinnedItemView.swift */,
@@ -1189,6 +1192,7 @@
 				C22268982B49CA5600D88123 /* BookmarkListItem.swift in Sources */,
 				C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */,
 				C281D9712A23E32D00535807 /* FolderEntity.swift in Sources */,
+				C2A840F32D64F1B400A1FCA0 /* ModernLabel.swift in Sources */,
 				C24DF57D283E7185003C9692 /* Bookmark+CoreDataProperties.swift in Sources */,
 				C28B6E6928190C120030B6DD /* ColorOption.swift in Sources */,
 				C2C8EEA02A4DF89800CCD36F /* DraggableBookmark.swift in Sources */,
