@@ -274,6 +274,7 @@ Click **Add Folder** to get started.
 """)
                                     .multilineTextAlignment(.center)
                                 }
+                                .frame(height: 400, alignment: .center)
                             } else {
                                 VStack {}
                             }
