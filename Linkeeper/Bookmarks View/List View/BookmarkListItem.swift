@@ -47,19 +47,24 @@ struct BookmarkListItem: View {
                     preview
                         .resizable()
                         .scaledToFit()
+                        .scaledToFill()
+                        .frame(width: 44, height: 44)
+                        .clipped()
+                        .cornerRadius(8, style: .continuous)
+                        .shadow(radius: 2)
                 } else if let firstChar = bookmark.wrappedTitle.first {
                     Text(String(firstChar))
                         .font(.title)
                         .foregroundColor(.white)
                         .frame(width: 44, height: 44)
-                        .background(.tertiary)
+                        .background {
+                            Color(uiColor: .tertiaryLabelColor)
+                                .background(Color.white)
+                                .cornerRadius(8, style: .continuous)
+                                .shadow(radius: 2)
+                        }
                 }
             }
-            .scaledToFill()
-            .frame(width: 44, height: 44)
-            .clipped()
-            .cornerRadius(8, style: .continuous)
-            .shadow(radius: 2)
             .padding([.vertical, .trailing], 5)
             .padding(.vertical, 5)
             
