@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ListItem: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     var title: AttributedString
     var systemName: String
     var color: Color
@@ -86,7 +88,7 @@ struct ListItem: View {
             }
         }
         .foregroundColor(.white)
-        .background(color, in: Circle())
+        .background(color.gradientify(colorScheme: colorScheme), in: Circle())
         .contentShape(.circle)
         .padding(5)
         .padding([.vertical, .trailing], style == .large ? 15 : 0)

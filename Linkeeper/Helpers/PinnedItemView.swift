@@ -14,6 +14,8 @@ struct PinnedItemView<Content: View>: View {
     var tint: Color
     var count: Int
     
+    @Environment(\.colorScheme) var colorScheme
+    
     @State private var isActiveByDefault = false
     @State private var isActive = false
     @Binding var isActiveStatus: Bool
@@ -124,7 +126,7 @@ struct PinnedItemView<Content: View>: View {
                     .lineLimit(1)
             }
             .padding(10)
-            .background(backgroundColor)
+            .background(backgroundColor.gradientify(colorScheme: colorScheme))
             .cornerRadius(10, style: .continuous)
             #endif
         }
@@ -149,6 +151,6 @@ struct PinnedItemView<Content: View>: View {
             .padding(isMac ? 5 : 7.5)
             .frame(width: isMac ? 27.5 : 35, height: isMac ? 27.5 : 35)
             .foregroundColor(isMacOriPad && isActive ? tint : .white)
-            .background(isMacOriPad && isActive ? .white : tint, in: Circle())
+            .background((isMacOriPad && isActive ? .white : tint).gradientify(colorScheme: colorScheme), in: Circle())
     }
 }
