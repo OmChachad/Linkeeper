@@ -33,6 +33,8 @@ struct TipJar: View {
                     VStack(spacing: 5) {
                         bulletLine("Appreciate the App", systemImage: "heart.fill", tint: .pink)
                         bulletLine("Support Indie Development", systemImage: "wrench.and.screwdriver.fill", tint: .blue)
+                        bulletLine("Facilitate Future Updates", systemImage: "clock.arrow.2.circlepath", tint: .yellow)
+                        bulletLine("Keep the app Free-to-use", systemImage: "face.dashed", tint: .green)
                         bulletLine("Unlock More App Icons\(isMac ? " on iOS/iPadOS" : "")", systemImage: "square.stack.3d.down.right.fill", tint: .purple)
                     }
                 }
