@@ -93,31 +93,23 @@ struct BookmarkItemAction: ViewModifier {
             }
             .swipeActions(edge: .trailing) {
                 if #available(iOS 15.0, macOS 15.0, *) {
-                    Button(role: .destructive) {
+                    Button("Delete", systemImage: "trash") {
                         deleteConfirmation = true
-                    } label: {
-                        ModernLabel("Delete", systemImage: "trash")
                     }
                     .tint(.red)
                     
-                    Button {
+                    Button("Details", systemImage: "info.circle") {
                         toBeEditedBookmark = bookmark
                         showDetails = true
-                    } label: {
-                        ModernLabel("Details", systemImage: "info.circle")
                     }
                 } else {
-                    Button {
+                    Button("Details", systemImage: "info.circle") {
                         toBeEditedBookmark = bookmark
                         showDetails = true
-                    } label: {
-                        ModernLabel("Details", systemImage: "info.circle")
                     }
                     
-                    Button(role: .destructive) {
+                    Button("Delete", systemImage: "trash") {
                         deleteConfirmation = true
-                    } label: {
-                        ModernLabel("Delete", systemImage: "trash")
                     }
                     .tint(.red)
                 }
