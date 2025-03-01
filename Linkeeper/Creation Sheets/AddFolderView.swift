@@ -89,7 +89,7 @@ struct AddFolderView: View {
                         .foregroundColor(.white)
                         .padding()
                         .frame(width: 75, height: 75)
-                        .background(folderIconColor.color, in: Circle())
+                        .background(folderIconColor.color.gradientify(colorScheme: colorScheme), in: Circle())
                         .shadow(color: folderIconColor.color, radius: 3)
                         .padding()
                         
@@ -120,7 +120,7 @@ struct AddFolderView: View {
                     LazyHGrid(rows: Array(repeating: GridItem(.flexible()), count: 2), spacing: 10) {
                         ForEach(ColorOption.allCases, id: \.self) { colorKey in
                             Circle()
-                                .foregroundColor(colorKey.color)
+                                .foregroundStyle(colorKey.color.gradientify(colorScheme: colorScheme))
                                 .frame(width: 30)
                             #if !os(macOS)
                                 .hoverEffect(.lift)
