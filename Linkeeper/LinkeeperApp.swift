@@ -13,6 +13,8 @@ import WidgetKit
 
 @main
 struct LinkeeperApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     @StateObject private var dataController = DataController.shared
     @AppStorage("showIntroduction") var showIntroduction = true
     

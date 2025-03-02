@@ -126,8 +126,9 @@ struct ContentView: View {
                 .padding(.bottom, 50)
         })
         .onOpenURL { url in
-            
-            if url.absoluteString.contains("openURL") {
+            if url.absoluteString.contains("addBookmark") {
+                showingNewBookmarkView = true
+            } else if url.absoluteString.contains("openURL") {
                 if let bookmarkID = UUID(uuidString: url.lastPathComponent) {
                     let bookmark = BookmarksManager.shared.findBookmark(withId: bookmarkID)
                     openURL(bookmark.wrappedURL)
