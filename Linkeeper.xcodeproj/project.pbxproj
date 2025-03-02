@@ -81,7 +81,7 @@
 		C236AD7B2C405B31000BE9FE /* isMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C638CC2B4D810600E5B0B1 /* isMac.swift */; };
 		C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */; };
 		C23BDA472840C70E003DD30D /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
-		C23D41052D730F33009C17B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23D41042D730F33009C17B0 /* AppDelegate.swift */; };
+		C23D41052D730F33009C17B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23D41042D730F33009C17B0 /* AppDelegate.swift */; platformFilters = (ios, xros, ); };
 		C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */; };
 		C24DF575283E62C4003C9692 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = C24DF574283E62C4003C9692 /* Shimmer */; };
 		C24DF577283E65D2003C9692 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF576283E65D2003C9692 /* DataController.swift */; };
@@ -225,7 +225,7 @@
 		C2C8EEA42A4DFB1C00CCD36F /* DragExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA32A4DFB1C00CCD36F /* DragExtension.swift */; };
 		C2C8EEA62A4DFC0600CCD36F /* DropExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */; };
 		C2C8EEA82A4E7D2400CCD36F /* BookmarkDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */; };
-		C2CCDC892D7474A200D91A08 /* QuickActionsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC882D7474A200D91A08 /* QuickActionsHandler.swift */; };
+		C2CCDC892D7474A200D91A08 /* QuickActionsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC882D7474A200D91A08 /* QuickActionsHandler.swift */; platformFilters = (ios, xros, ); };
 		C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */; };
 		C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC75782CFE1E940093E40B /* VariableBlurView.swift */; };
 		C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */; };
