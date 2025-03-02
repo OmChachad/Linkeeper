@@ -81,7 +81,7 @@
 		C236AD7B2C405B31000BE9FE /* isMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C638CC2B4D810600E5B0B1 /* isMac.swift */; };
 		C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */; };
 		C23BDA472840C70E003DD30D /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
-		C23D41052D730F33009C17B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23D41042D730F33009C17B0 /* AppDelegate.swift */; platformFilters = (ios, xros, ); };
+		C23D41052D730F33009C17B0 /* AppDelegate (iOS, visionOS).swift in Sources */ = {isa = PBXBuildFile; fileRef = C23D41042D730F33009C17B0 /* AppDelegate (iOS, visionOS).swift */; platformFilters = (ios, xros, ); };
 		C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */; };
 		C24DF575283E62C4003C9692 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = C24DF574283E62C4003C9692 /* Shimmer */; };
 		C24DF577283E65D2003C9692 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24DF576283E65D2003C9692 /* DataController.swift */; };
@@ -226,6 +226,11 @@
 		C2C8EEA62A4DFC0600CCD36F /* DropExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */; };
 		C2C8EEA82A4E7D2400CCD36F /* BookmarkDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */; };
 		C2CCDC892D7474A200D91A08 /* QuickActionsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC882D7474A200D91A08 /* QuickActionsHandler.swift */; platformFilters = (ios, xros, ); };
+		C2CCDC8B2D74781F00D91A08 /* AppDelegate (Mac).swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8A2D74781F00D91A08 /* AppDelegate (Mac).swift */; platformFilters = (macos, ); };
+		C2CCDC8D2D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
+		C2CCDC8E2D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
+		C2CCDC8F2D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
+		C2CCDC902D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
 		C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */; };
 		C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC75782CFE1E940093E40B /* VariableBlurView.swift */; };
 		C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */; };
@@ -317,7 +322,7 @@
 		C236AD752C4059E7000BE9FE /* FolderPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPickerView.swift; sourceTree = "<group>"; };
 		C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDetails.swift; sourceTree = "<group>"; };
 		C23BDA462840C70E003DD30D /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
-		C23D41042D730F33009C17B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C23D41042D730F33009C17B0 /* AppDelegate (iOS, visionOS).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate (iOS, visionOS).swift"; sourceTree = "<group>"; };
 		C23EC8ED283E5E71009D0670 /* Linkeeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Linkeeper.xcdatamodel; sourceTree = "<group>"; };
 		C24DF576283E65D2003C9692 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		C24DF578283E7185003C9692 /* Bookmark+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bookmark+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -396,6 +401,8 @@
 		C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropExtension.swift; sourceTree = "<group>"; };
 		C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDropItem.swift; sourceTree = "<group>"; };
 		C2CCDC882D7474A200D91A08 /* QuickActionsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionsHandler.swift; sourceTree = "<group>"; };
+		C2CCDC8A2D74781F00D91A08 /* AppDelegate (Mac).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate (Mac).swift"; sourceTree = "<group>"; };
+		C2CCDC8C2D74794B00D91A08 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipRequestView.swift; sourceTree = "<group>"; };
 		C2DC75782CFE1E940093E40B /* VariableBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableBlurView.swift; sourceTree = "<group>"; };
 		C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
@@ -672,6 +679,7 @@
 				C29050782A12B81300817C48 /* TextEditor.swift */,
 				C29641092A56E9A000693284 /* Bookmark.swift */,
 				C27AF1142B48091E00C4D9A4 /* Bool.swift */,
+				C2CCDC8C2D74794B00D91A08 /* Notifications.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -737,7 +745,8 @@
 				C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */,
 				C29920052857257C00636E7F /* Info.plist */,
 				C2C8DC3D28171D93000F4AEB /* LinkeeperApp.swift */,
-				C23D41042D730F33009C17B0 /* AppDelegate.swift */,
+				C23D41042D730F33009C17B0 /* AppDelegate (iOS, visionOS).swift */,
+				C2CCDC8A2D74781F00D91A08 /* AppDelegate (Mac).swift */,
 				C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */,
 				C2E806E72A26194E00A41D0C /* IntroductionView.swift */,
 				C2C8DC3F28171D93000F4AEB /* ContentView.swift */,
@@ -1077,6 +1086,7 @@
 				C2120C472B95EEE8003FEDF2 /* AddBookmarkView.swift in Sources */,
 				C2120C5D2B95EF72003FEDF2 /* Metadata Fetcher.swift in Sources */,
 				C2120C642B95EFCE003FEDF2 /* AddFolder.swift in Sources */,
+				C2CCDC8E2D74794B00D91A08 /* Notifications.swift in Sources */,
 				C236AD7B2C405B31000BE9FE /* isMac.swift in Sources */,
 				C2120C572B95EF28003FEDF2 /* DraggableBookmark.swift in Sources */,
 				C2120C5F2B95EF8D003FEDF2 /* AddFolderView.swift in Sources */,
@@ -1112,6 +1122,7 @@
 				C2891D8E2B51919400C44C37 /* reloadAllWidgets.swift in Sources */,
 				C2891D882B51868B00C44C37 /* ColorOption.swift in Sources */,
 				C2891D852B51867A00C44C37 /* Metadata Fetcher.swift in Sources */,
+				C2CCDC8D2D74794B00D91A08 /* Notifications.swift in Sources */,
 				C236AD7A2C405B30000BE9FE /* isMac.swift in Sources */,
 				C2891D902B5191DB00C44C37 /* FolderEntity.swift in Sources */,
 				C2891D8B2B5186B000C44C37 /* SymbolOption.swift in Sources */,
@@ -1165,6 +1176,7 @@
 				C2A14A4E2A602558003A5308 /* SymbolOption.swift in Sources */,
 				C2A14A462A6024C4003A5308 /* DropExtension.swift in Sources */,
 				C27BB9CC2B32FF6100ACA0EA /* AddBookmark.swift in Sources */,
+				C2CCDC902D74794B00D91A08 /* Notifications.swift in Sources */,
 				C2A14A452A6024C4003A5308 /* DragExtension.swift in Sources */,
 				C2C638CE2B4D810600E5B0B1 /* isMac.swift in Sources */,
 				C2A14A3C2A602498003A5308 /* DataController.swift in Sources */,
@@ -1234,10 +1246,12 @@
 				C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */,
 				C28A2C7E2B033FAD0027A70F /* isVisionOS.swift in Sources */,
 				C28D189A2B43F8450033C979 /* ImportExportHandler.swift in Sources */,
+				C2CCDC8F2D74794B00D91A08 /* Notifications.swift in Sources */,
 				C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */,
 				C27AF1192B4809DA00C4D9A4 /* SortDirection.swift in Sources */,
 				C2E3899C2A54978E0085D801 /* SymbolOption.swift in Sources */,
-				C23D41052D730F33009C17B0 /* AppDelegate.swift in Sources */,
+				C2CCDC8B2D74781F00D91A08 /* AppDelegate (Mac).swift in Sources */,
+				C23D41052D730F33009C17B0 /* AppDelegate (iOS, visionOS).swift in Sources */,
 				C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */,
 				C281D9B42A2501FE00535807 /* MoveBookmarks.swift in Sources */,
 				C22268A22B4A7C1D00D88123 /* macOS Bridge.swift in Sources */,

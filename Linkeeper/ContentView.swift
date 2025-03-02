@@ -125,6 +125,9 @@ struct ContentView: View {
             AlertView(icon: "folder.fill", title: "Added Folder")
                 .padding(.bottom, 50)
         })
+        .onReceive(NotificationCenter.default.publisher(for: .addBookmark)) { _ in
+            showingNewBookmarkView = true
+        }
         .onOpenURL { url in
             if url.absoluteString.contains("addBookmark") {
                 showingNewBookmarkView = true

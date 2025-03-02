@@ -15,6 +15,8 @@ import WidgetKit
 struct LinkeeperApp: App {
     #if canImport(UIKit)
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    #else
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     #endif
     
     @StateObject private var dataController = DataController.shared
@@ -25,7 +27,7 @@ struct LinkeeperApp: App {
     @State private var showTipPrompt = false
     
     var body: some Scene {
-        WindowGroup {
+        WindowGroup("Linkeeper") {
             ContentView()
                 .environment(\.managedObjectContext, dataController.persistentCloudKitContainer.viewContext)
                 .sheet(isPresented: $showIntroduction, onDismiss: {
