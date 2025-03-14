@@ -28,7 +28,7 @@ struct AddFolderView: View {
     
     init(existingFolder folder: Folder? = nil, onComplete completionAction: @escaping (Bool) -> Void = {_ in }) {
         self.existingFolder = folder
-        self.parentFolder = nil
+        self.parentFolder = existingFolder?.parentFolder
         if let folder {
             self._title = State(initialValue: folder.wrappedTitle)
             self._folderIconColor = State(initialValue: ColorOption(rawValue: folder.accentColor ?? "gray")!)
