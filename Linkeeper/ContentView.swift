@@ -155,7 +155,7 @@ struct ContentView: View {
                 VStack(spacing: 0) {
                     VStack {
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
-                            PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveByDefault: inSideBarMode, isActiveStatus: $showingAllBookmarks) { bookmark, url in
+                            PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveStatus: $showingAllBookmarks) { bookmark, url in
                                 withAnimation {
                                     if let bookmark {
                                         bookmark.folder = nil
@@ -294,6 +294,11 @@ Click **Add Folder** to get started.
                 }
             }
             .forceHiddenScrollIndicators()
+            .onAppear {
+                if inSideBarMode {
+                    showingAllBookmarks = true
+                }
+            }
             #if os(macOS)
             .safeAreaInset(edge: .bottom, content: {
                 HStack {

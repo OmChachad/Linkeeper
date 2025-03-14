@@ -16,7 +16,6 @@ struct PinnedItemView<Content: View>: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    @State private var isActiveByDefault = false
     @State private var isActive = false
     @Binding var isActiveStatus: Bool
     
@@ -39,19 +38,19 @@ struct PinnedItemView<Content: View>: View {
         self.tint = tint
         self.count = count
         self._isActiveStatus = isActiveStatus
+        self._isActive = State(initialValue: isActiveStatus.wrappedValue)
         self.dropAction = dropAction
     }
     
-    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveByDefault: Bool, isActiveStatus: Binding<Bool> = .constant(true), onDrop dropAction: @escaping (Bookmark?, URL) -> Void = { _, _ in } ) {
-        self.destination = destination
-        self.title = title
-        self.symbolName = symbolName
-        self.tint = tint
-        self.count = count
-        _isActiveByDefault = State(initialValue: isActiveByDefault)
-        self._isActiveStatus = isActiveStatus
-        self.dropAction = dropAction
-    }
+//    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveStatus: Binding<Bool> = .constant(true), onDrop dropAction: @escaping (Bookmark?, URL) -> Void = { _, _ in } ) {
+//        self.destination = destination
+//        self.title = title
+//        self.symbolName = symbolName
+//        self.tint = tint
+//        self.count = count
+//        self._isActiveStatus = isActiveStatus
+//        self.dropAction = dropAction
+//    }
     
     var backgroundColor: Color {
         #if os(visionOS)
@@ -136,9 +135,6 @@ struct PinnedItemView<Content: View>: View {
         #else
         .buttonBorderShape(.roundedRectangle(radius: 25))
         #endif
-        .onAppear {
-            isActive = isActiveByDefault
-        }
         .onChange(of: isActive) { new in
             isActiveStatus = isActive
         }
