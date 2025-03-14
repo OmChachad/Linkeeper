@@ -58,10 +58,16 @@ struct BookmarkListItem: View {
                         .foregroundColor(.white)
                         .frame(width: 44, height: 44)
                         .background {
-                            Color(uiColor: .tertiaryLabelColor)
-                                .background(Color.white)
-                                .cornerRadius(8, style: .continuous)
-                                .shadow(radius: 2)
+                            Group {
+                                #if os(macOS)
+                                Color(nsColor: .tertiaryLabelColor)
+                                #else
+                                Color(uiColor: .tertiaryLabel)
+                                #endif
+                            }
+                            .background(Color.white)
+                            .cornerRadius(8, style: .continuous)
+                            .shadow(radius: 2)
                         }
                 }
             }
