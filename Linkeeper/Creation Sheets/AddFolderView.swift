@@ -207,7 +207,11 @@ struct AddFolderView: View {
     func addFolder() {
         if #available(iOS 16.0, macOS 13.0, *) {
             Task {
-                let folder = try! await AddFolder(folderTitle: title, icon: chosenSymbol, color: folderIconColor.rawValue, parentFolder: parentFolder?.toEntity()).perform().value
+                let folder = try! await AddFolder(folderTitle: title, icon: chosenSymbol, color: folderIconColor.rawValue).perform().value
+                if let folder {
+                    FoldersManager.shared.findFolder(withId: folder.id).parentFolder = parentFolder
+                    try? moc.save()
+                }
             }
         } else {
             let _ = FoldersManager.shared.addFolder(title: title, accentColor: folderIconColor.rawValue, chosenSymbol: chosenSymbol, parentFolder: parentFolder)
