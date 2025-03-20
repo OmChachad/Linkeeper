@@ -105,14 +105,22 @@ struct AddBookmarkView: View {
         Form {
             Section {
                 HStack {
-                    TextField("URL", text: $url)
+                    Group {
+                        if #available(macOS 14.0, macOSApplicationExtension 14.0, *) {
+                            TextField("URL", text: $url)
+                                .textContentType(.URL)
+                        } else {
+                            TextField("URL", text: $url)
+                        }
+                    }
                     #if !os(macOS)
-                        .keyboardType(.URL)
-                        .autocapitalization(.none)
-                        .submitLabel(.done)
+                    .textContentType(.URL)
+                    .keyboardType(.URL)
+                    .submitLabel(.done)
+                    .textInputAutocapitalization(.never)
                     #endif
-                        .disableAutocorrection(true)
-                        .focused($isURLFieldActive)
+                    .disableAutocorrection(true)
+                    .focused($isURLFieldActive)
                     
                     Divider()
                     
