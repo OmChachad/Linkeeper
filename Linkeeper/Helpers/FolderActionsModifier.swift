@@ -117,6 +117,7 @@ struct FolderActionsModifier: ViewModifier {
         if folder.bookmarksArray.isEmpty && folder.childFoldersArray == nil {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                 withAnimation {
+                    folder.parentFolder = nil
                     moc.delete(folder)
                     try? moc.save()
                 }
