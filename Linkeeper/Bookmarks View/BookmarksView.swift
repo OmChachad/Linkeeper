@@ -14,6 +14,7 @@ struct BookmarksView: View {
     
     // CoreData FetchRequests
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var bookmarks: FetchedResults<Bookmark>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)], predicate: NSPredicate(format: "parentFolder == nil")) var subFolders: FetchedResults<Folder>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)], predicate: NSPredicate(format: "parentFolder == nil")) var parentFolders: FetchedResults<Folder>
     
     var folder: Folder?
@@ -79,18 +80,11 @@ struct BookmarksView: View {
         )
     }
     
-    var subFolders: [Folder] {
-        if let folder {
-            return folder.childFoldersArray ?? []
-        } else {
-            return orderedParentFolders
-        }
-    }
-    
     init() {}
     
     init(folder: Folder) {
         _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "folder == %@", folder))
+        _subFolders = FetchRequest<Folder>(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)], predicate: NSPredicate(format: "parentFolder == %@", folder))
         
         self.folder = folder
         self._folderTitle = State(initialValue: folder.wrappedTitle)
