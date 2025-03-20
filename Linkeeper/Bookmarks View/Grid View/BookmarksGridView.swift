@@ -43,8 +43,8 @@ struct BookmarksGridView: View {
         #if os(macOS)
         return 165
         #else
-        if UIScreen.main.bounds.width == 320 {
-            return 145
+        if UIScreen.main.bounds.width <= 320 {
+            return 140
         } else {
             return 165
         }

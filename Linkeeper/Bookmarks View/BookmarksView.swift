@@ -53,24 +53,8 @@ struct BookmarksView: View {
             return horizontalSizeClass == .compact || UIDevice.current.userInterfaceIdiom == .phone
         #endif
         } else {
-            return false
+            return true
         }
-    }
-    
-    var minimumItemWidth: CGFloat {
-        #if os(visionOS)
-         return 165
-        #else
-        #if os(macOS)
-        return 165
-        #else
-        if UIScreen.main.bounds.width == 320 {
-            return 145
-        } else {
-            return 165
-        }
-        #endif
-        #endif
     }
     
     var orderedParentFolders: [Folder] {
@@ -153,7 +137,6 @@ struct BookmarksView: View {
                                 .tag(option)
                         }
                     }
-                    
                     .if(shouldDisallowTable) { view in
                         view.pickerStyle(.menu)
                     }
