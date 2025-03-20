@@ -120,7 +120,7 @@ struct BookmarksView: View {
         
         }
         .searchable(text: $searchText, prompt: "Find a bookmark...")
-        .contentUnavailabilityView(isUnavailable: groupByFolders ? (bookmarks.isEmpty && subFolders.isEmpty) : bookmarks.isEmpty, unavailabilityView: noBookmarksView)
+        .contentUnavailabilityView(isUnavailable: favorites != true ? (bookmarks.isEmpty && subFolders.isEmpty) : bookmarks.isEmpty, unavailabilityView: noBookmarksView)
         .overlay {
             if showDetails && !isVisionOS {
                 Color("primaryInverted").opacity(0.3)
