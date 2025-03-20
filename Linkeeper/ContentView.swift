@@ -16,6 +16,7 @@ struct ContentView: View {
     
     // CoreData FetchRequests
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)], predicate: NSPredicate(format: "parentFolder == nil")) var folders: FetchedResults<Folder>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)], predicate: NSPredicate(format: "isPinned == true")) var pinnedFolders: FetchedResults<Folder>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "isFavorited == true")) var favoriteBookmarks: FetchedResults<Bookmark>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var allBookmarks: FetchedResults<Bookmark>
     
@@ -97,12 +98,12 @@ struct ContentView: View {
                 addedFolder = didAddFolder
             }
         }
-        .animation(.default, value: pinnedFolders)
+        .animation(.default, value: pinnedFolders.count)
         .animation(.default, value: folders.count)
         .onChange(of: mode, perform: { _ in
             reOrderIndexes()
         })
-        .onChange(of: pinnedFolders, perform: { _ in
+        .onChange(of: pinnedFolders.count, perform: { _ in
             reOrderIndexes()
         })
         .onChange(of: allBookmarks.count) { _ in
@@ -439,10 +440,6 @@ Click **Add Folder** to get started.
         #else
         .environment(\.editMode, $mode)
         #endif
-    }
-    
-    var pinnedFolders: [Folder] {
-        folders.filter { $0.isPinned }
     }
     
     private func delete(at offset: IndexSet) {
