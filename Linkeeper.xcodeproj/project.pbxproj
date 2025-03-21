@@ -239,6 +239,7 @@
 		C2E3899C2A54978E0085D801 /* SymbolOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3899B2A54978E0085D801 /* SymbolOption.swift */; };
 		C2E806E62A26111E00A41D0C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E52A26111E00A41D0C /* Settings.swift */; };
 		C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E72A26194E00A41D0C /* IntroductionView.swift */; };
+		C2E98EC52D8D370D00C63A78 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E98EC42D8D370D00C63A78 /* AppConfiguration.swift */; };
 		C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
 		C2F042362C19EB6D002CE4AA /* FolderGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */; };
 		C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */; };
@@ -411,6 +412,7 @@
 		C2E3899B2A54978E0085D801 /* SymbolOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolOption.swift; sourceTree = "<group>"; };
 		C2E806E52A26111E00A41D0C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		C2E806E72A26194E00A41D0C /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
+		C2E98EC42D8D370D00C63A78 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Linkeeper.entitlements; sourceTree = "<group>"; };
 		C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppShortcuts Provider.swift"; sourceTree = "<group>"; };
 		C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderGridItem.swift; sourceTree = "<group>"; };
@@ -658,6 +660,7 @@
 				C23BDA462840C70E003DD30D /* CacheManager.swift */,
 				C290506C2A12B67900817C48 /* Flashcard.swift */,
 				C22268A12B4A7C1D00D88123 /* macOS Bridge.swift */,
+				C2E98EC42D8D370D00C63A78 /* AppConfiguration.swift */,
 				C28A2C7F2B033FBD0027A70F /* Global */,
 				C2C8EE9E2A4DF86800CCD36F /* Drag & Dropping */,
 				C29B00F22A588B260081FEBC /* Functions */,
@@ -1268,6 +1271,7 @@
 				C2550E64282705F900ADA0BF /* BookmarksView.swift in Sources */,
 				C222689A2B49CA9700D88123 /* BookmarkItemAction.swift in Sources */,
 				C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */,
+				C2E98EC52D8D370D00C63A78 /* AppConfiguration.swift in Sources */,
 				C281D96F2A23D4FF00535807 /* BookmarksManager.swift in Sources */,
 				C29050772A12B80300817C48 /* String.swift in Sources */,
 				C28B6E6F28193AE20030B6DD /* AddFolderView.swift in Sources */,

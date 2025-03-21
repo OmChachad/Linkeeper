@@ -16,7 +16,22 @@ struct TipJar: View {
     
     var body: some View {
         Form {
+            if Config.appConfiguration == .TestFlight {
+                Section {
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                        Text("You're on a TestFlight build. You will not be billed for any purchases.")
+                        
+                        Spacer()
+                    }
+                    .foregroundStyle(.thickMaterial)
+                    .environment(\.colorScheme, .dark)
+                }
+                .listRowBackground(Color.yellow.opacity(0.8))
+            }
+            
             Section {
+                
                 VStack(alignment: .leading) {
                     Text("🤔 Why should I tip?")
                         .font(.title3.bold())
