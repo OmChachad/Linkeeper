@@ -70,6 +70,23 @@
 		C22268A42B4A7C6700D88123 /* macOS Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22268A12B4A7C1D00D88123 /* macOS Bridge.swift */; };
 		C22268A52B4A7DAF00D88123 /* EditState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C222689F2B4A7BFA00D88123 /* EditState.swift */; };
 		C22268A62B4A7DAF00D88123 /* EditState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C222689F2B4A7BFA00D88123 /* EditState.swift */; };
+		C22645E92D42B99E00DA8873 /* DragExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA32A4DFB1C00CCD36F /* DragExtension.swift */; };
+		C22645EA2D42B99E00DA8873 /* BookmarkDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */; };
+		C22645EB2D42B99E00DA8873 /* DropExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */; };
+		C22645EC2D42B99E00DA8873 /* FolderDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28962352C200C100051DE60 /* FolderDropItem.swift */; };
+		C22645ED2D42B99E00DA8873 /* DraggableFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28962342C200C100051DE60 /* DraggableFolder.swift */; };
+		C22645EE2D42B99F00DA8873 /* DragExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA32A4DFB1C00CCD36F /* DragExtension.swift */; };
+		C22645EF2D42B99F00DA8873 /* DraggableFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28962342C200C100051DE60 /* DraggableFolder.swift */; };
+		C22645F02D42B99F00DA8873 /* FolderDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28962352C200C100051DE60 /* FolderDropItem.swift */; };
+		C22645F12D42B99F00DA8873 /* DropExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */; };
+		C22645F22D42B99F00DA8873 /* BookmarkDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */; };
+		C22645F32D42B9A000DA8873 /* FolderDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28962352C200C100051DE60 /* FolderDropItem.swift */; };
+		C22645F42D42B9A000DA8873 /* DraggableFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28962342C200C100051DE60 /* DraggableFolder.swift */; };
+		C22645F52D42B9A100DA8873 /* BookmarkDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */; };
+		C22645F62D42B9A100DA8873 /* DragExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA32A4DFB1C00CCD36F /* DragExtension.swift */; };
+		C22645F72D42B9A100DA8873 /* FolderDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28962352C200C100051DE60 /* FolderDropItem.swift */; };
+		C22645F82D42B9A100DA8873 /* DraggableFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28962342C200C100051DE60 /* DraggableFolder.swift */; };
+		C22645F92D42B9A100DA8873 /* DropExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */; };
 		C22645FB2D42BDAD00DA8873 /* MoveFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22645FA2D42BDAD00DA8873 /* MoveFolderView.swift */; };
 		C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EA2A31BD6700401721 /* YouTube.swift */; };
 		C234F6ED2A31BD7100401721 /* Twitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C234F6EC2A31BD7100401721 /* Twitter.swift */; };
@@ -81,6 +98,9 @@
 		C236AD7B2C405B31000BE9FE /* isMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C638CC2B4D810600E5B0B1 /* isMac.swift */; };
 		C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */; };
 		C23BDA472840C70E003DD30D /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
+		C23D41012D72A95E009C17B0 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050702A12B79800817C48 /* Color.swift */; };
+		C23D41022D72A95E009C17B0 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050702A12B79800817C48 /* Color.swift */; };
+		C23D41032D72A95E009C17B0 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050702A12B79800817C48 /* Color.swift */; };
 		C23D41052D730F33009C17B0 /* AppDelegate (iOS, visionOS).swift in Sources */ = {isa = PBXBuildFile; fileRef = C23D41042D730F33009C17B0 /* AppDelegate (iOS, visionOS).swift */; platformFilters = (ios, xros, ); };
 		C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C23EC8EC283E5E71009D0670 /* Linkeeper.xcdatamodeld */; };
 		C24DF575283E62C4003C9692 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = C24DF574283E62C4003C9692 /* Shimmer */; };
@@ -1044,6 +1064,11 @@
 				C2052BE22B34688500185D29 /* BookmarksWidgetBundle.swift in Sources */,
 				C27AF0FA2B47C0F200C4D9A4 /* reloadAllWidgets.swift in Sources */,
 				C28D187F2B41A20B0033C979 /* LinkeeperBookmarkEntity.swift in Sources */,
+				C22645F52D42B9A100DA8873 /* BookmarkDropItem.swift in Sources */,
+				C22645F62D42B9A100DA8873 /* DragExtension.swift in Sources */,
+				C22645F72D42B9A100DA8873 /* FolderDropItem.swift in Sources */,
+				C22645F82D42B9A100DA8873 /* DraggableFolder.swift in Sources */,
+				C22645F92D42B9A100DA8873 /* DropExtension.swift in Sources */,
 				C2052C072B34699C00185D29 /* URL.swift in Sources */,
 				C2052BE42B34688500185D29 /* WidgetProvider.swift in Sources */,
 				C2C638CF2B4D810600E5B0B1 /* isMac.swift in Sources */,
@@ -1096,7 +1121,13 @@
 				C2120C5C2B95EF6A003FEDF2 /* AddBookmark.swift in Sources */,
 				C2120C5A2B95EF57003FEDF2 /* TextEditor.swift in Sources */,
 				C2120C602B95EF94003FEDF2 /* CacheManager.swift in Sources */,
+				C23D41032D72A95E009C17B0 /* Color.swift in Sources */,
 				C2120C512B95EF1C003FEDF2 /* StoreURL Extension.swift in Sources */,
+				C22645E92D42B99E00DA8873 /* DragExtension.swift in Sources */,
+				C22645EA2D42B99E00DA8873 /* BookmarkDropItem.swift in Sources */,
+				C22645EB2D42B99E00DA8873 /* DropExtension.swift in Sources */,
+				C22645EC2D42B99E00DA8873 /* FolderDropItem.swift in Sources */,
+				C22645ED2D42B99E00DA8873 /* DraggableFolder.swift in Sources */,
 				C2120C562B95EF1F003FEDF2 /* Linkeeper.xcdatamodeld in Sources */,
 				C2120C582B95EF35003FEDF2 /* ColorOption.swift in Sources */,
 				C2120C4F2B95EF1C003FEDF2 /* Bookmark+CoreDataClass.swift in Sources */,
@@ -1132,7 +1163,13 @@
 				C2891D912B5191FF00C44C37 /* AddFolder.swift in Sources */,
 				C2891D892B51869500C44C37 /* AddBookmarkView.swift in Sources */,
 				C2891D922B5192A400C44C37 /* String.swift in Sources */,
+				C23D41022D72A95E009C17B0 /* Color.swift in Sources */,
 				C2891D8A2B5186A700C44C37 /* AddFolderView.swift in Sources */,
+				C22645EE2D42B99F00DA8873 /* DragExtension.swift in Sources */,
+				C22645EF2D42B99F00DA8873 /* DraggableFolder.swift in Sources */,
+				C22645F02D42B99F00DA8873 /* FolderDropItem.swift in Sources */,
+				C22645F12D42B99F00DA8873 /* DropExtension.swift in Sources */,
+				C22645F22D42B99F00DA8873 /* BookmarkDropItem.swift in Sources */,
 				C2891D812B51866300C44C37 /* DataController.swift in Sources */,
 				C2891D8D2B5186C600C44C37 /* AddBookmark.swift in Sources */,
 				C2891D832B51866C00C44C37 /* DraggableBookmark.swift in Sources */,
@@ -1158,12 +1195,15 @@
 				C28616832A73DD0D00ABA9FF /* AlertView.swift in Sources */,
 				C2A14A4A2A60251B003A5308 /* ColorOption.swift in Sources */,
 				C27AF0FB2B47C0F800C4D9A4 /* reloadAllWidgets.swift in Sources */,
+				C22645F32D42B9A000DA8873 /* FolderDropItem.swift in Sources */,
+				C22645F42D42B9A000DA8873 /* DraggableFolder.swift in Sources */,
 				C27BB9D22B32FF6500ACA0EA /* DeleteFolder.swift in Sources */,
 				C2A14A3E2A602498003A5308 /* BookmarksManager.swift in Sources */,
 				C2A14A3F2A602498003A5308 /* StoreURL Extension.swift in Sources */,
 				C2A14A482A6024D4003A5308 /* URL.swift in Sources */,
 				C2A14A3D2A602498003A5308 /* FoldersManager.swift in Sources */,
 				C21B92972A94A8F4001237DD /* CacheManager.swift in Sources */,
+				C23D41012D72A95E009C17B0 /* Color.swift in Sources */,
 				C27BB9D02B32FF6500ACA0EA /* AddFolder.swift in Sources */,
 				C2A14A4D2A602551003A5308 /* AddFolderView.swift in Sources */,
 				C236AD772C4059FC000BE9FE /* FolderPickerView.swift in Sources */,
@@ -1727,7 +1767,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Linkeeper/Linkeeper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Linkeeper/Preview Content\"";
 				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -1767,7 +1807,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Linkeeper/Linkeeper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Linkeeper/Preview Content\"";
 				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;

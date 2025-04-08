@@ -20,4 +20,18 @@ extension View {
             }
         }
     }
+    
+//    func draggable(_ folder: Folder) -> some View {
+//        Group {
+//            if #available(iOS 16.0, macOS 13.0, *) {
+//                self
+//                    .draggable(folder.draggable)
+//            } else {
+//                self
+//                    .onDrag {
+//                        NSItemProvider(object: folder.wrappedUUID as NSString)
+//                    }
+//            }
+//        }
+//    }
 }

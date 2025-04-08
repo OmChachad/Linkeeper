@@ -13,7 +13,6 @@ struct DraggableFolder: Codable {
     let id: UUID
     let title: String
     let symbol: String
-    let dateAdded: Date
     let index: Int
     let isPinned: Bool
     

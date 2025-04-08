@@ -75,6 +75,10 @@ extension Folder {
 
         return totalBookmarks
     }
+    
+    var draggable: DraggableFolder {
+        DraggableFolder(id: id ?? UUID(), title: title ?? "Untitled folder", symbol: symbol ?? "questionmark.folder", index: Int(index), isPinned: isPinned)
+    }
 
 }
 
