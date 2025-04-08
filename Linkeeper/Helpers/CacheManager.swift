@@ -24,8 +24,8 @@ struct cachedPreview: Codable {
     }
     
     var image: Image? {
-        if let data = imageData, let uiImage = UIImage(data: data) {
-            return Image(uiImage: uiImage)
+        if let data = imageData, let uiImage = UIImage(data: data), let compressedImage = uiImage.preparingThumbnail(of: CGSize(width: 300, height: uiImage.size.height * 300 / uiImage.size.width)) {
+            return Image(uiImage: compressedImage)
         }
         
         return nil
@@ -94,3 +94,24 @@ enum PreviewType: Codable {
     case icon
     case firstLetter
 }
+
+#if canImport(AppKit)
+import AppKit
+
+extension NSImage {
+    func preparingThumbnail(of size: NSSize) -> NSImage? {
+        let newImage = NSImage(size: size)
+        newImage.lockFocus()
+        defer { newImage.unlockFocus() }
+        
+        guard let context = NSGraphicsContext.current?.cgContext else { return nil }
+        context.interpolationQuality = .high
+        self.draw(in: NSRect(origin: .zero, size: size),
+                  from: NSRect(origin: .zero, size: self.size),
+                  operation: .copy,
+                  fraction: 1.0)
+        
+        return newImage
+    }
+}
+#endif

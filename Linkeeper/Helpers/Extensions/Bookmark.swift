@@ -28,8 +28,9 @@ extension Bookmark {
                 preview.wrappedValue = cachedPreview
             }
         } else {
-            Task {
-                await cachePreviewInto(preview)
+            // Using detached task to perform fetching in background
+            Task.detached(priority: .userInitiated) {
+                await self.cachePreviewInto(preview)
                 
                 if preview.wrappedValue == nil {
                     withAnimation {
@@ -50,8 +51,11 @@ extension Bookmark {
                 imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
                     guard error == nil else { return }
                     if let image = image as? UIImage {
-                        cacheManager.add(preview: cachedPreview(image: image, preview: imageType), for: self)
-                        preview.wrappedValue = cachedPreview(image: image, preview: imageType)
+                        // Ensure UI updates happen on main thread
+                                                Task { @MainActor in
+                                                    cacheManager.add(preview: cachedPreview(image: image, preview: imageType), for: self)
+                                                    preview.wrappedValue = cachedPreview(image: image, preview: imageType)
+                                                }
                     }
                 }
             }
