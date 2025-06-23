@@ -36,7 +36,7 @@ extension View {
                     }
             } else {
                 self
-                    .onDrop(of: ["public.url"], isTargeted: isTargeted) { providers in
+                    .onDrop(of: [UTType.url, UTType.bookmark, UTType.urlBookmarkData], isTargeted: isTargeted) { providers in
                         var successStatus = true
                         
                         providers.forEach { provider in
