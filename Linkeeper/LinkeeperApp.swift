@@ -40,9 +40,9 @@ struct LinkeeperApp: App {
                     reloadAllWidgets()
                     CacheManager.instance.clearOutOld()
                     
-                    try? await Task.sleep(nanoseconds: 2_000_000_000)
+                    try? await Task.sleep(nanoseconds: 2_000_000_000) // 2 seconds delay to ensure the app is fully loaded before checking for tip prompt.
                     
-                    if !tipPromptCompleted && !storeKit.userHasTipped && (try! dataController.persistentCloudKitContainer.viewContext.count(for: NSFetchRequest(entityName: "Bookmark"))) > 20{
+                    if !tipPromptCompleted && !storeKit.userHasTipped && (try! dataController.persistentCloudKitContainer.viewContext.count(for: NSFetchRequest(entityName: "Bookmark"))) > 20 {
                         showTipPrompt = true
                     }
                 }
