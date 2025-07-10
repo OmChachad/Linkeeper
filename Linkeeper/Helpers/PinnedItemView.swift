@@ -42,16 +42,6 @@ struct PinnedItemView<Content: View>: View {
         self.dropAction = dropAction
     }
     
-//    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveStatus: Binding<Bool> = .constant(true), onDrop dropAction: @escaping (Bookmark?, URL) -> Void = { _, _ in } ) {
-//        self.destination = destination
-//        self.title = title
-//        self.symbolName = symbolName
-//        self.tint = tint
-//        self.count = count
-//        self._isActiveStatus = isActiveStatus
-//        self.dropAction = dropAction
-//    }
-    
     var backgroundColor: Color {
         #if os(visionOS)
         return Color.clear
