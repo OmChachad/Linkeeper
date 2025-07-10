@@ -47,6 +47,25 @@ struct ContentView: View {
     
     var body: some View {
         Group {
+            if #available(iOS 16.0, macOS 13.0, *) {
+                NavigationSplitView {
+                    sideBar
+                        .frame(minWidth: 300, idealWidth: 350)
+                        .navigationDestination(for: Folder.self) { folder in
+                            BookmarksView(folder: folder)
+                        }
+                } detail: {
+                    NavigationStack {
+                        Text("No folder is selected.")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                            .navigationDestination(for: Folder.self) { folder in
+                                BookmarksView(folder: folder)
+                            }
+                    }
+                }
+            } else {
                 #if os(macOS)
                 if #available(macOS 13.0, *) {
                     NavigationSplitView {
@@ -71,8 +90,7 @@ struct ContentView: View {
                 #else
                 NavigationView  {
                     sideBar
-                    
-                .background(Color(uiColor: .systemGroupedBackground))
+                        .background(Color(uiColor: .systemGroupedBackground))
                         .navigationBarTitleDisplayMode(.inline)
                     
                     Text("No folder is selected.")
@@ -84,6 +102,7 @@ struct ContentView: View {
                 .stackModeOniPhone()
                 #endif
                 #endif
+            }
         }
         .sheet(isPresented: $showingSettings, content: SettingsView.init)
         .sheet(isPresented: $showingNewBookmarkView) {
@@ -210,9 +229,7 @@ struct ContentView: View {
                     
                     if !folders.filter({!$0.isPinned }).isEmpty {
                         List {
-                            if #available(macOS 13.0, *) {
-                                
-                            } else {
+                            if #unavailable(macOS 13.0) {
                                 Section {
                                     NavigationLink(destination: BookmarksView.init) {
                                         ListItem(title: "All", systemName: "tray.fill", color: Color("AllBookmarksColor"), subItemsCount: allBookmarks.count)
@@ -242,20 +259,27 @@ struct ContentView: View {
                             
                             Section(header: Text("My Folders")) {
                                 ForEach(folders.filter { !$0.isPinned } ) { folder in
-                                    Group {
-                                        #if os(macOS)
-                                        NavigationLink {
-                                            BookmarksView(folder: folder)
-                                        } label: {
-                                            FolderItemView(folder: folder)
+                                    Group {                 
+                                        if #available(iOS 16.0, macOS 13.0, *) {
+                                            NavigationLink(value: folder) {
+                                                FolderItemView(folder: folder)
+                                            }
+                                        } else {
+                                            #if os(macOS)
+                                            NavigationLink {
+                                                BookmarksView(folder: folder)
+                                            } label: {
+                                                FolderItemView(folder: folder)
+                                            }
+                                            #else
+                                            NavigationLink(tag: folder, selection: $currentFolder) {
+                                                BookmarksView(folder: folder)
+                                            } label: {
+                                                FolderItemView(folder: folder)
+                                            }
+                                            #endif
                                         }
-                                        #else
-                                        NavigationLink(tag: folder, selection: $currentFolder) {
-                                            BookmarksView(folder: folder)
-                                        } label: {
-                                            FolderItemView(folder: folder)
-                                        }
-                                        #endif
+                                        
                                     }
                                 }
                                 .onMove(perform: moveItem)
@@ -439,6 +463,11 @@ Click **Add Folder** to get started.
         .environment(\.editMode, mode)
         #else
         .environment(\.editMode, $mode)
+        #endif
+        #if os(macOS)
+        .background(.clear)
+        #else
+        .background(Color(uiColor: .systemGroupedBackground))
         #endif
     }
     
