@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WhatsNew: View {
     @Environment(\.dismiss) var dismiss
+    @State private var revealedFeatures: Int = 0
     
     struct Feature {
         var systemImage: String
@@ -42,24 +43,38 @@ struct WhatsNew: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
-                    ForEach(features, id: \.title) { feature in
-                        HStack {
-                            Image(systemName: feature.systemImage)
-                                .foregroundColor(.blue)
-                                .font(.title)
-                                .frame(width: 55)
-                            
-                            VStack(alignment: .leading) {
-                                Text(feature.title)
-                                    .font(.headline)
-                                Text(feature.description)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
+                    ForEach(features.indices, id: \.self) { index in
+                            HStack {
+                                Image(systemName: features[index].systemImage)
+                                    .foregroundColor(.blue)
+                                    .font(.title)
+                                    .frame(width: 55)
+                                
+                                VStack(alignment: .leading) {
+                                    Text(features[index].title)
+                                        .font(.headline)
+                                    Text(features[index].description)
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
                             }
-                        }
+                            .transition(.opacity)
+                            .opacity(index < revealedFeatures ? 1 : 0.1)
+                            .blur(radius: index < revealedFeatures ? 0 : 5)
                     }
                 }
                 .padding()
+                .onAppear {
+                    Task {
+                        for _ in 0..<features.count {
+                            withAnimation(.smooth) {
+                                revealedFeatures += 1
+                            }
+                            
+                            try await Task.sleep(nanoseconds: 300_000_000)
+                        }
+                    }
+                }
             }
             
             Spacer()
@@ -71,12 +86,13 @@ struct WhatsNew: View {
                     .font(.headline)
                     .padding(10)
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue)
+                    .background(revealedFeatures == features.count ? Color.blue : Color.gray)
                     .foregroundColor(.white)
                     .clipShape(.capsule)
             }
             .padding()
             .buttonStyle(.plain)
+            .disabled(!(revealedFeatures == features.count))
         }
     }
 }
