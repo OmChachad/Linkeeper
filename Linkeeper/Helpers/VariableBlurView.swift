@@ -43,7 +43,7 @@ open class VariableBlurUIView: UIVisualEffectView {
         super.init(effect: UIBlurEffect(style: .regular))
 
         // `CAFilter` is a private QuartzCore class that dynamically create using Objective-C runtime.
-        guard let CAFilter = NSClassFromString("CAFilter")! as? NSObject.Type else {
+        guard let CAFilter = NSClassFromString("CAFilter") as? NSObject.Type else {
             print("[VariableBlur] Error: Can't find CAFilter class")
             return
         }
