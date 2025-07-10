@@ -21,6 +21,7 @@ struct LinkeeperApp: App {
     
     @StateObject private var dataController = DataController.shared
     @AppStorage("showIntroduction") var showIntroduction = true
+    @AppStorage("showWhatsNewv3.0") var showWhatsNew = true
     
     @ObservedObject var storeKit = Store.shared
     @AppStorage("tipPromptCompleted") var tipPromptCompleted = false
@@ -33,6 +34,9 @@ struct LinkeeperApp: App {
                 .sheet(isPresented: $showIntroduction, onDismiss: {
                     showIntroduction = false
                 }, content: IntroductionView.init)
+                .sheet(isPresented: $showWhatsNew, content: {
+                    WhatsNew()
+                })
                 .task {
                     if #available(iOS 16.0, macOS 13.0, *) {
                         LinkeeperShortcuts.updateAppShortcutParameters()
@@ -44,6 +48,11 @@ struct LinkeeperApp: App {
                     
                     if !tipPromptCompleted && !storeKit.userHasTipped && (try! dataController.persistentCloudKitContainer.viewContext.count(for: NSFetchRequest(entityName: "Bookmark"))) > 20 {
                         showTipPrompt = true
+                    }
+                }
+                .onAppear {
+                    if showIntroduction {
+                        showWhatsNew = false // Dismiss What's New if Introduction is shown
                     }
                 }
                 .sheet(isPresented: $showTipPrompt, onDismiss: {
