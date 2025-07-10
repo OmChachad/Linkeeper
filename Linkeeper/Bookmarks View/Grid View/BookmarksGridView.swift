@@ -107,7 +107,8 @@ struct BookmarksGridView: View {
                                 .padding([.top, .leading, .trailing], 15)
                         }
                         
-                        ForEach(orderedFolders, id: \.self) { folder in
+                        let folders = (favorites == true ? ((Set<Folder?>(bookmarks.map(\.folder))).compactMap { $0 }) : orderedFolders).sorted(by: { $0.index < $1.index })
+                        ForEach(folders, id: \.self) { folder in
                             //let folderHasBookmarks = !folder.bookmarksArray.isEmpty
                             let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
                             if showGroup {
