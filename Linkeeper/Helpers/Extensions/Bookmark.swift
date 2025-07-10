@@ -28,8 +28,8 @@ extension Bookmark {
                 preview.wrappedValue = cachedPreview
             }
         } else {
-            // Using detached task to perform fetching in background
-            Task.detached(priority: .userInitiated) {
+            // Using task to perform fetching on the main actor
+            Task { @MainActor in
                 await self.cachePreviewInto(preview)
                 
                 if preview.wrappedValue == nil {
