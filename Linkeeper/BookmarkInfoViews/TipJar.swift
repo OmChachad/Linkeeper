@@ -16,7 +16,22 @@ struct TipJar: View {
     
     var body: some View {
         Form {
+            if Config.appConfiguration == .TestFlight {
+                Section {
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                        Text("You're on a TestFlight build. You will not be billed for any purchases.")
+                        
+                        Spacer()
+                    }
+                    .foregroundStyle(.thickMaterial)
+                    .environment(\.colorScheme, .dark)
+                }
+                .listRowBackground(Color.yellow.opacity(0.8))
+            }
+            
             Section {
+                
                 VStack(alignment: .leading) {
                     Text("🤔 Why should I tip?")
                         .font(.title3.bold())
@@ -33,6 +48,8 @@ struct TipJar: View {
                     VStack(spacing: 5) {
                         bulletLine("Appreciate the App", systemImage: "heart.fill", tint: .pink)
                         bulletLine("Support Indie Development", systemImage: "wrench.and.screwdriver.fill", tint: .blue)
+                        bulletLine("Facilitate Future Updates", systemImage: "clock.arrow.2.circlepath", tint: .yellow)
+                        bulletLine("Keep the app Free-to-use", systemImage: "face.dashed", tint: .green)
                         bulletLine("Unlock More App Icons\(isMac ? " on iOS/iPadOS" : "")", systemImage: "square.stack.3d.down.right.fill", tint: .purple)
                     }
                 }

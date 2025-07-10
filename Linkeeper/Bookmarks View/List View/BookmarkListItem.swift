@@ -28,6 +28,18 @@ struct BookmarkListItem: View {
         #endif
     }
     
+    init(bookmark: Bookmark, showDetails: Binding<Bool>, toBeEditedBookmark: Binding<Bookmark?>) {
+        self.bookmark = bookmark
+        self._showDetails = showDetails
+        self._toBeEditedBookmark = toBeEditedBookmark
+        
+        #if !os(macOS)
+        let cacheManager = CacheManager.instance
+        
+        self._cachedPreview = State(initialValue: cacheManager.get(for: bookmark))
+        #endif
+    }
+    
     var body: some View {
         HStack {
             Group {
@@ -35,19 +47,30 @@ struct BookmarkListItem: View {
                     preview
                         .resizable()
                         .scaledToFit()
+                        .scaledToFill()
+                        .frame(width: 44, height: 44)
+                        .clipped()
+                        .cornerRadius(8, style: .continuous)
+                        .shadow(radius: 2)
                 } else if let firstChar = bookmark.wrappedTitle.first {
                     Text(String(firstChar))
                         .font(.title)
                         .foregroundColor(.white)
                         .frame(width: 44, height: 44)
-                        .background(.tertiary)
+                        .background {
+                            Group {
+                                #if os(macOS)
+                                Color(nsColor: .tertiaryLabelColor)
+                                #else
+                                Color(uiColor: .tertiaryLabel)
+                                #endif
+                            }
+                            .background(Color.white)
+                            .cornerRadius(8, style: .continuous)
+                            .shadow(radius: 2)
+                        }
                 }
             }
-            .scaledToFill()
-            .frame(width: 44, height: 44)
-            .clipped()
-            .cornerRadius(8, style: .continuous)
-            .shadow(radius: 2)
             .padding([.vertical, .trailing], 5)
             .padding(.vertical, 5)
             

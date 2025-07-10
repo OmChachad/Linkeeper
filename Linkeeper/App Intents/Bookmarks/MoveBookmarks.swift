@@ -19,7 +19,7 @@ struct MoveBookmark: AppIntent {
     """, categoryName: "Edit")
     
     @Parameter(title: "Bookmark", description: "The bookmark to be moved.", requestValueDialog: IntentDialog("Which bookmark would you like to move?"))
-    var bookmark: BookmarkEntity
+    var bookmark: LinkeeperBookmarkEntity
     
     @Parameter(title: "Folder", description: "The folder to be moved to.", requestValueDialog: IntentDialog("Choose the folder you'd like to move your bookmark to."))
     var folder: FolderEntity?
@@ -39,7 +39,7 @@ struct MoveBookmark: AppIntent {
         })
     }
     
-    func perform() async throws -> some ReturnsValue<BookmarkEntity> {
+    func perform() async throws -> some ReturnsValue<LinkeeperBookmarkEntity> {
         do {
             
             if !removeFromGroup {

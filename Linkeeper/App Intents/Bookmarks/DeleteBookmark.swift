@@ -17,7 +17,7 @@ struct DeleteBookmark: AppIntent {
     static var description: IntentDescription = IntentDescription("Permanently deletes the Bookmark from all your iCloud devices.", categoryName: "Edit")
     
     @Parameter(title: "Bookmark", description: "The bookmark to be deleted from your collection.", requestValueDialog: IntentDialog("Which bookmark would you like to delete?"))
-    var bookmark: BookmarkEntity
+    var bookmark: LinkeeperBookmarkEntity
     
     @Parameter(title: "Confirm Before Deleting", description: "If toggled, you will need to confirm before the book is deleted", default: true)
     var confirmBeforeDeleting: Bool
@@ -43,7 +43,7 @@ struct DeleteBookmark: AppIntent {
             BookmarksManager.shared.deleteBookmark(withId: bookmark.id)
             reloadAllWidgets()
             
-            return .result(value: "Deleted Bookmark")
+            return .result()
         } catch let error {
             throw error
         }

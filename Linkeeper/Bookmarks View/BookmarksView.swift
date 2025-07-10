@@ -14,7 +14,8 @@ struct BookmarksView: View {
     
     // CoreData FetchRequests
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var bookmarks: FetchedResults<Bookmark>
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)], predicate: NSPredicate(format: "parentFolder == nil")) var subFolders: FetchedResults<Folder>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)], predicate: NSPredicate(format: "parentFolder == nil")) var parentFolders: FetchedResults<Folder>
     
     var folder: Folder?
     var favorites: Bool?
@@ -42,6 +43,7 @@ struct BookmarksView: View {
     @AppStorage("SortDirection") private var sortDirection: SortDirection = .descending
     
     @State private var sortOrder = [KeyPathComparator(\Bookmark.wrappedDate, order: .reverse)]
+    @State private var showingNewFolderView = false
     
     var shouldDisallowTable: Bool {
         if #available(iOS 16.0, macOS 13.0, *) {
@@ -51,28 +53,12 @@ struct BookmarksView: View {
             return horizontalSizeClass == .compact || UIDevice.current.userInterfaceIdiom == .phone
         #endif
         } else {
-            return false
+            return true
         }
     }
     
-    var minimumItemWidth: CGFloat {
-        #if os(visionOS)
-         return 165
-        #else
-        #if os(macOS)
-        return 165
-        #else
-        if UIScreen.main.bounds.width == 320 {
-            return 145
-        } else {
-            return 165
-        }
-        #endif
-        #endif
-    }
-    
-    var orderedFolders: [Folder] {
-        return folders.sorted(using: [
+    var orderedParentFolders: [Folder] {
+        return parentFolders.sorted(using: [
             KeyPathComparator(\.isPinned, order: .reverse),
             KeyPathComparator(\.index, order: .forward)]
         )
@@ -82,6 +68,7 @@ struct BookmarksView: View {
     
     init(folder: Folder) {
         _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "folder == %@", folder))
+        _subFolders = FetchRequest<Folder>(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)], predicate: NSPredicate(format: "parentFolder == %@", folder))
         
         self.folder = folder
         self._folderTitle = State(initialValue: folder.wrappedTitle)
@@ -93,6 +80,7 @@ struct BookmarksView: View {
     }
     
     var body: some View {
+     //   let _ = Self._printChanges()
         Group {
             if !searchText.isEmpty && filteredBookmarks.isEmpty {
                 Text("No results found for **\"\(searchText)\"**")
@@ -102,20 +90,21 @@ struct BookmarksView: View {
             } else {
                 switch(viewOption) {
                 case .grid:
-                    BookmarksGridView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedFolders)
+                    BookmarksGridView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
                 case .list:
-                    BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedFolders)
+                    BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
                 case .table:
                     if #available(iOS 16.0, macOS 13.0, *), !shouldDisallowTable {
-                        BookmarksTableView(bookmarks: filteredBookmarks, selectedBookmarks: $selectedBookmarks, sortOrder: $sortOrder, toBeEditedBookmark: $toBeEditedBookmark, showDetails: $showDetails)
+                        BookmarksTableView(bookmarks: filteredBookmarks, folder: folder, selectedBookmarks: $selectedBookmarks, sortOrder: $sortOrder, toBeEditedBookmark: $toBeEditedBookmark, showDetails: $showDetails)
                     } else {
-                        BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedFolders)
+                        BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
                     }
                 }
             }
+        
         }
         .searchable(text: $searchText, prompt: "Find a bookmark...")
-        .contentUnavailabilityView(for: bookmarks, unavailabilityView: noBookmarksView)
+        .contentUnavailabilityView(isUnavailable: favorites != true ? (bookmarks.isEmpty && subFolders.isEmpty) : bookmarks.isEmpty, unavailabilityView: noBookmarksView)
         .overlay {
             if showDetails && !isVisionOS {
                 Color("primaryInverted").opacity(0.3)
@@ -135,6 +124,9 @@ struct BookmarksView: View {
         #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .sheet(isPresented: $showingNewFolderView) {
+            AddFolderView(parentFolder: folder)
+        }
         .toolbar {
             HStack {
                 if editState == .inactive {
@@ -145,12 +137,23 @@ struct BookmarksView: View {
                                 .tag(option)
                         }
                     }
-                    
                     .if(shouldDisallowTable) { view in
                         view.pickerStyle(.menu)
                     }
                     .if(!shouldDisallowTable) { view in
                         view.pickerStyle(.segmented)
+                    }
+                    
+                    if let folder, horizontalSizeClass != .compact {
+                        Button {
+                            DispatchQueue.main.async {
+                                showingNewFolderView = true
+                            }
+                        } label: {
+                            Label("Add Folder", systemImage: "folder.badge.plus")
+                        }
+                        .labelStyle(.iconOnly)
+                        .keyboardShortcut("n", modifiers: [.shift, .command])
                     }
                     
                     if viewOption != .table || !isMac && !bookmarks.isEmpty {
@@ -168,7 +171,7 @@ struct BookmarksView: View {
                 }
             }
         }
-        #if os(macOS)
+        #if os(macOS) || os(iOS)
         .safeAreaInset(edge: .bottom, content: {
             if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
                 HStack {
@@ -176,6 +179,7 @@ struct BookmarksView: View {
                         addingBookmark = true
                     } label: {
                         Label("New Bookmark", systemImage: "plus.circle.fill")
+                            .imageScale(.large)
                             .labelStyle(.titleAndIcon)
                             .font(.headline)
                     }
@@ -184,34 +188,20 @@ struct BookmarksView: View {
                     Spacer()
                 }
                 .foregroundColor(folder?.wrappedColor)
+                .buttonStyle(.borderless)
+                #if os(macOS)
                 .padding()
                 .background(.thickMaterial)
-                .buttonStyle(.borderless)
+                #else
+                .padding([.top, .horizontal])
+                .padding(.bottom, 10)
+                .background {
+                    VariableBlurView(maxBlurRadius: 20, direction: .blurredBottomClearTop, startOffset: 0)
+                        .ignoresSafeArea()
+                }
+                #endif
             }
         })
-        #elseif !os(visionOS)
-        .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
-                if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
-                    HStack {
-                        Button {
-                            addingBookmark = true
-                        } label: {
-                            Label("New Bookmark", systemImage: "plus.circle.fill")
-                                .labelStyle(.titleAndIcon)
-                                .font(.headline)
-                        }
-                        .keyboardShortcut("n", modifiers: .command)
-                        
-                        Spacer()
-                    }
-                    .foregroundColor(folder?.wrappedColor)
-                    .padding(.vertical, 10)
-                    .padding(.leading, horizontalSizeClass == .regular ? 0 : 7.5)
-                    .buttonStyle(.borderless)
-                }
-            }
-        }
         #endif
         .overlay {
             #if !os(visionOS)
@@ -258,6 +248,7 @@ struct BookmarksView: View {
             }
         })
         .animation(.spring().speed(0.75), value: filteredBookmarks)
+        .animation(.spring().speed(0.75), value: folder?.childFoldersArray?.count)
         .animation(.spring(), value: showDetails)
         .animation(.easeInOut.speed(0.5), value: editState)
         #if os(visionOS)
@@ -353,13 +344,15 @@ struct BookmarksView: View {
     func toolbarItems() -> some View {
         Group {
             if !isMac || viewOption == .grid {
-                Button { editState = .active } label: { Label("Select", systemImage: "checkmark.circle") }
+                Button("Select", systemImage: "checkmark.circle") { editState = .active }
+                .labelStyle(.titleAndIcon)
             }
             
             
             if viewOption != .table || shouldDisallowTable {
                 if folder == nil {
-                    Toggle(isOn: $groupByFolders.animation(), label: { Label("Group by Folders", systemImage: "rectangle.grid.1x2") })
+                    Toggle("Group by Folders", systemImage: "rectangle.grid.1x2", isOn: $groupByFolders.animation())
+                    .labelStyle(.titleAndIcon)
                 }
                 
                 Menu {
@@ -378,10 +371,7 @@ struct BookmarksView: View {
                     }
                     
                 } label: {
-                    Label("""
-                    Sort By
-                    \(sortMethod.rawValue)
-                    """, systemImage: "arrow.up.arrow.down")
+                    ModernLabel("Sort By", subtitle: sortMethod.rawValue, systemImage: "arrow.up.arrow.down")
                 }
             }
             
@@ -390,6 +380,15 @@ struct BookmarksView: View {
             
             Button { addingBookmark.toggle() } label: { Label("Add Bookmark", systemImage: "plus") }
                 .keyboardShortcut("n", modifiers: .command)
+            
+            if let folder, horizontalSizeClass == .compact {
+                Button {
+                    showingNewFolderView = true
+                } label: {
+                    Label("Add Folder", systemImage: "folder.badge.plus")
+                }
+                .keyboardShortcut("n", modifiers: [.shift, .command])
+            }
             #endif
         }
     }

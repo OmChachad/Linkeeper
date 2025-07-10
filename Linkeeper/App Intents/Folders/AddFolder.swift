@@ -23,10 +23,13 @@ struct AddFolder: AppIntent {
     @Parameter(title: "Color", requestValueDialog: "Choose a color for your folder", optionsProvider: ColorOptionsProvider())
     var color: String
     
-    init(folderTitle: String, icon: String, color: String) {
+    var parentFolder: FolderEntity?
+    
+    init(folderTitle: String, icon: String, color: String, parentFolder: FolderEntity? = nil) {
         self.folderTitle = folderTitle
         self.icon = icon
         self.color = color
+        self.parentFolder = parentFolder
     }
     
     init() {}
@@ -39,7 +42,14 @@ struct AddFolder: AppIntent {
     }
     
     func perform() async throws -> some ReturnsValue<FolderEntity>{
-        let folder = FoldersManager.shared.addFolder(title: folderTitle, accentColor: color, chosenSymbol: icon)
+        let parentFolder: Folder? = {
+            if let folder = self.parentFolder {
+                return FoldersManager.shared.findFolder(withId: folder.id)
+            }
+            return nil
+        }()
+
+        let folder = FoldersManager.shared.addFolder(title: folderTitle, accentColor: color, chosenSymbol: icon, parentFolder: parentFolder)
         reloadAllWidgets()
         return .result(value: folder.toEntity())
     }

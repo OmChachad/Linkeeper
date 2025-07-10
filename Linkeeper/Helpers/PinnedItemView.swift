@@ -14,7 +14,8 @@ struct PinnedItemView<Content: View>: View {
     var tint: Color
     var count: Int
     
-    @State private var isActiveByDefault = false
+    @Environment(\.colorScheme) var colorScheme
+    
     @State private var isActive = false
     @Binding var isActiveStatus: Bool
     
@@ -37,17 +38,7 @@ struct PinnedItemView<Content: View>: View {
         self.tint = tint
         self.count = count
         self._isActiveStatus = isActiveStatus
-        self.dropAction = dropAction
-    }
-    
-    init(destination: Content, title: String, symbolName: String, tint: Color, count: Int, isActiveByDefault: Bool, isActiveStatus: Binding<Bool> = .constant(true), onDrop dropAction: @escaping (Bookmark?, URL) -> Void = { _, _ in } ) {
-        self.destination = destination
-        self.title = title
-        self.symbolName = symbolName
-        self.tint = tint
-        self.count = count
-        _isActiveByDefault = State(initialValue: isActiveByDefault)
-        self._isActiveStatus = isActiveStatus
+        self._isActive = State(initialValue: isActiveStatus.wrappedValue)
         self.dropAction = dropAction
     }
     
@@ -124,7 +115,7 @@ struct PinnedItemView<Content: View>: View {
                     .lineLimit(1)
             }
             .padding(10)
-            .background(backgroundColor)
+            .background(backgroundColor.gradientify(colorScheme: colorScheme))
             .cornerRadius(10, style: .continuous)
             #endif
         }
@@ -134,9 +125,6 @@ struct PinnedItemView<Content: View>: View {
         #else
         .buttonBorderShape(.roundedRectangle(radius: 25))
         #endif
-        .onAppear {
-            isActive = isActiveByDefault
-        }
         .onChange(of: isActive) { new in
             isActiveStatus = isActive
         }
@@ -149,6 +137,6 @@ struct PinnedItemView<Content: View>: View {
             .padding(isMac ? 5 : 7.5)
             .frame(width: isMac ? 27.5 : 35, height: isMac ? 27.5 : 35)
             .foregroundColor(isMacOriPad && isActive ? tint : .white)
-            .background(isMacOriPad && isActive ? .white : tint, in: Circle())
+            .background((isMacOriPad && isActive ? .white : tint).gradientify(colorScheme: colorScheme), in: Circle())
     }
 }

@@ -1,5 +1,5 @@
 //
-//  DropItem.swift
+//  BookmarkDropItem.swift
 //  Linkeeper
 //
 //  Created by Om Chachad on 30/06/23.
@@ -9,7 +9,7 @@ import Foundation
 import CoreTransferable
 
 @available(iOS 16.0, macOS 13.0, *)
-enum DropItem: Codable, Transferable {
+enum BookmarkDropItem: Codable, Transferable {
     case none
     case bookmark(DraggableBookmark?)
     case url(URL)

@@ -9,10 +9,10 @@ import SwiftUI
 import CoreData
 
 struct FolderItemView: View {
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Folder.index, ascending: true)]) var folders: FetchedResults<Folder>
     @Environment(\.managedObjectContext) var moc
     @ObservedObject var bookmarksInFolder = bookmarksCountFetcher()
     var folder: Folder
+    var style: ListItem.Style = .sidebar
     
     @State private var editingFolder = false
     
@@ -28,122 +28,27 @@ struct FolderItemView: View {
         #endif
     }
     
+    var requiresAdditionalPadding: Bool {
+        #if os(iOS)
+        if #available(iOS 18.0, *) {
+            return UIDevice.current.userInterfaceIdiom == .pad
+        }
+        #endif
+        
+        return false
+    }
+    
     @State private var isTargeted = false
     
     var body: some View {
-        ListItem(title: folder.wrappedTitle, systemName: folder.wrappedSymbol, color: folder.wrappedColor, subItemsCount: bookmarksInFolder.count(context: moc, folder: folder))
-        .contextMenu {
-            Button {
-                editingFolder = true
-            } label: {
-                Label("Edit", systemImage: "pencil")
+        ListItem(title: folder.wrappedTitle, systemName: folder.wrappedSymbol, color: folder.wrappedColor, subItemsCount: folder.countOfBookmarks, style: style)
+            .folderActions(folder: folder, isEditing: isEditing)
+            .dropDestination(isTargeted: $isTargeted) { bookmark, url in
+                addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
             }
-            
-            Button {
-                folder.isPinned.toggle()
-                try? moc.save()
-            } label: {
-                Label("Pin", systemImage: "pin")
-            }
-            
-            Button(role: .destructive) {
-                if folder.bookmarksArray.count == 0 {
-                    withAnimation {
-                        moc.delete(folder)
-                        try? moc.save()
-                    }
-                } else {
-                    deleteConfirmation = true
-                }
-            } label: {
-                Label("Delete", systemImage: "trash")
-            }
-        }
-        .confirmationDialog("Do you want to delete ^[\(folder.countOfBookmarks) Bookmarks](inflect: true) inside \(folder.wrappedTitle) too?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
-            Button("Delete ^[\(folder.countOfBookmarks) Bookmarks](inflect: true)", role: .destructive) {
-                withAnimation {
-                    for i in 0...(folder.bookmarksArray.count - 1) {
-                        moc.delete(folder.bookmarksArray[i])
-                    }
-                    moc.delete(folder)
-                    try? moc.save()
-                }
-            }
-            
-            Button("Keep ^[\(folder.countOfBookmarks) Bookmarks](inflect: true)") {
-                withAnimation {
-                    moc.delete(folder)
-                    try? moc.save()
-                }
-            }
-        } message: {
-            Text("^[\(folder.countOfBookmarks) Bookmarks](inflect: true) will be deleted.")
-        }
-        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            #if os(macOS)
-            if !isEditing {
-                Button {
-                    editingFolder = true
-                } label: {
-                    Label("Edit", systemImage: "pencil")
-                }
-            }
-            
-            Button {
-                if folder.bookmarksArray.count == 0 {
-                    withAnimation {
-                        moc.delete(folder)
-                        try? moc.save()
-                    }
-                } else {
-                    deleteConfirmation = true
-                }
-            } label: {
-                Label("Delete", systemImage: "trash")
-            }
-            .tint(.red)
-            #else
-            Button {
-                if folder.bookmarksArray.count == 0 {
-                    withAnimation {
-                        moc.delete(folder)
-                        try? moc.save()
-                    }
-                } else {
-                    deleteConfirmation = true
-                }
-            } label: {
-                Label("Delete", systemImage: "trash")
-            }
-            .tint(.red)
-            
-            if !isEditing {
-                Button {
-                    editingFolder = true
-                } label: {
-                    Label("Edit", systemImage: "pencil")
-                }
-            }
-            #endif
-        }
-        .swipeActions(edge: .leading) {
-            if !isEditing {
-                Button {
-                    folder.isPinned.toggle()
-                    try? moc.save()
-                } label: {
-                    Label("Pin", systemImage: "pin.fill")
-                }
-                .tint(.yellow)
-            }
-        }
-        .sheet(isPresented: $editingFolder) {
-            AddFolderView(existingFolder: folder)
-        }
-        .dropDestination(isTargeted: $isTargeted) { bookmark, url in
-            addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
-        }
-        .opacity(isTargeted ? 0.1 : 1)
+            .opacity(isTargeted ? 0.1 : 1)
+            .padding(.leading, requiresAdditionalPadding ? 5 : 0)
+            .frame(height: 40)
     }
 
     func addDroppedBookmarkToFolder(bookmark: Bookmark?, url: URL, folder: Folder) {

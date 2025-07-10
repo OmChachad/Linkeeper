@@ -43,6 +43,20 @@ struct BookmarkGridItem: View {
         #endif
     }
     
+    init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, toBeEditedBookmark: Binding<Bookmark?>, selectedBookmarks: Binding<Set<Bookmark.ID>>) {
+        self.bookmark = bookmark
+        self.namespace = namespace
+        self._showDetails = showDetails
+        self._toBeEditedBookmark = toBeEditedBookmark
+        self._selectedBookmarks = selectedBookmarks
+        
+        #if !os(macOS)
+        let cacheManager = CacheManager.instance
+        
+        self._cachedPreview = State(initialValue: cacheManager.get(for: bookmark))
+        #endif
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             VStack {
@@ -72,6 +86,20 @@ struct BookmarkGridItem: View {
             .frame(minWidth: 140, idealWidth: 300, maxWidth: 300, minHeight: 100, idealHeight: 300, maxHeight: 300)
             .clipped()
             .contentShape(Rectangle())
+            .overlay(alignment: .topTrailing) {
+                if !bookmark.wrappedNotes.isEmpty {
+                    Image(systemName: "text.alignright")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                        .padding(10)
+                        .background {
+                            Rectangle()
+                                .fill(LinearGradient(colors: [.black, .clear], startPoint: .topTrailing , endPoint: .bottomLeading))
+                                .blur(radius: 10)
+                                .padding([.top, .trailing], -15)
+                        }
+                }
+            }
             
             
             VStack(alignment: .leading, spacing: 0) {
@@ -147,7 +175,9 @@ struct BookmarkGridItem: View {
             MoveBookmarksView(toBeMoved: [bookmark]) {}
         }
         .task {
-            bookmark.cachedImage(saveTo: $cachedPreview)
+            if cachedPreview == nil {
+                bookmark.cachedImage(saveTo: $cachedPreview)
+            }
         }
         .animation(.default, value: selectedBookmarks)
         .animation(.default, value: bookmark.wrappedTitle)
@@ -165,43 +195,40 @@ struct BookmarkGridItem: View {
                     try? moc.save()
                 } label: {
                     if bookmark.isFavorited == false {
-                        Label("Add to favorites", systemImage: "heart")
+                        ModernLabel("Add to favorites", systemImage: "heart")
                     } else {
-                        Label("Remove from favorites", systemImage: "heart.slash")
+                        ModernLabel("Remove from favorites", systemImage: "heart.slash")
                     }
                 }
                 
-                Button {
+                Button("Show details", systemImage: "info.circle") {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         withAnimation {
                             toBeEditedBookmark = bookmark
                             showDetails = true
                         }
                     }
-                } label: {
-                    Label("Show details", systemImage: "info.circle")
                 }
+                .labelStyle(.titleAndIcon)
                 
-                Button(action: bookmark.copyURL) {
-                    Label("Copy link", systemImage: "doc.on.doc")
-                }
+                Button("Copy link", systemImage: "doc.on.doc", action: bookmark.copyURL)
+                .labelStyle(.titleAndIcon)
                 
                 ShareButton(url: bookmark.wrappedURL) {
                     Label("Share", systemImage: "square.and.arrow.up")
+                        .labelStyle(.titleAndIcon)
                 }
                 
-                Button {
+                Button("Move", systemImage: "folder") {
                     movingBookmark.toggle()
-                } label: {
-                    Label("Move", systemImage: "folder")
                 }
+                .labelStyle(.titleAndIcon)
                 
-                Button(role: .destructive) {
+                Button("Delete", systemImage: "trash", role: .destructive) {
                     toBeDeletedBookmark = bookmark
                     deleteConfirmation = true
-                } label: {
-                    Label("Delete", systemImage: "trash")
                 }
+                .labelStyle(.titleAndIcon)
             }
         }
     }
