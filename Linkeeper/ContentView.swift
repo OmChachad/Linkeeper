@@ -45,6 +45,13 @@ struct ContentView: View {
         #endif
     }
     
+    var noFolderSelectedView: some View {
+        Text("No folder is selected.")
+            .font(.title)
+            .fontWeight(.semibold)
+            .foregroundColor(.secondary)
+    }
+    
     var body: some View {
         Group {
             if #available(iOS 16.0, macOS 13.0, *) {
@@ -56,10 +63,7 @@ struct ContentView: View {
                         }
                 } detail: {
                     NavigationStack {
-                        Text("No folder is selected.")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
+                        noFolderSelectedView
                             .navigationDestination(for: Folder.self) { folder in
                                 BookmarksView(folder: folder)
                             }
@@ -72,19 +76,13 @@ struct ContentView: View {
                         sideBar
                             .frame(minWidth: 300, idealWidth: 350)
                     } detail: {
-                        Text("No folder is selected.")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
+                        noFolderSelectedView
                     }
                 } else {
                     NavigationView  {
                         sideBar
                         
-                        Text("No folder is selected.")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
+                        noFolderSelectedView
                     }
                 }
                 #else
@@ -93,10 +91,7 @@ struct ContentView: View {
                         .background(Color(uiColor: .systemGroupedBackground))
                         .navigationBarTitleDisplayMode(.inline)
                     
-                    Text("No folder is selected.")
-                        .font(.title)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.secondary)
+                    noFolderSelectedView
                 }
                 #if os(iOS)
                 .stackModeOniPhone()
