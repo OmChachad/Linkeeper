@@ -70,32 +70,17 @@ struct ContentView: View {
                     }
                 }
             } else {
-                #if os(macOS)
-                if #available(macOS 13.0, *) {
-                    NavigationSplitView {
-                        sideBar
-                            .frame(minWidth: 300, idealWidth: 350)
-                    } detail: {
-                        noFolderSelectedView
-                    }
-                } else {
-                    NavigationView  {
-                        sideBar
-                        
-                        noFolderSelectedView
-                    }
-                }
-                #else
                 NavigationView  {
                     sideBar
+                        #if os(iOS)
                         .background(Color(uiColor: .systemGroupedBackground))
                         .navigationBarTitleDisplayMode(.inline)
-                    
+                        #endif
+
                     noFolderSelectedView
                 }
                 #if os(iOS)
                 .stackModeOniPhone()
-                #endif
                 #endif
             }
         }
