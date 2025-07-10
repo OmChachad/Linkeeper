@@ -168,57 +168,59 @@ struct ContentView: View {
         GeometryReader { geo in
             ScrollView {
                 VStack(spacing: 0) {
-                    VStack {
-                        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
-                            PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveStatus: $showingAllBookmarks) { bookmark, url in
-                                withAnimation {
-                                    if let bookmark {
-                                        bookmark.folder = nil
-                                        try? moc.save()
-                                    } else {
-                                        BookmarksManager.shared.addDroppedURL(url)
-                                    }
-                                }
-                            }
-                            .buttonStyle(.plain)
-                            
-                            
-                            PinnedItemView(destination: BookmarksView(onlyFavorites: true), title: "Favorites", symbolName: "heart.fill", tint: .pink, count:   favoriteBookmarks.count, isActiveStatus: $showingFavorites) { bookmark, url in
-                                withAnimation {
-                                    if let bookmark {
-                                        bookmark.isFavorited = true
-                                    } else {
-                                        let bookmark = BookmarksManager.shared.addDroppedURL(url)
-                                        bookmark?.isFavorited = true
-                                    }
-                                    try? moc.save()
-                                }
-                            }
-                            .buttonStyle(.plain)
-                            
-                            ForEach(pinnedFolders) { folder in
-                                PinnedItemView(destination: BookmarksView(folder: folder), title: folder.wrappedTitle, symbolName: folder.wrappedSymbol, tint: folder.wrappedColor, count: folder.countOfBookmarks, isActiveStatus: $showingPinnedFolder) { bookmark, url in
+                    if #available(iOS 15.0, macOS 13.0, *) {
+                        VStack {
+                            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: 2), spacing: spacing) {
+                                PinnedItemView(destination: BookmarksView(), title: "All", symbolName: "tray.fill", tint: Color("AllBookmarksColor"), count: allBookmarks.count, isActiveStatus: $showingAllBookmarks) { bookmark, url in
                                     withAnimation {
-                                        addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
+                                        if let bookmark {
+                                            bookmark.folder = nil
+                                            try? moc.save()
+                                        } else {
+                                            BookmarksManager.shared.addDroppedURL(url)
+                                        }
                                     }
                                 }
-                                .contextMenu {
-                                    Button("Unpin", systemImage: "pin.slash") {
-                                        folder.isPinned.toggle()
-                                        folder.index = (folders.last?.index ?? 0) + 1
+                                .buttonStyle(.plain)
+                                
+                                
+                                PinnedItemView(destination: BookmarksView(onlyFavorites: true), title: "Favorites", symbolName: "heart.fill", tint: .pink, count:   favoriteBookmarks.count, isActiveStatus: $showingFavorites) { bookmark, url in
+                                    withAnimation {
+                                        if let bookmark {
+                                            bookmark.isFavorited = true
+                                        } else {
+                                            let bookmark = BookmarksManager.shared.addDroppedURL(url)
+                                            bookmark?.isFavorited = true
+                                        }
                                         try? moc.save()
                                     }
-                                    .labelStyle(.titleAndIcon)
                                 }
+                                .buttonStyle(.plain)
+                                
+                                ForEach(pinnedFolders) { folder in
+                                    PinnedItemView(destination: BookmarksView(folder: folder), title: folder.wrappedTitle, symbolName: folder.wrappedSymbol, tint: folder.wrappedColor, count: folder.countOfBookmarks, isActiveStatus: $showingPinnedFolder) { bookmark, url in
+                                        withAnimation {
+                                            addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
+                                        }
+                                    }
+                                    .contextMenu {
+                                        Button("Unpin", systemImage: "pin.slash") {
+                                            folder.isPinned.toggle()
+                                            folder.index = (folders.last?.index ?? 0) + 1
+                                            try? moc.save()
+                                        }
+                                        .labelStyle(.titleAndIcon)
+                                    }
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
+                            #if os(macOS)
+                            .padding(12.5)
+                            #else
+                            .padding(UIDevice.current.userInterfaceIdiom == .pad ? 15 : 20)
+                            .padding(.top, UIDevice.current.userInterfaceIdiom == .pad ? 0 : -20)
+                            #endif
                         }
-                        #if os(macOS)
-                        .padding(12.5)
-                        #else
-                        .padding(UIDevice.current.userInterfaceIdiom == .pad ? 15 : 20)
-                        .padding(.top, UIDevice.current.userInterfaceIdiom == .pad ? 0 : -20)
-                        #endif
                     }
                     
                     
