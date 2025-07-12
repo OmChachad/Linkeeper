@@ -15,12 +15,15 @@ struct WhatsNew: View {
         var systemImage: String
         var title: String
         var description: String
+        var isVisible: Bool = true
     }
     
     let features: [Feature] = [
         Feature(systemImage: "folder.fill", title: "Nested Folders", description: "You can now organize your bookmarks into nested folders."),
         Feature(systemImage: "sparkles.square.filled.on.square", title: "Refreshed UI", description: "Linkeeper's interface has now been refreshed with a more modern look and feel."),
         Feature(systemImage: "rectangle.and.pencil.and.ellipsis.rtl", title: "Custom Titles", description: "Yep, you can now set the titles of your bookmarks during creation."),
+        Feature(systemImage: "square.on.square.fill", title: "iOS 18 App Icons", description: "Adaptive App Icons are now available for iOS 18."),
+        Feature(systemImage: "contextualmenu.and.cursorarrow", title: "\(isMac ? "Dock" : "Home Screen") Quick Actions", description: "Quickly Add Bookmarks from your \(isMac ? "Dock by secondary clicking" : "Home Screen by long pressing") the icon.", isVisible: !isVisionOS),
         Feature(systemImage: "apple.intelligence", title: "Ready for Apple Intelligence", description: "Linkeeper is ready for Apple Intelligence and Personal Context."),
         Feature(systemImage: "hammer.fill", title: "Bug fixes & Improvements", description: "We've listened to your feedback and made several bug fixes and improvements to the app."),
     ]
@@ -43,7 +46,7 @@ struct WhatsNew: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
-                    ForEach(features.indices, id: \.self) { index in
+                    ForEach(features.filter { $0.isVisible }.indices, id: \.self) { index in
                             HStack {
                                 Image(systemName: features[index].systemImage)
                                     .foregroundColor(.blue)
