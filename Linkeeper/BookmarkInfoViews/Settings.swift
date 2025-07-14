@@ -12,8 +12,8 @@ struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     
     @AppStorage("ShadowsEnabled") var shadowsEnabled = true
-    @AppStorage("removeTrackingParameters") var removeTrackingParameters = false
-    @AppStorage("autoFetchTitles") var autoFetchTitles = true
+    @AppStorage("removeTrackingParameters", store: SharedUserDefaults) var removeTrackingParameters = false
+    @AppStorage("autoFetchTitles", store: SharedUserDefaults) var autoFetchTitles = true
     
     @ObservedObject var storeKit = Store.shared
     

@@ -51,6 +51,8 @@ struct LinkeeperApp: App {
                     }
                 }
                 .onAppear {
+                    migrateToAppGroup()
+                    
                     if showIntroduction {
                         showWhatsNew = false // Dismiss What's New if Introduction is shown
                     }
@@ -70,5 +72,21 @@ struct LinkeeperApp: App {
                 .frame(idealWidth: 500)
         }
         #endif
+    }
+    
+    func migrateToAppGroup() {
+        let keysToMigrate = ["removeTrackingParameters", "autoFetchTitles"]
+        
+        let userDefaults = UserDefaults.standard
+        
+        for key in keysToMigrate {
+            if userDefaults.object(forKey: key) != nil {
+                print("Migrating key: \(key) to SharedUserDefaults")
+                
+                let value = userDefaults.object(forKey: key)
+                SharedUserDefaults.set(value, forKey: key)
+                userDefaults.removeObject(forKey: key)
+            }
+        }
     }
 }
