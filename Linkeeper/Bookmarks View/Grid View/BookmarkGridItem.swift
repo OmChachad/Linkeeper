@@ -15,12 +15,14 @@ struct BookmarkGridItem: View {
     @Environment(\.openURL) var openURL
     
     @AppStorage("ShadowsEnabled") var shadowsEnabled = true
+    @AppStorage("askBeforeOpeningBookmarks") var askBeforeOpeningBookmarks = false
     
     var bookmark: Bookmark
     var namespace: Namespace.ID
     @Binding var showDetails: Bool
     @Binding var toBeEditedBookmark: Bookmark?
     
+    @State private var presentOpenConfirmation: Bool = false
     @State private var deleteConfirmation: Bool = false
     @State private var toBeDeletedBookmark: Bookmark?
     
@@ -185,6 +187,17 @@ struct BookmarkGridItem: View {
         .if(toBeDeletedBookmark != nil) { view in
             view.transition(.movingParts.poof)
         }
+        .alert(isPresented: $presentOpenConfirmation) {
+            Alert(
+                title: Text("Open Bookmark"),
+                message: Text("Do you want to open this bookmark?"),
+                primaryButton: .default(Text("Open")
+            ) {
+                openURL(bookmark.wrappedURL)
+            },
+                secondaryButton: .cancel()
+            )
+        }
     }
     
     func menuItems() -> some View {
@@ -234,7 +247,12 @@ struct BookmarkGridItem: View {
     }
     
     func openBookmark() {
-        openURL(bookmark.wrappedURL)
+        if askBeforeOpeningBookmarks {
+            presentOpenConfirmation = true
+        } else {
+            openURL(bookmark.wrappedURL)
+        }
+        
         Task {
             await bookmark.cachePreviewInto($cachedPreview)
         }

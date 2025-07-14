@@ -14,6 +14,7 @@ struct SettingsView: View {
     @AppStorage("ShadowsEnabled") var shadowsEnabled = true
     @AppStorage("removeTrackingParameters", store: SharedUserDefaults) var removeTrackingParameters = false
     @AppStorage("autoFetchTitles", store: SharedUserDefaults) var autoFetchTitles = true
+    @AppStorage("askBeforeOpeningBookmarks") var askBeforeOpeningBookmarks = false
     
     @ObservedObject var storeKit = Store.shared
     
@@ -108,6 +109,8 @@ struct SettingsView: View {
                     Toggle("Enable Shadows around Bookmarks", isOn: $shadowsEnabled)
                         .toggleStyle(.switch)
                     Toggle("Automatically fetch titles", isOn: $autoFetchTitles)
+                        .toggleStyle(.switch)
+                    Toggle("Ask before opening bookmarks", isOn: $askBeforeOpeningBookmarks)
                         .toggleStyle(.switch)
                 }
                 
