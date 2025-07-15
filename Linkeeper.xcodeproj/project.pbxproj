@@ -117,6 +117,7 @@
 		C26315E82E24DBD9003872B6 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26315E52E24DBD9003872B6 /* SharedUserDefaults.swift */; };
 		C26315E92E24DBD9003872B6 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26315E52E24DBD9003872B6 /* SharedUserDefaults.swift */; };
 		C26315EA2E24DBD9003872B6 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26315E52E24DBD9003872B6 /* SharedUserDefaults.swift */; };
+		C26316212E264DDD003872B6 /* CommandKeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26316202E264DDD003872B6 /* CommandKeyObserver.swift */; };
 		C26DD1962E1FEE2000500EA6 /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26DD1952E1FEE2000500EA6 /* WhatsNew.swift */; };
 		C27AF0F92B47C03E00C4D9A4 /* reloadAllWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF0F82B47C03E00C4D9A4 /* reloadAllWidgets.swift */; };
 		C27AF0FA2B47C0F200C4D9A4 /* reloadAllWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27AF0F82B47C03E00C4D9A4 /* reloadAllWidgets.swift */; };
@@ -360,6 +361,7 @@
 		C25316032A2D03D2004F1491 /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		C2550E63282705F900ADA0BF /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		C26315E52E24DBD9003872B6 /* SharedUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUserDefaults.swift; sourceTree = "<group>"; };
+		C26316202E264DDD003872B6 /* CommandKeyObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandKeyObserver.swift; sourceTree = "<group>"; };
 		C26DD1952E1FEE2000500EA6 /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WhatsNew.swift; path = "Bookmarks View/WhatsNew.swift"; sourceTree = "<group>"; };
 		C26FA2602BE3D10E00D2F7EF /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C27AF0F82B47C03E00C4D9A4 /* reloadAllWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reloadAllWidgets.swift; sourceTree = "<group>"; };
@@ -690,6 +692,7 @@
 				C22268A12B4A7C1D00D88123 /* macOS Bridge.swift */,
 				C2E98EC42D8D370D00C63A78 /* AppConfiguration.swift */,
 				C26315E52E24DBD9003872B6 /* SharedUserDefaults.swift */,
+				C26316202E264DDD003872B6 /* CommandKeyObserver.swift */,
 				C28A2C7F2B033FBD0027A70F /* Global */,
 				C2C8EE9E2A4DF86800CCD36F /* Drag & Dropping */,
 				C29B00F22A588B260081FEBC /* Functions */,
@@ -1295,6 +1298,7 @@
 				C234F6ED2A31BD7100401721 /* Twitter.swift in Sources */,
 				C25316022A2D0398004F1491 /* FolderItemView.swift in Sources */,
 				C24DF57C283E7185003C9692 /* Bookmark+CoreDataClass.swift in Sources */,
+				C26316212E264DDD003872B6 /* CommandKeyObserver.swift in Sources */,
 				C23BDA472840C70E003DD30D /* CacheManager.swift in Sources */,
 				C24DF57E283E7185003C9692 /* Folder+CoreDataClass.swift in Sources */,
 				C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */,

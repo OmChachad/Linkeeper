@@ -37,6 +37,8 @@ struct BookmarksView: View {
     @State private var addingBookmark = false
     @State private var searchText = ""
     
+    @State private var isCommandKeyPressed = false
+    
     @AppStorage("GroupAllByFolders") var groupByFolders: Bool = true
     @AppStorage("ViewOption") private var viewOption: ViewOption = .grid
     
@@ -95,6 +97,14 @@ struct BookmarksView: View {
                 switch(viewOption) {
                 case .grid:
                     BookmarksGridView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
+                        .commandKeyObserver(isCommandKeyPressed: $isCommandKeyPressed)
+                        .onChange(of: isCommandKeyPressed) { newValue in
+                            if newValue {
+                                editState = .active
+                            } else if selectedBookmarks.count == 0 {
+                                editState = .inactive
+                            }
+                        }
                 case .list:
                     BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
                 case .table:
