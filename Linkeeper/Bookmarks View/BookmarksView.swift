@@ -11,6 +11,7 @@ import Pow
 struct BookmarksView: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.openURL) var openURL
     
     // CoreData FetchRequests
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var bookmarks: FetchedResults<Bookmark>
@@ -41,6 +42,9 @@ struct BookmarksView: View {
     
     @AppStorage("SortMethod") private var sortMethod: SortMethod = .dateCreated
     @AppStorage("SortDirection") private var sortDirection: SortDirection = .descending
+    
+    @AppStorage("askBeforeOpeningBookmarks") var askBeforeOpeningBookmarks = false
+    @State private var askingForOpenConfirmation = false
     
     @State private var sortOrder = [KeyPathComparator(\Bookmark.wrappedDate, order: .reverse)]
     @State private var showingNewFolderView = false
@@ -263,6 +267,30 @@ struct BookmarksView: View {
             }
         }
         #endif
+        // MARK: Logic for opening bookmarks in the browser for list and table view.
+        .onChange(of: selectedBookmarks.first) { _ in
+            if selectedBookmarks.count == 1 && viewOption != .grid {
+                let bookmark = BookmarksManager.shared.findBookmark(withId: selectedBookmarks.first!!)
+                
+                if askBeforeOpeningBookmarks {
+                    askingForOpenConfirmation = true
+                } else {
+                    openURL(bookmark.wrappedURL)
+                }
+            }
+        }
+        .alert(isPresented: $askingForOpenConfirmation) {
+            Alert(
+                title: Text("Open Bookmark"),
+                message: Text("Do you want to open this bookmark?"),
+                primaryButton: .default(Text("Open")
+            ) {
+                let bookmark = BookmarksManager.shared.findBookmark(withId: selectedBookmarks.first!!)
+                openURL(bookmark.wrappedURL)
+            },
+                secondaryButton: .cancel()
+            )
+        }
     }
     
     func bottomEditToolbar() -> some View {
