@@ -17,15 +17,23 @@ class ShareViewController: UIViewController {
         
         guard let extensionContext = self.extensionContext else { return }
 
-        if let inputItem = extensionContext.inputItems.first as? NSExtensionItem,
-           let itemProvider = inputItem.attachments?.first {
-            if itemProvider.hasItemConformingToTypeIdentifier(UTType.url.identifier) {
-                itemProvider.loadItem(forTypeIdentifier: UTType.url.identifier,completionHandler: onLoadURL)
-            } else if itemProvider.hasItemConformingToTypeIdentifier(UTType.text.identifier) {
-                itemProvider.loadItem(forTypeIdentifier: UTType.text.identifier, completionHandler: onLoadText)
-            } else {
-                presentErrorAlert()
+        if let inputItems = extensionContext.inputItems as? [NSExtensionItem] {
+            for inputItem in inputItems {
+                if let attachments = inputItem.attachments {
+                    for itemProvider in attachments {
+                        if itemProvider.hasItemConformingToTypeIdentifier(UTType.url.identifier) {
+                            itemProvider.loadItem(forTypeIdentifier: UTType.url.identifier, completionHandler: onLoadURL)
+                            return
+                        } else if itemProvider.hasItemConformingToTypeIdentifier(UTType.text.identifier) {
+                            itemProvider.loadItem(forTypeIdentifier: UTType.text.identifier, completionHandler: onLoadText)
+                            return
+                        }
+                    }
+                }
             }
+            
+            // If no URL or text found, show error.
+            presentErrorAlert()
         }
     }
     
