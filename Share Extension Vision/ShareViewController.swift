@@ -74,7 +74,7 @@ class ShareViewController: UIViewController {
             let hostingController = UIHostingController(rootView: swiftUIView)
             self.addChild(hostingController)
             self.view.addSubview(hostingController.view)
-            hostingController.view.frame = CGRectMake(0, 0, 600, 650)
+            hostingController.view.frame = CGRectMake(0, 0, 515, 650)
             hostingController.didMove(toParent: self)
         }
     }
