@@ -15,6 +15,8 @@ struct BookmarksTableView: View {
     @Binding var selectedBookmarks: Set<Bookmark.ID>
     @Binding var sortOrder: [KeyPathComparator<Bookmark>]
     
+    @AppStorageColumns("selectedColumns") var selectedColumns: [Column] = [.host, .folder, .dateAdded]
+    
     @Binding var toBeEditedBookmark: Bookmark?
     @Binding var showDetails: Bool
     
@@ -47,24 +49,30 @@ struct BookmarksTableView: View {
                 }
             }
             
-            if #available(iOS 17.0, macOS 14.0, *) {
+            if #available(iOS 17.4, macOS 14.4, *) {
                 Table(of: Bookmark.self, selection: isMac ? .constant(selectedBookmarks) : $selectedBookmarks, sortOrder: $sortOrder) {
                     TableColumn("Name", value: \.wrappedTitle) { bookmark in
                         TableNameView(bookmark: bookmark)
                     }
                     .width(min: 200)
                     
-                    TableColumn("Host", value: \.wrappedHost)
-                        .width(max: 200)
-                    
-                    TableColumn("Folder", value: \.wrappedFolderName)
-                        .width(max: 200)
-                    
-                    TableColumn("Date Added", value: \.wrappedDate) { bookmark in
-                        Text(bookmark.wrappedDate, style: .date)
-                            .tag(bookmark.wrappedDate)
+                    if selectedColumns.contains(.host) {
+                        TableColumn("Host", value: \.wrappedHost)
+                            .width(min: 150, max: 200)
                     }
-                    .width(max: isVisionOS ? 200 : 150)
+                    
+                    if selectedColumns.contains(.folder) {
+                        TableColumn("Folder", value: \.wrappedFolderName)
+                            .width(min: 150, max: 200)
+                    }
+                    
+                    if selectedColumns.contains(.dateAdded) {
+                        TableColumn("Date Added", value: \.wrappedDate) { bookmark in
+                            Text(bookmark.wrappedDate, style: .date)
+                                .tag(bookmark.wrappedDate)
+                        }
+                        .width(min: 150, max: isVisionOS ? 200 : 150)
+                    }
                 } rows: {
                     ForEach(bookmarks.sorted(using: sortOrder)) { bookmark in
                         TableRow(bookmark)
@@ -108,6 +116,32 @@ struct BookmarksTableView: View {
             }
         } message: {
             Text("It will be deleted from all your iCloud devices.")
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .automatic) {
+                if #available(iOS 17.4, macOS 14.4, *) {
+                    Menu {
+                        ForEach(Column.allCases, id: \.self) { column in
+                            Button {
+                                toggleColumn(column)
+                            } label: {
+                                Label(column.title, systemImage: selectedColumns.contains(column) ? "checkmark" : "")
+                                    .labelStyle(.titleAndIcon)
+                            }
+                        }
+                    } label: {
+                        Label("Columns", systemImage: "table.badge.more")
+                    }
+                }
+            }
+        }
+    }
+    
+    private func toggleColumn(_ column: Column) {
+        if let index = selectedColumns.firstIndex(of: column) {
+            selectedColumns.remove(at: index)
+        } else {
+            selectedColumns.append(column)
         }
     }
     
