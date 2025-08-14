@@ -21,7 +21,7 @@ struct LinkeeperApp: App {
     
     @StateObject private var dataController = DataController.shared
     @AppStorage("showIntroduction") var showIntroduction = true
-    @AppStorage("showWhatsNewv3.0") var showWhatsNew = true
+    @AppStorage("showWhatsNewv3.1") var showWhatsNew = true
     
     @ObservedObject var storeKit = Store.shared
     @AppStorage("tipPromptCompleted") var tipPromptCompleted = false

@@ -19,13 +19,42 @@ struct WhatsNew: View {
     }
     
     let features: [Feature] = [
-        Feature(systemImage: "folder.fill", title: "Nested Folders", description: "You can now organize your bookmarks into nested folders."),
-        Feature(systemImage: "sparkles.square.filled.on.square", title: "Refreshed UI", description: "Linkeeper's interface has now been refreshed with a more modern look and feel."),
-        Feature(systemImage: "rectangle.and.pencil.and.ellipsis.rtl", title: "Custom Titles", description: "Yep, you can now set the titles of your bookmarks during creation."),
-        Feature(systemImage: "square.on.square.fill", title: "iOS 18 App Icons", description: "Adaptive App Icons are now available for iOS 18."),
-        Feature(systemImage: "contextualmenu.and.cursorarrow", title: "\(isMac ? "Dock" : "Home Screen") Quick Actions", description: "Quickly Add Bookmarks from your \(isMac ? "Dock by secondary clicking" : "Home Screen by long pressing") the icon.", isVisible: !isVisionOS),
-        Feature(systemImage: "apple.intelligence", title: "Ready for Apple Intelligence", description: "Linkeeper is ready for Apple Intelligence and Personal Context."),
-        Feature(systemImage: "hammer.fill", title: "Bug fixes & Improvements", description: "We've listened to your feedback and made several bug fixes and improvements to the app."),
+        Feature(
+            systemImage: "hand.tap.fill",
+            title: "Tap to Open Links",
+            description: "In list or table view, simply tap a bookmark to open it instantly in your browser."
+        ),
+        Feature(
+            systemImage: "text.bubble",
+            title: "Confirm Before Opening",
+            description: "Avoid accidental opens by getting a quick confirmation before any link launches."
+        ),
+        Feature(
+            systemImage: "tablecells.badge.ellipsis",
+            title: "Customizable Columns",
+            description: "Show or hide table view columns to match your workflow."
+        ),
+        Feature(
+            systemImage: "checkmark.circle.fill",
+            title: "Select All",
+            description: "Select all your bookmarks at once to move or delete them together."
+        ),
+        Feature(
+            systemImage: "command",
+            title: "Command-Click Selection",
+            description: "Hold the Command key to start selecting multiple bookmarks quickly.",
+            isVisible: isMac
+        ),
+        Feature(
+            systemImage: "square.and.arrow.up",
+            title: "Enhanced Share Extension",
+            description: "Improved Share Extension compatibility with App Store and other links."
+        ),
+        Feature(
+            systemImage: "hammer.fill",
+            title: "Bug fixes and improvements.",
+            description: "General performance improvements and bug fixes based on user feedback."
+        ),
     ]
     
     var body: some View {
@@ -33,11 +62,9 @@ struct WhatsNew: View {
             Spacer()
             
             VStack {
-                Text("The biggest update to Linkeeper—yet.")
+                Text("Welcome to **Linkeeper 3.1**")
                     .font(.title)
                     .bold()
-                
-                Text("Welcome to **Linkeeper 3.0**")
             }
             .multilineTextAlignment(.center)
             .padding()
