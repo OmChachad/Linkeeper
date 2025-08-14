@@ -49,7 +49,7 @@ struct BookmarksTableView: View {
                 }
             }
             
-            if #available(iOS 17.4, macOS 14.4, *) {
+            if #available(iOS 17.4, macOS 14.4, visionOS 1.4, *) {
                 Table(of: Bookmark.self, selection: isMac ? .constant(selectedBookmarks) : $selectedBookmarks, sortOrder: $sortOrder) {
                     TableColumn("Name", value: \.wrappedTitle) { bookmark in
                         TableNameView(bookmark: bookmark)
@@ -119,7 +119,7 @@ struct BookmarksTableView: View {
         }
         .toolbar {
             ToolbarItemGroup(placement: .automatic) {
-                if #available(iOS 17.4, macOS 14.4, *) {
+                if #available(iOS 17.4, macOS 14.4, visionOS 1.4, *) {
                     Menu {
                         ForEach(Column.allCases, id: \.self) { column in
                             Button {
