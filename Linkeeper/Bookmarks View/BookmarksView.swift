@@ -305,6 +305,18 @@ struct BookmarksView: View {
     
     func bottomEditToolbar() -> some View {
         HStack {
+            if selectedBookmarks == Set(bookmarks.map(\.id)) {
+                Button("Deselect All") {
+                    selectedBookmarks = Set()
+                }
+            } else {
+                Button("Select All") {
+                    selectedBookmarks = Set(bookmarks.map(\.id))
+                }
+            }
+            
+            Spacer()
+            
             Button(role: .destructive) {
                 deleteConfirmation.toggle()
             } label: {
@@ -326,6 +338,7 @@ struct BookmarksView: View {
             } message: {
                 Text("^[\(selectedBookmarks.count) Bookmark](inflect: true) will be deleted from all your iCloud devices.")
             }
+            .disabled(selectedBookmarks.isEmpty)
             
             Spacer()
                 .frame(width: 20)
@@ -336,8 +349,8 @@ struct BookmarksView: View {
                 Image(systemName: "folder")
                     .imageScale(.large)
             }
+            .disabled(selectedBookmarks.isEmpty)
         }
-        .disabled(selectedBookmarks.isEmpty)
     }
     
     func noBookmarksView() -> some View {
