@@ -273,6 +273,7 @@
 		C2EC30BB2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30B82EF9622600C935AD /* Button + glassButtonStyle.swift */; };
 		C2EC30BC2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30B82EF9622600C935AD /* Button + glassButtonStyle.swift */; };
 		C2EC30BD2EF9698200C935AD /* VariableBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC75782CFE1E940093E40B /* VariableBlurView.swift */; };
+		C2EC30BF2EF98E6D00C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
 		C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
 		C2F042362C19EB6D002CE4AA /* FolderGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */; };
 		C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */; };
@@ -451,6 +452,7 @@
 		C2E806E72A26194E00A41D0C /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		C2E98EC42D8D370D00C63A78 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		C2EC30B82EF9622600C935AD /* Button + glassButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button + glassButtonStyle.swift"; sourceTree = "<group>"; };
+		C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = isLiquidGlass.swift; sourceTree = "<group>"; };
 		C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Linkeeper.entitlements; sourceTree = "<group>"; };
 		C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppShortcuts Provider.swift"; sourceTree = "<group>"; };
 		C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderGridItem.swift; sourceTree = "<group>"; };
@@ -702,6 +704,7 @@
 				C2E98EC42D8D370D00C63A78 /* AppConfiguration.swift */,
 				C26315E52E24DBD9003872B6 /* SharedUserDefaults.swift */,
 				C26316202E264DDD003872B6 /* CommandKeyObserver.swift */,
+				C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */,
 				C28A2C7F2B033FBD0027A70F /* Global */,
 				C2C8EE9E2A4DF86800CCD36F /* Drag & Dropping */,
 				C29B00F22A588B260081FEBC /* Functions */,
@@ -1314,6 +1317,7 @@
 				C25316022A2D0398004F1491 /* FolderItemView.swift in Sources */,
 				C24DF57C283E7185003C9692 /* Bookmark+CoreDataClass.swift in Sources */,
 				C26316212E264DDD003872B6 /* CommandKeyObserver.swift in Sources */,
+				C2EC30BF2EF98E6D00C935AD /* isLiquidGlass.swift in Sources */,
 				C23BDA472840C70E003DD30D /* CacheManager.swift in Sources */,
 				C24DF57E283E7185003C9692 /* Folder+CoreDataClass.swift in Sources */,
 				C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */,

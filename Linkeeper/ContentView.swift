@@ -204,6 +204,7 @@ struct ContentView: View {
                             #else
                             .padding(UIDevice.current.userInterfaceIdiom == .pad ? 15 : 20)
                             .padding(.top, UIDevice.current.userInterfaceIdiom == .pad ? 0 : -20)
+                            .padding(.horizontal, isLiquidGlass ? -5 : 0)
                             #endif
                         }
                     }
@@ -384,7 +385,6 @@ Click **Add Folder** to get started.
                     VariableBlurView(maxBlurRadius: 20, direction: .blurredBottomClearTop, startOffset: 0)
                         .ignoresSafeArea()
                 }
-                #warning("Must be tested on home button iPhone.")
             })
             #endif
             .toolbar {

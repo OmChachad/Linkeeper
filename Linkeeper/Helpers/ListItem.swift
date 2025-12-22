@@ -53,6 +53,7 @@ struct ListItem: View {
             } icon: {
                 icon()
             }
+            .padding(.leading, isLiquidGlass ? 5 : 0)
             #if os(macOS)
             .padding(.leading, 5)
             #endif
