@@ -274,6 +274,10 @@
 		C2EC30BC2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30B82EF9622600C935AD /* Button + glassButtonStyle.swift */; };
 		C2EC30BD2EF9698200C935AD /* VariableBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC75782CFE1E940093E40B /* VariableBlurView.swift */; };
 		C2EC30BF2EF98E6D00C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
+		C2EC30CC2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
+		C2EC30CD2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
+		C2EC30CE2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
+		C2EC30CF2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
 		C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
 		C2F042362C19EB6D002CE4AA /* FolderGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */; };
 		C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */; };
@@ -1116,6 +1120,7 @@
 				C2052BFC2B34697600185D29 /* Bookmark+CoreDataClass.swift in Sources */,
 				C28D18822B41A20B0033C979 /* MoveBookmarks.swift in Sources */,
 				C28D18912B43008B0033C979 /* BookmarkItemView.swift in Sources */,
+				C2EC30CD2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */,
 				C28D18932B43193F0033C979 /* SmallWidgetView.swift in Sources */,
 				C28D18802B41A20B0033C979 /* DeleteBookmark.swift in Sources */,
 				C28D188A2B425FAE0033C979 /* Bookmark.swift in Sources */,
@@ -1144,6 +1149,7 @@
 				C2120C642B95EFCE003FEDF2 /* AddFolder.swift in Sources */,
 				C2CCDC8E2D74794B00D91A08 /* Notifications.swift in Sources */,
 				C236AD7B2C405B31000BE9FE /* isMac.swift in Sources */,
+				C2EC30CF2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */,
 				C2120C572B95EF28003FEDF2 /* DraggableBookmark.swift in Sources */,
 				C2EC30BB2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */,
 				C2120C5F2B95EF8D003FEDF2 /* AddFolderView.swift in Sources */,
@@ -1188,6 +1194,7 @@
 				C2891D852B51867A00C44C37 /* Metadata Fetcher.swift in Sources */,
 				C2CCDC8D2D74794B00D91A08 /* Notifications.swift in Sources */,
 				C236AD7A2C405B30000BE9FE /* isMac.swift in Sources */,
+				C2EC30CE2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */,
 				C2891D902B5191DB00C44C37 /* FolderEntity.swift in Sources */,
 				C2EC30BA2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */,
 				C2891D8B2B5186B000C44C37 /* SymbolOption.swift in Sources */,
@@ -1234,6 +1241,7 @@
 				C2EC30BD2EF9698200C935AD /* VariableBlurView.swift in Sources */,
 				C2A14A482A6024D4003A5308 /* URL.swift in Sources */,
 				C2A14A3D2A602498003A5308 /* FoldersManager.swift in Sources */,
+				C2EC30CC2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */,
 				C21B92972A94A8F4001237DD /* CacheManager.swift in Sources */,
 				C2EC30BC2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */,
 				C23D41012D72A95E009C17B0 /* Color.swift in Sources */,
