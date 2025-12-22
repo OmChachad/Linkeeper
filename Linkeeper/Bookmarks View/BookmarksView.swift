@@ -11,6 +11,7 @@ import Pow
 struct BookmarksView: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.openURL) var openURL
     
     // CoreData FetchRequests
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var bookmarks: FetchedResults<Bookmark>
@@ -36,11 +37,16 @@ struct BookmarksView: View {
     @State private var addingBookmark = false
     @State private var searchText = ""
     
+    @State private var isCommandKeyPressed = false
+    
     @AppStorage("GroupAllByFolders") var groupByFolders: Bool = true
     @AppStorage("ViewOption") private var viewOption: ViewOption = .grid
     
     @AppStorage("SortMethod") private var sortMethod: SortMethod = .dateCreated
     @AppStorage("SortDirection") private var sortDirection: SortDirection = .descending
+    
+    @AppStorage("askBeforeOpeningBookmarks") var askBeforeOpeningBookmarks = false
+    @State private var askingForOpenConfirmation = false
     
     @State private var sortOrder = [KeyPathComparator(\Bookmark.wrappedDate, order: .reverse)]
     @State private var showingNewFolderView = false
@@ -91,6 +97,14 @@ struct BookmarksView: View {
                 switch(viewOption) {
                 case .grid:
                     BookmarksGridView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
+                        .commandKeyObserver(isCommandKeyPressed: $isCommandKeyPressed)
+                        .onChange(of: isCommandKeyPressed) { newValue in
+                            if newValue {
+                                editState = .active
+                            } else if selectedBookmarks.count == 0 {
+                                editState = .inactive
+                            }
+                        }
                 case .list:
                     BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
                 case .table:
@@ -263,10 +277,46 @@ struct BookmarksView: View {
             }
         }
         #endif
+        // MARK: Logic for opening bookmarks in the browser for list and table view.
+        .onChange(of: selectedBookmarks.first) { _ in
+            if selectedBookmarks.count == 1 && viewOption != .grid {
+                let bookmark = BookmarksManager.shared.findBookmark(withId: selectedBookmarks.first!!)
+                
+                if askBeforeOpeningBookmarks {
+                    askingForOpenConfirmation = true
+                } else {
+                    openURL(bookmark.wrappedURL)
+                }
+            }
+        }
+        .alert(isPresented: $askingForOpenConfirmation) {
+            Alert(
+                title: Text("Open Bookmark"),
+                message: Text("Do you want to open this bookmark?"),
+                primaryButton: .default(Text("Open")
+            ) {
+                let bookmark = BookmarksManager.shared.findBookmark(withId: selectedBookmarks.first!!)
+                openURL(bookmark.wrappedURL)
+            },
+                secondaryButton: .cancel()
+            )
+        }
     }
     
     func bottomEditToolbar() -> some View {
         HStack {
+            if selectedBookmarks == Set(bookmarks.map(\.id)) {
+                Button("Deselect All") {
+                    selectedBookmarks = Set()
+                }
+            } else {
+                Button("Select All") {
+                    selectedBookmarks = Set(bookmarks.map(\.id))
+                }
+            }
+            
+            Spacer()
+            
             Button(role: .destructive) {
                 deleteConfirmation.toggle()
             } label: {
@@ -288,6 +338,7 @@ struct BookmarksView: View {
             } message: {
                 Text("^[\(selectedBookmarks.count) Bookmark](inflect: true) will be deleted from all your iCloud devices.")
             }
+            .disabled(selectedBookmarks.isEmpty)
             
             Spacer()
                 .frame(width: 20)
@@ -298,8 +349,8 @@ struct BookmarksView: View {
                 Image(systemName: "folder")
                     .imageScale(.large)
             }
+            .disabled(selectedBookmarks.isEmpty)
         }
-        .disabled(selectedBookmarks.isEmpty)
     }
     
     func noBookmarksView() -> some View {

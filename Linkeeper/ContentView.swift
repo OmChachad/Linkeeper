@@ -271,7 +271,9 @@ struct ContentView: View {
                         }
                         .listStyle(.sidebar)
                         .frame(height: sideBarListHeight, alignment: .top)
+                        #if !os(macOS)
                         .onChange(of: folders.count) { _ in updateListHeight() }
+                        #endif
                         .onAppear(perform: updateListHeight)
                     } else {
                         Group {
@@ -460,7 +462,7 @@ Click **Add Folder** to get started.
     
     func updateListHeight() {
         #warning("Test on fresh install before shipping.")
-        self.sideBarListHeight = CGFloat(Double(folders.filter({!$0.isPinned }).count) * (isMac ? 50.5 : 80) + (folders.filter({!$0.isPinned }).count > 4 ? 0 : 200))
+        self.sideBarListHeight = CGFloat(Double(folders.filter({!$0.isPinned }).count) * (isMac ? 50.5 : 80) + 200)
     }
     
     func addDroppedBookmarkToFolder(bookmark: Bookmark?, url: URL, folder: Folder) {

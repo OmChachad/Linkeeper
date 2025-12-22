@@ -15,14 +15,14 @@ enum EditMode {
     case transient
 }
 
-struct EditStateKey: EnvironmentKey {
-    static var defaultValue: EditMode = .inactive
+private struct EditModeKey: EnvironmentKey {
+    static let defaultValue: EditMode = .inactive
 }
 
 extension EnvironmentValues {
     var editMode: EditMode {
-        get { self[EditStateKey.self] }
-        set { self[EditStateKey.self] = newValue }
+        get { self[EditModeKey.self] }
+        set { self[EditModeKey.self] = newValue }
     }
 }
 #endif

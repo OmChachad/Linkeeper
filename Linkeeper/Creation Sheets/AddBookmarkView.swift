@@ -26,8 +26,8 @@ struct AddBookmarkView: View {
     
     @State private var addingNewFolder = false
     
-    @AppStorage("removeTrackingParameters") var removeTrackingParameters = false
-    @AppStorage("autoFetchTitles") var autoFetchTitles = true
+    @AppStorage("removeTrackingParameters", store: SharedUserDefaults) var removeTrackingParameters = false
+    @AppStorage("autoFetchTitles", store: SharedUserDefaults) var autoFetchTitles = true
     
     var pasteboardContents: String? {
         #if os(macOS)
