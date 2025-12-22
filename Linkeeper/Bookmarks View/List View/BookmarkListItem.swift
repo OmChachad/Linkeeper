@@ -81,7 +81,14 @@ struct BookmarkListItem: View {
                     .lineLimit(1)
                     .foregroundColor(.secondary)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Spacer()
+            
+            if bookmark.isFavorited {
+                Image(systemName: "heart.fill")
+                    .foregroundColor(.pink)
+                    .font(.headline)
+            }
         }
         .bookmarkItemActions(bookmark: bookmark, toBeEditedBookmark: $toBeEditedBookmark, showDetails: $showDetails, cachedPreview: $cachedPreview, includeOpenBookmarkButton: true)
     }

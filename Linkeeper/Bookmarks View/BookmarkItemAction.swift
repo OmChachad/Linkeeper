@@ -51,7 +51,9 @@ struct BookmarkItemAction: ViewModifier {
                         }
                         
                         Button {
-                            isFavorited.toggle()
+                            withAnimation {
+                                isFavorited.toggle()
+                            }
                         } label: {
                             if isFavorited == false {
                                 ModernLabel("Add to favorites", systemImage: "heart")
@@ -117,7 +119,9 @@ struct BookmarkItemAction: ViewModifier {
             }
             .swipeActions(edge: .leading) {
                 Button {
-                    isFavorited.toggle()
+                    withAnimation {
+                        isFavorited.toggle()
+                    }
                 } label: {
                     if isFavorited == false {
                         Label("Add to favorites", systemImage: "heart")
