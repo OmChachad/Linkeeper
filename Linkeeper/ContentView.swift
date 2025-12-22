@@ -310,18 +310,29 @@ Click **Add Folder** to get started.
             }
             #if os(macOS)
             .safeAreaInset(edge: .bottom, content: {
-                HStack {
-                    Spacer()
-                    
-                    Button("Add Folder") {
+                if #unavailable(macOS 26.0) {
+                    HStack {
+                        Spacer()
+                        
+                        Button("Add Folder") {
+                            showingNewFolderView = true
+                        }
+                        .keyboardShortcut("n", modifiers: [.shift, .command])
+                    }
+                    .padding([.horizontal, .bottom])
+                    .padding(.top, 5)
+                    .buttonStyle(.borderless)
+                }
+            })
+            .toolbar {
+                if #available(macOS 26.0, *) {
+                    Button("Add Folder", systemImage: "folder.badge.plus") {
                         showingNewFolderView = true
                     }
                     .keyboardShortcut("n", modifiers: [.shift, .command])
+                    .labelStyle(.iconOnly)
                 }
-                .padding([.horizontal, .bottom])
-                .padding(.top, 5)
-                .buttonStyle(.borderless)
-            })
+            }
             #elseif os(iOS)
             .safeAreaInset(edge: .top) {
                 if UIDevice.current.userInterfaceIdiom == .phone {
