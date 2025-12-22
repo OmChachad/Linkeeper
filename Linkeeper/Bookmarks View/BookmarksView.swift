@@ -194,7 +194,12 @@ struct BookmarksView: View {
         }
         #if os(macOS) || os(iOS)
         .compatibleSafeAreaBar(edge: .bottom, supplyBackground: true, content: {
-            if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
+            if editState == .active || selectedBookmarks.count > 1 {
+                bottomEditToolbar()
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .transition(.move(edge: .bottom))
+            } else if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
                 HStack {
                     Button {
                         addingBookmark = true
@@ -219,18 +224,6 @@ struct BookmarksView: View {
             }
         })
         #endif
-        .overlay {
-            #if !os(visionOS)
-            if editState == .active || selectedBookmarks.count > 1 {
-                bottomEditToolbar()
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(.ultraThinMaterial)
-                .frame(maxHeight: .infinity, alignment: .bottom)
-                .transition(.move(edge: .bottom))
-            }
-            #endif
-        }
         #if os(macOS)
         .environment(\.editMode, editState)
         #else
@@ -311,10 +304,12 @@ struct BookmarksView: View {
                 Button("Deselect All") {
                     selectedBookmarks = Set()
                 }
+                .glassButtonStyle()
             } else {
                 Button("Select All") {
                     selectedBookmarks = Set(bookmarks.map(\.id))
                 }
+                .glassButtonStyle()
             }
             
             Spacer()
@@ -328,6 +323,7 @@ struct BookmarksView: View {
                     .foregroundColor(selectedBookmarks.isEmpty ? nil : .red)
                     #endif
             }
+            .glassButtonStyle()
             .confirmationDialog("Are you sure you want to delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
                 Button("Delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)", role: .destructive) {
                     selectedBookmarks.forEach { bookmark in
@@ -351,6 +347,7 @@ struct BookmarksView: View {
                 Image(systemName: "folder")
                     .imageScale(.large)
             }
+            .glassButtonStyle()
             .disabled(selectedBookmarks.isEmpty)
         }
     }
