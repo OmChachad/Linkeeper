@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-extension Button {
+extension View {
     @ViewBuilder
     func glassButtonStyle(isProminent: Bool = false) -> some View {
         if #available(iOS 26.0, macOS 26.0, *) {

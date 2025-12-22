@@ -350,6 +350,7 @@ Click **Add Folder** to get started.
                         EditButton()
                     }
                     .padding()
+                    .glassButtonStyle()
                     .background {
                         VariableBlurView(maxBlurRadius: 20, direction: .blurredTopClearBottom, startOffset: 0)
                             .ignoresSafeArea()
