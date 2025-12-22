@@ -257,6 +257,7 @@ struct AddBookmarkView: View {
                     Button("Add", action: addBookmark)
                         .disabled(!isValidURL || title.isEmpty)
                         .keyboardShortcut("s", modifiers: .command)
+                        .glassButtonStyle(isProminent: true)
                 }
             }
             .padding()
@@ -277,6 +278,7 @@ struct AddBookmarkView: View {
                     Button("Add", action: addBookmark)
                         .disabled(!isValidURL || title.isEmpty)
                         .keyboardShortcut("s", modifiers: .command)
+                        .glassButtonStyle(isProminent: true)
                 }
             }
             
