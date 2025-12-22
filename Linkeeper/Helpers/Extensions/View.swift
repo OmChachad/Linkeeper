@@ -129,4 +129,27 @@ extension View {
             #endif
         }
     }
+    
+    @ViewBuilder
+    func compatibleSafeAreaBar(edge: VerticalEdge, alignment: HorizontalAlignment = .center, spacing: CGFloat? = nil, supplyBackground: Bool = false, @ViewBuilder content: () -> some View) -> some View {
+        if #available(macOS 26.0, *) {
+            self
+                .safeAreaBar(edge: edge, alignment: alignment, spacing: spacing, content: content)
+        } else if supplyBackground {
+            self
+                .safeAreaInset(edge: edge, alignment: alignment, spacing: spacing, content: content)
+                #if os(macOS)
+                .background(.thickMaterial)
+                #else
+                .background {
+                    VariableBlurView(maxBlurRadius: 20, direction: .blurredBottomClearTop, startOffset: 0)
+                        .ignoresSafeArea()
+                }
+                #endif
+            
+        } else {
+            self
+                .safeAreaInset(edge: edge, alignment: alignment, spacing: spacing, content: content)
+        }
+    }
 }
