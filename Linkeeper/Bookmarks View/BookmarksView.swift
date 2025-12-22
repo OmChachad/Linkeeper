@@ -142,7 +142,14 @@ struct BookmarksView: View {
             AddFolderView(parentFolder: folder)
         }
         .toolbar {
-            HStack {
+            ToolbarItem {
+                if editState != .inactive {
+                    Button("Done") { editState = .inactive }
+                        .tint(.accentColor)
+                }
+            }
+            
+            ToolbarItem {
                 if editState == .inactive {
                     Picker("View Style", selection: $viewOption) {
                         ForEach(ViewOption.allCases.filter { !(shouldDisallowTable && $0 == .table && viewOption != .table) }, id: \.self) { option in
@@ -157,31 +164,31 @@ struct BookmarksView: View {
                     .if(!shouldDisallowTable) { view in
                         view.pickerStyle(.segmented)
                     }
-                    
-                    if let folder, horizontalSizeClass != .compact {
-                        Button {
-                            DispatchQueue.main.async {
-                                showingNewFolderView = true
-                            }
-                        } label: {
-                            Label("Add Folder", systemImage: "folder.badge.plus")
+                }
+            }
+            
+            ToolbarItem {
+                if let folder, horizontalSizeClass != .compact, editState == .inactive {
+                    Button {
+                        DispatchQueue.main.async {
+                            showingNewFolderView = true
                         }
-                        .labelStyle(.iconOnly)
-                        .keyboardShortcut("n", modifiers: [.shift, .command])
+                    } label: {
+                        Label("Add Folder", systemImage: "folder.badge.plus")
                     }
-                    
-                    if viewOption != .table || !isMac && !bookmarks.isEmpty {
-                        Menu {
-                            toolbarItems()
-                        } label: {
-                            Image(systemName: "ellipsis.circle")
-                        }
-                        .menuStyle(.borderlessButton)
+                    .labelStyle(.iconOnly)
+                    .keyboardShortcut("n", modifiers: [.shift, .command])
+                }
+            }
+            
+            ToolbarItem {
+                if editState == .inactive && (viewOption != .table || !isMac && !bookmarks.isEmpty) {
+                    Menu {
+                        toolbarItems()
+                    } label: {
+                        Image(systemName: "ellipsis")
                     }
-                    
-                    
-                } else {
-                    Button("Done") { editState = .inactive }
+                    .menuStyle(.borderlessButton)
                 }
             }
         }
