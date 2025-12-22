@@ -193,7 +193,7 @@ struct BookmarksView: View {
             }
         }
         #if os(macOS) || os(iOS)
-        .safeAreaInset(edge: .bottom, content: {
+        .compatibleSafeAreaBar(edge: .bottom, supplyBackground: true, content: {
             if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
                 HStack {
                     Button {
@@ -212,14 +212,9 @@ struct BookmarksView: View {
                 .buttonStyle(.borderless)
                 #if os(macOS)
                 .padding()
-                .background(.thickMaterial)
                 #else
                 .padding([.top, .horizontal])
                 .padding(.bottom, 10)
-                .background {
-                    VariableBlurView(maxBlurRadius: 20, direction: .blurredBottomClearTop, startOffset: 0)
-                        .ignoresSafeArea()
-                }
                 #endif
             }
         })
