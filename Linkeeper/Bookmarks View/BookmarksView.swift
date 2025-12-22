@@ -117,7 +117,7 @@ struct BookmarksView: View {
             }
         
         }
-        .searchable(text: $searchText, prompt: "Find a bookmark...")
+        .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Find a bookmark...")
         .contentUnavailabilityView(isUnavailable: favorites != true ? (bookmarks.isEmpty && subFolders.isEmpty) : bookmarks.isEmpty, unavailabilityView: noBookmarksView)
         .overlay {
             if showDetails && !isVisionOS {
@@ -145,6 +145,7 @@ struct BookmarksView: View {
             ToolbarItem {
                 if editState != .inactive {
                     Button("Done") { editState = .inactive }
+                        .glassButtonStyle(isProminent: true)
                         .tint(.accentColor)
                 }
             }
@@ -158,6 +159,7 @@ struct BookmarksView: View {
                                 .tag(option)
                         }
                     }
+                    .fixedSize()
                     .if(shouldDisallowTable) { view in
                         view.pickerStyle(.menu)
                     }
@@ -319,9 +321,7 @@ struct BookmarksView: View {
             } label: {
                 Image(systemName: "trash")
                     .imageScale(.large)
-                    #if os(macOS)
                     .foregroundColor(selectedBookmarks.isEmpty ? nil : .red)
-                    #endif
             }
             .glassButtonStyle()
             .confirmationDialog("Are you sure you want to delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
