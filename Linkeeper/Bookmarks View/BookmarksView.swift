@@ -123,14 +123,24 @@ struct BookmarksView: View {
         .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Find a bookmark...")
         #endif
         .contentUnavailabilityView(isUnavailable: favorites != true ? (bookmarks.isEmpty && subFolders.isEmpty) : bookmarks.isEmpty, unavailabilityView: noBookmarksView)
+        #if !os(visionOS)
         .overlay {
-            if showDetails && !isVisionOS {
-                Color("primaryInverted").opacity(0.3)
-                    .background(.thinMaterial)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        showDetails = false
-                    }
+            if showDetails {
+                if #available(macOS 26.0, iOS 26.0, *) {
+                    Rectangle()
+                        .glassEffect(.regular.interactive(), in: .rect)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            showDetails = false
+                        }
+                } else {
+                    Color("primaryInverted").opacity(0.3)
+                        .background(.thinMaterial)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            showDetails = false
+                        }
+                }
                 
                 BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, hideFavoriteOption: favorites == true)
                     .if(viewOption != .grid) { view in
@@ -138,6 +148,7 @@ struct BookmarksView: View {
                     }
             }
         }
+        #endif
         .navigationTitle(for: folder, folderTitle: $folderTitle, onlyFavorites: favorites ?? false)
         #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
