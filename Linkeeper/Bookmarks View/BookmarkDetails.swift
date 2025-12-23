@@ -64,11 +64,11 @@ struct BookmarkDetails: View {
             #else
             Flashcard(editing: $editing) {
                 frontView()
-                    .cornerRadius(20, style: .continuous)
+                    .cornerRadius((isLiquidGlass && !isMac) ? 30 : 20, style: .continuous)
             } back: {
                 backView()
-                    .frame(maxHeight: 400)
-                    .cornerRadius(20, style: .continuous)
+                    .frame(maxHeight: isLiquidGlass ? 420 : 400)
+                    .cornerRadius((isLiquidGlass && !isMac) ? 30 : 20, style: .continuous)
             }
             .shadow(color: .black.opacity(0.25), radius: 10)
             #endif
@@ -240,14 +240,11 @@ struct BookmarkDetails: View {
                 showDetails = false
             } label: {
                 Image(systemName: "xmark")
-                    .font(isVisionOS ? .title : .headline)
+                    .font(.headline)
                     .foregroundColor(.secondary)
-                    .padding(isVisionOS ? 10 : 5)
+                    .padding((isLiquidGlass && !isMac) ? 10 : 5)
                     .background(.thickMaterial, in: Circle())
                     .background(.black.opacity(0.5), in: Circle())
-                    #if os(visionOS)
-                    .glassBackgroundEffect(in: Circle())
-                    #endif
             }
             .keyboardShortcut(.cancelAction)
             .buttonStyle(.borderless)
