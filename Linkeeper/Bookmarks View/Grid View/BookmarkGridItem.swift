@@ -187,17 +187,11 @@ struct BookmarkGridItem: View {
         .if(toBeDeletedBookmark != nil) { view in
             view.transition(.movingParts.poof)
         }
-        .alert(isPresented: $presentOpenConfirmation) {
-            Alert(
-                title: Text("Open Bookmark"),
-                message: Text("Do you want to open this bookmark?"),
-                primaryButton: .default(Text("Open")
-            ) {
+        .confirmationDialog("Open Bookmark", isPresented: $presentOpenConfirmation, actions: {
+            Button("Open") {
                 openURL(bookmark.wrappedURL)
-            },
-                secondaryButton: .cancel()
-            )
-        }
+            }
+        }, message: { Text("Do you want to open this bookmark?") })
     }
     
     func menuItems() -> some View {
