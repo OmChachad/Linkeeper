@@ -132,7 +132,7 @@ extension View {
     
     @ViewBuilder
     func compatibleSafeAreaBar(edge: VerticalEdge, alignment: HorizontalAlignment = .center, spacing: CGFloat? = nil, supplyBackground: Bool = false, @ViewBuilder content: () -> some View) -> some View {
-        if #available(iOS 26.0, macOS 26.0, *) {
+        if #available(iOS 26.0, macOS 26.0, visionOS 26.0, *) {
             self
                 .safeAreaBar(edge: edge, alignment: alignment, spacing: spacing, content: content)
         } else if supplyBackground {
@@ -141,7 +141,7 @@ extension View {
                     content()
                         #if os(macOS)
                         .background(.thickMaterial)
-                        #else
+                        #elseif os(iOS)
                         .background {
                             VariableBlurView(maxBlurRadius: 20, direction: .blurredBottomClearTop, startOffset: 0)
                                 .ignoresSafeArea()
