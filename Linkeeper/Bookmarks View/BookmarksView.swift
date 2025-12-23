@@ -160,14 +160,19 @@ struct BookmarksView: View {
                         }
                     }
                     .fixedSize()
+                    #if os(iOS)
+                    .pickerStyle(.menu)
+                    #else
                     .if(shouldDisallowTable) { view in
                         view.pickerStyle(.menu)
                     }
                     .if(!shouldDisallowTable) { view in
                         view.pickerStyle(.segmented)
                     }
+                    #endif
                 }
             }
+            
             
             ToolbarItem {
                 if let folder, horizontalSizeClass != .compact, editState == .inactive {
