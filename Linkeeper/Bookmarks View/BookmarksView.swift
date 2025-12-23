@@ -117,7 +117,11 @@ struct BookmarksView: View {
             }
         
         }
+        #if os(macOS)
+        .searchable(text: $searchText, prompt: "Find a bookmark...")
+        #else
         .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Find a bookmark...")
+        #endif
         .contentUnavailabilityView(isUnavailable: favorites != true ? (bookmarks.isEmpty && subFolders.isEmpty) : bookmarks.isEmpty, unavailabilityView: noBookmarksView)
         .overlay {
             if showDetails && !isVisionOS {
