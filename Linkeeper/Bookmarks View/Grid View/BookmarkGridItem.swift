@@ -15,7 +15,7 @@ struct BookmarkGridItem: View {
     @Environment(\.openURL) var openURL
     
     @AppStorage("ShadowsEnabled") var shadowsEnabled = true
-    @AppStorage("askBeforeOpeningBookmarks") var askBeforeOpeningBookmarks = false
+    @AppStorage("openAction") var openAction: OpenAction = .openInLinkeeper
     
     var bookmark: Bookmark
     var namespace: Namespace.ID
@@ -59,6 +59,8 @@ struct BookmarkGridItem: View {
         #endif
     }
     
+    @State private var showingLinkeeperBrowser = false
+    
     var body: some View {
         VStack(spacing: 0) {
             VStack {
@@ -90,7 +92,7 @@ struct BookmarkGridItem: View {
             .contentShape(Rectangle())
             .overlay(alignment: .topTrailing) {
                 if !bookmark.wrappedNotes.isEmpty {
-                    Image(systemName: "text.alignright")
+                    Image(systemName: "text.quote")
                         .font(.headline)
                         .foregroundStyle(.white)
                         .padding(10)
@@ -192,6 +194,15 @@ struct BookmarkGridItem: View {
                 openURL(bookmark.wrappedURL)
             }
         }, message: { Text("Do you want to open this bookmark?") })
+        #if os(iOS)
+        .fullScreenCover(isPresented: $showingLinkeeperBrowser) {
+            InAppBrowserView(bookmark: bookmark)
+        }
+        #else
+        .sheet(isPresented: $showingLinkeeperBrowser) {
+            InAppBrowserView(bookmark: bookmark)
+        }
+        #endif
     }
     
     func menuItems() -> some View {
@@ -241,10 +252,13 @@ struct BookmarkGridItem: View {
     }
     
     func openBookmark() {
-        if askBeforeOpeningBookmarks {
+        switch(openAction) {
+        case .askAndOpen:
             presentOpenConfirmation = true
-        } else {
+        case .openDirectly:
             openURL(bookmark.wrappedURL)
+        case .openInLinkeeper:
+            showingLinkeeperBrowser = true
         }
         
         Task {

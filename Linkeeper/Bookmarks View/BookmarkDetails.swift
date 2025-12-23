@@ -16,6 +16,8 @@ struct BookmarkDetails: View {
     @Environment(\.openURL) var openURL
     @Environment(\.keyboardShortcut) var keyboardShortcut
     
+    @AppStorage("openAction") var openAction: OpenAction = .openInLinkeeper
+    
     var bookmark: Bookmark
     var namespace: Namespace.ID
     @Binding var showDetails: Bool

@@ -45,8 +45,9 @@ struct BookmarksView: View {
     @AppStorage("SortMethod") private var sortMethod: SortMethod = .dateCreated
     @AppStorage("SortDirection") private var sortDirection: SortDirection = .descending
     
-    @AppStorage("askBeforeOpeningBookmarks") var askBeforeOpeningBookmarks = false
+    @AppStorage("openAction") var openAction: OpenAction = .openInLinkeeper
     @State private var askingForOpenConfirmation = false
+    @State private var showingLinkeeperBrowserFor: Bookmark? = nil
     
     @State private var sortOrder = [KeyPathComparator(\Bookmark.wrappedDate, order: .reverse)]
     @State private var showingNewFolderView = false
@@ -299,13 +300,25 @@ struct BookmarksView: View {
             if selectedBookmarks.count == 1 && viewOption != .grid {
                 let bookmark = BookmarksManager.shared.findBookmark(withId: selectedBookmarks.first!!)
                 
-                if askBeforeOpeningBookmarks {
+                switch(openAction) {
+                case .askAndOpen:
                     askingForOpenConfirmation = true
-                } else {
+                case .openDirectly:
                     openURL(bookmark.wrappedURL)
+                case .openInLinkeeper:
+                    showingLinkeeperBrowserFor = bookmark
                 }
             }
         }
+        #if os(iOS)
+        .fullScreenCover(item: $showingLinkeeperBrowserFor) { bookmark in
+            InAppBrowserView(bookmark: bookmark)
+        }
+        #else
+        .sheet(item: $showingLinkeeperBrowserFor) { bookmark in
+            InAppBrowserView(bookmark: bookmark)
+        }
+        #endif
         .alert(isPresented: $askingForOpenConfirmation) {
             Alert(
                 title: Text("Open Bookmark"),

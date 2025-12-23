@@ -143,7 +143,7 @@ extension View {
                         .background(.thickMaterial)
                         #elseif os(iOS)
                         .background {
-                            VariableBlurView(maxBlurRadius: 20, direction: .blurredBottomClearTop, startOffset: 0)
+                            VariableBlurView(maxBlurRadius: 20, direction: edge == .top ? .blurredTopClearBottom : .blurredBottomClearTop, startOffset: 0)
                                 .ignoresSafeArea()
                         }
                         #endif

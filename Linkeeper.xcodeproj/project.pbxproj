@@ -278,6 +278,12 @@
 		C2EC30CD2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
 		C2EC30CE2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
 		C2EC30CF2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
+		C2EC30D42EFA6D9D00C935AD /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30D22EFA6D9D00C935AD /* WebViewModel.swift */; };
+		C2EC30D52EFA6D9D00C935AD /* InAppBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30D12EFA6D9D00C935AD /* InAppBrowserView.swift */; };
+		C2EC30D62EFA6D9D00C935AD /* WebViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30D32EFA6D9D00C935AD /* WebViewWrapper.swift */; };
+		C2EC30D82EFA6E6D00C935AD /* CompatibleNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30D72EFA6E6D00C935AD /* CompatibleNavigationStack.swift */; };
+		C2EC30DA2EFA74F400C935AD /* Liquid Glass Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30D92EFA74F400C935AD /* Liquid Glass Bridge.swift */; };
+		C2EC30DC2EFAE43A00C935AD /* OpenAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30DB2EFAE43900C935AD /* OpenAction.swift */; };
 		C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
 		C2F042362C19EB6D002CE4AA /* FolderGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */; };
 		C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */; };
@@ -457,6 +463,12 @@
 		C2E98EC42D8D370D00C63A78 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		C2EC30B82EF9622600C935AD /* Button + glassButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button + glassButtonStyle.swift"; sourceTree = "<group>"; };
 		C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = isLiquidGlass.swift; sourceTree = "<group>"; };
+		C2EC30D12EFA6D9D00C935AD /* InAppBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppBrowserView.swift; sourceTree = "<group>"; };
+		C2EC30D22EFA6D9D00C935AD /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
+		C2EC30D32EFA6D9D00C935AD /* WebViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewWrapper.swift; sourceTree = "<group>"; };
+		C2EC30D72EFA6E6D00C935AD /* CompatibleNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompatibleNavigationStack.swift; sourceTree = "<group>"; };
+		C2EC30D92EFA74F400C935AD /* Liquid Glass Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Liquid Glass Bridge.swift"; sourceTree = "<group>"; };
+		C2EC30DB2EFAE43900C935AD /* OpenAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAction.swift; sourceTree = "<group>"; };
 		C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Linkeeper.entitlements; sourceTree = "<group>"; };
 		C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppShortcuts Provider.swift"; sourceTree = "<group>"; };
 		C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderGridItem.swift; sourceTree = "<group>"; };
@@ -708,6 +720,9 @@
 				C2E98EC42D8D370D00C63A78 /* AppConfiguration.swift */,
 				C26315E52E24DBD9003872B6 /* SharedUserDefaults.swift */,
 				C26316202E264DDD003872B6 /* CommandKeyObserver.swift */,
+				C2EC30D72EFA6E6D00C935AD /* CompatibleNavigationStack.swift */,
+				C2EC30D92EFA74F400C935AD /* Liquid Glass Bridge.swift */,
+				C2EC30DB2EFAE43900C935AD /* OpenAction.swift */,
 				C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */,
 				C28A2C7F2B033FBD0027A70F /* Global */,
 				C2C8EE9E2A4DF86800CCD36F /* Drag & Dropping */,
@@ -807,6 +822,7 @@
 				C29050692A12B4FF00817C48 /* Modification */,
 				C2550E602827040000ADA0BF /* Creation Sheets */,
 				C2E806E42A26110D00A41D0C /* Settings */,
+				C2EC30D02EFA6D6F00C935AD /* In App Browser */,
 				C290506A2A12B60E00817C48 /* Helpers */,
 				C24DF580283E718C003C9692 /* CoreData */,
 				C2E0CEE02A4C2C1A00EA9473 /* StoreKit */,
@@ -872,6 +888,16 @@
 			);
 			name = Settings;
 			path = BookmarkInfoViews;
+			sourceTree = "<group>";
+		};
+		C2EC30D02EFA6D6F00C935AD /* In App Browser */ = {
+			isa = PBXGroup;
+			children = (
+				C2EC30D12EFA6D9D00C935AD /* InAppBrowserView.swift */,
+				C2EC30D22EFA6D9D00C935AD /* WebViewModel.swift */,
+				C2EC30D32EFA6D9D00C935AD /* WebViewWrapper.swift */,
+			);
+			path = "In App Browser";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1331,6 +1357,9 @@
 				C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */,
 				C281D9B22A24EDEC00535807 /* DeleteBookmark.swift in Sources */,
 				C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */,
+				C2EC30D42EFA6D9D00C935AD /* WebViewModel.swift in Sources */,
+				C2EC30D52EFA6D9D00C935AD /* InAppBrowserView.swift in Sources */,
+				C2EC30D62EFA6D9D00C935AD /* WebViewWrapper.swift in Sources */,
 				C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */,
 				C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */,
 				C28A2C7E2B033FAD0027A70F /* isVisionOS.swift in Sources */,
@@ -1340,8 +1369,10 @@
 				C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */,
 				C27AF1192B4809DA00C4D9A4 /* SortDirection.swift in Sources */,
 				C2E3899C2A54978E0085D801 /* SymbolOption.swift in Sources */,
+				C2EC30DA2EFA74F400C935AD /* Liquid Glass Bridge.swift in Sources */,
 				C2CCDC8B2D74781F00D91A08 /* AppDelegate (Mac).swift in Sources */,
 				C23D41052D730F33009C17B0 /* AppDelegate (iOS, visionOS).swift in Sources */,
+				C2EC30D82EFA6E6D00C935AD /* CompatibleNavigationStack.swift in Sources */,
 				C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */,
 				C281D9B42A2501FE00535807 /* MoveBookmarks.swift in Sources */,
 				C22268A22B4A7C1D00D88123 /* macOS Bridge.swift in Sources */,
@@ -1349,6 +1380,7 @@
 				C222688C2B486F6500D88123 /* BookmarksListView.swift in Sources */,
 				C2C8EEA82A4E7D2400CCD36F /* BookmarkDropItem.swift in Sources */,
 				C29050732A12B7A500817C48 /* Shape.swift in Sources */,
+				C2EC30DC2EFAE43A00C935AD /* OpenAction.swift in Sources */,
 				C290506F2A12B77100817C48 /* View.swift in Sources */,
 				C2CCDC892D7474A200D91A08 /* QuickActionsHandler.swift in Sources */,
 				C26DD1962E1FEE2000500EA6 /* WhatsNew.swift in Sources */,
@@ -1817,7 +1849,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Linkeeper/Linkeeper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_ASSET_PATHS = "\"Linkeeper/Preview Content\"";
 				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -1835,7 +1867,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -1857,7 +1889,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Linkeeper/Linkeeper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_ASSET_PATHS = "\"Linkeeper/Preview Content\"";
 				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -1875,7 +1907,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
