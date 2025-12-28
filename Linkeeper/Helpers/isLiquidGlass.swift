@@ -8,5 +8,9 @@
 import Foundation
 
 var isLiquidGlass: Bool {
-    if #available(iOS 26.0, *) { return true } else { return false }
+    #if os(visionOS)
+    return false
+    #else
+    if #available(iOS 26.0, macOS 26.0, *) { return true } else { return false }
+    #endif
 }
