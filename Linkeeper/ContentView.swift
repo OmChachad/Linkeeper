@@ -306,7 +306,9 @@ Click **Add Folder** to get started.
             .forceHiddenScrollIndicators()
             .onAppear {
                 if inSideBarMode {
-                    showingAllBookmarks = true
+                    DispatchQueue.main.async {
+                        showingAllBookmarks = true
+                    }
                 }
             }
             #if os(macOS)
@@ -519,16 +521,27 @@ Click **Add Folder** to get started.
     }
     
     private func reOrderIndexes() {
-        let pinnedFolders = pinnedFolders.sorted { $0.index < $1.index }
-        pinnedFolders.enumerated().forEach { (index, folder) in
-            folder.index = Int16(index)
+        DispatchQueue.main.async {
+            let pinned = pinnedFolders.sorted { $0.index < $1.index }
+            for (i, folder) in pinned.enumerated() {
+                if folder.index != Int16(i) {
+                    folder.index = Int16(i)
+                }
+            }
+            
+            let unpinned = folders.filter { !$0.isPinned }
+                .sorted { $0.index < $1.index }
+            
+            for (i, folder) in unpinned.enumerated() {
+                if folder.index != Int16(i) {
+                    folder.index = Int16(i)
+                }
+            }
+            
+            if moc.hasChanges {
+                try? moc.save()
+            }
         }
-        
-        let folders = folders.filter { !$0.isPinned }.sorted { $0.index < $1.index }
-        folders.enumerated().forEach { (index, folder) in
-            folder.index = Int16(index)
-        }
-        try? moc.save()
     }
 }
 
