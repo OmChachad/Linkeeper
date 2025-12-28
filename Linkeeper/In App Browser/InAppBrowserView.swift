@@ -132,7 +132,8 @@ struct InAppBrowserView: View {
                         .compatibleGlassEffect(.interactive, in: .circle)
                     }
                     .padding(.horizontal)
-                    .padding(.vertical, 10)
+                    .padding(.top, 10)
+                    .padding(.bottom, isLiquidGlass ? 10 : 0)
                 }
                 .compatibleSafeAreaBar(edge: .bottom) {
                     CompatibleGlassEffectContainer {
@@ -197,7 +198,8 @@ struct InAppBrowserView: View {
                         .font(.title2)
                         .padding(.horizontal)
                     }
-                    .padding(.vertical, 10)
+                    .padding(.bottom, 10)
+                    .padding(.top, isLiquidGlass ? 10 : 0)
                 }
                 .animation(.bouncy.speed(1.4), value: showingNotesEditor)
                 .buttonStyle(.plain)
