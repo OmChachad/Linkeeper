@@ -259,6 +259,7 @@
 		C2CCDC8E2D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
 		C2CCDC8F2D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
 		C2CCDC902D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
+		C2D1A9B22F00F5ED00B9B942 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = C2D1A9B12F00F5ED00B9B942 /* AppIcon.icon */; };
 		C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */; };
 		C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC75782CFE1E940093E40B /* VariableBlurView.swift */; };
 		C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */; };
@@ -452,6 +453,7 @@
 		C2CCDC882D7474A200D91A08 /* QuickActionsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionsHandler.swift; sourceTree = "<group>"; };
 		C2CCDC8A2D74781F00D91A08 /* AppDelegate (Mac).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate (Mac).swift"; sourceTree = "<group>"; };
 		C2CCDC8C2D74794B00D91A08 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		C2D1A9B12F00F5ED00B9B942 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipRequestView.swift; sourceTree = "<group>"; };
 		C2DC75782CFE1E940093E40B /* VariableBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableBlurView.swift; sourceTree = "<group>"; };
 		C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
@@ -828,6 +830,7 @@
 				C2E0CEE02A4C2C1A00EA9473 /* StoreKit */,
 				C281D96B2A23C86D00535807 /* App Intents */,
 				C2C8DC4128171D94000F4AEB /* Assets.xcassets */,
+				C2D1A9B12F00F5ED00B9B942 /* AppIcon.icon */,
 				C2C8DC4328171D94000F4AEB /* Preview Content */,
 			);
 			path = Linkeeper;
@@ -1092,6 +1095,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2D1A9B22F00F5ED00B9B942 /* AppIcon.icon in Resources */,
 				C2E0CEE52A4C2C8200EA9473 /* Local Tips.storekit in Resources */,
 				C2C8EE8E2A4C2EF900CCD36F /* Tips.plist in Resources */,
 				C2E0CEE62A4C2C8400EA9473 /* Synced Tips.storekit in Resources */,
