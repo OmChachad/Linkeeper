@@ -45,8 +45,9 @@ struct BookmarksView: View {
     @AppStorage("SortMethod") private var sortMethod: SortMethod = .dateCreated
     @AppStorage("SortDirection") private var sortDirection: SortDirection = .descending
     
-    @AppStorage("askBeforeOpeningBookmarks") var askBeforeOpeningBookmarks = false
+    @AppStorage("openAction") var openAction: OpenAction = .openInLinkeeper
     @State private var askingForOpenConfirmation = false
+    @State private var showingLinkeeperBrowserFor: Bookmark? = nil
     
     @State private var sortOrder = [KeyPathComparator(\Bookmark.wrappedDate, order: .reverse)]
     @State private var showingNewFolderView = false
@@ -117,16 +118,30 @@ struct BookmarksView: View {
             }
         
         }
+        #if os(macOS)
         .searchable(text: $searchText, prompt: "Find a bookmark...")
+        #else
+        .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Find a bookmark...")
+        #endif
         .contentUnavailabilityView(isUnavailable: favorites != true ? (bookmarks.isEmpty && subFolders.isEmpty) : bookmarks.isEmpty, unavailabilityView: noBookmarksView)
+        #if !os(visionOS)
         .overlay {
-            if showDetails && !isVisionOS {
-                Color("primaryInverted").opacity(0.3)
-                    .background(.thinMaterial)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        showDetails = false
-                    }
+            if showDetails {
+                if #available(macOS 26.0, iOS 26.0, *) {
+                    Rectangle()
+                        .glassEffect(.regular.interactive(), in: .rect)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            showDetails = false
+                        }
+                } else {
+                    Color("primaryInverted").opacity(0.3)
+                        .background(.thinMaterial)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            showDetails = false
+                        }
+                }
                 
                 BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, hideFavoriteOption: favorites == true)
                     .if(viewOption != .grid) { view in
@@ -134,6 +149,7 @@ struct BookmarksView: View {
                     }
             }
         }
+        #endif
         .navigationTitle(for: folder, folderTitle: $folderTitle, onlyFavorites: favorites ?? false)
         #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
@@ -142,7 +158,15 @@ struct BookmarksView: View {
             AddFolderView(parentFolder: folder)
         }
         .toolbar {
-            HStack {
+            ToolbarItem {
+                if editState != .inactive {
+                    Button("Done") { editState = .inactive }
+                        .glassButtonStyle(isProminent: true)
+                        .tint(.accentColor)
+                }
+            }
+            
+            ToolbarItem {
                 if editState == .inactive {
                     Picker("View Style", selection: $viewOption) {
                         ForEach(ViewOption.allCases.filter { !(shouldDisallowTable && $0 == .table && viewOption != .table) }, id: \.self) { option in
@@ -151,43 +175,54 @@ struct BookmarksView: View {
                                 .tag(option)
                         }
                     }
+                    .fixedSize()
+                    #if os(iOS)
+                    .pickerStyle(.menu)
+                    #else
                     .if(shouldDisallowTable) { view in
                         view.pickerStyle(.menu)
                     }
                     .if(!shouldDisallowTable) { view in
                         view.pickerStyle(.segmented)
                     }
-                    
-                    if let folder, horizontalSizeClass != .compact {
-                        Button {
-                            DispatchQueue.main.async {
-                                showingNewFolderView = true
-                            }
-                        } label: {
-                            Label("Add Folder", systemImage: "folder.badge.plus")
+                    #endif
+                }
+            }
+            
+            
+            ToolbarItem {
+                if let folder, horizontalSizeClass != .compact, editState == .inactive {
+                    Button {
+                        DispatchQueue.main.async {
+                            showingNewFolderView = true
                         }
-                        .labelStyle(.iconOnly)
-                        .keyboardShortcut("n", modifiers: [.shift, .command])
+                    } label: {
+                        Label("Add Folder", systemImage: "folder.badge.plus")
                     }
-                    
-                    if viewOption != .table || !isMac && !bookmarks.isEmpty {
-                        Menu {
-                            toolbarItems()
-                        } label: {
-                            Image(systemName: "ellipsis.circle")
-                        }
-                        .menuStyle(.borderlessButton)
+                    .labelStyle(.iconOnly)
+                    .keyboardShortcut("n", modifiers: [.shift, .command])
+                }
+            }
+            
+            ToolbarItem {
+                if editState == .inactive && (viewOption != .table || !isMac && !bookmarks.isEmpty) {
+                    Menu {
+                        toolbarItems()
+                    } label: {
+                        Image(systemName: "ellipsis")
                     }
-                    
-                    
-                } else {
-                    Button("Done") { editState = .inactive }
+                    .menuStyle(.borderlessButton)
                 }
             }
         }
         #if os(macOS) || os(iOS)
-        .safeAreaInset(edge: .bottom, content: {
-            if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
+        .compatibleSafeAreaBar(edge: .bottom, supplyBackground: true, content: {
+            if editState == .active || selectedBookmarks.count > 1 {
+                bottomEditToolbar()
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .transition(.move(edge: .bottom))
+            } else if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
                 HStack {
                     Button {
                         addingBookmark = true
@@ -205,30 +240,13 @@ struct BookmarksView: View {
                 .buttonStyle(.borderless)
                 #if os(macOS)
                 .padding()
-                .background(.thickMaterial)
                 #else
                 .padding([.top, .horizontal])
                 .padding(.bottom, 10)
-                .background {
-                    VariableBlurView(maxBlurRadius: 20, direction: .blurredBottomClearTop, startOffset: 0)
-                        .ignoresSafeArea()
-                }
                 #endif
             }
         })
         #endif
-        .overlay {
-            #if !os(visionOS)
-            if editState == .active || selectedBookmarks.count > 1 {
-                bottomEditToolbar()
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(.ultraThinMaterial)
-                .frame(maxHeight: .infinity, alignment: .bottom)
-                .transition(.move(edge: .bottom))
-            }
-            #endif
-        }
         #if os(macOS)
         .environment(\.editMode, editState)
         #else
@@ -282,13 +300,25 @@ struct BookmarksView: View {
             if selectedBookmarks.count == 1 && viewOption != .grid {
                 let bookmark = BookmarksManager.shared.findBookmark(withId: selectedBookmarks.first!!)
                 
-                if askBeforeOpeningBookmarks {
+                switch(openAction) {
+                case .askAndOpen:
                     askingForOpenConfirmation = true
-                } else {
+                case .openDirectly:
                     openURL(bookmark.wrappedURL)
+                case .openInLinkeeper:
+                    showingLinkeeperBrowserFor = bookmark
                 }
             }
         }
+        #if os(iOS)
+        .fullScreenCover(item: $showingLinkeeperBrowserFor) { bookmark in
+            InAppBrowserView(bookmark: bookmark)
+        }
+        #else
+        .sheet(item: $showingLinkeeperBrowserFor) { bookmark in
+            InAppBrowserView(bookmark: bookmark)
+        }
+        #endif
         .alert(isPresented: $askingForOpenConfirmation) {
             Alert(
                 title: Text("Open Bookmark"),
@@ -309,10 +339,12 @@ struct BookmarksView: View {
                 Button("Deselect All") {
                     selectedBookmarks = Set()
                 }
+                .glassButtonStyle()
             } else {
                 Button("Select All") {
                     selectedBookmarks = Set(bookmarks.map(\.id))
                 }
+                .glassButtonStyle()
             }
             
             Spacer()
@@ -322,10 +354,9 @@ struct BookmarksView: View {
             } label: {
                 Image(systemName: "trash")
                     .imageScale(.large)
-                    #if os(macOS)
                     .foregroundColor(selectedBookmarks.isEmpty ? nil : .red)
-                    #endif
             }
+            .glassButtonStyle()
             .confirmationDialog("Are you sure you want to delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
                 Button("Delete ^[\(selectedBookmarks.count) Bookmark](inflect: true)", role: .destructive) {
                     selectedBookmarks.forEach { bookmark in
@@ -349,6 +380,7 @@ struct BookmarksView: View {
                 Image(systemName: "folder")
                     .imageScale(.large)
             }
+            .glassButtonStyle()
             .disabled(selectedBookmarks.isEmpty)
         }
     }

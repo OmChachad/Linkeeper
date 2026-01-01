@@ -259,6 +259,7 @@
 		C2CCDC8E2D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
 		C2CCDC8F2D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
 		C2CCDC902D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
+		C2D1A9B22F00F5ED00B9B942 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = C2D1A9B12F00F5ED00B9B942 /* AppIcon.icon */; };
 		C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */; };
 		C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC75782CFE1E940093E40B /* VariableBlurView.swift */; };
 		C2E0CEE22A4C2C2E00EA9473 /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */; };
@@ -268,6 +269,22 @@
 		C2E806E62A26111E00A41D0C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E52A26111E00A41D0C /* Settings.swift */; };
 		C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E806E72A26194E00A41D0C /* IntroductionView.swift */; };
 		C2E98EC52D8D370D00C63A78 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E98EC42D8D370D00C63A78 /* AppConfiguration.swift */; };
+		C2EC30B92EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30B82EF9622600C935AD /* Button + glassButtonStyle.swift */; };
+		C2EC30BA2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30B82EF9622600C935AD /* Button + glassButtonStyle.swift */; };
+		C2EC30BB2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30B82EF9622600C935AD /* Button + glassButtonStyle.swift */; };
+		C2EC30BC2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30B82EF9622600C935AD /* Button + glassButtonStyle.swift */; };
+		C2EC30BD2EF9698200C935AD /* VariableBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC75782CFE1E940093E40B /* VariableBlurView.swift */; };
+		C2EC30BF2EF98E6D00C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
+		C2EC30CC2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
+		C2EC30CD2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
+		C2EC30CE2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
+		C2EC30CF2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */; };
+		C2EC30D42EFA6D9D00C935AD /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30D22EFA6D9D00C935AD /* WebViewModel.swift */; };
+		C2EC30D52EFA6D9D00C935AD /* InAppBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30D12EFA6D9D00C935AD /* InAppBrowserView.swift */; };
+		C2EC30D62EFA6D9D00C935AD /* WebViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30D32EFA6D9D00C935AD /* WebViewWrapper.swift */; };
+		C2EC30D82EFA6E6D00C935AD /* CompatibleNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30D72EFA6E6D00C935AD /* CompatibleNavigationStack.swift */; };
+		C2EC30DA2EFA74F400C935AD /* Liquid Glass Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30D92EFA74F400C935AD /* Liquid Glass Bridge.swift */; };
+		C2EC30DC2EFAE43A00C935AD /* OpenAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EC30DB2EFAE43900C935AD /* OpenAction.swift */; };
 		C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
 		C2F042362C19EB6D002CE4AA /* FolderGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */; };
 		C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */; };
@@ -436,6 +453,7 @@
 		C2CCDC882D7474A200D91A08 /* QuickActionsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionsHandler.swift; sourceTree = "<group>"; };
 		C2CCDC8A2D74781F00D91A08 /* AppDelegate (Mac).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate (Mac).swift"; sourceTree = "<group>"; };
 		C2CCDC8C2D74794B00D91A08 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		C2D1A9B12F00F5ED00B9B942 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipRequestView.swift; sourceTree = "<group>"; };
 		C2DC75782CFE1E940093E40B /* VariableBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableBlurView.swift; sourceTree = "<group>"; };
 		C2E0CEE12A4C2C2E00EA9473 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
@@ -445,6 +463,14 @@
 		C2E806E52A26111E00A41D0C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		C2E806E72A26194E00A41D0C /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		C2E98EC42D8D370D00C63A78 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		C2EC30B82EF9622600C935AD /* Button + glassButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button + glassButtonStyle.swift"; sourceTree = "<group>"; };
+		C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = isLiquidGlass.swift; sourceTree = "<group>"; };
+		C2EC30D12EFA6D9D00C935AD /* InAppBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppBrowserView.swift; sourceTree = "<group>"; };
+		C2EC30D22EFA6D9D00C935AD /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
+		C2EC30D32EFA6D9D00C935AD /* WebViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewWrapper.swift; sourceTree = "<group>"; };
+		C2EC30D72EFA6E6D00C935AD /* CompatibleNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompatibleNavigationStack.swift; sourceTree = "<group>"; };
+		C2EC30D92EFA74F400C935AD /* Liquid Glass Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Liquid Glass Bridge.swift"; sourceTree = "<group>"; };
+		C2EC30DB2EFAE43900C935AD /* OpenAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAction.swift; sourceTree = "<group>"; };
 		C2EEA52D2A082C2F00333E25 /* Linkeeper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Linkeeper.entitlements; sourceTree = "<group>"; };
 		C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppShortcuts Provider.swift"; sourceTree = "<group>"; };
 		C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderGridItem.swift; sourceTree = "<group>"; };
@@ -696,6 +722,10 @@
 				C2E98EC42D8D370D00C63A78 /* AppConfiguration.swift */,
 				C26315E52E24DBD9003872B6 /* SharedUserDefaults.swift */,
 				C26316202E264DDD003872B6 /* CommandKeyObserver.swift */,
+				C2EC30D72EFA6E6D00C935AD /* CompatibleNavigationStack.swift */,
+				C2EC30D92EFA74F400C935AD /* Liquid Glass Bridge.swift */,
+				C2EC30DB2EFAE43900C935AD /* OpenAction.swift */,
+				C2EC30BE2EF98E6D00C935AD /* isLiquidGlass.swift */,
 				C28A2C7F2B033FBD0027A70F /* Global */,
 				C2C8EE9E2A4DF86800CCD36F /* Drag & Dropping */,
 				C29B00F22A588B260081FEBC /* Functions */,
@@ -710,6 +740,7 @@
 			isa = PBXGroup;
 			children = (
 				C290506E2A12B77100817C48 /* View.swift */,
+				C2EC30B82EF9622600C935AD /* Button + glassButtonStyle.swift */,
 				C29050702A12B79800817C48 /* Color.swift */,
 				C29050722A12B7A500817C48 /* Shape.swift */,
 				C29050742A12B7E300817C48 /* URL.swift */,
@@ -793,11 +824,13 @@
 				C29050692A12B4FF00817C48 /* Modification */,
 				C2550E602827040000ADA0BF /* Creation Sheets */,
 				C2E806E42A26110D00A41D0C /* Settings */,
+				C2EC30D02EFA6D6F00C935AD /* In App Browser */,
 				C290506A2A12B60E00817C48 /* Helpers */,
 				C24DF580283E718C003C9692 /* CoreData */,
 				C2E0CEE02A4C2C1A00EA9473 /* StoreKit */,
 				C281D96B2A23C86D00535807 /* App Intents */,
 				C2C8DC4128171D94000F4AEB /* Assets.xcassets */,
+				C2D1A9B12F00F5ED00B9B942 /* AppIcon.icon */,
 				C2C8DC4328171D94000F4AEB /* Preview Content */,
 			);
 			path = Linkeeper;
@@ -858,6 +891,16 @@
 			);
 			name = Settings;
 			path = BookmarkInfoViews;
+			sourceTree = "<group>";
+		};
+		C2EC30D02EFA6D6F00C935AD /* In App Browser */ = {
+			isa = PBXGroup;
+			children = (
+				C2EC30D12EFA6D9D00C935AD /* InAppBrowserView.swift */,
+				C2EC30D22EFA6D9D00C935AD /* WebViewModel.swift */,
+				C2EC30D32EFA6D9D00C935AD /* WebViewWrapper.swift */,
+			);
+			path = "In App Browser";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1052,6 +1095,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2D1A9B22F00F5ED00B9B942 /* AppIcon.icon in Resources */,
 				C2E0CEE52A4C2C8200EA9473 /* Local Tips.storekit in Resources */,
 				C2C8EE8E2A4C2EF900CCD36F /* Tips.plist in Resources */,
 				C2E0CEE62A4C2C8400EA9473 /* Synced Tips.storekit in Resources */,
@@ -1106,6 +1150,7 @@
 				C2052BFC2B34697600185D29 /* Bookmark+CoreDataClass.swift in Sources */,
 				C28D18822B41A20B0033C979 /* MoveBookmarks.swift in Sources */,
 				C28D18912B43008B0033C979 /* BookmarkItemView.swift in Sources */,
+				C2EC30CD2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */,
 				C28D18932B43193F0033C979 /* SmallWidgetView.swift in Sources */,
 				C28D18802B41A20B0033C979 /* DeleteBookmark.swift in Sources */,
 				C28D188A2B425FAE0033C979 /* Bookmark.swift in Sources */,
@@ -1134,7 +1179,9 @@
 				C2120C642B95EFCE003FEDF2 /* AddFolder.swift in Sources */,
 				C2CCDC8E2D74794B00D91A08 /* Notifications.swift in Sources */,
 				C236AD7B2C405B31000BE9FE /* isMac.swift in Sources */,
+				C2EC30CF2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */,
 				C2120C572B95EF28003FEDF2 /* DraggableBookmark.swift in Sources */,
+				C2EC30BB2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */,
 				C2120C5F2B95EF8D003FEDF2 /* AddFolderView.swift in Sources */,
 				C2120C5C2B95EF6A003FEDF2 /* AddBookmark.swift in Sources */,
 				C2120C5A2B95EF57003FEDF2 /* TextEditor.swift in Sources */,
@@ -1177,7 +1224,9 @@
 				C2891D852B51867A00C44C37 /* Metadata Fetcher.swift in Sources */,
 				C2CCDC8D2D74794B00D91A08 /* Notifications.swift in Sources */,
 				C236AD7A2C405B30000BE9FE /* isMac.swift in Sources */,
+				C2EC30CE2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */,
 				C2891D902B5191DB00C44C37 /* FolderEntity.swift in Sources */,
+				C2EC30BA2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */,
 				C2891D8B2B5186B000C44C37 /* SymbolOption.swift in Sources */,
 				C2891D912B5191FF00C44C37 /* AddFolder.swift in Sources */,
 				C2891D892B51869500C44C37 /* AddBookmarkView.swift in Sources */,
@@ -1219,9 +1268,12 @@
 				C27BB9D22B32FF6500ACA0EA /* DeleteFolder.swift in Sources */,
 				C2A14A3E2A602498003A5308 /* BookmarksManager.swift in Sources */,
 				C2A14A3F2A602498003A5308 /* StoreURL Extension.swift in Sources */,
+				C2EC30BD2EF9698200C935AD /* VariableBlurView.swift in Sources */,
 				C2A14A482A6024D4003A5308 /* URL.swift in Sources */,
 				C2A14A3D2A602498003A5308 /* FoldersManager.swift in Sources */,
+				C2EC30CC2EF9A9A700C935AD /* isLiquidGlass.swift in Sources */,
 				C21B92972A94A8F4001237DD /* CacheManager.swift in Sources */,
+				C2EC30BC2EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */,
 				C23D41012D72A95E009C17B0 /* Color.swift in Sources */,
 				C27BB9D02B32FF6500ACA0EA /* AddFolder.swift in Sources */,
 				C2A14A4D2A602551003A5308 /* AddFolderView.swift in Sources */,
@@ -1303,21 +1355,28 @@
 				C25316022A2D0398004F1491 /* FolderItemView.swift in Sources */,
 				C24DF57C283E7185003C9692 /* Bookmark+CoreDataClass.swift in Sources */,
 				C26316212E264DDD003872B6 /* CommandKeyObserver.swift in Sources */,
+				C2EC30BF2EF98E6D00C935AD /* isLiquidGlass.swift in Sources */,
 				C23BDA472840C70E003DD30D /* CacheManager.swift in Sources */,
 				C24DF57E283E7185003C9692 /* Folder+CoreDataClass.swift in Sources */,
 				C23EC8EE283E5E71009D0670 /* Linkeeper.xcdatamodeld in Sources */,
 				C281D9B22A24EDEC00535807 /* DeleteBookmark.swift in Sources */,
 				C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */,
+				C2EC30D42EFA6D9D00C935AD /* WebViewModel.swift in Sources */,
+				C2EC30D52EFA6D9D00C935AD /* InAppBrowserView.swift in Sources */,
+				C2EC30D62EFA6D9D00C935AD /* WebViewWrapper.swift in Sources */,
 				C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */,
 				C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */,
 				C28A2C7E2B033FAD0027A70F /* isVisionOS.swift in Sources */,
 				C28D189A2B43F8450033C979 /* ImportExportHandler.swift in Sources */,
+				C2EC30B92EF9622600C935AD /* Button + glassButtonStyle.swift in Sources */,
 				C2CCDC8F2D74794B00D91A08 /* Notifications.swift in Sources */,
 				C234F6EB2A31BD6700401721 /* YouTube.swift in Sources */,
 				C27AF1192B4809DA00C4D9A4 /* SortDirection.swift in Sources */,
 				C2E3899C2A54978E0085D801 /* SymbolOption.swift in Sources */,
+				C2EC30DA2EFA74F400C935AD /* Liquid Glass Bridge.swift in Sources */,
 				C2CCDC8B2D74781F00D91A08 /* AppDelegate (Mac).swift in Sources */,
 				C23D41052D730F33009C17B0 /* AppDelegate (iOS, visionOS).swift in Sources */,
+				C2EC30D82EFA6E6D00C935AD /* CompatibleNavigationStack.swift in Sources */,
 				C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */,
 				C281D9B42A2501FE00535807 /* MoveBookmarks.swift in Sources */,
 				C22268A22B4A7C1D00D88123 /* macOS Bridge.swift in Sources */,
@@ -1325,6 +1384,7 @@
 				C222688C2B486F6500D88123 /* BookmarksListView.swift in Sources */,
 				C2C8EEA82A4E7D2400CCD36F /* BookmarkDropItem.swift in Sources */,
 				C29050732A12B7A500817C48 /* Shape.swift in Sources */,
+				C2EC30DC2EFAE43A00C935AD /* OpenAction.swift in Sources */,
 				C290506F2A12B77100817C48 /* View.swift in Sources */,
 				C2CCDC892D7474A200D91A08 /* QuickActionsHandler.swift in Sources */,
 				C26DD1962E1FEE2000500EA6 /* WhatsNew.swift in Sources */,
@@ -1415,14 +1475,15 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper.BookmarksWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
 		};
@@ -1456,13 +1517,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper.BookmarksWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
 		};
@@ -1791,7 +1853,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Linkeeper/Linkeeper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_ASSET_PATHS = "\"Linkeeper/Preview Content\"";
 				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -1809,7 +1871,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -1831,7 +1893,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Linkeeper/Linkeeper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_ASSET_PATHS = "\"Linkeeper/Preview Content\"";
 				DEVELOPMENT_TEAM = 3S6NT5MUQZ;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -1849,7 +1911,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = org.starlightapps.Linkeeper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";

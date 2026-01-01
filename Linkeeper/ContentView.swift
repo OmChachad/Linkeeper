@@ -204,6 +204,7 @@ struct ContentView: View {
                             #else
                             .padding(UIDevice.current.userInterfaceIdiom == .pad ? 15 : 20)
                             .padding(.top, UIDevice.current.userInterfaceIdiom == .pad ? 0 : -20)
+                            .padding(.horizontal, isLiquidGlass ? -5 : 0)
                             #endif
                         }
                     }
@@ -305,23 +306,36 @@ Click **Add Folder** to get started.
             .forceHiddenScrollIndicators()
             .onAppear {
                 if inSideBarMode {
-                    showingAllBookmarks = true
+                    DispatchQueue.main.async {
+                        showingAllBookmarks = true
+                    }
                 }
             }
             #if os(macOS)
             .safeAreaInset(edge: .bottom, content: {
-                HStack {
-                    Spacer()
-                    
-                    Button("Add Folder") {
+                if #unavailable(macOS 26.0) {
+                    HStack {
+                        Spacer()
+                        
+                        Button("Add Folder") {
+                            showingNewFolderView = true
+                        }
+                        .keyboardShortcut("n", modifiers: [.shift, .command])
+                    }
+                    .padding([.horizontal, .bottom])
+                    .padding(.top, 5)
+                    .buttonStyle(.borderless)
+                }
+            })
+            .toolbar {
+                if #available(macOS 26.0, *) {
+                    Button("Add Folder", systemImage: "folder.badge.plus") {
                         showingNewFolderView = true
                     }
                     .keyboardShortcut("n", modifiers: [.shift, .command])
+                    .labelStyle(.iconOnly)
                 }
-                .padding([.horizontal, .bottom])
-                .padding(.top, 5)
-                .buttonStyle(.borderless)
-            })
+            }
             #elseif os(iOS)
             .safeAreaInset(edge: .top) {
                 if UIDevice.current.userInterfaceIdiom == .phone {
@@ -339,6 +353,7 @@ Click **Add Folder** to get started.
                         EditButton()
                     }
                     .padding()
+                    .glassButtonStyle()
                     .background {
                         VariableBlurView(maxBlurRadius: 20, direction: .blurredTopClearBottom, startOffset: 0)
                             .ignoresSafeArea()
@@ -372,7 +387,6 @@ Click **Add Folder** to get started.
                     VariableBlurView(maxBlurRadius: 20, direction: .blurredBottomClearTop, startOffset: 0)
                         .ignoresSafeArea()
                 }
-                #warning("Must be tested on home button iPhone.")
             })
             #endif
             .toolbar {
@@ -507,16 +521,27 @@ Click **Add Folder** to get started.
     }
     
     private func reOrderIndexes() {
-        let pinnedFolders = pinnedFolders.sorted { $0.index < $1.index }
-        pinnedFolders.enumerated().forEach { (index, folder) in
-            folder.index = Int16(index)
+        DispatchQueue.main.async {
+            let pinned = pinnedFolders.sorted { $0.index < $1.index }
+            for (i, folder) in pinned.enumerated() {
+                if folder.index != Int16(i) {
+                    folder.index = Int16(i)
+                }
+            }
+            
+            let unpinned = folders.filter { !$0.isPinned }
+                .sorted { $0.index < $1.index }
+            
+            for (i, folder) in unpinned.enumerated() {
+                if folder.index != Int16(i) {
+                    folder.index = Int16(i)
+                }
+            }
+            
+            if moc.hasChanges {
+                try? moc.save()
+            }
         }
-        
-        let folders = folders.filter { !$0.isPinned }.sorted { $0.index < $1.index }
-        folders.enumerated().forEach { (index, folder) in
-            folder.index = Int16(index)
-        }
-        try? moc.save()
     }
 }
 

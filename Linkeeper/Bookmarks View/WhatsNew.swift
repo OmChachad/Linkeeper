@@ -20,41 +20,20 @@ struct WhatsNew: View {
     
     let features: [Feature] = [
         Feature(
-            systemImage: "hand.tap.fill",
-            title: "Tap to Open Links",
-            description: "In list or table view, simply tap a bookmark to open it instantly in your browser."
+            systemImage: "wand.and.sparkles.inverse",
+            title: "Redesigned for Liquid Glass",
+            description: "Bringing a carefully reconsidered yet subtle design refresh for OS 26's Liquid Glass. Stunning, yet instantly familiar."
         ),
         Feature(
-            systemImage: "text.bubble",
-            title: "Confirm Before Opening",
-            description: "Avoid accidental opens by getting a quick confirmation before any link launches."
+            systemImage: "globe",
+            title: "In-App Browser",
+            description: "Break free from cluttered Safari windows with Linkeeper's in-app browser. Control behavior from Settings."
         ),
         Feature(
-            systemImage: "tablecells.badge.ellipsis",
-            title: "Customizable Columns",
-            description: "Show or hide table view columns to match your workflow."
-        ),
-        Feature(
-            systemImage: "checkmark.circle.fill",
-            title: "Select All",
-            description: "Select all your bookmarks at once to move or delete them together."
-        ),
-        Feature(
-            systemImage: "command",
-            title: "Command-Click Selection",
-            description: "Hold the Command key to start selecting multiple bookmarks quickly.",
-            isVisible: isMac
-        ),
-        Feature(
-            systemImage: "square.and.arrow.up",
-            title: "Enhanced Share Extension",
-            description: "Improved Share Extension compatibility with App Store and other links."
-        ),
-        Feature(
-            systemImage: "hammer.fill",
-            title: "Bug fixes and improvements.",
-            description: "General performance improvements and bug fixes based on user feedback."
-        ),
+            systemImage: "ladybug.fill",
+            title: "Bug Fixes & Improvements",
+            description: "We're continuing to refine the Linkeeper experience by squashing more of those pesky bugs."
+        )
     ]
     
     var body: some View {
@@ -62,7 +41,7 @@ struct WhatsNew: View {
             Spacer()
             
             VStack {
-                Text("Welcome to **Linkeeper 3.1**")
+                Text("Welcome to **Linkeeper 3.2**")
                     .font(.title)
                     .bold()
             }
@@ -119,6 +98,7 @@ struct WhatsNew: View {
                     .background(revealedFeatures == features.count ? Color.blue : Color.gray)
                     .foregroundColor(.white)
                     .clipShape(.capsule)
+                    .compatibleGlassEffect(.interactive, in: .capsule)
             }
             .padding()
             .buttonStyle(.plain)
