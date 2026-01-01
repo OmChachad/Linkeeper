@@ -14,7 +14,7 @@ struct SettingsView: View {
     @AppStorage("ShadowsEnabled") var shadowsEnabled = true
     @AppStorage("removeTrackingParameters", store: SharedUserDefaults) var removeTrackingParameters = false
     @AppStorage("autoFetchTitles", store: SharedUserDefaults) var autoFetchTitles = true
-    @AppStorage("askBeforeOpeningBookmarks") var askBeforeOpeningBookmarks = false
+    @AppStorage("openAction") var openAction: OpenAction = .openInLinkeeper
     
     @ObservedObject var storeKit = Store.shared
     
@@ -110,8 +110,13 @@ struct SettingsView: View {
                         .toggleStyle(.switch)
                     Toggle("Automatically fetch titles", isOn: $autoFetchTitles)
                         .toggleStyle(.switch)
-                    Toggle("Ask before opening bookmarks", isOn: $askBeforeOpeningBookmarks)
-                        .toggleStyle(.switch)
+                    
+                    Picker("How Links Open", selection: $openAction) {
+                        ForEach(OpenAction.allCases, id: \.self) { action in
+                            Label(action.title, systemImage: action.symbol)
+                                .tag(action)
+                        }
+                    }
                 }
                 
                 Section {

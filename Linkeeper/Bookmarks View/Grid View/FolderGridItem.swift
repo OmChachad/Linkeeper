@@ -12,8 +12,6 @@ struct FolderGridItem: View {
     @Environment(\.colorScheme) var colorScheme
     
     @ObservedObject var folder: Folder
-    var namespace: Namespace.ID
-    var isEditing: Bool
     
     @State private var isTargeted = false
 
@@ -27,13 +25,12 @@ struct FolderGridItem: View {
                 Image(systemName: folder.wrappedSymbol)
                     .imageScale(.large)
                     .frame(width: 30)
-                    .matchedGeometryEffect(id: "\(folder.wrappedUUID)-Icon", in: namespace)
                 
                 Text(folder.wrappedTitle)
                     .bold()
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
-                    .matchedGeometryEffect(id: "\(folder.wrappedUUID)-Title", in: namespace)
+                
                 Spacer()
             }
             .frame(maxWidth: .infinity, alignment: .center)
@@ -51,7 +48,6 @@ struct FolderGridItem: View {
 //                RoundedRectangle(cornerRadius: 15, style: .continuous)
 //                    .stroke(LinearGradient(colors: [folder.wrappedColor.opacity(0.2), .black.opacity(0)], startPoint: .topLeading, endPoint: .bottomLeading), lineWidth: 4)
 //            }
-            .matchedGeometryEffect(id: "\(folder.wrappedUUID)-Background", in: namespace)
             #if !os(macOS)
             .hoverEffect(.lift)
             #endif
@@ -61,7 +57,7 @@ struct FolderGridItem: View {
             .padding(.vertical, 2.5)
         }
         .buttonStyle(.plain)
-        .folderActions(folder: folder, isEditing: isEditing)
+        .folderActions(folder: folder, isEditing: false)
         .dropDestination(isTargeted: $isTargeted) { bookmark, url in
             addDroppedBookmarkToFolder(bookmark: bookmark, url: url, folder: folder)
         }

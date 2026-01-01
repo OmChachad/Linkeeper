@@ -149,7 +149,7 @@ struct BookmarksGridView: View {
             if let folder, let children = folder.childFoldersArray {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 20) {
                     ForEach(children, id: \.self) { subFolder in
-                        FolderGridItem(folder: subFolder, namespace: namespace, isEditing: isEditing)
+                        FolderGridItem(folder: subFolder)
                             .padding(.horizontal, 5)
                     }
                 }

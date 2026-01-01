@@ -70,6 +70,7 @@ struct MoveFolderView: View {
                                 dismiss()
                             }
                             .disabled(folder.parentFolder == selectedFolder)
+                            .glassButtonStyle(isProminent: true)
                         }
                         
                         ToolbarItemGroup(placement: .cancellationAction) {

@@ -83,17 +83,17 @@ struct AddFolderView: View {
             }
             
             Section {
-                VStack {
+                VStack(spacing: 20) {
                     Image(systemName: chosenSymbol)
-                        .font(.largeTitle)
+                        .font(.system(size: 50))
                         .foregroundColor(.white)
                         .padding()
-                        .frame(width: 75, height: 75)
+                        .frame(width: 100, height: 100)
                         .background(folderIconColor.color.gradientify(colorScheme: colorScheme), in: Circle())
-                        .shadow(color: folderIconColor.color, radius: 3)
-                        .padding()
+                        .shadow(color: folderIconColor.color, radius: 5)
                         
                     TextField("Title", text: $title)
+                        .foregroundColor(folderIconColor.color)
                         .font(.headline)
                         .multilineTextAlignment(.center)
                         .padding()
@@ -104,13 +104,13 @@ struct AddFolderView: View {
                     #else
                         .background(colorScheme == .dark ? Color(UIColor.systemGray3) : Color(UIColor.systemGray5))
                     #endif
-                        .cornerRadius(10, style: .continuous)
-                        .padding(.bottom)
+                        .cornerRadius(isLiquidGlass ? 15 : 10, style: .continuous)
                     #else
                         .labelsHidden()
                         .textFieldStyle(.roundedBorder)
                     #endif
                 }
+                .padding(isLiquidGlass ? 0 : 10)
             }
             
             
@@ -171,7 +171,6 @@ struct AddFolderView: View {
                     }
                     .pickerStyle(.segmented)
                     .labelsHidden()
-                    .padding(.bottom)
                 }
             }
             
@@ -190,6 +189,7 @@ struct AddFolderView: View {
                         Button("Save", action: saveChangesToFolder)
                     }
                 }
+                .glassButtonStyle(isProminent: true)
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .keyboardShortcut("s", modifiers: .command)
             }

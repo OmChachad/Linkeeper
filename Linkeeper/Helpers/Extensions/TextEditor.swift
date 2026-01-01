@@ -12,7 +12,7 @@ extension TextEditor {
     func placeholder(_ text: String, contents: String) -> some View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
             self
-                .padding(EdgeInsets(top: -8, leading: -4, bottom: -7, trailing: -4))
+                .padding(EdgeInsets(top: isMac ? 2 : -8, leading: -4, bottom: -7, trailing: -4))
             if contents.isEmpty {
                 HStack {
                     Text(text)
@@ -26,6 +26,8 @@ extension TextEditor {
                 }
             }
         }
-        .padding(.top, 7)
+        .padding(.top, 8)
+        .padding(.bottom, 7)
+        .padding(.horizontal, 4)
     }
 }

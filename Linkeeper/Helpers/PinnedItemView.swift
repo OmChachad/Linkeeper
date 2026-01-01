@@ -114,9 +114,10 @@ struct PinnedItemView<Content: View>: View {
                     .foregroundColor(titleColor)
                     .lineLimit(1)
             }
+            .padding(.vertical, (isLiquidGlass && !isMac)  ? -2.5 : 0)
             .padding(10)
             .background(backgroundColor.gradientify(colorScheme: colorScheme))
-            .cornerRadius(10, style: .continuous)
+            .cornerRadius((isLiquidGlass && !isMac) ? 20 : 10, style: .continuous)
             #endif
         }
         .opacity(isTargeted ? 0.2 : 1)

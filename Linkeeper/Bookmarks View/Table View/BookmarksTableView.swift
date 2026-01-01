@@ -37,7 +37,7 @@ struct BookmarksTableView: View {
                     ScrollView(.horizontal) {
                         LazyHStack(spacing: 15) {
                             ForEach(children, id: \.self) { subFolder in
-                                FolderGridItem(folder: subFolder, namespace: nm, isEditing: false)
+                                FolderGridItem(folder: subFolder)
                                     .frame(minWidth: 150, maxWidth: 300)
                             }
                             .contentShape(Rectangle())
