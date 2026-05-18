@@ -13,12 +13,12 @@ struct TipRequestView: View {
     @Environment(\.openURL) var openURL
     @Environment(\.dismiss) var dismiss
     
-       init() {
-           let messages = ["Enjoying Linkeeper's magic? A tip would be the ultimate spell of appreciation! 🪄", "A tip would be the cherry on top! 🙏🏻", "Your love for Linkeeper is clear! How about showing some love to the developer too?\nTips appreciated! ❤️", "If you're feeling appreciative, a tip would be the icing on the virtual cake (and would keep the developer happy) 😉"]
-           if let message = messages.randomElement() {
-               self._randomMessage = State(initialValue: message)
-           }
+    init() {
+       let messages = ["Enjoying Linkeeper's magic? A tip would be the ultimate spell of appreciation! 🪄", "A tip would be the cherry on top! 🙏🏻", "Your love for Linkeeper is clear! How about showing some love to the developer too?\nTips appreciated! ❤️", "If you're feeling appreciative, a tip would be the icing on the virtual cake (and would keep the developer happy) 😉"]
+       if let message = messages.randomElement() {
+           self._randomMessage = State(initialValue: message)
        }
+   }
     
     var body: some View {
         VStack {
