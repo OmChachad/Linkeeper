@@ -108,7 +108,7 @@ struct BookmarkDetails: View {
         VStack {
                 AdaptiveScrollView(notes: bookmark.wrappedNotes) {
                     VStack(spacing: 0) {
-                        thumbnail()
+                        BookmarkThumbnail(cachedPreview: cachedPreview, title: bookmark.wrappedTitle)
                             .frame(maxWidth: .infinity)
                             .background(.regularMaterial)
 
@@ -195,7 +195,8 @@ struct BookmarkDetails: View {
     
     func frontView() -> some View {
         VStack(spacing: 0) {
-            thumbnail()
+            BookmarkThumbnail(cachedPreview: cachedPreview, title: bookmark.wrappedTitle)
+                .scaledToFit()
                 .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: hideFavoriteOption ? 4 : 5)) {
@@ -327,49 +328,6 @@ struct BookmarkDetails: View {
         #if os(macOS)
         .cornerRadius(20, style: .continuous)
         #endif
-    }
-    
-    func thumbnail() -> some View {
-        VStack {
-            switch(cachedPreview?.previewState) {
-            case .thumbnail:
-                cachedPreview?.image?
-                    .resizable()
-                    .scaledToFit()
-            case .icon:
-                cachedPreview?.image!
-                    .resizable()
-                    .aspectRatio(1/1, contentMode: .fit)
-                    .cornerRadius(20, style: .continuous)
-                    .padding(15)
-                    .frame(maxWidth: .infinity, maxHeight: 175)
-                    .clipped()
-            case .firstLetter:
-                Group {
-                #if os(macOS)
-                    Color(red: 174/255, green: 174/255, blue: 178/255)
-                    #else
-                    Color(uiColor: .systemGray2)
-                #endif
-                }
-                    .aspectRatio(16/9, contentMode: .fit)
-                    .overlay(
-                        Group {
-                            if let firstChar: Character = bookmark.wrappedTitle.first {
-                                Text(String(firstChar))
-                                    .font(.largeTitle.weight(.medium))
-                                    .foregroundColor(.white)
-                                    .scaleEffect(2)
-                            }
-                        }
-                    )
-            default:
-                Rectangle()
-                    .foregroundColor(.secondary.opacity(0.5))
-                    .shimmering()
-                    .aspectRatio(16/9, contentMode: .fit)
-            }
-        }
     }
     
     func actionButtons() -> some View {

@@ -63,47 +63,25 @@ struct BookmarkGridItem: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            VStack {
-                switch(cachedPreview?.previewState) {
-                case .thumbnail, .icon:
-                    cachedPreview!.image?
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .drawingGroup()
-                case .firstLetter:
-                    if let firstChar: Character = bookmark.wrappedTitle.first {
-                        Color(.gray)
-                            .overlay(
-                                Text(String(firstChar))
-                                    .font(.largeTitle.weight(.medium))
-                                    .foregroundColor(.white)
-                                    .scaleEffect(2)
-                            )
+            BookmarkThumbnail(cachedPreview: cachedPreview, title: bookmark.wrappedTitle)
+                .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
+                .frame(minWidth: 140, idealWidth: 300, maxWidth: 300, minHeight: 100, idealHeight: 300, maxHeight: 300)
+                .clipped()
+                .contentShape(Rectangle())
+                .overlay(alignment: .topTrailing) {
+                    if !bookmark.wrappedNotes.isEmpty {
+                        Image(systemName: "text.quote")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .padding(10)
+                            .background {
+                                Rectangle()
+                                    .fill(LinearGradient(colors: [.black, .clear], startPoint: .topTrailing , endPoint: .bottomLeading))
+                                    .blur(radius: 10)
+                                    .padding([.top, .trailing], -15)
+                            }
                     }
-                default:
-                    Rectangle()
-                        .foregroundColor(.secondary.opacity(0.5))
-                        .shimmering()
                 }
-            }
-            .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
-            .frame(minWidth: 140, idealWidth: 300, maxWidth: 300, minHeight: 100, idealHeight: 300, maxHeight: 300)
-            .clipped()
-            .contentShape(Rectangle())
-            .overlay(alignment: .topTrailing) {
-                if !bookmark.wrappedNotes.isEmpty {
-                    Image(systemName: "text.quote")
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                        .padding(10)
-                        .background {
-                            Rectangle()
-                                .fill(LinearGradient(colors: [.black, .clear], startPoint: .topTrailing , endPoint: .bottomLeading))
-                                .blur(radius: 10)
-                                .padding([.top, .trailing], -15)
-                        }
-                }
-            }
             
             
             BookmarkGridLabel(id: bookmark.wrappedUUID, title: bookmark.wrappedTitle, host: bookmark.wrappedHost, namespace: namespace)

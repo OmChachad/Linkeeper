@@ -42,37 +42,11 @@ struct BookmarkListItem: View {
     
     var body: some View {
         HStack {
-            Group {
-                if let preview = cachedPreview?.image {
-                    preview
-                        .resizable()
-                        .scaledToFit()
-                        .scaledToFill()
-                        .frame(width: 44, height: 44)
-                        .clipped()
-                        .cornerRadius(8, style: .continuous)
-                        .shadow(radius: 2)
-                } else if let firstChar = bookmark.wrappedTitle.first {
-                    Text(String(firstChar))
-                        .font(.title)
-                        .foregroundColor(.white)
-                        .frame(width: 44, height: 44)
-                        .background {
-                            Group {
-                                #if os(macOS)
-                                Color(nsColor: .tertiaryLabelColor)
-                                #else
-                                Color(uiColor: .tertiaryLabel)
-                                #endif
-                            }
-                            .background(Color.white)
-                            .cornerRadius(8, style: .continuous)
-                            .shadow(radius: 2)
-                        }
-                }
-            }
-            .padding([.vertical, .trailing], 5)
-            .padding(.vertical, 5)
+            BookmarkThumbnail(cachedPreview: cachedPreview, title: bookmark.wrappedTitle)
+                .frame(width: 44, height: 44)
+                .cornerRadius(8, style: .continuous)
+                .padding([.vertical, .trailing], 5)
+                .padding(.vertical, 5)
             
             VStack(alignment: .leading) {
                 Text(bookmark.wrappedTitle)
