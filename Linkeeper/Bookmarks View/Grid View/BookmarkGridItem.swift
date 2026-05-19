@@ -51,12 +51,6 @@ struct BookmarkGridItem: View {
         self._showDetails = showDetails
         self._toBeEditedBookmark = toBeEditedBookmark
         self._selectedBookmarks = selectedBookmarks
-        
-        #if !os(macOS)
-        let cacheManager = CacheManager.instance
-        
-        self._cachedPreview = State(initialValue: cacheManager.get(for: bookmark))
-        #endif
     }
     
     @State private var showingLinkeeperBrowser = false

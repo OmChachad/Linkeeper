@@ -32,12 +32,6 @@ struct BookmarkListItem: View {
         self.bookmark = bookmark
         self._showDetails = showDetails
         self._toBeEditedBookmark = toBeEditedBookmark
-        
-        #if !os(macOS)
-        let cacheManager = CacheManager.instance
-        
-        self._cachedPreview = State(initialValue: cacheManager.get(for: bookmark))
-        #endif
     }
     
     var body: some View {
