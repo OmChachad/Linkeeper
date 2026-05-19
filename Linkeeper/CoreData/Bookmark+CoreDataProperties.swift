@@ -41,7 +41,7 @@ extension Bookmark {
     }
     
     public var wrappedDate: Date {
-        date ?? Date.now
+        date ?? .distantPast
     }
     
     public var wrappedUUID: String {
