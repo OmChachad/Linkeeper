@@ -106,20 +106,9 @@ struct BookmarkGridItem: View {
             }
             
             
-            VStack(alignment: .leading, spacing: 0) {
-                Text(bookmark.wrappedTitle)
-                    .lineLimit(2)
-                    .multilineTextAlignment(.leading)
-                    .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Title", in: namespace)
-                Text(bookmark.wrappedHost)
-                    .lineLimit(1)
-                    .font(.callout)
-                    .foregroundColor(.secondary)
-                    .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Host", in: namespace)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 15)
-            .padding(.vertical, 10)
+            BookmarkGridLabel(id: bookmark.wrappedUUID, title: bookmark.wrappedTitle, host: bookmark.wrappedHost, namespace: namespace)
+                .padding(.horizontal, 15)
+                .padding(.vertical, 10)
         }
         #if os(visionOS)
         .background(Color.black.opacity(0.4))
@@ -266,3 +255,26 @@ struct BookmarkGridItem: View {
         }
     }
 }
+
+struct BookmarkGridLabel: View {
+    let id: String
+    var title: String
+    let host: String
+    var namespace: Namespace.ID
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(title)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                .matchedGeometryEffect(id: "\(id)-Title", in: namespace)
+            Text(host)
+                .lineLimit(1)
+                .font(.callout)
+                .foregroundColor(.secondary)
+                .matchedGeometryEffect(id: "\(id)-Host", in: namespace)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
