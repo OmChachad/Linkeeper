@@ -82,7 +82,7 @@ struct BookmarksListView: View {
                             }
                         }
                         
-                        ForEach(orderedFolders, id: \.self) { folder in
+                        ForEach(orderedFolders, id: \.objectID) { folder in
                             let folderHasBookmarks = !folder.bookmarksArray.isEmpty
                             let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
                             if showGroup && folderHasBookmarks {
@@ -110,7 +110,7 @@ struct BookmarksListView: View {
         Group {
             if let folder, let children = folder.childFoldersArray {
                 Section("Folders") {
-                    ForEach(children, id: \.self) { subFolder in
+                    ForEach(children, id: \.objectID) { subFolder in
                         NavigationLink(destination: BookmarksView(folder: subFolder)) {
                             FolderItemView(folder: subFolder, style: .large)
                                 .padding([.vertical, .trailing], 5)
@@ -125,7 +125,7 @@ struct BookmarksListView: View {
     
     
     func list(for bookmarks: [Bookmark]) -> some View {
-        ForEach(bookmarks, id: \.self) { bookmark in
+        ForEach(bookmarks, id: \.objectID) { bookmark in
             BookmarkListItem(bookmark: bookmark, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark)
                 .tag(bookmark.id)
         }

@@ -29,7 +29,7 @@ struct FolderPickerView: View {
                 .allowsHitTesting(false)
                 .accessibilityHidden(true)
                 
-                OutlineGroup([Folder](parentFolders), id: \.self, children: \.childFoldersArray) { folder in
+                OutlineGroup([Folder](parentFolders), id: \.objectID, children: \.childFoldersArray) { folder in
                     switch type {
                     case .moveFolder(excluding: let excludedFolder):
                         if folder != excludedFolder {

@@ -108,7 +108,7 @@ struct BookmarksGridView: View {
                         }
                         
                         let folders = (favorites == true ? ((Set<Folder?>(bookmarks.map(\.folder))).compactMap { $0 }) : orderedFolders).sorted(by: { $0.index < $1.index })
-                        ForEach(folders, id: \.self) { folder in
+                        ForEach(folders, id: \.objectID) { folder in
                             //let folderHasBookmarks = !folder.bookmarksArray.isEmpty
                             let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
                             if showGroup {
@@ -148,7 +148,7 @@ struct BookmarksGridView: View {
         Group {
             if let folder, let children = folder.childFoldersArray {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 20) {
-                    ForEach(children, id: \.self) { subFolder in
+                    ForEach(children, id: \.objectID) { subFolder in
                         FolderGridItem(folder: subFolder)
                             .padding(.horizontal, 5)
                     }
@@ -165,7 +165,7 @@ struct BookmarksGridView: View {
     
     func BookmarksGrid(for bookmarks: [Bookmark], folder: Folder? = nil) -> some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 15) {
-            ForEach(bookmarks, id: \.self) { bookmark in
+            ForEach(bookmarks, id: \.objectID) { bookmark in
                 BookmarkGridItem(bookmark: bookmark, namespace: namespace, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks)
                     .padding(.horizontal, 5)
             }
