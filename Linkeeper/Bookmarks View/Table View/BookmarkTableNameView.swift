@@ -17,26 +17,14 @@ struct TableNameView: View {
     
     var body: some View {
         HStack {
-            Group {
-                if let preview = cachedPreview?.image {
-                    preview
-                        .resizable()
-                        .scaledToFit()
-                } else if let firstChar = bookmark.wrappedTitle.first {
-                    Text(String(firstChar))
-                        .foregroundStyle(.white)
-                        .font(.title)
-                        .frame(width: 44, height: 44)
-                        .background(.tertiary)
-                }
-            }
-            .scaledToFill()
-            .frame(width: 44, height: 44)
-            .clipped()
-            .cornerRadius(8, style: .continuous)
-            .shadow(radius: 1)
-            .padding(.vertical, 5)
-            .padding(.trailing, 10)
+            BookmarkThumbnail(cachedPreview: cachedPreview, title: bookmark.wrappedTitle)
+                .scaledToFill()
+                .frame(width: 44, height: 44)
+                .clipped()
+                .cornerRadius(8, style: .continuous)
+                .shadow(radius: 1)
+                .padding(.vertical, 5)
+                .padding(.trailing, 10)
             
             Text(bookmark.wrappedTitle)
         }
