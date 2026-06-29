@@ -29,13 +29,10 @@ struct BookmarkGridItem: View {
     @State private var cachedPreview: cachedPreview?
     
     @Environment(\.editMode) var editMode
-    @Binding var selectedBookmarks: Set<Bookmark.ID>
+    let isSelected: Bool
+    let toggleSelection: () -> Void
     
     @State private var movingBookmark = false
-    
-    var isSelected: Bool {
-        selectedBookmarks.contains(bookmark.id ?? UUID())
-    }
     
     var isEditing: Bool {
         #if os(macOS)
@@ -45,12 +42,13 @@ struct BookmarkGridItem: View {
         #endif
     }
     
-    init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, toBeEditedBookmark: Binding<Bookmark?>, selectedBookmarks: Binding<Set<Bookmark.ID>>) {
+    init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, toBeEditedBookmark: Binding<Bookmark?>, isSelected: Bool, toggleSelection: @escaping () -> Void) {
         self.bookmark = bookmark
         self.namespace = namespace
         self._showDetails = showDetails
         self._toBeEditedBookmark = toBeEditedBookmark
-        self._selectedBookmarks = selectedBookmarks
+        self.isSelected = isSelected
+        self.toggleSelection = toggleSelection
     }
     
     @State private var showingLinkeeperBrowser = false
@@ -102,11 +100,7 @@ struct BookmarkGridItem: View {
         .contextMenu { menuItems() }
         .onTapGesture {
             if isEditing {
-                if isSelected {
-                    selectedBookmarks.remove(bookmark.id ?? UUID())
-                } else {
-                    selectedBookmarks.insert(bookmark.id ?? UUID())
-                }
+                toggleSelection()
             } else {
                 openBookmark()
             }
@@ -144,7 +138,7 @@ struct BookmarkGridItem: View {
                 bookmark.cachedImage(saveTo: $cachedPreview)
             }
         }
-        .animation(.default, value: selectedBookmarks)
+        .animation(.default, value: isSelected)
         .animation(.default, value: bookmark.wrappedTitle)
         .animation(.default, value: cachedPreview?.previewState)
         .if(toBeDeletedBookmark != nil) { view in
@@ -249,4 +243,3 @@ struct BookmarkGridLabel: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
-

@@ -166,7 +166,21 @@ struct BookmarksGridView: View {
     func BookmarksGrid(for bookmarks: [Bookmark], folder: Folder? = nil) -> some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 15) {
             ForEach(bookmarks, id: \.objectID) { bookmark in
-                BookmarkGridItem(bookmark: bookmark, namespace: namespace, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks)
+                BookmarkGridItem(
+                    bookmark: bookmark,
+                    namespace: namespace,
+                    showDetails: $showDetails,
+                    toBeEditedBookmark: $toBeEditedBookmark,
+                    isSelected: selectedBookmarks.contains(bookmark.id ?? UUID()),
+                    toggleSelection: {
+                        let id = bookmark.id ?? UUID()
+                        if selectedBookmarks.contains(id) {
+                            selectedBookmarks.remove(id)
+                        } else {
+                            selectedBookmarks.insert(id)
+                        }
+                    }
+                )
                     .padding(.horizontal, 5)
             }
         }
