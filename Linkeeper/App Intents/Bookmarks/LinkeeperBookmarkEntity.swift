@@ -9,39 +9,44 @@ import Foundation
 import AppIntents
 import CoreData
 
-@available(iOS 16.0, macOS 13.0, *)
-struct LinkeeperBookmarkEntity: Identifiable, Hashable, Equatable, AppEntity {
-  
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
+@AppEntity(schema: .browser.bookmark)
+struct LinkeeperBookmarkEntity: Identifiable, Hashable, Equatable {
+
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Bookmark")
     typealias DefaultQueryType = IntentsBookmarkQuery
     static var defaultQuery: IntentsBookmarkQuery = IntentsBookmarkQuery()
-    
+
     var id: UUID
     
     @Property(title: "Title")
-    var title: String
+    var name: String
     
     @Property(title: "URL")
-    var url: String
+    var url: URL
     
     @Property(title: "Host")
     var host: String
-    
+
     @Property(title: "Notes")
     var notes: String
-    
+
     //@Property(title: "Cover Image")
     //var coverImage: IntentFile?
-    
+
     @Property(title: "Favorited")
     var isFavorited: Bool
-    
+
     @Property(title: "Date Added")
     var dateAdded: Date
-    
-    init(id: UUID, title: String, url: String, host: String, notes: String, isFavorited: Bool, dateAdded: Date) {
+
+    /// The bookmark title used by existing Linkeeper views and intents.
+    var title: String { name }
+
+    /// Creates an App Entity from Linkeeper's bookmark values.
+    init(id: UUID, title: String, url: URL, host: String, notes: String, isFavorited: Bool, dateAdded: Date) {
         self.id = id
-        self.title = title
+        self.name = title
         self.url = url
         self.host = host
         self.notes = notes
@@ -53,21 +58,21 @@ struct LinkeeperBookmarkEntity: Identifiable, Hashable, Equatable, AppEntity {
         let cachedPreview = CacheManager.instance.get(id: id)
         if let imageData = cachedPreview?.imageData {
             return DisplayRepresentation(
-                title: "\(title)",
-                subtitle: "\(url)",
+                title: "\(name)",
+                subtitle: "\(url.absoluteString)",
                 image: .init(data: imageData)
             )
         } else {
             return DisplayRepresentation(
-                title: "\(title)",
-                subtitle: "\(url)",
+                title: "\(name)",
+                subtitle: "\(url.absoluteString)",
                 image: .init(systemName: "link")
             )
         }
     }
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 extension LinkeeperBookmarkEntity {
     
     // Hashable conformance
@@ -82,7 +87,7 @@ extension LinkeeperBookmarkEntity {
     
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 struct IntentsBookmarkQuery: EntityPropertyQuery {
 
     // Find Bookmarks by ID
@@ -113,19 +118,16 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
     }
          
     static var properties = EntityQueryProperties<LinkeeperBookmarkEntity, NSPredicate> {
-        Property(\LinkeeperBookmarkEntity.$title) {
+        Property(\LinkeeperBookmarkEntity.$name) {
             EqualToComparator { NSPredicate(format: "title = %@", $0) }
             ContainsComparator { NSPredicate(format: "title CONTAINS %@", $0) }
-
         }
         Property(\LinkeeperBookmarkEntity.$url) {
-            EqualToComparator { NSPredicate(format: "url = %@", $0) }
-            ContainsComparator { NSPredicate(format: "url CONTAINS %@", $0) }
+            EqualToComparator { NSPredicate(format: "url = %@", $0.absoluteString) }
         }
         Property(\LinkeeperBookmarkEntity.$notes) {
             EqualToComparator { NSPredicate(format: "notes = %@", $0) }
             ContainsComparator { NSPredicate(format: "notes CONTAINS %@", $0) }
-            
         }
         Property(\LinkeeperBookmarkEntity.$host) {
             EqualToComparator { NSPredicate(format: "host = %@", $0) }
@@ -134,7 +136,6 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
         Property(\LinkeeperBookmarkEntity.$isFavorited) {
             EqualToComparator { NSPredicate(format: "isFavorited == %@", NSNumber(value: $0)) }
         }
-        
         Property(\LinkeeperBookmarkEntity.$dateAdded) {
             LessThanComparator { NSPredicate(format: "date < %@", $0 as NSDate) }
             GreaterThanComparator { NSPredicate(format: "date > %@", $0 as NSDate) }
@@ -142,7 +143,7 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
     }
     
     static var sortingOptions = SortingOptions {
-        SortableBy(\LinkeeperBookmarkEntity.$title)
+        SortableBy(\LinkeeperBookmarkEntity.$name)
         SortableBy(\LinkeeperBookmarkEntity.$url)
         SortableBy(\LinkeeperBookmarkEntity.$notes)
         SortableBy(\LinkeeperBookmarkEntity.$host)
@@ -165,12 +166,12 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
         request.sortDescriptors = sortedBy.isEmpty ? [NSSortDescriptor(key: "date", ascending: true)] : sortedBy.map({
             let keys =
             [
-                \LinkeeperBookmarkEntity.$title : "title",
-                 \LinkeeperBookmarkEntity.$url : "url",
-                 \LinkeeperBookmarkEntity.$dateAdded : "date",
-                 \LinkeeperBookmarkEntity.$notes : "notes",
-                 \LinkeeperBookmarkEntity.$host : "host",
-                 \LinkeeperBookmarkEntity.$isFavorited : "isFavorited"
+                \LinkeeperBookmarkEntity.$name: "title",
+                \LinkeeperBookmarkEntity.$url: "url",
+                \LinkeeperBookmarkEntity.$notes: "notes",
+                \LinkeeperBookmarkEntity.$host: "host",
+                \LinkeeperBookmarkEntity.$isFavorited: "isFavorited",
+                \LinkeeperBookmarkEntity.$dateAdded: "date"
             ]
             
             return NSSortDescriptor(key: keys[$0.by] ?? "date", ascending: $0.order == .ascending)
@@ -180,15 +181,17 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
     }
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 extension Bookmark {
+    /// Creates the canonical App Entity representation of this bookmark.
     func toEntity() -> LinkeeperBookmarkEntity {
-        LinkeeperBookmarkEntity(id: self.id!, title: self.wrappedTitle, url: self.wrappedURL.absoluteString, host: self.wrappedHost, notes: self.wrappedNotes, isFavorited: self.isFavorited, dateAdded: self.wrappedDate)
+        LinkeeperBookmarkEntity(id: self.id!, title: self.wrappedTitle, url: self.wrappedURL, host: self.wrappedHost, notes: self.wrappedNotes, isFavorited: self.isFavorited, dateAdded: self.wrappedDate)
     }
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 extension [Bookmark] {
+    /// Creates canonical App Entity representations of these bookmarks.
     func toEntity() -> [LinkeeperBookmarkEntity] {
         self.map { $0.toEntity() }
     }

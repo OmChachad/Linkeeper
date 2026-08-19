@@ -8,7 +8,7 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 struct DeleteBookmark: AppIntent {
     
     // Title of the action in the Shortcuts app
@@ -64,7 +64,7 @@ struct DeleteBookmark: AppIntent {
 //    """, categoryName: "Edit")
 //
 //    @Parameter(title: "Bookmarks", description: "The bookmarks to be deleted from your collection.", requestValueDialog: IntentDialog("Which bookmarks would you like to delete?"))
-//    var bookmarks: [BookmarkEntity]
+//    var bookmarks: [LinkeeperBookmarkEntity]
 //
 //    @Parameter(title: "Confirm Before Deleting", description: "If toggled, you will need to confirm the books will be deleted", default: true)
 //    var confirmBeforeDeleting: Bool

@@ -8,7 +8,7 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 struct DeleteFolder: AppIntent {
     static var title: LocalizedStringResource = "Delete Folder"
     

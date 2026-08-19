@@ -10,7 +10,7 @@ import AppIntents
 import CoreData
 import SwiftUI
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 struct FolderEntity: Identifiable, Hashable, Equatable, AppEntity {
   
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Folder")
@@ -62,7 +62,7 @@ struct FolderEntity: Identifiable, Hashable, Equatable, AppEntity {
     }
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 extension FolderEntity {
     
     // Hashable conformance
@@ -77,7 +77,7 @@ extension FolderEntity {
     
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 struct IntentsFolderQuery: EntityPropertyQuery {
 
     // Find Folders by ID
@@ -153,14 +153,14 @@ struct IntentsFolderQuery: EntityPropertyQuery {
     }
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 extension Folder {
     func toEntity() -> FolderEntity {
         FolderEntity(id: self.id!, title: self.wrappedTitle, bookmarks: Set<LinkeeperBookmarkEntity>(self.bookmarksArray.toEntity()), index: Int(self.index), symbol: self.wrappedSymbol, color: self.accentColor ?? "red")
     }
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 extension [Folder] {
     func toEntity() -> [FolderEntity] {
         self.map { $0.toEntity() }

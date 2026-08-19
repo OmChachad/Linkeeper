@@ -8,7 +8,7 @@
 import AppIntents
 import LinkPresentation
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 struct AddBookmark: AppIntent {
     static var title: LocalizedStringResource = "Add Bookmark"
     

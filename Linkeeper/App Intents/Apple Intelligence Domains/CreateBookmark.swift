@@ -8,7 +8,7 @@
 import Foundation
 import AppIntents
 
-@available(iOS 18.0, macOS 18.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 @AssistantIntent(schema: .browser.bookmarkURL)
 struct BookmarkURLIntent {
     @Parameter(title: "title")
@@ -16,17 +16,15 @@ struct BookmarkURLIntent {
     @Parameter(title: "url")
     var url: URL
     
-    static var isDiscoverable: Bool = false
-    
-    func perform() async throws -> some ReturnsValue<BookmarkEntity> {
+    func perform() async throws -> some ReturnsValue<LinkeeperBookmarkEntity> {
         do {
             if let name {
                 if let bookmarkEntity = try await AddBookmark(bookmarkTitle: name, url: url).perform().value {
-                    return .result(value: BookmarkEntity(fromRegularEntity: bookmarkEntity))
+                    return .result(value: bookmarkEntity)
                 }
             } else {
                 if let bookmarkEntity = try await AddBookmark(autoTitle: true, url: url).perform().value {
-                    return .result(value: BookmarkEntity(fromRegularEntity: bookmarkEntity))
+                    return .result(value: bookmarkEntity)
                 }
             }
             
@@ -36,4 +34,3 @@ struct BookmarkURLIntent {
         }
     }
 }
-

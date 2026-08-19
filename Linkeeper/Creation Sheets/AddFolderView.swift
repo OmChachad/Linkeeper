@@ -205,7 +205,7 @@ struct AddFolderView: View {
     }
     
     func addFolder() {
-        if #available(iOS 16.0, macOS 13.0, *) {
+        if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
             Task {
                 let folder = try! await AddFolder(folderTitle: title, icon: chosenSymbol, color: folderIconColor.rawValue).perform().value
                 if let folder {

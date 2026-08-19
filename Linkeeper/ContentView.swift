@@ -106,13 +106,13 @@ struct ContentView: View {
             reOrderIndexes()
         })
         .onChange(of: allBookmarks.count) { _ in
-            if #available(iOS 16.0, macOS 13.0, *) {
+            if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
                 LinkeeperShortcuts.updateAppShortcutParameters()
             }
             reloadAllWidgets()
         }
         .onChange(of: folders.count) { _ in
-            if #available(iOS 16.0, macOS 13.0, *) {
+            if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
                 LinkeeperShortcuts.updateAppShortcutParameters()
             }
             reloadAllWidgets()

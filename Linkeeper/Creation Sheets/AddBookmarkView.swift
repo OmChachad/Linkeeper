@@ -350,7 +350,7 @@ struct AddBookmarkView: View {
             sanitisedURL = sanitisedURL.components(separatedBy: "?").first ?? sanitisedURL
         }
         
-        if #available(iOS 16.0, macOS 13.0, *) {
+        if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
             Task {
                 let bookmark = try! await AddBookmark(bookmarkTitle: title, url: URL(string: sanitisedURL)!, notes: notes).perform()
                 if let bookmark = bookmark.value {

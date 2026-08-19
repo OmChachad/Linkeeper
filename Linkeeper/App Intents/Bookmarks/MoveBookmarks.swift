@@ -8,7 +8,7 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 struct MoveBookmark: AppIntent {
     
     // Title of the action in the Shortcuts app
@@ -74,7 +74,7 @@ struct MoveBookmark: AppIntent {
 //    """, categoryName: "Edit")
 //
 //    @Parameter(title: "Bookmarks", description: "The bookmarks to be moved.", requestValueDialog: IntentDialog("Which bookmarks would you like to move?"))
-//    var bookmarks: [BookmarkEntity]
+//    var bookmarks: [LinkeeperBookmarkEntity]
 //
 //    @Parameter(title: "Folder", description: "The folder to be moved to.", requestValueDialog: IntentDialog("Choose the folder you'd like to move your bookmarks to."))
 //    var folder: FolderEntity?
@@ -94,7 +94,7 @@ struct MoveBookmark: AppIntent {
 //        })
 //    }
 //
-//    func perform() async throws -> some ReturnsValue<[BookmarkEntity]> {
+//    func perform() async throws -> some ReturnsValue<[LinkeeperBookmarkEntity]> {
 //        do {
 //
 //            for bookmark in bookmarks {
