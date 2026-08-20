@@ -149,7 +149,6 @@ struct BookmarksTableView: View {
             Button("Open in browser", systemImage: "safari") {
                 openURL(bookmark.wrappedURL)
             }
-            .labelStyle(.titleAndIcon)
             
             Divider()
             
@@ -170,21 +169,18 @@ struct BookmarksTableView: View {
                     }
                 }
             }
-            .labelStyle(.titleAndIcon)
             
             Button("Copy link", systemImage: "doc.on.doc", action: bookmark.copyURL)
-                .labelStyle(.titleAndIcon)
             
             ShareButton(url: bookmark.wrappedURL) {
                 Label("Share", systemImage: "square.and.arrow.up")
-                    .labelStyle(.titleAndIcon)
             }
             
             Button("Delete", systemImage: "trash", role: .destructive) {
                 toBeDeletedBookmark = bookmark
                 deleteConfirmation = true
             }
-            .labelStyle(.titleAndIcon)
         }
+        .labelStyle(.titleAndIcon)
     }
 }
