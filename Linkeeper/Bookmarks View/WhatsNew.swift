@@ -8,31 +8,53 @@
 import SwiftUI
 
 struct WhatsNew: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var revealedFeatures: Int = 0
     
-    struct Feature {
-        var systemImage: String
-        var title: String
-        var description: String
-        var isVisible: Bool = true
+    private struct Feature {
+        let systemImage: String
+        let tint: Color
+        let title: String
+        let description: String
     }
     
-    let features: [Feature] = [
+    private let features: [Feature] = [
         Feature(
-            systemImage: "wand.and.sparkles.inverse",
-            title: "Redesigned for Liquid Glass",
-            description: "Bringing a carefully reconsidered yet subtle design refresh for OS 26's Liquid Glass. Stunning, yet instantly familiar."
+            systemImage: "magnifyingglass.circle.fill",
+            tint: .blue,
+            title: "Search with Spotlight",
+            description: "Find bookmarks and folders directly from Spotlight."
         ),
         Feature(
-            systemImage: "globe",
-            title: "In-App Browser",
-            description: "Break free from cluttered Safari windows with Linkeeper's in-app browser. Control behavior from Settings."
+            systemImage: "doc.text.magnifyingglass",
+            tint: .indigo,
+            title: "More Complete Search",
+            description: "In-app search now matches full URLs alongside titles, websites, notes, and folder names."
         ),
         Feature(
-            systemImage: "ladybug.fill",
-            title: "Bug Fixes & Improvements",
-            description: "We're continuing to refine the Linkeeper experience by squashing more of those pesky bugs."
+            systemImage: "wand.and.sparkles",
+            tint: .purple,
+            title: "Smarter Siri and Shortcuts",
+            description: "Save links to a chosen folder, search or open Linkeeper content, and hear clear confirmations when actions finish."
+        ),
+        Feature(
+            systemImage: "lightbulb.fill",
+            tint: .orange,
+            title: "More Relevant Actions",
+            description: "Linkeeper can surface relevant bookmark and folder actions across the system based on how you use the app."
+        ),
+        Feature(
+            systemImage: "square.and.arrow.up.fill",
+            tint: .green,
+            title: "Improved Share Extension",
+            description: "Fixed an issue where some types of links might not be accepted by the Linkeeper Share Extension."
+        ),
+        Feature(
+            systemImage: "speedometer",
+            tint: .cyan,
+            title: "Performance and Reliability",
+            description: "Improvements throughout, especially when browsing, sorting, and selecting larger bookmark collections."
         )
     ]
     
@@ -41,7 +63,7 @@ struct WhatsNew: View {
             Spacer()
             
             VStack {
-                Text("Welcome to **Linkeeper 3.2**")
+                Text("Welcome to **Linkeeper 3.3**")
                     .font(.title)
                     .bold()
             }
@@ -52,35 +74,42 @@ struct WhatsNew: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
-                    ForEach(features.filter { $0.isVisible }.indices, id: \.self) { index in
-                            HStack {
-                                Image(systemName: features[index].systemImage)
-                                    .foregroundColor(.blue)
-                                    .font(.title)
-                                    .frame(width: 55)
-                                
-                                VStack(alignment: .leading) {
-                                    Text(features[index].title)
-                                        .font(.headline)
-                                    Text(features[index].description)
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
-                                }
+                    ForEach(features.indices, id: \.self) { index in
+                        HStack {
+                            Image(systemName: features[index].systemImage)
+                                .foregroundStyle(features[index].tint)
+                                .font(.title)
+                                .frame(width: 55)
+                                .accessibilityHidden(true)
+
+                            VStack(alignment: .leading) {
+                                Text(features[index].title)
+                                    .font(.headline)
+                                Text(features[index].description)
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
                             }
-                            .transition(.opacity)
-                            .opacity(index < revealedFeatures ? 1 : 0.1)
-                            .blur(radius: index < revealedFeatures ? 0 : 5)
+                        }
+                        .transition(.opacity)
+                        .opacity(index < revealedFeatures ? 1 : 0.1)
+                        .blur(radius: index < revealedFeatures ? 0 : 5)
                     }
                 }
                 .padding()
-                .onAppear {
-                    Task {
+                .task {
+                    if reduceMotion {
+                        revealedFeatures = features.count
+                    } else {
                         for _ in 0..<features.count {
                             withAnimation(.smooth) {
                                 revealedFeatures += 1
                             }
-                            
-                            try await Task.sleep(nanoseconds: 300_000_000)
+
+                            do {
+                                try await Task.sleep(nanoseconds: 300_000_000)
+                            } catch {
+                                return
+                            }
                         }
                     }
                 }
