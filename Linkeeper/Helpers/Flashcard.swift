@@ -6,57 +6,54 @@
 //
 
 import SwiftUI
-/// Custom Flip Transition Effect: https://www.youtube.com/watch?v=hwmDFxvUCRY
-struct Flashcard<Front, Back>: View where Front: View, Back: View {
-    var front: () -> Front
-    var back: () -> Back
 
-    @State var flipped = false
-    @Binding var editing: Bool
+struct Flashcard<Front: View, Back: View>: View {
+    private let front: Front
+    private let back: Back
 
-    @State var flashcardRotation = 0
-    @State var contentRotation = 0
+    @Binding private var editing: Bool
 
-    init(editing: Binding<Bool>, @ViewBuilder front: @escaping () -> Front, @ViewBuilder back: @escaping () -> Back) {
-        self.front = front
-        self.back = back
+    init(editing: Binding<Bool>, @ViewBuilder front: () -> Front, @ViewBuilder back: () -> Back) {
+        self.front = front()
+        self.back = back()
         self._editing = editing
     }
 
     var body: some View {
-        ZStack {
-            if editing {
-                back()
-                    .transition(.reverseFlip)
-            } else {
-                front()
-                    .transition(.flip)
-            }
-        }
+        FlipAnimation(
+            front: front,
+            back: back,
+            progress: editing ? 1 : 0
+        )
         .animation(.bouncy, value: editing)
         .frame(maxWidth: 500)
         .padding(10)
     }
 }
 
-struct FlipTransition: ViewModifier, Animatable {
-    var progress: CGFloat = 0
-    var animatableData: CGFloat {
+private struct FlipAnimation<Front: View, Back: View>: View, Animatable {
+    let front: Front
+    let back: Back
+    var progress: Double
+
+    var animatableData: Double {
         get { progress }
         set { progress = newValue }
     }
-    func body(content: Content) -> some View {
-        content
-            .opacity(progress < 0 ? (-progress < 0.5 ? 1 : 0) : (progress < 0.5 ? 1 : 0))
-            .rotation3DEffect(.init(degrees: progress * 180), axis: (x: 0.0, y: 1.0, z: 0.0))
-    }
-    
-}
 
-extension AnyTransition {
-    static let flip: AnyTransition = modifier(
-        active: FlipTransition (progress: -1), identity: FlipTransition()
-    )
-    static let reverseFlip: AnyTransition = modifier(
-        active: FlipTransition (progress: 1), identity: FlipTransition())
+    var body: some View {
+        ZStack {
+            back
+                .opacity(progress >= 0.5 ? 1 : 0)
+                .rotation3DEffect(.degrees((1 - progress) * 180), axis: (x: 0, y: 1, z: 0))
+                .allowsHitTesting(progress >= 0.5)
+                .accessibilityHidden(progress < 0.5)
+
+            front
+                .opacity(progress < 0.5 ? 1 : 0)
+                .rotation3DEffect(.degrees(progress * -180), axis: (x: 0, y: 1, z: 0))
+                .allowsHitTesting(progress < 0.5)
+                .accessibilityHidden(progress >= 0.5)
+        }
+    }
 }
