@@ -65,7 +65,17 @@ struct BookmarksView: View {
             return true
         }
     }
-    
+
+    var searchFieldPlacement: SearchFieldPlacement {
+        #if os(iOS)
+        return UIDevice.current.userInterfaceIdiom == .phone ? .navigationBarDrawer : .toolbar
+        #elseif os(visionOS)
+        return .toolbar
+        #else
+        return .automatic
+        #endif
+    }
+
     var orderedParentFolders: [Folder] {
         return parentFolders.sorted(using: [
             KeyPathComparator(\.isPinned, order: .reverse),
@@ -124,11 +134,11 @@ struct BookmarksView: View {
             }
         
         }
-        #if os(macOS)
-        .searchable(text: $searchText, prompt: "Find a bookmark...")
-        #else
-        .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Find a bookmark...")
-        #endif
+        .searchable(
+            text: $searchText,
+            placement: searchFieldPlacement,
+            prompt: "Find a bookmark..."
+        )
         .userActivity(
             "org.starlightapps.Linkeeper.viewing-folder",
             element: folder?.id
