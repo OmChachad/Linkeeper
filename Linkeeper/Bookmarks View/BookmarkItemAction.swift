@@ -16,8 +16,7 @@ struct BookmarkItemAction: ViewModifier {
     var bookmark: Bookmark
     
     @Binding var cachedPreview: cachedPreview?
-    @Binding var toBeEditedBookmark: Bookmark?
-    @Binding var showDetails: Bool
+    @Binding var presentedBookmark: Bookmark?
     @State var isMovingBookmark = false
     
     @State var deleteConfirmation: Bool = false
@@ -65,8 +64,7 @@ struct BookmarkItemAction: ViewModifier {
                         Button("Show details", systemImage: "info.circle") {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 withAnimation {
-                                    toBeEditedBookmark = bookmark
-                                    showDetails = true
+                                    presentedBookmark = bookmark
                                 }
                             }
                         }
@@ -101,13 +99,11 @@ struct BookmarkItemAction: ViewModifier {
                     .tint(.red)
                     
                     Button("Details", systemImage: "info.circle") {
-                        toBeEditedBookmark = bookmark
-                        showDetails = true
+                        presentedBookmark = bookmark
                     }
                 } else {
                     Button("Details", systemImage: "info.circle") {
-                        toBeEditedBookmark = bookmark
-                        showDetails = true
+                        presentedBookmark = bookmark
                     }
                     
                     Button("Delete", systemImage: "trash") {
@@ -166,8 +162,8 @@ struct BookmarkItemAction: ViewModifier {
 }
 
 extension View {
-    func bookmarkItemActions(bookmark: Bookmark, toBeEditedBookmark: Binding<Bookmark?>, showDetails: Binding<Bool>, cachedPreview: Binding<cachedPreview?>, includeOpenBookmarkButton: Bool = false) -> some View {
+    func bookmarkItemActions(bookmark: Bookmark, presentedBookmark: Binding<Bookmark?>, cachedPreview: Binding<cachedPreview?>, includeOpenBookmarkButton: Bool = false) -> some View {
         self
-            .modifier(BookmarkItemAction(bookmark: bookmark, cachedPreview: cachedPreview, toBeEditedBookmark: toBeEditedBookmark, showDetails: showDetails, includeOpenBookmarkButton: includeOpenBookmarkButton))
+            .modifier(BookmarkItemAction(bookmark: bookmark, cachedPreview: cachedPreview, presentedBookmark: presentedBookmark, includeOpenBookmarkButton: includeOpenBookmarkButton))
     }
 }

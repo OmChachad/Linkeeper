@@ -15,8 +15,7 @@ struct BookmarkListItem: View {
     
     var bookmark: Bookmark
     
-    @Binding var showDetails: Bool
-    @Binding var toBeEditedBookmark: Bookmark?
+    @Binding var presentedBookmark: Bookmark?
     
     @State private var cachedPreview: cachedPreview?
     
@@ -28,10 +27,9 @@ struct BookmarkListItem: View {
         #endif
     }
     
-    init(bookmark: Bookmark, showDetails: Binding<Bool>, toBeEditedBookmark: Binding<Bookmark?>) {
+    init(bookmark: Bookmark, presentedBookmark: Binding<Bookmark?>) {
         self.bookmark = bookmark
-        self._showDetails = showDetails
-        self._toBeEditedBookmark = toBeEditedBookmark
+        self._presentedBookmark = presentedBookmark
     }
     
     var body: some View {
@@ -58,7 +56,7 @@ struct BookmarkListItem: View {
                     .font(.headline)
             }
         }
-        .bookmarkItemActions(bookmark: bookmark, toBeEditedBookmark: $toBeEditedBookmark, showDetails: $showDetails, cachedPreview: $cachedPreview, includeOpenBookmarkButton: true)
+        .bookmarkItemActions(bookmark: bookmark, presentedBookmark: $presentedBookmark, cachedPreview: $cachedPreview, includeOpenBookmarkButton: true)
     }
     
     func openBookmark() {

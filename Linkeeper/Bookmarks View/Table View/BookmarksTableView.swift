@@ -17,8 +17,7 @@ struct BookmarksTableView: View {
     
     @AppStorageColumns("selectedColumns") var selectedColumns: [Column] = [.host, .folder, .dateAdded]
     
-    @Binding var toBeEditedBookmark: Bookmark?
-    @Binding var showDetails: Bool
+    @Binding var presentedBookmark: Bookmark?
     
     @State private var toBeMovedBookmark: Bookmark?
     @State private var isMoving = false
@@ -167,8 +166,7 @@ struct BookmarksTableView: View {
             Button("Show details", systemImage: "info.circle") {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     withAnimation {
-                        toBeEditedBookmark = bookmark
-                        showDetails = true
+                        presentedBookmark = bookmark
                     }
                 }
             }

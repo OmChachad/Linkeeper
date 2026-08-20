@@ -97,6 +97,7 @@
 		C236AD7A2C405B30000BE9FE /* isMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C638CC2B4D810600E5B0B1 /* isMac.swift */; };
 		C236AD7B2C405B31000BE9FE /* isMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C638CC2B4D810600E5B0B1 /* isMac.swift */; };
 		C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */; };
+		C2A020982F50900100A02098 /* BookmarkDetailsModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A020972F50900100A02098 /* BookmarkDetailsModifier.swift */; };
 		C23BDA472840C70E003DD30D /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23BDA462840C70E003DD30D /* CacheManager.swift */; };
 		C23D41012D72A95E009C17B0 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050702A12B79800817C48 /* Color.swift */; };
 		C23D41022D72A95E009C17B0 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29050702A12B79800817C48 /* Color.swift */; };
@@ -382,6 +383,7 @@
 		C234F6EC2A31BD7100401721 /* Twitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Twitter.swift; sourceTree = "<group>"; };
 		C236AD752C4059E7000BE9FE /* FolderPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPickerView.swift; sourceTree = "<group>"; };
 		C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDetails.swift; sourceTree = "<group>"; };
+		C2A020972F50900100A02098 /* BookmarkDetailsModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDetailsModifier.swift; sourceTree = "<group>"; };
 		C23BDA462840C70E003DD30D /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		C23D41042D730F33009C17B0 /* AppDelegate (iOS, visionOS).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate (iOS, visionOS).swift"; sourceTree = "<group>"; };
 		C23EC8ED283E5E71009D0670 /* Linkeeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Linkeeper.xcdatamodel; sourceTree = "<group>"; };
@@ -611,6 +613,7 @@
 			children = (
 				C2550E63282705F900ADA0BF /* BookmarksView.swift */,
 				C23BDA442840B5FF003DD30D /* BookmarkDetails.swift */,
+				C2A020972F50900100A02098 /* BookmarkDetailsModifier.swift */,
 				C26615142FBC1F3200A5C0FB /* BookmarkThumbnail.swift */,
 				C222689B2B49CAB400D88123 /* Grid View */,
 				C222689C2B49CAC300D88123 /* Table View */,
@@ -1395,6 +1398,7 @@
 				C222688A2B486F5C00D88123 /* BookmarksTableView.swift in Sources */,
 				C236AD762C4059E7000BE9FE /* FolderPickerView.swift in Sources */,
 				C23BDA452840B5FF003DD30D /* BookmarkDetails.swift in Sources */,
+				C2A020982F50900100A02098 /* BookmarkDetailsModifier.swift in Sources */,
 				C2C8EE922A4C8BB300CCD36F /* ChangeIconsView.swift in Sources */,
 				C281D9B82A25277A00535807 /* DeleteFolder.swift in Sources */,
 				C29050682A125EF100817C48 /* MoveBookmarksView.swift in Sources */,

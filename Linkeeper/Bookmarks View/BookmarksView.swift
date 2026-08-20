@@ -25,8 +25,7 @@ struct BookmarksView: View {
     
     // For Detail View
     @Namespace var nm
-    @State private var showDetails = false
-    @State private var toBeEditedBookmark: Bookmark?
+    @State private var presentedBookmark: Bookmark?
     
     @State private var selectedBookmarks: Set<Bookmark.ID> = []
     @State private var deleteConfirmation = false
@@ -97,7 +96,7 @@ struct BookmarksView: View {
             } else {
                 switch(viewOption) {
                 case .grid:
-                    BookmarksGridView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
+                    BookmarksGridView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, presentedBookmark: $presentedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
                         .commandKeyObserver(isCommandKeyPressed: $isCommandKeyPressed)
                         .onChange(of: isCommandKeyPressed) { newValue in
                             if newValue {
@@ -107,12 +106,12 @@ struct BookmarksView: View {
                             }
                         }
                 case .list:
-                    BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
+                    BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, presentedBookmark: $presentedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
                 case .table:
                     if #available(iOS 16.0, macOS 13.0, *), !shouldDisallowTable {
-                        BookmarksTableView(bookmarks: filteredBookmarks, folder: folder, selectedBookmarks: $selectedBookmarks, sortOrder: $sortOrder, toBeEditedBookmark: $toBeEditedBookmark, showDetails: $showDetails)
+                        BookmarksTableView(bookmarks: filteredBookmarks, folder: folder, selectedBookmarks: $selectedBookmarks, sortOrder: $sortOrder, presentedBookmark: $presentedBookmark)
                     } else {
-                        BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
+                        BookmarksListView(bookmarks: bookmarks, searchText: searchText, folder: folder, favorites: favorites, namespace: nm, presentedBookmark: $presentedBookmark, selectedBookmarks: $selectedBookmarks, deleteConfirmation: $deleteConfirmation, movingBookmarks: $movingBookmarks, orderedFolders: orderedParentFolders)
                     }
                 }
             }
@@ -124,32 +123,12 @@ struct BookmarksView: View {
         .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Find a bookmark...")
         #endif
         .contentUnavailabilityView(isUnavailable: favorites != true ? (bookmarks.isEmpty && subFolders.isEmpty) : bookmarks.isEmpty, unavailabilityView: noBookmarksView)
-        #if !os(visionOS)
-        .overlay {
-            if showDetails {
-                if #available(macOS 26.0, iOS 26.0, *) {
-                    Rectangle()
-                        .glassEffect(.regular.interactive(), in: .rect)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            showDetails = false
-                        }
-                } else {
-                    Color("primaryInverted").opacity(0.3)
-                        .background(.thinMaterial)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            showDetails = false
-                        }
-                }
-                
-                BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, hideFavoriteOption: favorites == true)
-                    .if(viewOption != .grid) { view in
-                        view.transition(.movingParts.glare)
-                    }
-            }
-        }
-        #endif
+        .bookmarkDetails(
+            item: $presentedBookmark,
+            namespace: nm,
+            hidesFavoriteOption: favorites == true,
+            overlayTransition: viewOption == .grid ? nil : .movingParts.glare
+        )
         .navigationTitle(for: folder, folderTitle: $folderTitle, onlyFavorites: favorites ?? false)
         #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
@@ -222,7 +201,7 @@ struct BookmarksView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .transition(.move(edge: .bottom))
-            } else if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && !showDetails {
+            } else if searchText.isEmpty && !filteredBookmarks.isEmpty && favorites != true && presentedBookmark == nil {
                 HStack {
                     Button {
                         addingBookmark = true
@@ -281,18 +260,13 @@ struct BookmarksView: View {
         })
         .animation(.spring().speed(0.75), value: filteredBookmarks)
         .animation(.spring().speed(0.75), value: folder?.childFoldersArray?.count)
-        .animation(.spring(), value: showDetails)
+        .animation(.spring(), value: presentedBookmark)
         .animation(.easeInOut.speed(0.5), value: editState)
         #if os(visionOS)
         .ornament(visibility: editState == .active ? .visible : .hidden, attachmentAnchor: .scene(.bottom)) {
             bottomEditToolbar()
                 .padding()
                 .glassBackgroundEffect(in: Capsule())
-        }
-        .ornament(visibility: showDetails ? .visible : .hidden, attachmentAnchor: .scene(.trailing), contentAlignment: .leading) {
-            if showDetails {
-                BookmarkDetails(bookmark: toBeEditedBookmark!, namespace: nm, showDetails: $showDetails, hideFavoriteOption: favorites == true)
-            }
         }
         #endif
         // MARK: Logic for opening bookmarks in the browser for list and table view.

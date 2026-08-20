@@ -20,8 +20,7 @@ struct BookmarksGridView: View {
     
     // For Detail View
     var namespace: Namespace.ID
-    @Binding var showDetails: Bool
-    @Binding var toBeEditedBookmark: Bookmark?
+    @Binding var presentedBookmark: Bookmark?
     
     @Binding var selectedBookmarks: Set<Bookmark.ID>
     @Binding var deleteConfirmation: Bool
@@ -169,8 +168,7 @@ struct BookmarksGridView: View {
                 BookmarkGridItem(
                     bookmark: bookmark,
                     namespace: namespace,
-                    showDetails: $showDetails,
-                    toBeEditedBookmark: $toBeEditedBookmark,
+                    presentedBookmark: $presentedBookmark,
                     isSelected: selectedBookmarks.contains(bookmark.id ?? UUID()),
                     toggleSelection: {
                         let id = bookmark.id ?? UUID()
