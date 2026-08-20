@@ -352,11 +352,17 @@ struct AddBookmarkView: View {
         
         Task { @MainActor in
             if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
-                let bookmark = try! await AddBookmark(bookmarkTitle: title, url: URL(string: sanitisedURL)!, notes: notes).perform()
-                if let bookmark = bookmark.value {
+                let intent = AddBookmark(
+                    bookmarkTitle: title,
+                    url: URL(string: sanitisedURL)!,
+                    notes: notes
+                )
+                let result = try! await intent.perform()
+                if let bookmark = result.value {
                     BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = folder
                     try? moc.save()
                 }
+                await LinkeeperIntentDonations.donate(intent, result: result)
             } else {
                 BookmarksManager.shared.addBookmark(title: title, url: sanitisedURL, host: URL(string: url)!.host ?? url, notes: notes, folder: folder)
             }

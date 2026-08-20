@@ -84,12 +84,22 @@ class BookmarksManager {
     }
     
     func deleteBookmark(_ bookmark: Bookmark) {
+        let bookmarkID = bookmark.id
         context.delete(bookmark)
         
         let cacheManager = CacheManager.instance
         cacheManager.remove(for: bookmark)
         
         saveContext()
+
+        if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *), let bookmarkID {
+            Task {
+                await LinkeeperIntentDonations.removeDonations(
+                    for: LinkeeperBookmarkEntity.self,
+                    identifier: bookmarkID
+                )
+            }
+        }
     }
     
     func deleteBookmark(withId id: UUID) {

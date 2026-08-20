@@ -269,6 +269,11 @@
 		C2D0B8783036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B8753036C2B000E1D3FD /* SpotlightDestinationKind.swift */; };
 		C2D0B8793036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B8753036C2B000E1D3FD /* SpotlightDestinationKind.swift */; };
 		C2D0B87A3036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B8753036C2B000E1D3FD /* SpotlightDestinationKind.swift */; };
+		C2D0B88D3036E3B100E1D3FD /* LinkeeperIntentDonations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B88C3036E3A700E1D3FD /* LinkeeperIntentDonations.swift */; };
+		C2D0B88E3036E3B100E1D3FD /* LinkeeperIntentDonations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B88C3036E3A700E1D3FD /* LinkeeperIntentDonations.swift */; };
+		C2D0B88F3036E3B100E1D3FD /* LinkeeperIntentDonations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B88C3036E3A700E1D3FD /* LinkeeperIntentDonations.swift */; };
+		C2D0B8903036E3B100E1D3FD /* LinkeeperIntentDonations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B88C3036E3A700E1D3FD /* LinkeeperIntentDonations.swift */; };
+		C2D0B8913036E3B100E1D3FD /* LinkeeperIntentDonations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B88C3036E3A700E1D3FD /* LinkeeperIntentDonations.swift */; };
 		C2D1A9B22F00F5ED00B9B942 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = C2D1A9B12F00F5ED00B9B942 /* AppIcon.icon */; };
 		C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */; };
 		C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC75782CFE1E940093E40B /* VariableBlurView.swift */; };
@@ -474,6 +479,7 @@
 		C2CCDC8A2D74781F00D91A08 /* AppDelegate (Mac).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate (Mac).swift"; sourceTree = "<group>"; };
 		C2CCDC8C2D74794B00D91A08 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		C2D0B8753036C2B000E1D3FD /* SpotlightDestinationKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightDestinationKind.swift; sourceTree = "<group>"; };
+		C2D0B88C3036E3A700E1D3FD /* LinkeeperIntentDonations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeeperIntentDonations.swift; sourceTree = "<group>"; };
 		C2D1A9B12F00F5ED00B9B942 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipRequestView.swift; sourceTree = "<group>"; };
 		C2DC75782CFE1E940093E40B /* VariableBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableBlurView.swift; sourceTree = "<group>"; };
@@ -683,6 +689,7 @@
 			children = (
 				C2731D332D4289930046E098 /* Apple Intelligence Domains */,
 				C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */,
+				C2D0B88C3036E3A700E1D3FD /* LinkeeperIntentDonations.swift */,
 				C266E78C2A25D4A0009CBD96 /* Bookmarks */,
 				C266E78D2A25D4C7009CBD96 /* Folders */,
 			);
@@ -1151,6 +1158,7 @@
 				C2F100032F10000100ABCDEF /* SpotlightIndexer.swift in Sources */,
 				C2052C002B34697600185D29 /* StoreURL Extension.swift in Sources */,
 				C28D188D2B42A5150033C979 /* BookmarksWidgetView.swift in Sources */,
+				C2D0B88F3036E3B100E1D3FD /* LinkeeperIntentDonations.swift in Sources */,
 				C2052C062B34699600185D29 /* DraggableBookmark.swift in Sources */,
 				C2052C042B34697900185D29 /* Linkeeper.xcdatamodeld in Sources */,
 				C28D18972B4319E50033C979 /* MediumOrLargeWidgetView.swift in Sources */,
@@ -1232,6 +1240,7 @@
 				C22645E92D42B99E00DA8873 /* DragExtension.swift in Sources */,
 				C22645EA2D42B99E00DA8873 /* BookmarkDropItem.swift in Sources */,
 				C22645EB2D42B99E00DA8873 /* DropExtension.swift in Sources */,
+				C2D0B8913036E3B100E1D3FD /* LinkeeperIntentDonations.swift in Sources */,
 				C22645EC2D42B99E00DA8873 /* FolderDropItem.swift in Sources */,
 				C22645ED2D42B99E00DA8873 /* DraggableFolder.swift in Sources */,
 				C2120C562B95EF1F003FEDF2 /* Linkeeper.xcdatamodeld in Sources */,
@@ -1279,6 +1288,7 @@
 				C22645EE2D42B99F00DA8873 /* DragExtension.swift in Sources */,
 				C22645EF2D42B99F00DA8873 /* DraggableFolder.swift in Sources */,
 				C22645F02D42B99F00DA8873 /* FolderDropItem.swift in Sources */,
+				C2D0B8903036E3B100E1D3FD /* LinkeeperIntentDonations.swift in Sources */,
 				C22645F12D42B99F00DA8873 /* DropExtension.swift in Sources */,
 				C22645F22D42B99F00DA8873 /* BookmarkDropItem.swift in Sources */,
 				C2891D812B51866300C44C37 /* DataController.swift in Sources */,
@@ -1304,6 +1314,7 @@
 				C2A14A402A602498003A5308 /* Folder+CoreDataProperties.swift in Sources */,
 				C2A14A492A602512003A5308 /* Metadata Fetcher.swift in Sources */,
 				C27BB9CD2B32FF6100ACA0EA /* LinkeeperBookmarkEntity.swift in Sources */,
+				C2D0B88E3036E3B100E1D3FD /* LinkeeperIntentDonations.swift in Sources */,
 				C28616832A73DD0D00ABA9FF /* AlertView.swift in Sources */,
 				C2A14A4A2A60251B003A5308 /* ColorOption.swift in Sources */,
 				C27AF0FB2B47C0F800C4D9A4 /* reloadAllWidgets.swift in Sources */,
@@ -1381,6 +1392,7 @@
 				C28B6E6928190C120030B6DD /* ColorOption.swift in Sources */,
 				C2C8EEA02A4DF89800CCD36F /* DraggableBookmark.swift in Sources */,
 				C27AF1152B48091E00C4D9A4 /* Bool.swift in Sources */,
+				C2D0B88D3036E3B100E1D3FD /* LinkeeperIntentDonations.swift in Sources */,
 				C24DF577283E65D2003C9692 /* DataController.swift in Sources */,
 				C281D9BA2A2534E100535807 /* AddFolder.swift in Sources */,
 				C28D18A12B443EAE0033C979 /* ImportExportView.swift in Sources */,
