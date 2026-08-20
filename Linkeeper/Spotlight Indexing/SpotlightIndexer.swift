@@ -186,6 +186,15 @@ final class SpotlightIndexer: NSObject, CSSearchableIndexDelegate {
         }
     }
 
+    /// Starts observation when needed and reconciles the shared store.
+    ///
+    /// App Intents and share extensions can run without creating Linkeeper's
+    /// SwiftUI scene, so they must not rely on the app-launch setup path.
+    func synchronizeCurrentStore() async {
+        start(with: DataController.shared.persistentCloudKitContainer)
+        await synchronizeAll()
+    }
+
     private func performFullSynchronization() async throws {
         guard CSSearchableIndex.isIndexingAvailable(), let context else {
             return
@@ -195,7 +204,7 @@ final class SpotlightIndexer: NSObject, CSSearchableIndexDelegate {
         let folderRequest: NSFetchRequest<Folder> = Folder.fetchRequest()
         let bookmarks = uniqueBookmarks(try context.fetch(bookmarkRequest))
         let folders = uniqueFolders(try context.fetch(folderRequest))
-        let requiresMigration = UserDefaults.standard.integer(forKey: IndexSchema.storedVersionKey) != IndexSchema.currentVersion
+        let requiresMigration = SharedUserDefaults.integer(forKey: IndexSchema.storedVersionKey) != IndexSchema.currentVersion
 
         if requiresMigration {
             // Previous index generations can survive in either Linkeeper's
@@ -212,7 +221,7 @@ final class SpotlightIndexer: NSObject, CSSearchableIndexDelegate {
         }
 
         if requiresMigration {
-            UserDefaults.standard.set(IndexSchema.currentVersion, forKey: IndexSchema.storedVersionKey)
+            SharedUserDefaults.set(IndexSchema.currentVersion, forKey: IndexSchema.storedVersionKey)
         }
     }
 

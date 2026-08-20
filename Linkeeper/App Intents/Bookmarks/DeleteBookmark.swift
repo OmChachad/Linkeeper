@@ -41,6 +41,7 @@ struct DeleteBookmark: AppIntent {
             }
             
             BookmarksManager.shared.deleteBookmark(withId: bookmark.id)
+            await SpotlightIndexer.shared.synchronizeCurrentStore()
             reloadAllWidgets()
             
             return .result()
