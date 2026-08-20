@@ -17,8 +17,7 @@ struct BookmarksTableView: View {
     
     @AppStorageColumns("selectedColumns") var selectedColumns: [Column] = [.host, .folder, .dateAdded]
     
-    @Binding var toBeEditedBookmark: Bookmark?
-    @Binding var showDetails: Bool
+    @Binding var presentedBookmark: Bookmark?
     
     @State private var toBeMovedBookmark: Bookmark?
     @State private var isMoving = false
@@ -150,7 +149,6 @@ struct BookmarksTableView: View {
             Button("Open in browser", systemImage: "safari") {
                 openURL(bookmark.wrappedURL)
             }
-            .labelStyle(.titleAndIcon)
             
             Divider()
             
@@ -167,26 +165,22 @@ struct BookmarksTableView: View {
             Button("Show details", systemImage: "info.circle") {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     withAnimation {
-                        toBeEditedBookmark = bookmark
-                        showDetails = true
+                        presentedBookmark = bookmark
                     }
                 }
             }
-            .labelStyle(.titleAndIcon)
             
             Button("Copy link", systemImage: "doc.on.doc", action: bookmark.copyURL)
-                .labelStyle(.titleAndIcon)
             
             ShareButton(url: bookmark.wrappedURL) {
                 Label("Share", systemImage: "square.and.arrow.up")
-                    .labelStyle(.titleAndIcon)
             }
             
             Button("Delete", systemImage: "trash", role: .destructive) {
                 toBeDeletedBookmark = bookmark
                 deleteConfirmation = true
             }
-            .labelStyle(.titleAndIcon)
         }
+        .labelStyle(.titleAndIcon)
     }
 }

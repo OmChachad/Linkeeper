@@ -18,8 +18,7 @@ struct BookmarksListView: View {
     
     // For Detail View
     var namespace: Namespace.ID
-    @Binding var showDetails: Bool
-    @Binding var toBeEditedBookmark: Bookmark?
+    @Binding var presentedBookmark: Bookmark?
     
     @Binding var selectedBookmarks: Set<Bookmark.ID>
     @Binding var deleteConfirmation: Bool
@@ -126,7 +125,7 @@ struct BookmarksListView: View {
     
     func list(for bookmarks: [Bookmark]) -> some View {
         ForEach(bookmarks, id: \.objectID) { bookmark in
-            BookmarkListItem(bookmark: bookmark, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark)
+            BookmarkListItem(bookmark: bookmark, presentedBookmark: $presentedBookmark)
                 .tag(bookmark.id)
         }
     }

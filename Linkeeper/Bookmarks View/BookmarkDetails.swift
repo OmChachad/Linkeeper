@@ -20,7 +20,7 @@ struct BookmarkDetails: View {
     
     var bookmark: Bookmark
     var namespace: Namespace.ID
-    @Binding var showDetails: Bool
+    @Binding var presentedBookmark: Bookmark?
     
     @State private var title = ""
     @State private var notes = ""
@@ -37,10 +37,10 @@ struct BookmarkDetails: View {
     
     @State private var animatedShow = false
     
-    init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, hideFavoriteOption: Bool = false) {
+    init(bookmark: Bookmark, namespace: Namespace.ID, presentedBookmark: Binding<Bookmark?>, hideFavoriteOption: Bool = false) {
         self.bookmark = bookmark
         self.namespace = namespace
-        _showDetails = showDetails
+        _presentedBookmark = presentedBookmark
         _title = State(initialValue: bookmark.wrappedTitle)
         _notes = State(initialValue: bookmark.wrappedNotes)
         _isFavorited = State(initialValue: bookmark.isFavorited)
@@ -79,8 +79,10 @@ struct BookmarkDetails: View {
             newValue.cachedImage(saveTo: $cachedPreview)
         }
         .onChange(of: animatedShow) { newValue in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                showDetails = newValue
+            if !newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    presentedBookmark = nil
+                }
             }
         }
         .task {
@@ -232,7 +234,7 @@ struct BookmarkDetails: View {
         .cornerRadius(15, style: .continuous)
         .overlay(alignment: .topTrailing) {
             Button {
-                showDetails = false
+                presentedBookmark = nil
             } label: {
                 Image(systemName: "xmark")
                     .font(.headline)
@@ -362,7 +364,7 @@ struct BookmarkDetails: View {
                     .foregroundColor(.red)
                     .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
                         Button("Delete Bookmark", role: .destructive) {
-                            showDetails.toggle()
+                            presentedBookmark = nil
                             BookmarksManager.shared.deleteBookmark(bookmark)
                             try? moc.save()
                         }

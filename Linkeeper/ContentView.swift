@@ -41,7 +41,6 @@ struct ContentView: View {
     @Namespace private var spotlightBookmarkNamespace
     @StateObject private var intentNavigationModel = SpotlightNavigationModel.shared
     @State private var spotlightBookmark: Bookmark?
-    @State private var showingSpotlightBookmarkDetails = false
     
     var spacing: CGFloat { (isMac || isVisionOS) ? 10 : 15 }
     
@@ -119,51 +118,11 @@ struct ContentView: View {
             openSpotlightDestination((destination.kind, destination.id))
             intentNavigationModel.destination = nil
         }
-        #if !os(visionOS)
-        .overlay {
-            if showingSpotlightBookmarkDetails, let spotlightBookmark {
-                if #available(macOS 26.0, iOS 26.0, *) {
-                    Rectangle()
-                        .glassEffect(.regular.interactive(), in: .rect)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            showingSpotlightBookmarkDetails = false
-                        }
-                } else {
-                    Color("primaryInverted").opacity(0.3)
-                        .background(.thinMaterial)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            showingSpotlightBookmarkDetails = false
-                        }
-                }
-
-                BookmarkDetails(
-                    bookmark: spotlightBookmark,
-                    namespace: spotlightBookmarkNamespace,
-                    showDetails: $showingSpotlightBookmarkDetails
-                )
-                .id(spotlightBookmark.objectID)
-                .transition(.movingParts.glare)
-            }
-        }
-        #endif
-        #if os(visionOS)
-        .ornament(
-            visibility: showingSpotlightBookmarkDetails ? .visible : .hidden,
-            attachmentAnchor: .scene(.trailing),
-            contentAlignment: .leading
-        ) {
-            if let spotlightBookmark {
-                BookmarkDetails(
-                    bookmark: spotlightBookmark,
-                    namespace: spotlightBookmarkNamespace,
-                    showDetails: $showingSpotlightBookmarkDetails
-                )
-                .id(spotlightBookmark.objectID)
-            }
-        }
-        #endif
+        .bookmarkDetails(
+            item: $spotlightBookmark,
+            namespace: spotlightBookmarkNamespace,
+            overlayTransition: .movingParts.glare
+        )
         .sheet(isPresented: $showingNewBookmarkView) {
             AddBookmarkView(folderPreset: currentFolder, onComplete: { didAddBookmark in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -204,7 +163,7 @@ struct ContentView: View {
             AlertView(icon: "folder.fill", title: "Added Folder")
                 .padding(.bottom, 50)
         })
-        .animation(.spring(), value: showingSpotlightBookmarkDetails)
+        .animation(.spring(), value: spotlightBookmark)
         .onReceive(NotificationCenter.default.publisher(for: .addBookmark)) { _ in
             showingNewBookmarkView = true
         }
@@ -237,11 +196,10 @@ struct ContentView: View {
 
             if let bookmark = try? moc.fetch(request).first {
                 spotlightBookmark = bookmark
-                showingSpotlightBookmarkDetails = true
             }
 
         case .folder:
-            showingSpotlightBookmarkDetails = false
+            spotlightBookmark = nil
 
             let request: NSFetchRequest<Folder> = Folder.fetchRequest()
             request.fetchLimit = 1

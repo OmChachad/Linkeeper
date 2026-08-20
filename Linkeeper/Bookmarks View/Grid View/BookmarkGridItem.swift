@@ -19,8 +19,7 @@ struct BookmarkGridItem: View {
     
     var bookmark: Bookmark
     var namespace: Namespace.ID
-    @Binding var showDetails: Bool
-    @Binding var toBeEditedBookmark: Bookmark?
+    @Binding var presentedBookmark: Bookmark?
     
     @State private var presentOpenConfirmation: Bool = false
     @State private var deleteConfirmation: Bool = false
@@ -42,11 +41,10 @@ struct BookmarkGridItem: View {
         #endif
     }
     
-    init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, toBeEditedBookmark: Binding<Bookmark?>, isSelected: Bool, toggleSelection: @escaping () -> Void) {
+    init(bookmark: Bookmark, namespace: Namespace.ID, presentedBookmark: Binding<Bookmark?>, isSelected: Bool, toggleSelection: @escaping () -> Void) {
         self.bookmark = bookmark
         self.namespace = namespace
-        self._showDetails = showDetails
-        self._toBeEditedBookmark = toBeEditedBookmark
+        self._presentedBookmark = presentedBookmark
         self.isSelected = isSelected
         self.toggleSelection = toggleSelection
     }
@@ -108,8 +106,9 @@ struct BookmarkGridItem: View {
         .contextMenu { menuItems() }
         .onLongPressGesture(minimumDuration: 0.5, perform: {
             #if os(macOS)
-                toBeEditedBookmark = bookmark
-                showDetails.toggle()
+                withAnimation {
+                    presentedBookmark = bookmark
+                }
             #endif
         })
         .draggable(bookmark)
@@ -177,33 +176,28 @@ struct BookmarkGridItem: View {
                 Button("Show details", systemImage: "info.circle") {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         withAnimation {
-                            toBeEditedBookmark = bookmark
-                            showDetails = true
+                            presentedBookmark = bookmark
                         }
                     }
                 }
-                .labelStyle(.titleAndIcon)
                 
                 Button("Copy link", systemImage: "doc.on.doc", action: bookmark.copyURL)
-                .labelStyle(.titleAndIcon)
                 
                 ShareButton(url: bookmark.wrappedURL) {
                     Label("Share", systemImage: "square.and.arrow.up")
-                        .labelStyle(.titleAndIcon)
                 }
                 
                 Button("Move", systemImage: "folder") {
                     movingBookmark.toggle()
                 }
-                .labelStyle(.titleAndIcon)
                 
                 Button("Delete", systemImage: "trash", role: .destructive) {
                     toBeDeletedBookmark = bookmark
                     deleteConfirmation = true
                 }
-                .labelStyle(.titleAndIcon)
             }
         }
+        .labelStyle(.titleAndIcon)
     }
     
     func openBookmark() {
