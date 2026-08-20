@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AppIntents
 import Pow
 
 struct BookmarksView: View {
@@ -128,6 +129,19 @@ struct BookmarksView: View {
         #else
         .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Find a bookmark...")
         #endif
+        .userActivity(
+            "org.starlightapps.Linkeeper.viewing-folder",
+            element: folder?.id
+        ) { folderID, activity in
+            activity.title = folder?.wrappedTitle
+
+            if #available(iOS 18.2, macOS 15.2, visionOS 2.2, *) {
+                activity.appEntityIdentifier = EntityIdentifier(
+                    for: FolderEntity.self,
+                    identifier: folderID
+                )
+            }
+        }
         .onReceive(intentNavigationModel.$bookmarkSearchDestination.compactMap { $0 }) { destination in
             guard folder == nil, favorites != true else { return }
             searchText = destination.query

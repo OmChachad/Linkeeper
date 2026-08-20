@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AppIntents
 import LinkPresentation
 import Shimmer
 import Pow
@@ -74,6 +75,19 @@ struct BookmarkDetails: View {
             }
             .shadow(color: .black.opacity(0.25), radius: 10)
             #endif
+        }
+        .userActivity(
+            "org.starlightapps.Linkeeper.viewing-bookmark",
+            element: bookmark.id
+        ) { bookmarkID, activity in
+            activity.title = bookmark.wrappedTitle
+
+            if #available(iOS 18.2, macOS 15.2, visionOS 2.2, *) {
+                activity.appEntityIdentifier = EntityIdentifier(
+                    for: LinkeeperBookmarkEntity.self,
+                    identifier: bookmarkID
+                )
+            }
         }
         .onChange(of: isFavorited) { favoriteStatus in
             bookmark.isFavorited = favoriteStatus
