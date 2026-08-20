@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import AppIntents
 import Pow
 
 struct BookmarksView: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.openURL) var openURL
+    @StateObject private var intentNavigationModel = SpotlightNavigationModel.shared
     
     // CoreData FetchRequests
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var bookmarks: FetchedResults<Bookmark>
@@ -62,7 +64,17 @@ struct BookmarksView: View {
             return true
         }
     }
-    
+
+    var searchFieldPlacement: SearchFieldPlacement {
+        #if os(iOS)
+        return UIDevice.current.userInterfaceIdiom == .phone ? .navigationBarDrawer : .toolbar
+        #elseif os(visionOS)
+        return .toolbar
+        #else
+        return .automatic
+        #endif
+    }
+
     var orderedParentFolders: [Folder] {
         return parentFolders.sorted(using: [
             KeyPathComparator(\.isPinned, order: .reverse),
@@ -71,6 +83,10 @@ struct BookmarksView: View {
     }
     
     init() {}
+
+    init(initialSearchText: String) {
+        _searchText = State(initialValue: initialSearchText)
+    }
     
     init(folder: Folder) {
         _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "folder == %@", folder))
@@ -117,11 +133,28 @@ struct BookmarksView: View {
             }
         
         }
-        #if os(macOS)
-        .searchable(text: $searchText, prompt: "Find a bookmark...")
-        #else
-        .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Find a bookmark...")
-        #endif
+        .searchable(
+            text: $searchText,
+            placement: searchFieldPlacement,
+            prompt: "Find a bookmark..."
+        )
+        .userActivity(
+            "org.starlightapps.Linkeeper.viewing-folder",
+            element: folder?.id
+        ) { folderID, activity in
+            activity.title = folder?.wrappedTitle
+
+            if #available(iOS 18.2, macOS 15.2, visionOS 2.2, *) {
+                activity.appEntityIdentifier = EntityIdentifier(
+                    for: FolderEntity.self,
+                    identifier: folderID
+                )
+            }
+        }
+        .onReceive(intentNavigationModel.$bookmarkSearchDestination.compactMap { $0 }) { destination in
+            guard folder == nil, favorites != true else { return }
+            searchText = destination.query
+        }
         .contentUnavailabilityView(isUnavailable: favorites != true ? (bookmarks.isEmpty && subFolders.isEmpty) : bookmarks.isEmpty, unavailabilityView: noBookmarksView)
         .bookmarkDetails(
             item: $presentedBookmark,

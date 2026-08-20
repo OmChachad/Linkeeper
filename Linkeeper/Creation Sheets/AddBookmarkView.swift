@@ -352,18 +352,18 @@ struct AddBookmarkView: View {
         
         Task { @MainActor in
             if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
-                let bookmark = try! await AddBookmark(bookmarkTitle: title, url: URL(string: sanitisedURL)!, notes: notes).perform()
-                if let bookmark = bookmark.value {
-                    BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = folder
-                    try? moc.save()
-                }
+                let intent = AddBookmark(
+                    bookmarkTitle: title,
+                    url: URL(string: sanitisedURL)!,
+                    notes: notes,
+                    folder: folder?.toEntity()
+                )
+                let result = try! await intent.perform()
+                await LinkeeperIntentDonations.donate(intent, result: result)
             } else {
                 BookmarksManager.shared.addBookmark(title: title, url: sanitisedURL, host: URL(string: url)!.host ?? url, notes: notes, folder: folder)
             }
 
-            // The extension may be terminated as soon as completionAction
-            // finishes, so wait for the final folder assignment to be indexed.
-            await SpotlightIndexer.shared.synchronizeCurrentStore()
             dismiss()
             completionAction(true)
         }

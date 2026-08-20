@@ -9,7 +9,7 @@ import AppIntents
 
 /// Opens a bookmark selected from Spotlight or Siri.
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
-struct OpenBookmarkIntent: OpenIntent {
+struct OpenBookmarkIntent: OpenIntent, PredictableIntent {
     static let title: LocalizedStringResource = "Open Bookmark"
 
     // TODO(iOS 27 SDK): Add
@@ -24,8 +24,14 @@ struct OpenBookmarkIntent: OpenIntent {
 
     @Dependency private var navigationModel: SpotlightNavigationModel
 
+    static var predictionConfiguration: some IntentPredictionConfiguration {
+        IntentPrediction(parameters: (\Self.$target)) { target in
+            DisplayRepresentation(title: "Open \(target.name) in Linkeeper")
+        }
+    }
+
     @MainActor
-    func perform() async throws -> some IntentResult {
+    func perform() async throws -> some IntentResult & ProvidesDialog {
         #if os(iOS)
         if #unavailable(iOS 26.0) {
             navigationModel.open(.bookmark, id: target.id)
@@ -34,7 +40,7 @@ struct OpenBookmarkIntent: OpenIntent {
         navigationModel.open(.bookmark, id: target.id)
         #endif
 
-        return .result()
+        return .result(dialog: "Opening \(target.name).")
     }
 }
 

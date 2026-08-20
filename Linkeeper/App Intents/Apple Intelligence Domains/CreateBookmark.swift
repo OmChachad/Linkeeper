@@ -11,20 +11,31 @@ import AppIntents
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 @AssistantIntent(schema: .browser.bookmarkURL)
 struct BookmarkURLIntent {
-    @Parameter(title: "title")
+    @Parameter(title: "Title")
     var name: String?
-    @Parameter(title: "url")
+    @Parameter(
+        title: "URL",
+        requestValueDialog: "What link would you like to save?"
+    )
     var url: URL
+
+    init() {}
     
-    func perform() async throws -> some ReturnsValue<LinkeeperBookmarkEntity> {
+    func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> & ProvidesDialog {
         do {
             if let name {
                 if let bookmarkEntity = try await AddBookmark(bookmarkTitle: name, url: url).perform().value {
-                    return .result(value: bookmarkEntity)
+                    return .result(
+                        value: bookmarkEntity,
+                        dialog: "Saved \(bookmarkEntity.name) to Linkeeper."
+                    )
                 }
             } else {
-                if let bookmarkEntity = try await AddBookmark(autoTitle: true, url: url).perform().value {
-                    return .result(value: bookmarkEntity)
+                if let bookmarkEntity = try await AddBookmark(url: url).perform().value {
+                    return .result(
+                        value: bookmarkEntity,
+                        dialog: "Saved \(bookmarkEntity.name) to Linkeeper."
+                    )
                 }
             }
             

@@ -83,12 +83,24 @@ class FoldersManager {
     }
     
     func delete(_ folder: Folder, action: DeletionAction) {
+        let folderID = folder.id
+
         for bookmark in folder.bookmarksArray {
             switch(action) {
             case .keep:
                 bookmark.folder = folder.parentFolder
             case .delete:
+                let bookmarkID = bookmark.id
                 context.delete(bookmark)
+
+                if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *), let bookmarkID {
+                    Task {
+                        await LinkeeperIntentDonations.removeDonations(
+                            for: LinkeeperBookmarkEntity.self,
+                            identifier: bookmarkID
+                        )
+                    }
+                }
             }
         }
         
@@ -102,6 +114,15 @@ class FoldersManager {
         }
         
         context.delete(folder)
+
+        if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *), let folderID {
+            Task {
+                await LinkeeperIntentDonations.removeDonations(
+                    for: FolderEntity.self,
+                    identifier: folderID
+                )
+            }
+        }
         
         saveContext()
     }
@@ -120,4 +141,3 @@ class FoldersManager {
     }
     
 }
-
