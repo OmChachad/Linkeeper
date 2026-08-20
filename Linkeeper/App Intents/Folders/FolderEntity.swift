@@ -8,9 +8,11 @@
 import Foundation
 import AppIntents
 import CoreData
+import CoreSpotlight
 import SwiftUI
+import UniformTypeIdentifiers
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 struct FolderEntity: Identifiable, Hashable, Equatable, AppEntity {
   
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Folder")
@@ -21,29 +23,32 @@ struct FolderEntity: Identifiable, Hashable, Equatable, AppEntity {
     
     @Property(title: "Title")
     var title: String
-    
+
     @Property(title: "Bookmarks")
     var bookmarks: Set<LinkeeperBookmarkEntity>
     
-    
     @Property(title: "Index")
     var index: Int
+
+    @Property(title: "Pinned")
+    var isPinned: Bool
     
     var symbol: String
     var color: String
     
-    var bookmarkscount: Int
+    var bookmarkCount: Int
     
-    init(id: UUID, title: String, bookmarks: Set<LinkeeperBookmarkEntity>, index: Int, symbol: String, color: String) {
+    init(id: UUID, title: String, bookmarks: Set<LinkeeperBookmarkEntity>, index: Int, symbol: String, color: String, isPinned: Bool) {
         self.id = id
         
         self.symbol = symbol
         self.color = color
-        self.bookmarkscount = bookmarks.count
+        self.bookmarkCount = bookmarks.count
         
         self.title = title
         self.bookmarks = bookmarks
         self.index = index
+        self.isPinned = isPinned
     }
     
     var displayRepresentation: DisplayRepresentation {
@@ -62,7 +67,28 @@ struct FolderEntity: Identifiable, Hashable, Equatable, AppEntity {
     }
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
+extension FolderEntity: IndexedEntity {
+    /// Metadata Spotlight uses for lexical and on-device semantic search.
+    var attributeSet: CSSearchableItemAttributeSet {
+        let attributes = defaultAttributeSet
+
+        attributes.contentType = UTType.folder.identifier
+        attributes.contentTypeTree = [UTType.folder.identifier, UTType.directory.identifier]
+        attributes.title = title
+        attributes.displayName = title
+        attributes.contentDescription = bookmarkCount == 1 ? "1 bookmark" : "\(bookmarkCount) bookmarks"
+        attributes.textContent = title
+        attributes.keywords = [title, "folder"]
+        attributes.userCreated = NSNumber(value: true)
+        attributes.userCurated = NSNumber(value: isPinned)
+        attributes.rankingHint = NSNumber(value: isPinned ? 1 : 0.5)
+
+        return attributes
+    }
+}
+
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 extension FolderEntity {
     
     // Hashable conformance
@@ -77,7 +103,7 @@ extension FolderEntity {
     
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 struct IntentsFolderQuery: EntityPropertyQuery {
 
     // Find Folders by ID
@@ -153,16 +179,24 @@ struct IntentsFolderQuery: EntityPropertyQuery {
     }
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 extension Folder {
     func toEntity() -> FolderEntity {
-        FolderEntity(id: self.id!, title: self.wrappedTitle, bookmarks: Set<LinkeeperBookmarkEntity>(self.bookmarksArray.toEntity()), index: Int(self.index), symbol: self.wrappedSymbol, color: self.accentColor ?? "red")
+        FolderEntity(
+            id: self.id!,
+            title: self.wrappedTitle,
+            bookmarks: Set<LinkeeperBookmarkEntity>(self.bookmarksArray.toEntity()),
+            index: Int(self.index),
+            symbol: self.wrappedSymbol,
+            color: self.accentColor ?? "red",
+            isPinned: self.isPinned
+        )
     }
 }
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 extension [Folder] {
     func toEntity() -> [FolderEntity] {
-        self.map { $0.toEntity() }
+        self.compactMap { $0.id == nil ? nil : $0.toEntity() }
     }
 }

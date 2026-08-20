@@ -16,8 +16,7 @@ struct BookmarkItemAction: ViewModifier {
     var bookmark: Bookmark
     
     @Binding var cachedPreview: cachedPreview?
-    @Binding var toBeEditedBookmark: Bookmark?
-    @Binding var showDetails: Bool
+    @Binding var presentedBookmark: Bookmark?
     @State var isMovingBookmark = false
     
     @State var deleteConfirmation: Bool = false
@@ -45,7 +44,6 @@ struct BookmarkItemAction: ViewModifier {
                             Button("Open in browser", systemImage: "safari") {
                                 openURL(bookmark.wrappedURL)
                             }
-                            .labelStyle(.titleAndIcon)
                             
                             Divider()
                         }
@@ -65,33 +63,28 @@ struct BookmarkItemAction: ViewModifier {
                         Button("Show details", systemImage: "info.circle") {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 withAnimation {
-                                    toBeEditedBookmark = bookmark
-                                    showDetails = true
+                                    presentedBookmark = bookmark
                                 }
                             }
                         }
-                        .labelStyle(.titleAndIcon)
                         
                         Button("Copy link", systemImage: "doc.on.doc", action: bookmark.copyURL)
-                        .labelStyle(.titleAndIcon)
                         
                         ShareButton(url: bookmark.wrappedURL) {
                             Label("Share", systemImage: "square.and.arrow.up")
-                                .labelStyle(.titleAndIcon)
                         }
                         
                         Button("Move", systemImage: "folder") {
                             isMovingBookmark.toggle()
                         }
-                        .labelStyle(.titleAndIcon)
                         
                         Button("Delete", systemImage: "trash", role: .destructive) {
                             toBeDeletedBookmark = bookmark
                             deleteConfirmation = true
                         }
-                        .labelStyle(.titleAndIcon)
                     }
                 }
+                .labelStyle(.titleAndIcon)
             }
             .swipeActions(edge: .trailing) {
                 if #available(iOS 15.0, macOS 15.0, *) {
@@ -101,13 +94,11 @@ struct BookmarkItemAction: ViewModifier {
                     .tint(.red)
                     
                     Button("Details", systemImage: "info.circle") {
-                        toBeEditedBookmark = bookmark
-                        showDetails = true
+                        presentedBookmark = bookmark
                     }
                 } else {
                     Button("Details", systemImage: "info.circle") {
-                        toBeEditedBookmark = bookmark
-                        showDetails = true
+                        presentedBookmark = bookmark
                     }
                     
                     Button("Delete", systemImage: "trash") {
@@ -166,8 +157,8 @@ struct BookmarkItemAction: ViewModifier {
 }
 
 extension View {
-    func bookmarkItemActions(bookmark: Bookmark, toBeEditedBookmark: Binding<Bookmark?>, showDetails: Binding<Bool>, cachedPreview: Binding<cachedPreview?>, includeOpenBookmarkButton: Bool = false) -> some View {
+    func bookmarkItemActions(bookmark: Bookmark, presentedBookmark: Binding<Bookmark?>, cachedPreview: Binding<cachedPreview?>, includeOpenBookmarkButton: Bool = false) -> some View {
         self
-            .modifier(BookmarkItemAction(bookmark: bookmark, cachedPreview: cachedPreview, toBeEditedBookmark: toBeEditedBookmark, showDetails: showDetails, includeOpenBookmarkButton: includeOpenBookmarkButton))
+            .modifier(BookmarkItemAction(bookmark: bookmark, cachedPreview: cachedPreview, presentedBookmark: presentedBookmark, includeOpenBookmarkButton: includeOpenBookmarkButton))
     }
 }

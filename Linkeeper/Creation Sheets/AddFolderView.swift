@@ -205,20 +205,27 @@ struct AddFolderView: View {
     }
     
     func addFolder() {
-        if #available(iOS 16.0, macOS 13.0, *) {
-            Task {
-                let folder = try! await AddFolder(folderTitle: title, icon: chosenSymbol, color: folderIconColor.rawValue).perform().value
-                if let folder {
+        if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
+            Task { @MainActor in
+                let intent = AddFolder(
+                    folderTitle: title,
+                    icon: chosenSymbol,
+                    color: folderIconColor.rawValue
+                )
+                let result = try! await intent.perform()
+                if let folder = result.value {
                     FoldersManager.shared.findFolder(withId: folder.id).parentFolder = parentFolder
                     try? moc.save()
                 }
+                await LinkeeperIntentDonations.donate(intent, result: result)
+                completionAction(true)
+                dismiss()
             }
         } else {
             let _ = FoldersManager.shared.addFolder(title: title, accentColor: folderIconColor.rawValue, chosenSymbol: chosenSymbol, parentFolder: parentFolder)
+            completionAction(true)
+            dismiss()
         }
-        
-        completionAction(true)
-        dismiss()
     }
     
     func saveChangesToFolder() {

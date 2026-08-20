@@ -8,8 +8,8 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, macOS 13.0, *)
-struct MoveBookmark: AppIntent {
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
+struct MoveBookmark: AppIntent, PredictableIntent {
     
     // Title of the action in the Shortcuts app
     static var title: LocalizedStringResource = "Move Bookmark"
@@ -38,23 +38,38 @@ struct MoveBookmark: AppIntent {
             }
         })
     }
+
+    static var predictionConfiguration: some IntentPredictionConfiguration {
+        IntentPrediction(parameters: (\Self.$bookmark, \Self.$folder)) { bookmark, folder in
+            let destination = folder?.title ?? "a folder"
+            return DisplayRepresentation(title: "Move \(bookmark.name) to \(destination)")
+        }
+    }
     
-    func perform() async throws -> some ReturnsValue<LinkeeperBookmarkEntity> {
+    func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> & ProvidesDialog {
         do {
-            
-            if !removeFromGroup {
-                if let folderEntity = folder {
-                    let folder = FoldersManager.shared.findFolder(withId: folderEntity.id)
-                    BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = folder
-                } else {
-                    try await requestConfirmation(result: .result(dialog: "You have not provided a folder, proceeding will remove the given bookmarks from any folder."))
-                    BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = nil
-                }
+            let completionDialog: IntentDialog
+
+            if removeFromGroup {
+                BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = nil
+                bookmark.folderTitle = nil
+                completionDialog = "Removed \(bookmark.name) from its folder."
+            } else if let folderEntity = folder {
+                let destinationFolder = FoldersManager.shared.findFolder(withId: folderEntity.id)
+                BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = destinationFolder
+                bookmark.folderTitle = folderEntity.title
+                completionDialog = "Moved \(bookmark.name) to \(folderEntity.title)."
+            } else {
+                try await requestConfirmation(result: .result(dialog: "You have not provided a folder. Continuing will remove this bookmark from its folder."))
+                BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = nil
+                bookmark.folderTitle = nil
+                completionDialog = "Removed \(bookmark.name) from its folder."
             }
             try BookmarksManager.shared.context.save()
+            await SpotlightIndexer.shared.synchronizeCurrentStore()
             reloadAllWidgets()
-            
-            return .result(value: bookmark)
+
+            return .result(value: bookmark, dialog: completionDialog)
         
         } catch let error {
             throw error
@@ -74,7 +89,7 @@ struct MoveBookmark: AppIntent {
 //    """, categoryName: "Edit")
 //
 //    @Parameter(title: "Bookmarks", description: "The bookmarks to be moved.", requestValueDialog: IntentDialog("Which bookmarks would you like to move?"))
-//    var bookmarks: [BookmarkEntity]
+//    var bookmarks: [LinkeeperBookmarkEntity]
 //
 //    @Parameter(title: "Folder", description: "The folder to be moved to.", requestValueDialog: IntentDialog("Choose the folder you'd like to move your bookmarks to."))
 //    var folder: FolderEntity?
@@ -94,7 +109,7 @@ struct MoveBookmark: AppIntent {
 //        })
 //    }
 //
-//    func perform() async throws -> some ReturnsValue<[BookmarkEntity]> {
+//    func perform() async throws -> some ReturnsValue<[LinkeeperBookmarkEntity]> {
 //        do {
 //
 //            for bookmark in bookmarks {

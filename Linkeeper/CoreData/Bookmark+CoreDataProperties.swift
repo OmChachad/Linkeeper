@@ -41,7 +41,7 @@ extension Bookmark {
     }
     
     public var wrappedDate: Date {
-        date ?? Date.now
+        date ?? .distantPast
     }
     
     public var wrappedUUID: String {
@@ -57,15 +57,21 @@ extension Bookmark {
     }
     
     func doesMatch(_ searchText: String) -> Bool {
-        if let folder = self.folder {
-            return (self.wrappedTitle + self.wrappedHost + self.wrappedNotes + folder.wrappedTitle).localizedCaseInsensitiveContains(searchText)
-        } else {
-            return (self.wrappedTitle + self.wrappedHost + self.wrappedNotes).localizedCaseInsensitiveContains(searchText)
+        let searchableValues = [
+            wrappedTitle,
+            wrappedHost,
+            wrappedNotes,
+            url ?? "",
+            folder?.wrappedTitle ?? ""
+        ]
+
+        return searchableValues.contains {
+            $0.localizedStandardContains(searchText)
         }
     }
     
     func doesMatch(_ searchText: String, folder: Folder) -> Bool {
-        return self.folder == folder && (self.wrappedTitle + self.wrappedHost + self.wrappedNotes + self.folder!.wrappedTitle).localizedCaseInsensitiveContains(searchText)
+        return self.folder == folder && doesMatch(searchText)
     }
 }
 

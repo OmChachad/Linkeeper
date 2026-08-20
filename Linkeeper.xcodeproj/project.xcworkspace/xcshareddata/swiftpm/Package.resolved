@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sanzaru/SimpleToast.git",
       "state" : {
-        "revision" : "7ced9fe877fa1e9aaf9634a611818b84d3317e40",
-        "version" : "0.7.2"
+        "revision" : "4ce5fa4a3412642e15aa09d4b5f3a58a5516cd44",
+        "version" : "0.12.0"
       }
     },
     {
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scinfu/SwiftSoup",
       "state" : {
-        "revision" : "0e96a20ffd37a515c5c963952d4335c89bed50a6",
-        "version" : "2.6.0"
+        "revision" : "8d6ad267714cac3ae747cefdd21f7a6665006e1f",
+        "version" : "2.13.7"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/markiv/SwiftUI-Shimmer",
       "state" : {
-        "revision" : "1f3a620e4abe890d00008cb2af7023d810b433a7",
-        "version" : "1.4.0"
+        "revision" : "0226e21f9bf355d40e07e5f5e1c33679d50e167f",
+        "version" : "1.5.1"
       }
     }
   ],

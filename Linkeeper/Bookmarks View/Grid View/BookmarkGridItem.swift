@@ -19,8 +19,7 @@ struct BookmarkGridItem: View {
     
     var bookmark: Bookmark
     var namespace: Namespace.ID
-    @Binding var showDetails: Bool
-    @Binding var toBeEditedBookmark: Bookmark?
+    @Binding var presentedBookmark: Bookmark?
     
     @State private var presentOpenConfirmation: Bool = false
     @State private var deleteConfirmation: Bool = false
@@ -29,13 +28,10 @@ struct BookmarkGridItem: View {
     @State private var cachedPreview: cachedPreview?
     
     @Environment(\.editMode) var editMode
-    @Binding var selectedBookmarks: Set<Bookmark.ID>
+    let isSelected: Bool
+    let toggleSelection: () -> Void
     
     @State private var movingBookmark = false
-    
-    var isSelected: Bool {
-        selectedBookmarks.contains(bookmark.id ?? UUID())
-    }
     
     var isEditing: Bool {
         #if os(macOS)
@@ -45,82 +41,44 @@ struct BookmarkGridItem: View {
         #endif
     }
     
-    init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, toBeEditedBookmark: Binding<Bookmark?>, selectedBookmarks: Binding<Set<Bookmark.ID>>) {
+    init(bookmark: Bookmark, namespace: Namespace.ID, presentedBookmark: Binding<Bookmark?>, isSelected: Bool, toggleSelection: @escaping () -> Void) {
         self.bookmark = bookmark
         self.namespace = namespace
-        self._showDetails = showDetails
-        self._toBeEditedBookmark = toBeEditedBookmark
-        self._selectedBookmarks = selectedBookmarks
-        
-        #if !os(macOS)
-        let cacheManager = CacheManager.instance
-        
-        self._cachedPreview = State(initialValue: cacheManager.get(for: bookmark))
-        #endif
+        self._presentedBookmark = presentedBookmark
+        self.isSelected = isSelected
+        self.toggleSelection = toggleSelection
     }
     
     @State private var showingLinkeeperBrowser = false
     
     var body: some View {
         VStack(spacing: 0) {
-            VStack {
-                switch(cachedPreview?.previewState) {
-                case .thumbnail, .icon:
-                    cachedPreview!.image?
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .drawingGroup()
-                case .firstLetter:
-                    if let firstChar: Character = bookmark.wrappedTitle.first {
-                        Color(.gray)
-                            .overlay(
-                                Text(String(firstChar))
-                                    .font(.largeTitle.weight(.medium))
-                                    .foregroundColor(.white)
-                                    .scaleEffect(2)
-                            )
+            BookmarkThumbnail(cachedPreview: cachedPreview, title: bookmark.wrappedTitle)
+                .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
+                .frame(minWidth: 140, idealWidth: 300, maxWidth: 300, minHeight: 100, idealHeight: 300, maxHeight: 300)
+                .clipped()
+                .contentShape(Rectangle())
+                .overlay(alignment: .topTrailing) {
+                    if !bookmark.wrappedNotes.isEmpty {
+                        Image(systemName: "text.quote")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .padding(10)
+                            .background {
+                                Rectangle()
+                                    .fill(LinearGradient(colors: [.black, .clear], startPoint: .topTrailing , endPoint: .bottomLeading))
+                                    .blur(radius: 10)
+                                    .padding([.top, .trailing], -15)
+                            }
                     }
-                default:
-                    Rectangle()
-                        .foregroundColor(.secondary.opacity(0.5))
-                        .shimmering()
                 }
-            }
-            .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
-            .frame(minWidth: 140, idealWidth: 300, maxWidth: 300, minHeight: 100, idealHeight: 300, maxHeight: 300)
-            .clipped()
-            .contentShape(Rectangle())
-            .overlay(alignment: .topTrailing) {
-                if !bookmark.wrappedNotes.isEmpty {
-                    Image(systemName: "text.quote")
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                        .padding(10)
-                        .background {
-                            Rectangle()
-                                .fill(LinearGradient(colors: [.black, .clear], startPoint: .topTrailing , endPoint: .bottomLeading))
-                                .blur(radius: 10)
-                                .padding([.top, .trailing], -15)
-                        }
-                }
-            }
             
             
-            VStack(alignment: .leading, spacing: 0) {
-                Text(bookmark.wrappedTitle)
-                    .lineLimit(2)
-                    .multilineTextAlignment(.leading)
-                    .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Title", in: namespace)
-                Text(bookmark.wrappedHost)
-                    .lineLimit(1)
-                    .font(.callout)
-                    .foregroundColor(.secondary)
-                    .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Host", in: namespace)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 15)
-            .padding(.vertical, 10)
+            BookmarkGridLabel(id: bookmark.wrappedUUID, title: bookmark.wrappedTitle, host: bookmark.wrappedHost, namespace: namespace)
+                .padding(.horizontal, 15)
+                .padding(.vertical, 10)
         }
+        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Text", in: namespace)
         #if os(visionOS)
         .background(Color.black.opacity(0.4))
         .drawingGroup()
@@ -137,15 +95,10 @@ struct BookmarkGridItem: View {
         .contentShape(.hoverEffect, .rect(cornerRadius: 15))
         .hoverEffect(.lift)
         #endif
-        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         .contextMenu { menuItems() }
         .onTapGesture {
             if isEditing {
-                if isSelected {
-                    selectedBookmarks.remove(bookmark.id ?? UUID())
-                } else {
-                    selectedBookmarks.insert(bookmark.id ?? UUID())
-                }
+                toggleSelection()
             } else {
                 openBookmark()
             }
@@ -153,8 +106,9 @@ struct BookmarkGridItem: View {
         .contextMenu { menuItems() }
         .onLongPressGesture(minimumDuration: 0.5, perform: {
             #if os(macOS)
-                toBeEditedBookmark = bookmark
-                showDetails.toggle()
+                withAnimation {
+                    presentedBookmark = bookmark
+                }
             #endif
         })
         .draggable(bookmark)
@@ -183,7 +137,7 @@ struct BookmarkGridItem: View {
                 bookmark.cachedImage(saveTo: $cachedPreview)
             }
         }
-        .animation(.default, value: selectedBookmarks)
+        .animation(.default, value: isSelected)
         .animation(.default, value: bookmark.wrappedTitle)
         .animation(.default, value: cachedPreview?.previewState)
         .if(toBeDeletedBookmark != nil) { view in
@@ -222,33 +176,28 @@ struct BookmarkGridItem: View {
                 Button("Show details", systemImage: "info.circle") {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         withAnimation {
-                            toBeEditedBookmark = bookmark
-                            showDetails = true
+                            presentedBookmark = bookmark
                         }
                     }
                 }
-                .labelStyle(.titleAndIcon)
                 
                 Button("Copy link", systemImage: "doc.on.doc", action: bookmark.copyURL)
-                .labelStyle(.titleAndIcon)
                 
                 ShareButton(url: bookmark.wrappedURL) {
                     Label("Share", systemImage: "square.and.arrow.up")
-                        .labelStyle(.titleAndIcon)
                 }
                 
                 Button("Move", systemImage: "folder") {
                     movingBookmark.toggle()
                 }
-                .labelStyle(.titleAndIcon)
                 
                 Button("Delete", systemImage: "trash", role: .destructive) {
                     toBeDeletedBookmark = bookmark
                     deleteConfirmation = true
                 }
-                .labelStyle(.titleAndIcon)
             }
         }
+        .labelStyle(.titleAndIcon)
     }
     
     func openBookmark() {
@@ -264,5 +213,27 @@ struct BookmarkGridItem: View {
         Task {
             await bookmark.cachePreviewInto($cachedPreview)
         }
+    }
+}
+
+struct BookmarkGridLabel: View {
+    let id: String
+    var title: String
+    let host: String
+    var namespace: Namespace.ID
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(title)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                .matchedGeometryEffect(id: "\(id)-Title", in: namespace)
+            Text(host)
+                .lineLimit(1)
+                .font(.callout)
+                .foregroundColor(.secondary)
+                .matchedGeometryEffect(id: "\(id)-Host", in: namespace)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

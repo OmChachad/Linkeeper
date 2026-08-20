@@ -1,0 +1,50 @@
+//
+//  OpenBookmarkIntent.swift
+//  Linkeeper
+//
+//  Created by Om Chachad on 19/08/26.
+//
+
+import AppIntents
+
+/// Opens a bookmark selected from Spotlight or Siri.
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
+struct OpenBookmarkIntent: OpenIntent, PredictableIntent {
+    static let title: LocalizedStringResource = "Open Bookmark"
+
+    // TODO(iOS 27 SDK): Add
+    // `@available(iOS 27.0, *)`
+    // `static var allowedExecutionTargets: IntentExecutionTargets { .main }`
+    // so the intent is explicitly constrained to Linkeeper's foreground app.
+    // Until iOS 27 is supported, iOS 26 presentation is handled by
+    // `onAppIntentExecution`, and older systems use `SpotlightNavigationModel`.
+
+    @Parameter(title: "Bookmark", requestValueDialog: "Which bookmark?")
+    var target: LinkeeperBookmarkEntity
+
+    @Dependency private var navigationModel: SpotlightNavigationModel
+
+    static var predictionConfiguration: some IntentPredictionConfiguration {
+        IntentPrediction(parameters: (\Self.$target)) { target in
+            DisplayRepresentation(title: "Open \(target.name) in Linkeeper")
+        }
+    }
+
+    @MainActor
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        #if os(iOS)
+        if #unavailable(iOS 26.0) {
+            navigationModel.open(.bookmark, id: target.id)
+        }
+        #else
+        navigationModel.open(.bookmark, id: target.id)
+        #endif
+
+        return .result(dialog: "Opening \(target.name).")
+    }
+}
+
+#if os(iOS)
+@available(iOS 26.0, *)
+extension OpenBookmarkIntent: TargetContentProvidingIntent {}
+#endif

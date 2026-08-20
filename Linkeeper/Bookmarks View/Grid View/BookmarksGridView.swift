@@ -20,8 +20,7 @@ struct BookmarksGridView: View {
     
     // For Detail View
     var namespace: Namespace.ID
-    @Binding var showDetails: Bool
-    @Binding var toBeEditedBookmark: Bookmark?
+    @Binding var presentedBookmark: Bookmark?
     
     @Binding var selectedBookmarks: Set<Bookmark.ID>
     @Binding var deleteConfirmation: Bool
@@ -108,7 +107,7 @@ struct BookmarksGridView: View {
                         }
                         
                         let folders = (favorites == true ? ((Set<Folder?>(bookmarks.map(\.folder))).compactMap { $0 }) : orderedFolders).sorted(by: { $0.index < $1.index })
-                        ForEach(folders, id: \.self) { folder in
+                        ForEach(folders, id: \.objectID) { folder in
                             //let folderHasBookmarks = !folder.bookmarksArray.isEmpty
                             let showGroup = favorites == true ? (!filteredBookmarks(for: folder).isEmpty) : (searchText.isEmpty || !filteredBookmarks(for: folder).isEmpty)
                             if showGroup {
@@ -148,7 +147,7 @@ struct BookmarksGridView: View {
         Group {
             if let folder, let children = folder.childFoldersArray {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 20) {
-                    ForEach(children, id: \.self) { subFolder in
+                    ForEach(children, id: \.objectID) { subFolder in
                         FolderGridItem(folder: subFolder)
                             .padding(.horizontal, 5)
                     }
@@ -165,8 +164,21 @@ struct BookmarksGridView: View {
     
     func BookmarksGrid(for bookmarks: [Bookmark], folder: Folder? = nil) -> some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: 200))], spacing: 15) {
-            ForEach(bookmarks, id: \.self) { bookmark in
-                BookmarkGridItem(bookmark: bookmark, namespace: namespace, showDetails: $showDetails, toBeEditedBookmark: $toBeEditedBookmark, selectedBookmarks: $selectedBookmarks)
+            ForEach(bookmarks, id: \.objectID) { bookmark in
+                BookmarkGridItem(
+                    bookmark: bookmark,
+                    namespace: namespace,
+                    presentedBookmark: $presentedBookmark,
+                    isSelected: selectedBookmarks.contains(bookmark.id ?? UUID()),
+                    toggleSelection: {
+                        let id = bookmark.id ?? UUID()
+                        if selectedBookmarks.contains(id) {
+                            selectedBookmarks.remove(id)
+                        } else {
+                            selectedBookmarks.insert(id)
+                        }
+                    }
+                )
                     .padding(.horizontal, 5)
             }
         }

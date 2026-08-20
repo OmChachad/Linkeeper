@@ -8,12 +8,10 @@
 import Foundation
 import AppIntents
 
-@available(iOS 18.0, macOS 15.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 @AssistantIntent(schema: .browser.deleteBookmarks)
 struct DeleteBookmarksIntent: DeleteIntent {
-    var entities: [BookmarkEntity]
-    
-    static var isDiscoverable: Bool = false
+    var entities: [LinkeeperBookmarkEntity]
     
     func perform() async throws -> some IntentResult {
         for entity in entities {

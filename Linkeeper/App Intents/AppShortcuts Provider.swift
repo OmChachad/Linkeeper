@@ -8,22 +8,31 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 struct LinkeeperShortcuts: AppShortcutsProvider {
     static var shortcutTileColor: ShortcutTileColor = .purple
     
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
+            intent: BookmarkURLIntent(),
+            phrases:
+                [
+                "Save a link in \(.applicationName)",
+                "Bookmark a website with \(.applicationName)",
+                "Add a bookmark to \(.applicationName)"
+            ],
+            shortTitle: "Save Bookmark",
+            systemImageName: "bookmark.fill"
+        )
+
+        AppShortcut(
             intent: AddBookmark(),
-            phrases: ["Add a \(.applicationName) bookmark",
-                      "Create a bookmark in \(.applicationName)",
-                      "Create a \(.applicationName) bookmark",
-                      "Create a new \(.applicationName) bookmark",
-                     "Add a bookmark to \(.applicationName)",
-                      "Keep a link in \(.applicationName)"
-                     ],
-            shortTitle: "New Bookmark",
-            systemImageName: "plus"
+            phrases: [
+                "Save a link to \(\.$folder) in \(.applicationName)",
+                "Add a bookmark to \(\.$folder) in \(.applicationName)"
+            ],
+            shortTitle: "Save to Folder",
+            systemImageName: "folder.fill.badge.plus"
         )
         
         AppShortcut(
@@ -35,5 +44,6 @@ struct LinkeeperShortcuts: AppShortcutsProvider {
             shortTitle: "New Folder",
             systemImageName: "folder.fill.badge.plus"
         )
+        
     }
 }

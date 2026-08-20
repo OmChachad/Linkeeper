@@ -8,7 +8,7 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, macOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 struct DeleteBookmark: AppIntent {
     
     // Title of the action in the Shortcuts app
@@ -34,16 +34,17 @@ struct DeleteBookmark: AppIntent {
         })
     }
     
-    func perform() async throws -> some IntentResult {
+    func perform() async throws -> some IntentResult & ProvidesDialog {
         do {
             if confirmBeforeDeleting {
                 try await requestConfirmation(result: .result(dialog: "Are you sure you want to delete the bookmark titled \"\(bookmark.title)\""))
             }
             
             BookmarksManager.shared.deleteBookmark(withId: bookmark.id)
+            await SpotlightIndexer.shared.synchronizeCurrentStore()
             reloadAllWidgets()
             
-            return .result()
+            return .result(dialog: "Deleted \(bookmark.name) from Linkeeper.")
         } catch let error {
             throw error
         }
@@ -64,7 +65,7 @@ struct DeleteBookmark: AppIntent {
 //    """, categoryName: "Edit")
 //
 //    @Parameter(title: "Bookmarks", description: "The bookmarks to be deleted from your collection.", requestValueDialog: IntentDialog("Which bookmarks would you like to delete?"))
-//    var bookmarks: [BookmarkEntity]
+//    var bookmarks: [LinkeeperBookmarkEntity]
 //
 //    @Parameter(title: "Confirm Before Deleting", description: "If toggled, you will need to confirm the books will be deleted", default: true)
 //    var confirmBeforeDeleting: Bool

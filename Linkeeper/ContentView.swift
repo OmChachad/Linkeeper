@@ -7,6 +7,9 @@
 
 import SwiftUI
 import CoreData
+import CoreSpotlight
+import Combine
+import Pow
 import SimpleToast
 
 struct ContentView: View {
@@ -34,6 +37,11 @@ struct ContentView: View {
     @State private var showingFavorites = false
     @State private var showingPinnedFolder = false
     @State private var currentFolder: Folder?
+    @Namespace private var spotlightBookmarkNamespace
+    @StateObject private var intentNavigationModel = SpotlightNavigationModel.shared
+    @State private var spotlightBookmark: Bookmark?
+    @State private var bookmarkSearchDestination: BookmarkSearchDestination?
+    @State private var navigationIdentity = UUID()
     
     var spacing: CGFloat { (isMac || isVisionOS) ? 10 : 15 }
     
@@ -63,12 +71,24 @@ struct ContentView: View {
                         }
                 } detail: {
                     NavigationStack {
-                        noFolderSelectedView
-                            .navigationDestination(for: Folder.self) { folder in
-                                BookmarksView(folder: folder)
+                        Group {
+                            if let bookmarkSearchDestination {
+                                BookmarksView(
+                                    initialSearchText: bookmarkSearchDestination.query
+                                )
+                                .id(bookmarkSearchDestination.id)
+                            } else if let currentFolder {
+                                BookmarksView(folder: currentFolder)
+                            } else {
+                                noFolderSelectedView
                             }
+                        }
+                        .navigationDestination(for: Folder.self) { folder in
+                            BookmarksView(folder: folder)
+                        }
                     }
                 }
+                .id(navigationIdentity)
             } else {
                 NavigationView  {
                     sideBar
@@ -85,6 +105,37 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $showingSettings, content: SettingsView.init)
+        .onContinueUserActivity(CSSearchableItemActionType) { activity in
+            guard let identifier = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String,
+                  let destination = SpotlightItemIdentifier.destination(from: identifier) else {
+                return
+            }
+
+            openSpotlightDestination(destination)
+        }
+        .modifier(SpotlightIntentExecutionModifier(
+            openBookmark: { id in
+                openSpotlightDestination((.bookmark, id))
+            },
+            openFolder: { id in
+                openSpotlightDestination((.folder, id))
+            }
+        ))
+        .onReceive(intentNavigationModel.$destination.compactMap { $0 }) { destination in
+            openSpotlightDestination((destination.kind, destination.id))
+            intentNavigationModel.destination = nil
+        }
+        .onReceive(intentNavigationModel.$bookmarkSearchDestination.compactMap { $0 }) { destination in
+            openBookmarkSearchDestination(destination)
+            DispatchQueue.main.async {
+                intentNavigationModel.bookmarkSearchDestination = nil
+            }
+        }
+        .bookmarkDetails(
+            item: $spotlightBookmark,
+            namespace: spotlightBookmarkNamespace,
+            overlayTransition: .movingParts.glare
+        )
         .sheet(isPresented: $showingNewBookmarkView) {
             AddBookmarkView(folderPreset: currentFolder, onComplete: { didAddBookmark in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -106,13 +157,13 @@ struct ContentView: View {
             reOrderIndexes()
         })
         .onChange(of: allBookmarks.count) { _ in
-            if #available(iOS 16.0, macOS 13.0, *) {
+            if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
                 LinkeeperShortcuts.updateAppShortcutParameters()
             }
             reloadAllWidgets()
         }
         .onChange(of: folders.count) { _ in
-            if #available(iOS 16.0, macOS 13.0, *) {
+            if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
                 LinkeeperShortcuts.updateAppShortcutParameters()
             }
             reloadAllWidgets()
@@ -125,6 +176,7 @@ struct ContentView: View {
             AlertView(icon: "folder.fill", title: "Added Folder")
                 .padding(.bottom, 50)
         })
+        .animation(.spring(), value: spotlightBookmark)
         .onReceive(NotificationCenter.default.publisher(for: .addBookmark)) { _ in
             showingNewBookmarkView = true
         }
@@ -139,12 +191,50 @@ struct ContentView: View {
             } else if url.absoluteString.contains("openFolder") {
                 if let folderID = UUID(uuidString: url.lastPathComponent) {
                     let folder = FoldersManager.shared.findFolder(withId: folderID)
+                    bookmarkSearchDestination = nil
                     currentFolder = folder
                 }
             }
             
             reloadAllWidgets()
         }
+    }
+
+    /// Opens the bookmark or folder represented by a Spotlight result.
+    private func openSpotlightDestination(_ destination: (kind: SpotlightDestinationKind, id: UUID)) {
+        switch destination.kind {
+        case .bookmark:
+            let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
+            request.fetchLimit = 1
+            request.predicate = NSPredicate(format: "id = %@", destination.id as CVarArg)
+
+            if let bookmark = try? moc.fetch(request).first {
+                spotlightBookmark = bookmark
+            }
+
+        case .folder:
+            spotlightBookmark = nil
+            bookmarkSearchDestination = nil
+
+            let request: NSFetchRequest<Folder> = Folder.fetchRequest()
+            request.fetchLimit = 1
+            request.predicate = NSPredicate(format: "id = %@", destination.id as CVarArg)
+
+            if let folder = try? moc.fetch(request).first {
+                currentFolder = folder
+            }
+        }
+    }
+
+    /// Opens All Bookmarks and applies the requested search query.
+    private func openBookmarkSearchDestination(_ destination: BookmarkSearchDestination) {
+        spotlightBookmark = nil
+        currentFolder = nil
+        showingAllBookmarks = true
+        showingFavorites = false
+        showingPinnedFolder = false
+        bookmarkSearchDestination = destination
+        navigationIdentity = UUID()
     }
     
     @State private var sideBarListHeight: CGFloat = 0.0

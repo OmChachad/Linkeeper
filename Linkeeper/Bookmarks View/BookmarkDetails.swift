@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AppIntents
 import LinkPresentation
 import Shimmer
 import Pow
@@ -20,7 +21,7 @@ struct BookmarkDetails: View {
     
     var bookmark: Bookmark
     var namespace: Namespace.ID
-    @Binding var showDetails: Bool
+    @Binding var presentedBookmark: Bookmark?
     
     @State private var title = ""
     @State private var notes = ""
@@ -37,13 +38,10 @@ struct BookmarkDetails: View {
     
     @State private var animatedShow = false
     
-    @State private var lastToggleTime: Date = Date.distantPast
-    let toggleThrottleDelay: TimeInterval = 1.5
-    
-    init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, hideFavoriteOption: Bool = false) {
+    init(bookmark: Bookmark, namespace: Namespace.ID, presentedBookmark: Binding<Bookmark?>, hideFavoriteOption: Bool = false) {
         self.bookmark = bookmark
         self.namespace = namespace
-        _showDetails = showDetails
+        _presentedBookmark = presentedBookmark
         _title = State(initialValue: bookmark.wrappedTitle)
         _notes = State(initialValue: bookmark.wrappedNotes)
         _isFavorited = State(initialValue: bookmark.isFavorited)
@@ -75,6 +73,19 @@ struct BookmarkDetails: View {
             .shadow(color: .black.opacity(0.25), radius: 10)
             #endif
         }
+        .userActivity(
+            "org.starlightapps.Linkeeper.viewing-bookmark",
+            element: bookmark.id
+        ) { bookmarkID, activity in
+            activity.title = bookmark.wrappedTitle
+
+            if #available(iOS 18.2, macOS 15.2, visionOS 2.2, *) {
+                activity.appEntityIdentifier = EntityIdentifier(
+                    for: LinkeeperBookmarkEntity.self,
+                    identifier: bookmarkID
+                )
+            }
+        }
         .onChange(of: isFavorited) { favoriteStatus in
             bookmark.isFavorited = favoriteStatus
         }
@@ -82,8 +93,10 @@ struct BookmarkDetails: View {
             newValue.cachedImage(saveTo: $cachedPreview)
         }
         .onChange(of: animatedShow) { newValue in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                showDetails = newValue
+            if !newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    presentedBookmark = nil
+                }
             }
         }
         .task {
@@ -94,13 +107,8 @@ struct BookmarkDetails: View {
         }
     }
     
-    // Function to throttle the editing toggle
-    func throttleEditingToggle() {
-        let currentTime = Date()
-        if currentTime.timeIntervalSince(lastToggleTime) > toggleThrottleDelay {
-            editing.toggle()
-            lastToggleTime = currentTime
-        }
+    func toggleEditing() {
+        editing.toggle()
     }
     
     #if os(visionOS)
@@ -108,7 +116,7 @@ struct BookmarkDetails: View {
         VStack {
                 AdaptiveScrollView(notes: bookmark.wrappedNotes) {
                     VStack(spacing: 0) {
-                        thumbnail()
+                        BookmarkThumbnail(cachedPreview: cachedPreview, title: bookmark.wrappedTitle)
                             .frame(maxWidth: .infinity)
                             .background(.regularMaterial)
 
@@ -173,7 +181,7 @@ struct BookmarkDetails: View {
             
             HStack {
                 Button("Cancel") {
-                    throttleEditingToggle()
+                    toggleEditing()
                 }
                 .padding()
 
@@ -183,7 +191,7 @@ struct BookmarkDetails: View {
                     if moc.hasChanges {
                         try? moc.save()
                     }
-                    throttleEditingToggle()
+                    toggleEditing()
                 }
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .padding()
@@ -195,7 +203,8 @@ struct BookmarkDetails: View {
     
     func frontView() -> some View {
         VStack(spacing: 0) {
-            thumbnail()
+            BookmarkThumbnail(cachedPreview: cachedPreview, title: bookmark.wrappedTitle)
+                .scaledToFit()
                 .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Image", in: namespace)
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: hideFavoriteOption ? 4 : 5)) {
@@ -234,12 +243,12 @@ struct BookmarkDetails: View {
                 .padding(20)
             }
         }
+        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Text", in: namespace)
         .background(.ultraThinMaterial)
         .cornerRadius(15, style: .continuous)
-        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         .overlay(alignment: .topTrailing) {
             Button {
-                showDetails = false
+                presentedBookmark = nil
             } label: {
                 Image(systemName: "xmark")
                     .font(.headline)
@@ -262,7 +271,7 @@ struct BookmarkDetails: View {
         VStack(spacing: 0) {
             HStack {
                 Button {
-                    throttleEditingToggle()
+                    toggleEditing()
                 } label: {
                     Text("Cancel")
                         .padding()
@@ -277,7 +286,7 @@ struct BookmarkDetails: View {
                     if moc.hasChanges {
                         try? moc.save()
                     }
-                    throttleEditingToggle()
+                    toggleEditing()
                 } label: {
                     Text("Save")
                         .padding()
@@ -329,49 +338,6 @@ struct BookmarkDetails: View {
         #endif
     }
     
-    func thumbnail() -> some View {
-        VStack {
-            switch(cachedPreview?.previewState) {
-            case .thumbnail:
-                cachedPreview?.image?
-                    .resizable()
-                    .scaledToFit()
-            case .icon:
-                cachedPreview?.image!
-                    .resizable()
-                    .aspectRatio(1/1, contentMode: .fit)
-                    .cornerRadius(20, style: .continuous)
-                    .padding(15)
-                    .frame(maxWidth: .infinity, maxHeight: 175)
-                    .clipped()
-            case .firstLetter:
-                Group {
-                #if os(macOS)
-                    Color(red: 174/255, green: 174/255, blue: 178/255)
-                    #else
-                    Color(uiColor: .systemGray2)
-                #endif
-                }
-                    .aspectRatio(16/9, contentMode: .fit)
-                    .overlay(
-                        Group {
-                            if let firstChar: Character = bookmark.wrappedTitle.first {
-                                Text(String(firstChar))
-                                    .font(.largeTitle.weight(.medium))
-                                    .foregroundColor(.white)
-                                    .scaleEffect(2)
-                            }
-                        }
-                    )
-            default:
-                Rectangle()
-                    .foregroundColor(.secondary.opacity(0.5))
-                    .shimmering()
-                    .aspectRatio(16/9, contentMode: .fit)
-            }
-        }
-    }
-    
     func actionButtons() -> some View {
         Group {
             if !hideFavoriteOption {
@@ -400,7 +366,7 @@ struct BookmarkDetails: View {
             }
             
             Button {
-                throttleEditingToggle()
+                toggleEditing()
             } label: {
                 Image(systemName: "pencil")
             }
@@ -412,7 +378,7 @@ struct BookmarkDetails: View {
                     .foregroundColor(.red)
                     .confirmationDialog("Are you sure you want to delete this bookmark?", isPresented: $deleteConfirmation, titleVisibility: .visible) {
                         Button("Delete Bookmark", role: .destructive) {
-                            showDetails.toggle()
+                            presentedBookmark = nil
                             BookmarksManager.shared.deleteBookmark(bookmark)
                             try? moc.save()
                         }

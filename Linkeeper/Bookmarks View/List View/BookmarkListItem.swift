@@ -15,8 +15,7 @@ struct BookmarkListItem: View {
     
     var bookmark: Bookmark
     
-    @Binding var showDetails: Bool
-    @Binding var toBeEditedBookmark: Bookmark?
+    @Binding var presentedBookmark: Bookmark?
     
     @State private var cachedPreview: cachedPreview?
     
@@ -28,51 +27,18 @@ struct BookmarkListItem: View {
         #endif
     }
     
-    init(bookmark: Bookmark, showDetails: Binding<Bool>, toBeEditedBookmark: Binding<Bookmark?>) {
+    init(bookmark: Bookmark, presentedBookmark: Binding<Bookmark?>) {
         self.bookmark = bookmark
-        self._showDetails = showDetails
-        self._toBeEditedBookmark = toBeEditedBookmark
-        
-        #if !os(macOS)
-        let cacheManager = CacheManager.instance
-        
-        self._cachedPreview = State(initialValue: cacheManager.get(for: bookmark))
-        #endif
+        self._presentedBookmark = presentedBookmark
     }
     
     var body: some View {
         HStack {
-            Group {
-                if let preview = cachedPreview?.image {
-                    preview
-                        .resizable()
-                        .scaledToFit()
-                        .scaledToFill()
-                        .frame(width: 44, height: 44)
-                        .clipped()
-                        .cornerRadius(8, style: .continuous)
-                        .shadow(radius: 2)
-                } else if let firstChar = bookmark.wrappedTitle.first {
-                    Text(String(firstChar))
-                        .font(.title)
-                        .foregroundColor(.white)
-                        .frame(width: 44, height: 44)
-                        .background {
-                            Group {
-                                #if os(macOS)
-                                Color(nsColor: .tertiaryLabelColor)
-                                #else
-                                Color(uiColor: .tertiaryLabel)
-                                #endif
-                            }
-                            .background(Color.white)
-                            .cornerRadius(8, style: .continuous)
-                            .shadow(radius: 2)
-                        }
-                }
-            }
-            .padding([.vertical, .trailing], 5)
-            .padding(.vertical, 5)
+            BookmarkThumbnail(cachedPreview: cachedPreview, title: bookmark.wrappedTitle)
+                .frame(width: 44, height: 44)
+                .cornerRadius(8, style: .continuous)
+                .padding([.vertical, .trailing], 5)
+                .padding(.vertical, 5)
             
             VStack(alignment: .leading) {
                 Text(bookmark.wrappedTitle)
@@ -90,7 +56,7 @@ struct BookmarkListItem: View {
                     .font(.headline)
             }
         }
-        .bookmarkItemActions(bookmark: bookmark, toBeEditedBookmark: $toBeEditedBookmark, showDetails: $showDetails, cachedPreview: $cachedPreview, includeOpenBookmarkButton: true)
+        .bookmarkItemActions(bookmark: bookmark, presentedBookmark: $presentedBookmark, cachedPreview: $cachedPreview, includeOpenBookmarkButton: true)
     }
     
     func openBookmark() {

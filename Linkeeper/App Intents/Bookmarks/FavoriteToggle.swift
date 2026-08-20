@@ -8,8 +8,8 @@
 import Foundation
 import AppIntents
 
-@available(iOS 16.0, macOS 13.0, *)
-struct FavoriteToggle: AppIntent {
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
+struct FavoriteToggle: AppIntent, PredictableIntent {
     
     // Title of the action in the Shortcuts app
     static var title: LocalizedStringResource = "Set Favorite Status"
@@ -32,8 +32,18 @@ struct FavoriteToggle: AppIntent {
             Summary("\(\.$toggleTask) Favorite status for \(\.$bookmark) to \(\.$OnOrOff)")
         })
     }
+
+    static var predictionConfiguration: some IntentPredictionConfiguration {
+        IntentPrediction(parameters: (\Self.$bookmark)) { bookmark in
+            if bookmark.isFavorited {
+                DisplayRepresentation(title: "Remove \(bookmark.name) from favorites.")
+            } else {
+                DisplayRepresentation(title: "Mark \(bookmark.name) as favorited.")
+            }
+        }
+    }
     
-    func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> {
+    func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> & ProvidesDialog {
         if toggleTask == .toggle {
             bookmark.isFavorited.toggle()
             BookmarksManager.shared.findBookmark(withId: bookmark.id).isFavorited.toggle()
@@ -42,8 +52,19 @@ struct FavoriteToggle: AppIntent {
             bookmark.isFavorited = (OnOrOff == .yes ? true : false)
         }
         BookmarksManager.shared.saveContext()
+        await SpotlightIndexer.shared.synchronizeCurrentStore()
 
-        return .result(value: bookmark)
+        if bookmark.isFavorited {
+            return .result(
+                value: bookmark,
+                dialog: "Added \(bookmark.name) to Favorites."
+            )
+        } else {
+            return .result(
+                value: bookmark,
+                dialog: "Removed \(bookmark.name) from Favorites."
+            )
+        }
     }
 }
 
