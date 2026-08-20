@@ -235,9 +235,9 @@ struct BookmarkDetails: View {
                 .padding(20)
             }
         }
+        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Text", in: namespace)
         .background(.ultraThinMaterial)
         .cornerRadius(15, style: .continuous)
-        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         .overlay(alignment: .topTrailing) {
             Button {
                 showDetails = false

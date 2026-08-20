@@ -80,6 +80,7 @@ struct BookmarkGridItem: View {
                 .padding(.horizontal, 15)
                 .padding(.vertical, 10)
         }
+        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Text", in: namespace)
         #if os(visionOS)
         .background(Color.black.opacity(0.4))
         .drawingGroup()
@@ -96,7 +97,6 @@ struct BookmarkGridItem: View {
         .contentShape(.hoverEffect, .rect(cornerRadius: 15))
         .hoverEffect(.lift)
         #endif
-        .matchedGeometryEffect(id: "\(bookmark.wrappedUUID)-Background", in: namespace)
         .contextMenu { menuItems() }
         .onTapGesture {
             if isEditing {
