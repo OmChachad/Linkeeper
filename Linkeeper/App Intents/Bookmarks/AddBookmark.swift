@@ -30,7 +30,7 @@ If disabled, you can add a title yourself.
     )
     var url: URL
     
-    @Parameter(title: "Notes", description: "The title for the bookmark.", inputOptions: String.IntentInputOptions(capitalizationType: .sentences), requestValueDialog: "Add notes to your Bookmark")
+    @Parameter(title: "Notes", description: "Notes you can add to the bookmark about things you would like to remember.", inputOptions: String.IntentInputOptions(capitalizationType: .sentences), requestValueDialog: "Add notes to your Bookmark")
     var notes: String?
     
     init(autoTitle: Bool = false, bookmarkTitle: String? = nil, url: URL, notes: String? = nil) {
