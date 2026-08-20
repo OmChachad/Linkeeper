@@ -45,17 +45,5 @@ struct LinkeeperShortcuts: AppShortcutsProvider {
             systemImageName: "folder.fill.badge.plus"
         )
         
-        AppShortcut(
-            intent: MoveBookmark(),
-            phrases: [
-                "Move bookmark in \(.applicationName)",
-                "Move \(\.$bookmark) in \(.applicationName)",
-                "Move bookmark to \(\.$folder) in \(.applicationName)",
-                "Move to \(\.$folder) in \(.applicationName)",
-                "Change folder for \(\.$bookmark) in \(.applicationName)"
-            ],
-            shortTitle: "Move Bookmark",
-            systemImageName: "folder.fill.badge.gear"
-        )
     }
 }
