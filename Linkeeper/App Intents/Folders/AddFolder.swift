@@ -50,6 +50,7 @@ struct AddFolder: AppIntent {
         }()
 
         let folder = FoldersManager.shared.addFolder(title: folderTitle, accentColor: color, chosenSymbol: icon, parentFolder: parentFolder)
+        await SpotlightIndexer.shared.synchronizeCurrentStore()
         reloadAllWidgets()
         return .result(value: folder.toEntity())
     }

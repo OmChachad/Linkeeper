@@ -350,20 +350,23 @@ struct AddBookmarkView: View {
             sanitisedURL = sanitisedURL.components(separatedBy: "?").first ?? sanitisedURL
         }
         
-        if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
-            Task {
+        Task { @MainActor in
+            if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
                 let bookmark = try! await AddBookmark(bookmarkTitle: title, url: URL(string: sanitisedURL)!, notes: notes).perform()
                 if let bookmark = bookmark.value {
                     BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = folder
                     try? moc.save()
                 }
+            } else {
+                BookmarksManager.shared.addBookmark(title: title, url: sanitisedURL, host: URL(string: url)!.host ?? url, notes: notes, folder: folder)
             }
-        } else {
-            BookmarksManager.shared.addBookmark(title: title, url: sanitisedURL, host: URL(string: url)!.host ?? url, notes: notes, folder: folder)
+
+            // The extension may be terminated as soon as completionAction
+            // finishes, so wait for the final folder assignment to be indexed.
+            await SpotlightIndexer.shared.synchronizeCurrentStore()
+            dismiss()
+            completionAction(true)
         }
-        
-        dismiss()
-        completionAction(true)
     }
     
     func folderPickerItem(for folder: Folder) -> some View {

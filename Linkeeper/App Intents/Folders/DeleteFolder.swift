@@ -53,6 +53,7 @@ struct DeleteFolder: AppIntent {
             }
             
             FoldersManager.shared.delete(withId: folder.id)
+            await SpotlightIndexer.shared.synchronizeCurrentStore()
             reloadAllWidgets()
             
             let messageSuffix = folder.bookmarks.count == 0 ? "" : ", \(keepBookmarks ? "keeping" : "alongside") \(folder.bookmarks.count) \(folder.bookmarks.count == 1 ? "Bookmark" : "Bookmarks")"

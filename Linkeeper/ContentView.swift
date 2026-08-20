@@ -7,6 +7,9 @@
 
 import SwiftUI
 import CoreData
+import CoreSpotlight
+import Combine
+import Pow
 import SimpleToast
 
 struct ContentView: View {
@@ -34,6 +37,11 @@ struct ContentView: View {
     @State private var showingFavorites = false
     @State private var showingPinnedFolder = false
     @State private var currentFolder: Folder?
+
+    @Namespace private var spotlightBookmarkNamespace
+    @StateObject private var intentNavigationModel = SpotlightNavigationModel.shared
+    @State private var spotlightBookmark: Bookmark?
+    @State private var showingSpotlightBookmarkDetails = false
     
     var spacing: CGFloat { (isMac || isVisionOS) ? 10 : 15 }
     
@@ -63,10 +71,16 @@ struct ContentView: View {
                         }
                 } detail: {
                     NavigationStack {
-                        noFolderSelectedView
-                            .navigationDestination(for: Folder.self) { folder in
-                                BookmarksView(folder: folder)
+                        Group {
+                            if let currentFolder {
+                                BookmarksView(folder: currentFolder)
+                            } else {
+                                noFolderSelectedView
                             }
+                        }
+                        .navigationDestination(for: Folder.self) { folder in
+                            BookmarksView(folder: folder)
+                        }
                     }
                 }
             } else {
@@ -85,6 +99,71 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $showingSettings, content: SettingsView.init)
+        .onContinueUserActivity(CSSearchableItemActionType) { activity in
+            guard let identifier = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String,
+                  let destination = SpotlightItemIdentifier.destination(from: identifier) else {
+                return
+            }
+
+            openSpotlightDestination(destination)
+        }
+        .modifier(SpotlightIntentExecutionModifier(
+            openBookmark: { id in
+                openSpotlightDestination((.bookmark, id))
+            },
+            openFolder: { id in
+                openSpotlightDestination((.folder, id))
+            }
+        ))
+        .onReceive(intentNavigationModel.$destination.compactMap { $0 }) { destination in
+            openSpotlightDestination((destination.kind, destination.id))
+            intentNavigationModel.destination = nil
+        }
+        #if !os(visionOS)
+        .overlay {
+            if showingSpotlightBookmarkDetails, let spotlightBookmark {
+                if #available(macOS 26.0, iOS 26.0, *) {
+                    Rectangle()
+                        .glassEffect(.regular.interactive(), in: .rect)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            showingSpotlightBookmarkDetails = false
+                        }
+                } else {
+                    Color("primaryInverted").opacity(0.3)
+                        .background(.thinMaterial)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            showingSpotlightBookmarkDetails = false
+                        }
+                }
+
+                BookmarkDetails(
+                    bookmark: spotlightBookmark,
+                    namespace: spotlightBookmarkNamespace,
+                    showDetails: $showingSpotlightBookmarkDetails
+                )
+                .id(spotlightBookmark.objectID)
+                .transition(.movingParts.glare)
+            }
+        }
+        #endif
+        #if os(visionOS)
+        .ornament(
+            visibility: showingSpotlightBookmarkDetails ? .visible : .hidden,
+            attachmentAnchor: .scene(.trailing),
+            contentAlignment: .leading
+        ) {
+            if let spotlightBookmark {
+                BookmarkDetails(
+                    bookmark: spotlightBookmark,
+                    namespace: spotlightBookmarkNamespace,
+                    showDetails: $showingSpotlightBookmarkDetails
+                )
+                .id(spotlightBookmark.objectID)
+            }
+        }
+        #endif
         .sheet(isPresented: $showingNewBookmarkView) {
             AddBookmarkView(folderPreset: currentFolder, onComplete: { didAddBookmark in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -125,6 +204,7 @@ struct ContentView: View {
             AlertView(icon: "folder.fill", title: "Added Folder")
                 .padding(.bottom, 50)
         })
+        .animation(.spring(), value: showingSpotlightBookmarkDetails)
         .onReceive(NotificationCenter.default.publisher(for: .addBookmark)) { _ in
             showingNewBookmarkView = true
         }
@@ -144,6 +224,32 @@ struct ContentView: View {
             }
             
             reloadAllWidgets()
+        }
+    }
+
+    /// Opens the bookmark or folder represented by a Spotlight result.
+    private func openSpotlightDestination(_ destination: (kind: SpotlightDestinationKind, id: UUID)) {
+        switch destination.kind {
+        case .bookmark:
+            let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
+            request.fetchLimit = 1
+            request.predicate = NSPredicate(format: "id = %@", destination.id as CVarArg)
+
+            if let bookmark = try? moc.fetch(request).first {
+                spotlightBookmark = bookmark
+                showingSpotlightBookmarkDetails = true
+            }
+
+        case .folder:
+            showingSpotlightBookmarkDetails = false
+
+            let request: NSFetchRequest<Folder> = Folder.fetchRequest()
+            request.fetchLimit = 1
+            request.predicate = NSPredicate(format: "id = %@", destination.id as CVarArg)
+
+            if let folder = try? moc.fetch(request).first {
+                currentFolder = folder
+            }
         }
     }
     

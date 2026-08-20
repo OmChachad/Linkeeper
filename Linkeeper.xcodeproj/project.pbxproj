@@ -254,12 +254,21 @@
 		C2C8EEA42A4DFB1C00CCD36F /* DragExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA32A4DFB1C00CCD36F /* DragExtension.swift */; };
 		C2C8EEA62A4DFC0600CCD36F /* DropExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */; };
 		C2C8EEA82A4E7D2400CCD36F /* BookmarkDropItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */; };
+		C2CB72C63035E67E008BEEC4 /* SpotlightNavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB72C53035E67E008BEEC4 /* SpotlightNavigationModel.swift */; };
+		C2CB72C83035E6B6008BEEC4 /* SpotlightIntentExecutionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB72C73035E6B6008BEEC4 /* SpotlightIntentExecutionModifier.swift */; };
+		C2CB72CA3035E7C7008BEEC4 /* OpenFolderIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB72C93035E7C7008BEEC4 /* OpenFolderIntent.swift */; };
 		C2CCDC892D7474A200D91A08 /* QuickActionsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC882D7474A200D91A08 /* QuickActionsHandler.swift */; platformFilters = (ios, xros, ); };
 		C2CCDC8B2D74781F00D91A08 /* AppDelegate (Mac).swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8A2D74781F00D91A08 /* AppDelegate (Mac).swift */; platformFilters = (macos, ); };
 		C2CCDC8D2D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
 		C2CCDC8E2D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
 		C2CCDC8F2D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
 		C2CCDC902D74794B00D91A08 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CCDC8C2D74794B00D91A08 /* Notifications.swift */; };
+		C2D0B86C3036851500E1D3FD /* OpenBookmarkIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CB72C33035DE7D008BEEC4 /* OpenBookmarkIntent.swift */; };
+		C2D0B8763036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B8753036C2B000E1D3FD /* SpotlightDestinationKind.swift */; };
+		C2D0B8773036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B8753036C2B000E1D3FD /* SpotlightDestinationKind.swift */; };
+		C2D0B8783036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B8753036C2B000E1D3FD /* SpotlightDestinationKind.swift */; };
+		C2D0B8793036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B8753036C2B000E1D3FD /* SpotlightDestinationKind.swift */; };
+		C2D0B87A3036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D0B8753036C2B000E1D3FD /* SpotlightDestinationKind.swift */; };
 		C2D1A9B22F00F5ED00B9B942 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = C2D1A9B12F00F5ED00B9B942 /* AppIcon.icon */; };
 		C2D5A7172BEFAF89002FE87E /* TipRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */; };
 		C2DC75792CFE1E940093E40B /* VariableBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC75782CFE1E940093E40B /* VariableBlurView.swift */; };
@@ -289,6 +298,11 @@
 		C2EECC322A2FA97400FC75DC /* AppShortcuts Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */; };
 		C2F042362C19EB6D002CE4AA /* FolderGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */; };
 		C2F042382C19EFFF002CE4AA /* FolderActionsModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */; };
+		C2F100022F10000100ABCDEF /* SpotlightIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F100012F10000100ABCDEF /* SpotlightIndexer.swift */; };
+		C2F100032F10000100ABCDEF /* SpotlightIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F100012F10000100ABCDEF /* SpotlightIndexer.swift */; };
+		C2F100042F10000100ABCDEF /* SpotlightIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F100012F10000100ABCDEF /* SpotlightIndexer.swift */; };
+		C2F100052F10000100ABCDEF /* SpotlightIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F100012F10000100ABCDEF /* SpotlightIndexer.swift */; };
+		C2F100062F10000100ABCDEF /* SpotlightIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F100012F10000100ABCDEF /* SpotlightIndexer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -452,9 +466,14 @@
 		C2C8EEA32A4DFB1C00CCD36F /* DragExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragExtension.swift; sourceTree = "<group>"; };
 		C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropExtension.swift; sourceTree = "<group>"; };
 		C2C8EEA72A4E7D2400CCD36F /* BookmarkDropItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDropItem.swift; sourceTree = "<group>"; };
+		C2CB72C33035DE7D008BEEC4 /* OpenBookmarkIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBookmarkIntent.swift; sourceTree = "<group>"; };
+		C2CB72C53035E67E008BEEC4 /* SpotlightNavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightNavigationModel.swift; sourceTree = "<group>"; };
+		C2CB72C73035E6B6008BEEC4 /* SpotlightIntentExecutionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightIntentExecutionModifier.swift; sourceTree = "<group>"; };
+		C2CB72C93035E7C7008BEEC4 /* OpenFolderIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFolderIntent.swift; sourceTree = "<group>"; };
 		C2CCDC882D7474A200D91A08 /* QuickActionsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionsHandler.swift; sourceTree = "<group>"; };
 		C2CCDC8A2D74781F00D91A08 /* AppDelegate (Mac).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate (Mac).swift"; sourceTree = "<group>"; };
 		C2CCDC8C2D74794B00D91A08 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		C2D0B8753036C2B000E1D3FD /* SpotlightDestinationKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightDestinationKind.swift; sourceTree = "<group>"; };
 		C2D1A9B12F00F5ED00B9B942 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		C2D5A7162BEFAF89002FE87E /* TipRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipRequestView.swift; sourceTree = "<group>"; };
 		C2DC75782CFE1E940093E40B /* VariableBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableBlurView.swift; sourceTree = "<group>"; };
@@ -477,6 +496,7 @@
 		C2EECC312A2FA97400FC75DC /* AppShortcuts Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppShortcuts Provider.swift"; sourceTree = "<group>"; };
 		C2F042352C19EB6D002CE4AA /* FolderGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderGridItem.swift; sourceTree = "<group>"; };
 		C2F042372C19EFFF002CE4AA /* FolderActionsModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderActionsModifier.swift; sourceTree = "<group>"; };
+		C2F100012F10000100ABCDEF /* SpotlightIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightIndexer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -638,6 +658,7 @@
 			isa = PBXGroup;
 			children = (
 				C281D96C2A23D28200535807 /* LinkeeperBookmarkEntity.swift */,
+				C2CB72C33035DE7D008BEEC4 /* OpenBookmarkIntent.swift */,
 				C281D9742A24B81E00535807 /* AddBookmark.swift */,
 				C281D9B12A24EDEC00535807 /* DeleteBookmark.swift */,
 				C281D9B32A2501FE00535807 /* MoveBookmarks.swift */,
@@ -652,6 +673,7 @@
 				C281D9702A23E32D00535807 /* FolderEntity.swift */,
 				C281D9B92A2534E100535807 /* AddFolder.swift */,
 				C281D9B72A25277A00535807 /* DeleteFolder.swift */,
+				C2CB72C93035E7C7008BEEC4 /* OpenFolderIntent.swift */,
 			);
 			path = Folders;
 			sourceTree = "<group>";
@@ -831,6 +853,7 @@
 				C290506A2A12B60E00817C48 /* Helpers */,
 				C24DF580283E718C003C9692 /* CoreData */,
 				C2E0CEE02A4C2C1A00EA9473 /* StoreKit */,
+				C2D0B87B3036C30200E1D3FD /* Spotlight Indexing */,
 				C281D96B2A23C86D00535807 /* App Intents */,
 				C2C8DC4128171D94000F4AEB /* Assets.xcassets */,
 				C2D1A9B12F00F5ED00B9B942 /* AppIcon.icon */,
@@ -858,6 +881,17 @@
 				C2C8EEA52A4DFC0600CCD36F /* DropExtension.swift */,
 			);
 			path = "Drag & Dropping";
+			sourceTree = "<group>";
+		};
+		C2D0B87B3036C30200E1D3FD /* Spotlight Indexing */ = {
+			isa = PBXGroup;
+			children = (
+				C2CB72C53035E67E008BEEC4 /* SpotlightNavigationModel.swift */,
+				C2CB72C73035E6B6008BEEC4 /* SpotlightIntentExecutionModifier.swift */,
+				C2F100012F10000100ABCDEF /* SpotlightIndexer.swift */,
+				C2D0B8753036C2B000E1D3FD /* SpotlightDestinationKind.swift */,
+			);
+			path = "Spotlight Indexing";
 			sourceTree = "<group>";
 		};
 		C2E0CEE02A4C2C1A00EA9473 /* StoreKit */ = {
@@ -1114,6 +1148,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2F100032F10000100ABCDEF /* SpotlightIndexer.swift in Sources */,
 				C2052C002B34697600185D29 /* StoreURL Extension.swift in Sources */,
 				C28D188D2B42A5150033C979 /* BookmarksWidgetView.swift in Sources */,
 				C2052C062B34699600185D29 /* DraggableBookmark.swift in Sources */,
@@ -1125,6 +1160,7 @@
 				C28D18872B41A2100033C979 /* FolderEntity.swift in Sources */,
 				C2052BFF2B34697600185D29 /* FoldersManager.swift in Sources */,
 				C2052BE22B34688500185D29 /* BookmarksWidgetBundle.swift in Sources */,
+				C2D0B8783036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */,
 				C27AF0FA2B47C0F200C4D9A4 /* reloadAllWidgets.swift in Sources */,
 				C28D187F2B41A20B0033C979 /* LinkeeperBookmarkEntity.swift in Sources */,
 				C26315E82E24DBD9003872B6 /* SharedUserDefaults.swift in Sources */,
@@ -1164,6 +1200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2F100042F10000100ABCDEF /* SpotlightIndexer.swift in Sources */,
 				C2120C632B95EFC7003FEDF2 /* reloadAllWidgets.swift in Sources */,
 				C26315EA2E24DBD9003872B6 /* SharedUserDefaults.swift in Sources */,
 				C2120C5E2B95EF83003FEDF2 /* LinkeeperBookmarkEntity.swift in Sources */,
@@ -1177,6 +1214,7 @@
 				C2120C502B95EF1C003FEDF2 /* FoldersManager.swift in Sources */,
 				C2120C592B95EF47003FEDF2 /* URL.swift in Sources */,
 				C2120C552B95EF1C003FEDF2 /* Folder+CoreDataProperties.swift in Sources */,
+				C2D0B87A3036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */,
 				C2120C472B95EEE8003FEDF2 /* AddBookmarkView.swift in Sources */,
 				C2120C5D2B95EF72003FEDF2 /* Metadata Fetcher.swift in Sources */,
 				C2120C642B95EFCE003FEDF2 /* AddFolder.swift in Sources */,
@@ -1209,6 +1247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2F100052F10000100ABCDEF /* SpotlightIndexer.swift in Sources */,
 				C2891D862B51867F00C44C37 /* CacheManager.swift in Sources */,
 				C26315E92E24DBD9003872B6 /* SharedUserDefaults.swift in Sources */,
 				C2891D822B51866300C44C37 /* Bookmark+CoreDataProperties.swift in Sources */,
@@ -1222,6 +1261,7 @@
 				C2891D802B51866300C44C37 /* StoreURL Extension.swift in Sources */,
 				C2891D982B51941000C44C37 /* Linkeeper.xcdatamodeld in Sources */,
 				C2891D7E2B51866300C44C37 /* Folder+CoreDataProperties.swift in Sources */,
+				C2D0B8793036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */,
 				C2891D8E2B51919400C44C37 /* reloadAllWidgets.swift in Sources */,
 				C2891D882B51868B00C44C37 /* ColorOption.swift in Sources */,
 				C2891D852B51867A00C44C37 /* Metadata Fetcher.swift in Sources */,
@@ -1254,6 +1294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2F100062F10000100ABCDEF /* SpotlightIndexer.swift in Sources */,
 				C2A14A4C2A602549003A5308 /* String.swift in Sources */,
 				C2A14A2E2A601C24003A5308 /* ShareViewController.swift in Sources */,
 				C27BB9CB2B32FF6100ACA0EA /* DeleteBookmark.swift in Sources */,
@@ -1294,6 +1335,7 @@
 				C2A14A462A6024C4003A5308 /* DropExtension.swift in Sources */,
 				C27BB9CC2B32FF6100ACA0EA /* AddBookmark.swift in Sources */,
 				C2CCDC902D74794B00D91A08 /* Notifications.swift in Sources */,
+				C2D0B8773036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */,
 				C2A14A452A6024C4003A5308 /* DragExtension.swift in Sources */,
 				C2C638CE2B4D810600E5B0B1 /* isMac.swift in Sources */,
 				C26315E72E24DBD9003872B6 /* SharedUserDefaults.swift in Sources */,
@@ -1307,13 +1349,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2F100022F10000100ABCDEF /* SpotlightIndexer.swift in Sources */,
 				C290506D2A12B67900817C48 /* Flashcard.swift in Sources */,
 				C24DF57F283E7185003C9692 /* Folder+CoreDataProperties.swift in Sources */,
 				C281D9752A24B81E00535807 /* AddBookmark.swift in Sources */,
+				C2CB72C63035E67E008BEEC4 /* SpotlightNavigationModel.swift in Sources */,
 				C28B6E67281900D70030B6DD /* AddBookmarkView.swift in Sources */,
 				C22268882B486F4D00D88123 /* BookmarksGridView.swift in Sources */,
 				C29E82672E2F9F930051926E /* Column.swift in Sources */,
 				C22268A02B4A7BFA00D88123 /* EditState.swift in Sources */,
+				C2D0B86C3036851500E1D3FD /* OpenBookmarkIntent.swift in Sources */,
 				C27AF0F92B47C03E00C4D9A4 /* reloadAllWidgets.swift in Sources */,
 				C2C8DC4028171D93000F4AEB /* ContentView.swift in Sources */,
 				C2A14A262A5DD21E003A5308 /* StoreURL Extension.swift in Sources */,
@@ -1329,6 +1374,7 @@
 				C22268982B49CA5600D88123 /* BookmarkListItem.swift in Sources */,
 				C26315E62E24DBD9003872B6 /* SharedUserDefaults.swift in Sources */,
 				C2E806E82A26194E00A41D0C /* IntroductionView.swift in Sources */,
+				C2D0B8763036C2B700E1D3FD /* SpotlightDestinationKind.swift in Sources */,
 				C281D9712A23E32D00535807 /* FolderEntity.swift in Sources */,
 				C2A840F32D64F1B400A1FCA0 /* ModernLabel.swift in Sources */,
 				C24DF57D283E7185003C9692 /* Bookmark+CoreDataProperties.swift in Sources */,
@@ -1352,6 +1398,7 @@
 				C2C8EE922A4C8BB300CCD36F /* ChangeIconsView.swift in Sources */,
 				C281D9B82A25277A00535807 /* DeleteFolder.swift in Sources */,
 				C29050682A125EF100817C48 /* MoveBookmarksView.swift in Sources */,
+				C2CB72CA3035E7C7008BEEC4 /* OpenFolderIntent.swift in Sources */,
 				C22268962B49CA2900D88123 /* BookmarkTableNameView.swift in Sources */,
 				C281D9B62A2512F900535807 /* FavoriteToggle.swift in Sources */,
 				C234F6ED2A31BD7100401721 /* Twitter.swift in Sources */,
@@ -1402,6 +1449,7 @@
 				C2E98EC52D8D370D00C63A78 /* AppConfiguration.swift in Sources */,
 				C281D96F2A23D4FF00535807 /* BookmarksManager.swift in Sources */,
 				C29050772A12B80300817C48 /* String.swift in Sources */,
+				C2CB72C83035E6B6008BEEC4 /* SpotlightIntentExecutionModifier.swift in Sources */,
 				C28B6E6F28193AE20030B6DD /* AddFolderView.swift in Sources */,
 				C29B00F12A588B1D0081FEBC /* Metadata Fetcher.swift in Sources */,
 				C28962372C200C100051DE60 /* FolderDropItem.swift in Sources */,

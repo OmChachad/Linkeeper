@@ -42,6 +42,7 @@ struct FavoriteToggle: AppIntent {
             bookmark.isFavorited = (OnOrOff == .yes ? true : false)
         }
         BookmarksManager.shared.saveContext()
+        await SpotlightIndexer.shared.synchronizeCurrentStore()
 
         return .result(value: bookmark)
     }

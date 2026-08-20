@@ -52,6 +52,7 @@ struct MoveBookmark: AppIntent {
                 }
             }
             try BookmarksManager.shared.context.save()
+            await SpotlightIndexer.shared.synchronizeCurrentStore()
             reloadAllWidgets()
             
             return .result(value: bookmark)
