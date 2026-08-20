@@ -37,11 +37,12 @@ struct ContentView: View {
     @State private var showingFavorites = false
     @State private var showingPinnedFolder = false
     @State private var currentFolder: Folder?
-
     @Namespace private var spotlightBookmarkNamespace
     @StateObject private var intentNavigationModel = SpotlightNavigationModel.shared
     @State private var spotlightBookmark: Bookmark?
     @State private var showingSpotlightBookmarkDetails = false
+    @State private var bookmarkSearchDestination: BookmarkSearchDestination?
+    @State private var navigationIdentity = UUID()
     
     var spacing: CGFloat { (isMac || isVisionOS) ? 10 : 15 }
     
@@ -72,7 +73,12 @@ struct ContentView: View {
                 } detail: {
                     NavigationStack {
                         Group {
-                            if let currentFolder {
+                            if let bookmarkSearchDestination {
+                                BookmarksView(
+                                    initialSearchText: bookmarkSearchDestination.query
+                                )
+                                .id(bookmarkSearchDestination.id)
+                            } else if let currentFolder {
                                 BookmarksView(folder: currentFolder)
                             } else {
                                 noFolderSelectedView
@@ -83,6 +89,7 @@ struct ContentView: View {
                         }
                     }
                 }
+                .id(navigationIdentity)
             } else {
                 NavigationView  {
                     sideBar
@@ -118,6 +125,12 @@ struct ContentView: View {
         .onReceive(intentNavigationModel.$destination.compactMap { $0 }) { destination in
             openSpotlightDestination((destination.kind, destination.id))
             intentNavigationModel.destination = nil
+        }
+        .onReceive(intentNavigationModel.$bookmarkSearchDestination.compactMap { $0 }) { destination in
+            openBookmarkSearchDestination(destination)
+            DispatchQueue.main.async {
+                intentNavigationModel.bookmarkSearchDestination = nil
+            }
         }
         #if !os(visionOS)
         .overlay {
@@ -219,6 +232,7 @@ struct ContentView: View {
             } else if url.absoluteString.contains("openFolder") {
                 if let folderID = UUID(uuidString: url.lastPathComponent) {
                     let folder = FoldersManager.shared.findFolder(withId: folderID)
+                    bookmarkSearchDestination = nil
                     currentFolder = folder
                 }
             }
@@ -242,6 +256,7 @@ struct ContentView: View {
 
         case .folder:
             showingSpotlightBookmarkDetails = false
+            bookmarkSearchDestination = nil
 
             let request: NSFetchRequest<Folder> = Folder.fetchRequest()
             request.fetchLimit = 1
@@ -251,6 +266,17 @@ struct ContentView: View {
                 currentFolder = folder
             }
         }
+    }
+
+    /// Opens All Bookmarks and applies the requested search query.
+    private func openBookmarkSearchDestination(_ destination: BookmarkSearchDestination) {
+        showingSpotlightBookmarkDetails = false
+        currentFolder = nil
+        showingAllBookmarks = true
+        showingFavorites = false
+        showingPinnedFolder = false
+        bookmarkSearchDestination = destination
+        navigationIdentity = UUID()
     }
     
     @State private var sideBarListHeight: CGFloat = 0.0

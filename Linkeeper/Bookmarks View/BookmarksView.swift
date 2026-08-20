@@ -12,6 +12,7 @@ struct BookmarksView: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.openURL) var openURL
+    @StateObject private var intentNavigationModel = SpotlightNavigationModel.shared
     
     // CoreData FetchRequests
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]) var bookmarks: FetchedResults<Bookmark>
@@ -72,6 +73,10 @@ struct BookmarksView: View {
     }
     
     init() {}
+
+    init(initialSearchText: String) {
+        _searchText = State(initialValue: initialSearchText)
+    }
     
     init(folder: Folder) {
         _bookmarks = FetchRequest<Bookmark>(sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)], predicate: NSPredicate(format: "folder == %@", folder))
@@ -123,6 +128,10 @@ struct BookmarksView: View {
         #else
         .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Find a bookmark...")
         #endif
+        .onReceive(intentNavigationModel.$bookmarkSearchDestination.compactMap { $0 }) { destination in
+            guard folder == nil, favorites != true else { return }
+            searchText = destination.query
+        }
         .contentUnavailabilityView(isUnavailable: favorites != true ? (bookmarks.isEmpty && subFolders.isEmpty) : bookmarks.isEmpty, unavailabilityView: noBookmarksView)
         #if !os(visionOS)
         .overlay {
