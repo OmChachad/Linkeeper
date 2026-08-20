@@ -9,7 +9,7 @@ import Foundation
 import AppIntents
 
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
-struct FavoriteToggle: AppIntent {
+struct FavoriteToggle: AppIntent, PredictableIntent {
     
     // Title of the action in the Shortcuts app
     static var title: LocalizedStringResource = "Set Favorite Status"
@@ -31,6 +31,16 @@ struct FavoriteToggle: AppIntent {
         }, otherwise: {
             Summary("\(\.$toggleTask) Favorite status for \(\.$bookmark) to \(\.$OnOrOff)")
         })
+    }
+
+    static var predictionConfiguration: some IntentPredictionConfiguration {
+        IntentPrediction(parameters: (\Self.$bookmark)) { bookmark in
+            if bookmark.isFavorited {
+                DisplayRepresentation(title: "Remove \(bookmark.name) from favorites.")
+            } else {
+                DisplayRepresentation(title: "Mark \(bookmark.name) as favorited.")
+            }
+        }
     }
     
     func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> & ProvidesDialog {

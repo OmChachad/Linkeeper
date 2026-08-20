@@ -10,7 +10,7 @@ import AppIntents
 import SwiftUI
 
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
-struct AddFolder: AppIntent {
+struct AddFolder: AppIntent, PredictableIntent {
     static var title: LocalizedStringResource = "Add Folder"
     static var description: IntentDescription = IntentDescription("Create a new folder.", categoryName: "Create", searchKeywords: ["Group", "New", "Create", "Bookmark"])
     
@@ -38,6 +38,12 @@ struct AddFolder: AppIntent {
         Summary("Add Folder \(\.$folderTitle)") {
             \.$icon
             \.$color
+        }
+    }
+
+    static var predictionConfiguration: some IntentPredictionConfiguration {
+        IntentPrediction(parameters: (\Self.$folderTitle)) { folderTitle in
+            DisplayRepresentation(title: "Create the folder \(folderTitle) in Linkeeper")
         }
     }
     

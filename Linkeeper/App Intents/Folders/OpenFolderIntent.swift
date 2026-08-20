@@ -7,7 +7,7 @@ import AppIntents
 
 /// Opens a folder selected from Spotlight or Siri.
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
-struct OpenFolderIntent: OpenIntent {
+struct OpenFolderIntent: OpenIntent, PredictableIntent {
     static let title: LocalizedStringResource = "Open Folder"
 
     // TODO(iOS 27 SDK): Add
@@ -21,6 +21,12 @@ struct OpenFolderIntent: OpenIntent {
     var target: FolderEntity
 
     @Dependency private var navigationModel: SpotlightNavigationModel
+
+    static var predictionConfiguration: some IntentPredictionConfiguration {
+        IntentPrediction(parameters: (\Self.$target)) { target in
+            DisplayRepresentation(title: "Open \(target.title) in Linkeeper")
+        }
+    }
 
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {

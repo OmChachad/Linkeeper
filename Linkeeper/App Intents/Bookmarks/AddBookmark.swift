@@ -9,7 +9,7 @@ import AppIntents
 import LinkPresentation
 
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
-struct AddBookmark: AppIntent {
+struct AddBookmark: AppIntent, PredictableIntent {
     static var title: LocalizedStringResource = "Add Bookmark"
     
     static var description: IntentDescription = IntentDescription("Add a new bookmark to your collection.", categoryName: "Create", searchKeywords: ["Create", "Link", "URL", "New"])
@@ -55,6 +55,13 @@ If disabled, you can add a title yourself.
                 \.$notes
             }
         })
+    }
+
+    static var predictionConfiguration: some IntentPredictionConfiguration {
+        IntentPrediction(parameters: (\Self.$url)) { url in
+            let website = url.host ?? url.absoluteString
+            return DisplayRepresentation(title: "Save \(website) to Linkeeper")
+        }
     }
     
     func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> & ProvidesDialog {

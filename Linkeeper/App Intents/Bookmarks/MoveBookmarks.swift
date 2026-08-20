@@ -9,7 +9,7 @@ import Foundation
 import AppIntents
 
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
-struct MoveBookmark: AppIntent {
+struct MoveBookmark: AppIntent, PredictableIntent {
     
     // Title of the action in the Shortcuts app
     static var title: LocalizedStringResource = "Move Bookmark"
@@ -37,6 +37,13 @@ struct MoveBookmark: AppIntent {
                 \.$removeFromGroup
             }
         })
+    }
+
+    static var predictionConfiguration: some IntentPredictionConfiguration {
+        IntentPrediction(parameters: (\Self.$bookmark, \Self.$folder)) { bookmark, folder in
+            let destination = folder?.title ?? "a folder"
+            return DisplayRepresentation(title: "Move \(bookmark.name) to \(destination)")
+        }
     }
     
     func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> & ProvidesDialog {
