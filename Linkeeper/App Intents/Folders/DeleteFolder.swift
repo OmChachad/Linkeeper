@@ -38,10 +38,19 @@ struct DeleteFolder: AppIntent {
         })
     }
     
-    func perform() async throws -> some IntentResult {
+    func perform() async throws -> some IntentResult & ProvidesDialog {
         do {
             if confirmBeforeDeleting {
                 try await requestConfirmation(result: .result(dialog: "Are you sure you want to delete this folder titled \(folder.title)?"))
+            }
+
+            let completionDialog: IntentDialog
+            if folder.bookmarks.isEmpty {
+                completionDialog = "Deleted the folder \(folder.title)."
+            } else if keepBookmarks {
+                completionDialog = "Deleted the folder \(folder.title). Its bookmarks remain in Linkeeper."
+            } else {
+                completionDialog = "Deleted the folder \(folder.title) and its bookmarks."
             }
             
             for bookmark in folder.bookmarks {
@@ -55,9 +64,8 @@ struct DeleteFolder: AppIntent {
             FoldersManager.shared.delete(withId: folder.id)
             await SpotlightIndexer.shared.synchronizeCurrentStore()
             reloadAllWidgets()
-            
-            let messageSuffix = folder.bookmarks.count == 0 ? "" : ", \(keepBookmarks ? "keeping" : "alongside") \(folder.bookmarks.count) \(folder.bookmarks.count == 1 ? "Bookmark" : "Bookmarks")"
-            return .result()
+
+            return .result(dialog: completionDialog)
             
         } catch {
             throw error

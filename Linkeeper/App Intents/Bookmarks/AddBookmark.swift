@@ -57,7 +57,7 @@ If disabled, you can add a title yourself.
         })
     }
     
-    func perform() async throws -> some ReturnsValue<LinkeeperBookmarkEntity> {
+    func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> & ProvidesDialog {
         let title: String = await {
             if autoTitle {
                 let metadataProvider = LPMetadataProvider()
@@ -89,7 +89,11 @@ If disabled, you can add a title yourself.
         let bookmark = BookmarksManager.shared.addBookmark(id: nil, title: title, url: url.sanitise.absoluteString, host: url.host ?? url.absoluteString, notes: notes ?? "", folder: nil)
         await SpotlightIndexer.shared.synchronizeCurrentStore()
         reloadAllWidgets()
-        return .result(value: bookmark.toEntity())
+        let bookmarkEntity = bookmark.toEntity()
+        return .result(
+            value: bookmarkEntity,
+            dialog: "Saved \(bookmarkEntity.name) to Linkeeper."
+        )
     }
     
 }

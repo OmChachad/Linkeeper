@@ -23,7 +23,7 @@ struct OpenFolderIntent: OpenIntent {
     @Dependency private var navigationModel: SpotlightNavigationModel
 
     @MainActor
-    func perform() async throws -> some IntentResult {
+    func perform() async throws -> some IntentResult & ProvidesDialog {
         #if os(iOS)
         if #unavailable(iOS 26.0) {
             navigationModel.open(.folder, id: target.id)
@@ -32,7 +32,7 @@ struct OpenFolderIntent: OpenIntent {
         navigationModel.open(.folder, id: target.id)
         #endif
 
-        return .result()
+        return .result(dialog: "Opening \(target.title).")
     }
 }
 

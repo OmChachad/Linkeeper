@@ -39,23 +39,30 @@ struct MoveBookmark: AppIntent {
         })
     }
     
-    func perform() async throws -> some ReturnsValue<LinkeeperBookmarkEntity> {
+    func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> & ProvidesDialog {
         do {
-            
-            if !removeFromGroup {
-                if let folderEntity = folder {
-                    let folder = FoldersManager.shared.findFolder(withId: folderEntity.id)
-                    BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = folder
-                } else {
-                    try await requestConfirmation(result: .result(dialog: "You have not provided a folder, proceeding will remove the given bookmarks from any folder."))
-                    BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = nil
-                }
+            let completionDialog: IntentDialog
+
+            if removeFromGroup {
+                BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = nil
+                bookmark.folderTitle = nil
+                completionDialog = "Removed \(bookmark.name) from its folder."
+            } else if let folderEntity = folder {
+                let destinationFolder = FoldersManager.shared.findFolder(withId: folderEntity.id)
+                BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = destinationFolder
+                bookmark.folderTitle = folderEntity.title
+                completionDialog = "Moved \(bookmark.name) to \(folderEntity.title)."
+            } else {
+                try await requestConfirmation(result: .result(dialog: "You have not provided a folder. Continuing will remove this bookmark from its folder."))
+                BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = nil
+                bookmark.folderTitle = nil
+                completionDialog = "Removed \(bookmark.name) from its folder."
             }
             try BookmarksManager.shared.context.save()
             await SpotlightIndexer.shared.synchronizeCurrentStore()
             reloadAllWidgets()
-            
-            return .result(value: bookmark)
+
+            return .result(value: bookmark, dialog: completionDialog)
         
         } catch let error {
             throw error

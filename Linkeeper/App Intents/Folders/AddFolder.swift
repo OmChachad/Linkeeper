@@ -41,7 +41,7 @@ struct AddFolder: AppIntent {
         }
     }
     
-    func perform() async throws -> some ReturnsValue<FolderEntity>{
+    func perform() async throws -> some IntentResult & ReturnsValue<FolderEntity> & ProvidesDialog {
         let parentFolder: Folder? = {
             if let folder = self.parentFolder {
                 return FoldersManager.shared.findFolder(withId: folder.id)
@@ -52,7 +52,11 @@ struct AddFolder: AppIntent {
         let folder = FoldersManager.shared.addFolder(title: folderTitle, accentColor: color, chosenSymbol: icon, parentFolder: parentFolder)
         await SpotlightIndexer.shared.synchronizeCurrentStore()
         reloadAllWidgets()
-        return .result(value: folder.toEntity())
+        let folderEntity = folder.toEntity()
+        return .result(
+            value: folderEntity,
+            dialog: "Created the folder \(folderEntity.title) in Linkeeper."
+        )
     }
 }
 

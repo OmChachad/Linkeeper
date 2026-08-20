@@ -19,15 +19,21 @@ struct BookmarkURLIntent {
     )
     var url: URL
     
-    func perform() async throws -> some ReturnsValue<LinkeeperBookmarkEntity> {
+    func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> & ProvidesDialog {
         do {
             if let name {
                 if let bookmarkEntity = try await AddBookmark(bookmarkTitle: name, url: url).perform().value {
-                    return .result(value: bookmarkEntity)
+                    return .result(
+                        value: bookmarkEntity,
+                        dialog: "Saved \(bookmarkEntity.name) to Linkeeper."
+                    )
                 }
             } else {
                 if let bookmarkEntity = try await AddBookmark(autoTitle: true, url: url).perform().value {
-                    return .result(value: bookmarkEntity)
+                    return .result(
+                        value: bookmarkEntity,
+                        dialog: "Saved \(bookmarkEntity.name) to Linkeeper."
+                    )
                 }
             }
             

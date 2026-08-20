@@ -34,7 +34,7 @@ struct DeleteBookmark: AppIntent {
         })
     }
     
-    func perform() async throws -> some IntentResult {
+    func perform() async throws -> some IntentResult & ProvidesDialog {
         do {
             if confirmBeforeDeleting {
                 try await requestConfirmation(result: .result(dialog: "Are you sure you want to delete the bookmark titled \"\(bookmark.title)\""))
@@ -44,7 +44,7 @@ struct DeleteBookmark: AppIntent {
             await SpotlightIndexer.shared.synchronizeCurrentStore()
             reloadAllWidgets()
             
-            return .result()
+            return .result(dialog: "Deleted \(bookmark.name) from Linkeeper.")
         } catch let error {
             throw error
         }

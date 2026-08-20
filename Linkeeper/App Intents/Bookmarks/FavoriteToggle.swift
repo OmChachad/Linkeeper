@@ -33,7 +33,7 @@ struct FavoriteToggle: AppIntent {
         })
     }
     
-    func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> {
+    func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> & ProvidesDialog {
         if toggleTask == .toggle {
             bookmark.isFavorited.toggle()
             BookmarksManager.shared.findBookmark(withId: bookmark.id).isFavorited.toggle()
@@ -44,7 +44,17 @@ struct FavoriteToggle: AppIntent {
         BookmarksManager.shared.saveContext()
         await SpotlightIndexer.shared.synchronizeCurrentStore()
 
-        return .result(value: bookmark)
+        if bookmark.isFavorited {
+            return .result(
+                value: bookmark,
+                dialog: "Added \(bookmark.name) to Favorites."
+            )
+        } else {
+            return .result(
+                value: bookmark,
+                dialog: "Removed \(bookmark.name) from Favorites."
+            )
+        }
     }
 }
 

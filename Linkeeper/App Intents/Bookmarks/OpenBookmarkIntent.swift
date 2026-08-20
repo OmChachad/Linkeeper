@@ -25,7 +25,7 @@ struct OpenBookmarkIntent: OpenIntent {
     @Dependency private var navigationModel: SpotlightNavigationModel
 
     @MainActor
-    func perform() async throws -> some IntentResult {
+    func perform() async throws -> some IntentResult & ProvidesDialog {
         #if os(iOS)
         if #unavailable(iOS 26.0) {
             navigationModel.open(.bookmark, id: target.id)
@@ -34,7 +34,7 @@ struct OpenBookmarkIntent: OpenIntent {
         navigationModel.open(.bookmark, id: target.id)
         #endif
 
-        return .result()
+        return .result(dialog: "Opening \(target.name).")
     }
 }
 
