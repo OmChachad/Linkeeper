@@ -8,6 +8,7 @@
 import Foundation
 import AppIntents
 import CoreData
+import CoreSpotlight
 
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 @AppEntity(schema: .browser.bookmark)
@@ -40,11 +41,14 @@ struct LinkeeperBookmarkEntity: Identifiable, Hashable, Equatable {
     @Property(title: "Date Added")
     var dateAdded: Date
 
+    @Property(title: "Folder")
+    var folderTitle: String?
+
     /// The bookmark title used by existing Linkeeper views and intents.
     var title: String { name }
 
     /// Creates an App Entity from Linkeeper's bookmark values.
-    init(id: UUID, title: String, url: URL, host: String, notes: String, isFavorited: Bool, dateAdded: Date) {
+    init(id: UUID, title: String, url: URL, host: String, notes: String, isFavorited: Bool, dateAdded: Date, folderTitle: String? = nil) {
         self.id = id
         self.name = title
         self.url = url
@@ -52,6 +56,7 @@ struct LinkeeperBookmarkEntity: Identifiable, Hashable, Equatable {
         self.notes = notes
         self.isFavorited = isFavorited
         self.dateAdded = dateAdded
+        self.folderTitle = folderTitle
     }
     
     var displayRepresentation: DisplayRepresentation {
@@ -71,6 +76,40 @@ struct LinkeeperBookmarkEntity: Identifiable, Hashable, Equatable {
         }
     }
 }
+
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
+extension LinkeeperBookmarkEntity: IndexedEntity {
+    /// Metadata Spotlight uses for lexical and on-device semantic search.
+    var attributeSet: CSSearchableItemAttributeSet {
+        let attributes = defaultAttributeSet
+        let searchableText = [name, url.absoluteString, host, notes, folderTitle]
+            .compactMap { $0 }
+            .filter { !$0.isEmpty }
+
+        attributes.title = name
+        attributes.displayName = name
+        attributes.contentDescription = notes.isEmpty ? url.absoluteString : notes
+        attributes.textContent = searchableText.joined(separator: "\n")
+        attributes.url = url
+        attributes.keywords = ["bookmark", host, folderTitle]
+            .compactMap { $0 }
+            .filter { !$0.isEmpty }
+        attributes.contentCreationDate = dateAdded
+        attributes.addedDate = dateAdded
+        attributes.containerDisplayName = folderTitle
+        attributes.userCreated = NSNumber(value: true)
+        attributes.userCurated = NSNumber(value: isFavorited)
+        attributes.rankingHint = NSNumber(value: isFavorited ? 1 : 0.5)
+
+        if let imageData = CacheManager.instance.get(id: id)?.imageData {
+            attributes.thumbnailData = imageData
+        }
+
+        return attributes
+    }
+}
+
+
 
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, iOSApplicationExtension 18.0, *)
 extension LinkeeperBookmarkEntity {
@@ -94,8 +133,7 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
     // For example a user may have chosen a Bookmark from a list when tapping on a parameter that accepts Bookmarks. The ID of that Bookmark is now hardcoded into the Shortcut. When the shortcut is run, the ID will be matched against the database in Bookmark
     func entities(for identifiers: [UUID]) async throws -> [LinkeeperBookmarkEntity] {
         return identifiers.compactMap { identifier in
-            let match = BookmarksManager.shared.findBookmark(withId: identifier)
-            return match.toEntity()
+            BookmarksManager.shared.bookmark(withID: identifier)?.toEntity()
         }
     }
     
@@ -185,7 +223,16 @@ struct IntentsBookmarkQuery: EntityPropertyQuery {
 extension Bookmark {
     /// Creates the canonical App Entity representation of this bookmark.
     func toEntity() -> LinkeeperBookmarkEntity {
-        LinkeeperBookmarkEntity(id: self.id!, title: self.wrappedTitle, url: self.wrappedURL, host: self.wrappedHost, notes: self.wrappedNotes, isFavorited: self.isFavorited, dateAdded: self.wrappedDate)
+        LinkeeperBookmarkEntity(
+            id: self.id!,
+            title: self.wrappedTitle,
+            url: self.wrappedURL,
+            host: self.wrappedHost,
+            notes: self.wrappedNotes,
+            isFavorited: self.isFavorited,
+            dateAdded: self.wrappedDate,
+            folderTitle: self.folder?.wrappedTitle
+        )
     }
 }
 
@@ -193,6 +240,6 @@ extension Bookmark {
 extension [Bookmark] {
     /// Creates canonical App Entity representations of these bookmarks.
     func toEntity() -> [LinkeeperBookmarkEntity] {
-        self.map { $0.toEntity() }
+        compactMap { $0.id == nil ? nil : $0.toEntity() }
     }
 }

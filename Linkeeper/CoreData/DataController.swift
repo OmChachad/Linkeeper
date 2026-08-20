@@ -31,6 +31,7 @@ class DataController: ObservableObject {
         }
         
         description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+        description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
         
         #if os(macOS)
         if #available(macOS 14.0, *) {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import AppIntents
 #if canImport(WidgetKit)
 import WidgetKit
 #endif
@@ -26,6 +27,12 @@ struct LinkeeperApp: App {
     @ObservedObject var storeKit = Store.shared
     @AppStorage("tipPromptCompleted") var tipPromptCompleted = false
     @State private var showTipPrompt = false
+
+    init() {
+        if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
+            AppDependencyManager.shared.add(dependency: SpotlightNavigationModel.shared)
+        }
+    }
     
     var body: some Scene {
         WindowGroup("Linkeeper") {
@@ -38,6 +45,11 @@ struct LinkeeperApp: App {
                     WhatsNew()
                 })
                 .task {
+                    await MainActor.run {
+                        SpotlightIndexer.shared.start(with: dataController.persistentCloudKitContainer)
+                    }
+                    await SpotlightIndexer.shared.synchronizeAll()
+
                     if #available(iOS 18.0, macOS 15.0, visionOS 2.0, *) {
                         LinkeeperShortcuts.updateAppShortcutParameters()
                     }

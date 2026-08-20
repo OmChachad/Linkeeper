@@ -68,14 +68,19 @@ class BookmarksManager {
     }
 
     func findBookmark(withId id: UUID) -> Bookmark {
+        guard let foundBookmark = bookmark(withID: id) else {
+            fatalError("Could not find Bookmark with given ID")
+        }
+
+        return foundBookmark
+    }
+
+    /// Returns the bookmark with the supplied stable identifier, if it still exists.
+    func bookmark(withID id: UUID) -> Bookmark? {
         let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
         request.fetchLimit = 1
         request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
-
-        guard let foundBook = try? context.fetch(request).first else {
-            fatalError("Could not find Bookmark with given ID")
-        }
-        return foundBook
+        return try? context.fetch(request).first
     }
     
     func deleteBookmark(_ bookmark: Bookmark) {
