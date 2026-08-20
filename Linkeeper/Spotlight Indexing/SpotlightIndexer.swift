@@ -150,6 +150,27 @@ final class SpotlightIndexer: NSObject, CSSearchableIndexDelegate {
         })
     }
 
+    /// Starts observing the shared store without waiting for a full reindex.
+    ///
+    /// This is the appropriate setup path for short App Intents. Their Core
+    /// Data save is captured and indexed incrementally after the intent returns.
+    func observeCurrentStore() {
+        start(with: DataController.shared.persistentCloudKitContainer)
+    }
+
+    /// Schedules an incremental Spotlight update without delaying the caller.
+    func scheduleBookmarkUpdate(_ bookmarkID: UUID, inFolder folderID: UUID? = nil) {
+        var changes = PendingChanges()
+        changes.bookmarkUpserts.insert(bookmarkID)
+
+        if let folderID {
+            changes.folderUpserts.insert(folderID)
+        }
+
+        pendingChanges.merge(changes)
+        scheduleIncrementalSynchronization()
+    }
+
     nonisolated func searchableIndex(
         _ searchableIndex: CSSearchableIndex,
         reindexAllSearchableItemsWithAcknowledgementHandler acknowledgementHandler: @escaping () -> Void
@@ -191,7 +212,7 @@ final class SpotlightIndexer: NSObject, CSSearchableIndexDelegate {
     /// App Intents and share extensions can run without creating Linkeeper's
     /// SwiftUI scene, so they must not rely on the app-launch setup path.
     func synchronizeCurrentStore() async {
-        start(with: DataController.shared.persistentCloudKitContainer)
+        observeCurrentStore()
         await synchronizeAll()
     }
 
