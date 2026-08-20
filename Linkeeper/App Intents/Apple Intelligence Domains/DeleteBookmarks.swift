@@ -1,24 +1,24 @@
-////
-////  DeleteBookmarks.swift
-////  Linkeeper
-////
-////  Created by Om Chachad on 1/23/25.
-////
 //
-//import Foundation
-//import AppIntents
+//  DeleteBookmarks.swift
+//  Linkeeper
 //
-//@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
-//@AssistantIntent(schema: .browser.deleteBookmarks)
-//struct DeleteBookmarksIntent: DeleteIntent {
-//    var entities: [LinkeeperBookmarkEntity]
-//    
-//    func perform() async throws -> some IntentResult {
-//        for entity in entities {
-//            BookmarksManager.shared.deleteBookmark(withId: entity.id)
-//        }
-//        
-//        reloadAllWidgets()
-//        return .result()
-//    }
-//}
+//  Created by Om Chachad on 1/23/25.
+//
+
+import Foundation
+import AppIntents
+
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
+@AssistantIntent(schema: .browser.deleteBookmarks)
+struct DeleteBookmarksIntent: DeleteIntent {
+    var entities: [LinkeeperBookmarkEntity]
+    
+    func perform() async throws -> some IntentResult {
+        for entity in entities {
+            BookmarksManager.shared.deleteBookmark(withId: entity.id)
+        }
+        
+        reloadAllWidgets()
+        return .result()
+    }
+}
