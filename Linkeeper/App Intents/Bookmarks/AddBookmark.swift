@@ -23,7 +23,11 @@ If disabled, you can add a title yourself.
     @Parameter(title: "Title", description: "The title for the bookmark.", inputOptions: String.IntentInputOptions(capitalizationType: .words), requestValueDialog: "What would you like to title your bookmark?")
     var bookmarkTitle: String?
     
-    @Parameter(title: "URL", description: "The website to be bookmarked. Needs to start with \"https://\", \"http://\" or any other URL scheme.")
+    @Parameter(
+        title: "URL",
+        description: "The website to be bookmarked. Needs to start with \"https://\", \"http://\" or any other URL scheme.",
+        requestValueDialog: "What web address would you like to save?"
+    )
     var url: URL
     
     @Parameter(title: "Notes", description: "The title for the bookmark.", inputOptions: String.IntentInputOptions(capitalizationType: .sentences), requestValueDialog: "Add notes to your Bookmark")

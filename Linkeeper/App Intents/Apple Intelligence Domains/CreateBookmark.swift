@@ -13,7 +13,10 @@ import AppIntents
 struct BookmarkURLIntent {
     @Parameter(title: "title")
     var name: String?
-    @Parameter(title: "url")
+    @Parameter(
+        title: "url",
+        requestValueDialog: "What web address would you like to save?"
+    )
     var url: URL
     
     func perform() async throws -> some ReturnsValue<LinkeeperBookmarkEntity> {
