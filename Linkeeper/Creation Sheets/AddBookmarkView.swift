@@ -355,21 +355,15 @@ struct AddBookmarkView: View {
                 let intent = AddBookmark(
                     bookmarkTitle: title,
                     url: URL(string: sanitisedURL)!,
-                    notes: notes
+                    notes: notes,
+                    folder: folder?.toEntity()
                 )
                 let result = try! await intent.perform()
-                if let bookmark = result.value {
-                    BookmarksManager.shared.findBookmark(withId: bookmark.id).folder = folder
-                    try? moc.save()
-                }
                 await LinkeeperIntentDonations.donate(intent, result: result)
             } else {
                 BookmarksManager.shared.addBookmark(title: title, url: sanitisedURL, host: URL(string: url)!.host ?? url, notes: notes, folder: folder)
             }
 
-            // The extension may be terminated as soon as completionAction
-            // finishes, so wait for the final folder assignment to be indexed.
-            await SpotlightIndexer.shared.synchronizeCurrentStore()
             dismiss()
             completionAction(true)
         }

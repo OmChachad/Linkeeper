@@ -11,13 +11,15 @@ import AppIntents
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 @AssistantIntent(schema: .browser.bookmarkURL)
 struct BookmarkURLIntent {
-    @Parameter(title: "title")
+    @Parameter(title: "Title")
     var name: String?
     @Parameter(
-        title: "url",
-        requestValueDialog: "What web address would you like to save?"
+        title: "URL",
+        requestValueDialog: "What link would you like to save?"
     )
     var url: URL
+
+    init() {}
     
     func perform() async throws -> some IntentResult & ReturnsValue<LinkeeperBookmarkEntity> & ProvidesDialog {
         do {
