@@ -2009,7 +2009,7 @@
 			repositoryURL = "https://github.com/EmergeTools/Pow";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.3;
+				minimumVersion = 1.0.6;
 			};
 		};
 		C2C8EE942A4D853A00CCD36F /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
