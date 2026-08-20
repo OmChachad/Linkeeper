@@ -37,9 +37,6 @@ struct BookmarkDetails: View {
     
     @State private var animatedShow = false
     
-    @State private var lastToggleTime: Date = Date.distantPast
-    let toggleThrottleDelay: TimeInterval = 1.5
-    
     init(bookmark: Bookmark, namespace: Namespace.ID, showDetails: Binding<Bool>, hideFavoriteOption: Bool = false) {
         self.bookmark = bookmark
         self.namespace = namespace
@@ -94,13 +91,8 @@ struct BookmarkDetails: View {
         }
     }
     
-    // Function to throttle the editing toggle
-    func throttleEditingToggle() {
-        let currentTime = Date()
-        if currentTime.timeIntervalSince(lastToggleTime) > toggleThrottleDelay {
-            editing.toggle()
-            lastToggleTime = currentTime
-        }
+    func toggleEditing() {
+        editing.toggle()
     }
     
     #if os(visionOS)
@@ -173,7 +165,7 @@ struct BookmarkDetails: View {
             
             HStack {
                 Button("Cancel") {
-                    throttleEditingToggle()
+                    toggleEditing()
                 }
                 .padding()
 
@@ -183,7 +175,7 @@ struct BookmarkDetails: View {
                     if moc.hasChanges {
                         try? moc.save()
                     }
-                    throttleEditingToggle()
+                    toggleEditing()
                 }
                 .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 .padding()
@@ -263,7 +255,7 @@ struct BookmarkDetails: View {
         VStack(spacing: 0) {
             HStack {
                 Button {
-                    throttleEditingToggle()
+                    toggleEditing()
                 } label: {
                     Text("Cancel")
                         .padding()
@@ -278,7 +270,7 @@ struct BookmarkDetails: View {
                     if moc.hasChanges {
                         try? moc.save()
                     }
-                    throttleEditingToggle()
+                    toggleEditing()
                 } label: {
                     Text("Save")
                         .padding()
@@ -358,7 +350,7 @@ struct BookmarkDetails: View {
             }
             
             Button {
-                throttleEditingToggle()
+                toggleEditing()
             } label: {
                 Image(systemName: "pencil")
             }
