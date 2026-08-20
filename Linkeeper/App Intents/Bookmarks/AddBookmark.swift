@@ -33,8 +33,15 @@ If disabled, you can add a title yourself.
     @Parameter(title: "Notes", description: "Notes you can add to the bookmark about things you would like to remember.", inputOptions: String.IntentInputOptions(capitalizationType: .sentences), requestValueDialog: "Add notes to your Bookmark")
     var notes: String?
     
-    init(autoTitle: Bool = false, bookmarkTitle: String? = nil, url: URL, notes: String? = nil) {
-        self.autoTitle = autoTitle
+    init(url: URL, notes: String? = nil) {
+        self.autoTitle = true
+        self.bookmarkTitle = bookmarkTitle
+        self.url = url
+        self.notes = notes
+    }
+    
+    init(bookmarkTitle: String, url: URL, notes: String? = nil) {
+        self.autoTitle = false
         self.bookmarkTitle = bookmarkTitle
         self.url = url
         self.notes = notes

@@ -29,7 +29,7 @@ struct BookmarkURLIntent {
                     )
                 }
             } else {
-                if let bookmarkEntity = try await AddBookmark(autoTitle: true, url: url).perform().value {
+                if let bookmarkEntity = try await AddBookmark(url: url).perform().value {
                     return .result(
                         value: bookmarkEntity,
                         dialog: "Saved \(bookmarkEntity.name) to Linkeeper."
